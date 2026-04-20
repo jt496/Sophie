@@ -194,12 +194,40 @@ lemma pureFamilyToH_left_isIntersecting {F : Finset (Finset (V ⊕ V))}
 /-- The right-copy star in G ⊔ G is at least as large as the star in G. -/
 lemma rightCopy_star_le (G : SimpleGraph V) (u : V) (r : ℕ) :
     (vertexStar G u r).card ≤ (vertexStar (disjointUnionSelf G) (Sum.inr u) r).card := by
-  sorry
+  have hmaps : ∀ t ∈ vertexStar G u r,
+      rightCopy t ∈ vertexStar (disjointUnionSelf G) (Sum.inr u) r := fun t ht => by
+    have hm := (mem_vertexStar_iff G u r t).mp ht
+    exact (mem_vertexStar_iff (disjointUnionSelf G) (Sum.inr u) r (rightCopy t)).mpr
+      ⟨rightCopy_mem_indepRSets hm.1, mem_rightCopy.mpr hm.2⟩
+  have hinj : Set.InjOn (rightCopy (V := V)) ↑(vertexStar G u r) := fun a _ b _ hab => by
+    ext v; constructor <;> intro hv
+    · exact mem_rightCopy.mp (hab ▸ mem_rightCopy.mpr hv)
+    · exact mem_rightCopy.mp (hab.symm ▸ mem_rightCopy.mpr hv)
+  calc (vertexStar G u r).card
+      = ((vertexStar G u r).image rightCopy).card :=
+          (Finset.card_image_of_injOn hinj).symm
+    _ ≤ (vertexStar (disjointUnionSelf G) (Sum.inr u) r).card :=
+          Finset.card_le_card (fun s hs => by
+            obtain ⟨t, ht, rfl⟩ := Finset.mem_image.mp hs; exact hmaps t ht)
 
 /-- The left-copy star in G ⊔ G is at least as large as the star in G. -/
 lemma leftCopy_star_le (G : SimpleGraph V) (u : V) (r : ℕ) :
     (vertexStar G u r).card ≤ (vertexStar (disjointUnionSelf G) (Sum.inl u) r).card := by
-  sorry
+  have hmaps : ∀ t ∈ vertexStar G u r,
+      leftCopy t ∈ vertexStar (disjointUnionSelf G) (Sum.inl u) r := fun t ht => by
+    have hm := (mem_vertexStar_iff G u r t).mp ht
+    exact (mem_vertexStar_iff (disjointUnionSelf G) (Sum.inl u) r (leftCopy t)).mpr
+      ⟨leftCopy_mem_indepRSets hm.1, mem_leftCopy.mpr hm.2⟩
+  have hinj : Set.InjOn (leftCopy (V := V)) ↑(vertexStar G u r) := fun a _ b _ hab => by
+    ext v; constructor <;> intro hv
+    · exact mem_leftCopy.mp (hab ▸ mem_leftCopy.mpr hv)
+    · exact mem_leftCopy.mp (hab.symm ▸ mem_leftCopy.mpr hv)
+  calc (vertexStar G u r).card
+      = ((vertexStar G u r).image leftCopy).card :=
+          (Finset.card_image_of_injOn hinj).symm
+    _ ≤ (vertexStar (disjointUnionSelf G) (Sum.inl u) r).card :=
+          Finset.card_le_card (fun s hs => by
+            obtain ⟨t, ht, rfl⟩ := Finset.mem_image.mp hs; exact hmaps t ht)
 
 /-! ## Case 1: Pure-Right Families (Sophie Round 9) -/
 
