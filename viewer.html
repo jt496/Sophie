@@ -297,6 +297,8 @@
   .badge-flawed      { background: rgba(224,108,117,0.15); color: var(--red); }
   .badge-unchecked   { background: rgba(229,192,123,0.15); color: var(--yellow); }
   .badge-open        { background: rgba(107,114,128,0.15); color: var(--muted); }
+  .badge-partial     { background: rgba(229,192,123,0.15); color: var(--yellow); }
+  .badge-invalid     { background: rgba(224,108,117,0.15); color: var(--red); }
   .badge-resolved    { background: rgba(76,175,125,0.15); color: var(--green); }
 
   .card-body {
@@ -786,20 +788,22 @@ function renderSubproblems(sps) {
     return;
   }
 
-  // Group: open first, then resolved
+  // Group: open, then partial, then resolved
   const open     = sps.filter(s => s.status === 'open');
+  const partial  = sps.filter(s => s.status === 'partial');
   const resolved = sps.filter(s => s.status === 'resolved');
+  const other    = sps.filter(s => !['open','partial','resolved'].includes(s.status));
 
   let html = '<div class="sp-list">';
 
   const renderSp = sp => {
-    const icon = sp.status === 'resolved' ? '✓' : '○';
+    const icon = sp.status === 'resolved' ? '✓' : sp.status === 'partial' ? '◑' : '○';
     const badge = `<span class="card-badge badge-${sp.status}">${sp.status}</span>`;
     const resolution = sp.resolution
       ? `<div class="sp-resolution">↳ ${esc(sp.resolution)}</div>` : '';
     html += `
       <div class="sp-item">
-        <span class="sp-icon" style="color:${sp.status==='resolved'?'var(--green)':'var(--muted)'}">${icon}</span>
+        <span class="sp-icon" style="color:${sp.status==='resolved'?'var(--green)':sp.status==='partial'?'var(--yellow)':'var(--muted)'}">${icon}</span>
         <div>
           <div class="sp-desc">${esc(sp.description)}</div>
           ${resolution}
@@ -810,6 +814,8 @@ function renderSubproblems(sps) {
   };
 
   open.forEach(renderSp);
+  partial.forEach(renderSp);
+  other.forEach(renderSp);
   resolved.forEach(renderSp);
 
   html += '</div>';

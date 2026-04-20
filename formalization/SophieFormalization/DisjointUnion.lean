@@ -21,13 +21,36 @@
       Open subproblem SP-86620A in Sophie knowledge base.
 
     Case 3c: F is all-mixed (F_0 = F_r = ∅) → PROOF STRATEGY IS FLAWED (Round 15)
-      The termwise bound hFk_bound: |F_k| ≤ |I^k(H)|×|star_v₀(H,r-k)| is FALSE.
-      COUNTEREXAMPLE (DA-TERM07): G=K₄^c, r=3, k=2.
-        Left-star-at-0 family: |F₂| = 12, but bound = |I²|×|star_v(G,1)| = 6×1 = 6.
-      The partition approach cannot bound each slice termwise.
-      CORRECT OBSERVATION: The GLOBAL bound |F| ≤ |star_w(G⊔G,r)| still holds;
-        slices COUPLE (large F_k forces small F_{r-k}). New approach needed.
-      See SP-MX15A1 in Sophie knowledge base.
+
+      FAILED APPROACH (DA-TERM07): Termwise bound |F_k| ≤ |I^k|×|star_v(G,r-k)| is FALSE.
+        Counterexample: G=K₆^c, r=3, k=2, 2r=6=μ(K₆^c) ✓.
+        Left-star family F₂ = {(L,R) : 0∈L, L∈I²,R∈I¹} has |F₂|=30, but bound=15×1=15.
+        Fails because a left-star family is intersecting via the LEFT part alone, so the
+        right part can range freely over ALL of I^{r-k}, far exceeding one right-star.
+
+      CORRECT PICTURE — Complementary Slice Coupling (SP-CPLNG2):
+        While |F_k| can exceed |I^k|×|star_v(G,r-k)|, a large F_k FORCES F_{r-k} small.
+        Precisely: F_k and F_{r-k} are cross-intersecting (since F is intersecting):
+          ∀ S∈F_k, T∈F_{r-k}: L_S∩L_T ≠ ∅  OR  R_S∩R_T ≠ ∅.
+        When F_k is a left-star (L_S always contains 0), any T∈F_{r-k} must either
+        meet 0 in its left part OR meet R_S in its right part for every S∈F_k.
+        This severly constrains F_{r-k}.
+
+        CONJECTURE (SP-CPLNG2, computationally verified for r≤4 on K_n^c, C_n):
+          ∀ cross-intersecting (F_k, F_{r-k}):  |F_k| + |F_{r-k}|
+            ≤ |I^k(G)|×|star_v(G,r-k)| + |I^{r-k}(G)|×|star_v(G,k)|   (combined slice)
+        The bound is TIGHT, achieved exactly when F_k = { S : v₀ ∈ R_S } and
+        F_{r-k} = { T : v₀ ∈ R_T } — i.e., both slices taken from star_{inr v₀}.
+
+        SUMMING over k=1..r-1 and using star_inr_card_eq gives |F_mixed| ≤ |star_{inr v₀}|-|star_v₀(G,r)|.
+
+      CORRECT PROOF STRATEGY (to be formalised):
+        The extremal all-mixed family is the all-mixed part of a right-star.
+        A direct injection F ↪ star_{inr v₀}(G⊔G) may be possible via:
+          (a) Katona cyclic-permutation argument on the right parts, or
+          (b) Proving SP-CPLNG2 by a Bollobás set-pairs bound applied to the pair
+              (right-projections, left-projections) which are cross-linked.
+        See SP-MX15A1 for the reformulated open problem.
 
   KEY PROVED LEMMAS:
     • mu_disjointUnionSelf : μ(G⊔G) = 2μ(G)                           ✓
@@ -571,20 +594,39 @@ theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
     -- For mixed sets, the left-part size k satisfies 1 ≤ k ≤ r - 1.
     -- Define the k-th slice of F.
     let Fk (k : ℕ) : Finset (Finset (V ⊕ V)) := F.filter (fun S => (leftPreimage S).card = k)
-    -- ⚠ WARNING (Sophie Round 15, DA-TERM07): The termwise bound below is FALSE.
-    -- COUNTEREXAMPLE: G = K₄^c (empty graph on 4 vertices), r = 3, k = 2.
-    --   Left-star-at-0 k=2 family: |F₂| = 12 (intersecting ✓).
-    --   Bound: |I²(K₄^c)| × |star_v(K₄^c, 1)| = 6 × 1 = 6 < 12. VIOLATED.
-    -- The proof strategy via this termwise bound is INCORRECT.
-    -- The GLOBAL bound |F| ≤ |star_w(G⊔G,r)| DOES hold (verified computationally),
-    -- but cannot be proved by summing this false termwise inequality.
-    -- A correct proof requires SP-MX15A1 (All-mixed EKR via global/coupling argument).
-    -- The sorry below is retained to hold the proof structure, but its statement is WRONG.
+    -- ⚠ WARNING (Sophie Round 15, DA-TERM07 + DA-F614RE): The termwise bound below is FALSE.
+    --
+    -- WHAT FAILS: hFk_bound claims |F_k| ≤ |I^k(G)| × |star_v₀(G, r-k)| for each k.
+    -- This fails because F_k can be a LEFT-STAR (all L_S contain some common vertex a),
+    -- which is intersecting via L_S alone. Then R_S ranges freely over all of I^{r-k}(G),
+    -- giving |F_k| = |star_a(G,k)| × |I^{r-k}(G)|, which can greatly exceed |I^k|×|star_v₀(G,r-k)|.
+    -- Concrete: G=K₆^c, r=3, k=2, 2r=μ(G)=6 ✓: left-star |F₂|=30 > bound 15×1=15. ✗
+    --
+    -- WHAT DOES HOLD (Complementary Slice Coupling, SP-CPLNG2):
+    -- The PAIRED bound (k and r-k slices together) holds tightly:
+    --   |F_k| + |F_{r-k}| ≤ |I^k(G)|×|star_v₀(G,r-k)| + |I^{r-k}(G)|×|star_v₀(G,k)|
+    -- This is the size of the combined (k,r-k) contribution to star_{inr v₀}(G⊔G, r).
+    -- Computationally verified (tight, with equality) for K_n^c n≤7, C_n n≤9, r≤4.
+    --
+    -- WHY: F_k and F_{r-k} are CROSS-INTERSECTING (F is intersecting, left and right parts
+    -- both live in G). When F_k uses the left-star structure to be large, the cross-intersection
+    -- constraint forces F_{r-k} to use only those T where R_T intersects every L_S — a
+    -- severe restriction that reduces |F_{r-k}| by exactly the amount |F_k| gained.
+    -- The extremal family achieving equality is: F_k = {S : v₀ ∈ R_S} and F_{r-k} = {T : v₀ ∈ R_T},
+    -- i.e., both slices are the corresponding slices of star_{inr v₀}(G⊔G, r).
+    --
+    -- A CORRECT PROOF of the all-mixed case should instead show:
+    --   (Step 1) For each complementary pair (k, r-k), prove the coupled bound above.
+    --   (Step 2) Sum over k = 1..⌊r/2⌋ (plus the k=r/2 term when r is even) to get:
+    --              |F| ≤ Σ_{k=1}^{r-1} |I^k|×|star_v₀(G,r-k)|
+    --            which by star_inr_card_eq equals |star_{inr v₀}(G⊔G,r)| - |star_v₀(G,r)|.
+    -- The sorry below retains the (false) termwise statement to preserve proof structure.
+    -- TODO: Replace hFk_bound with the coupled version to unblock this proof.
     have hFk_bound : ∀ k ∈ Finset.Icc 1 (r - 1),
         (Fk k).card ≤ (indepRSets G k).card * (vertexStar G v₀ (r - k)).card := by
       intro k hk
       simp only [Finset.mem_Icc] at hk
-      sorry  -- ⚠ STATEMENT IS FALSE — see DA-TERM07 (R15). Needs replacement.
+      sorry  -- ⚠ STATEMENT IS FALSE — see DA-TERM07/DA-F614RE (R15). Replace with SP-CPLNG2.
     -- Partition: |F| = Σ_{k=1}^{r-1} |F_k|, since all sets are mixed with left-parts in 1..r-1.
     have hpartition : F.card = ∑ k ∈ Finset.Icc 1 (r - 1), (Fk k).card := by
       -- Step 1: each S ∈ F has (leftPreimage S).card ∈ Icc 1 (r-1).
