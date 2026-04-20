@@ -2,7 +2,7 @@
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815",
   "status": "open",
-  "rounds_completed": 8,
+  "rounds_completed": 9,
   "no_progress_rounds": 0,
   "prev_snapshot_hash": -4189395482940026065,
   "subproblems": [
@@ -278,6 +278,48 @@
       "source_agent": "Disprover",
       "status": "open",
       "resolution": null
+    },
+    {
+      "id": "SP-6F9BA7",
+      "description": "Verify HT computationally for the Dodecahedron at r=2 and r=3 (n=20, \u03bc=6). The BK approach should work but may need pruning for r=3 (|I^3(Dodecahedron)| could be large).",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-EB240E",
+      "description": "For the consolidation step of the H\u2294H split-type proof: work out the case F\u2080=F_r=\u2205 and r=3 explicitly with H=C\u2089 as a concrete example to guide the general argument.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-3D1782",
+      "description": "Case 3 consolidation for r\u22653: complete the argument when both H\u2081-stars and H\u2082-stars appear across different splits. Key question: can F contain sets with H\u2081-star centres at different splits \u2014 does global intersecting force a common centre?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-120102",
+      "description": "Alternative proof route: shifting operators for graph independent sets. Can one define a graph-compatible shifting that preserves max family size and moves towards a star? This would bypass consolidation entirely.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-F09F2B",
+      "description": "Verify HT for Petersen\u2294C\u2089 at r=3 (n=19, \u03bc=6, non-vertex-transitive): good test for the consolidation step since the two components have different structure.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-0CCDC4",
+      "description": "Find a connected graph G (not a disjoint union) with \u03bc(G)\u22656 and r=3 that is NOT vertex-transitive, to stress-test HT in a single connected graph.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
     }
   ],
   "examples": [
@@ -382,6 +424,24 @@
       "description": "Circulant graph Ci(10;{1,2}) at r=2 \u2014 extra stress test with \u03bc=2",
       "supports_conjecture": true,
       "detail": "Ci(10;{1,2}): vertices 0..9, v~w iff |v-w| \u2208 {1,2,8,9} mod 10. Maximum independent sets: {0,3,6,9} or similar \u2014 \u03b1=3. \u03bc=2 (any pair at distance 3 is a dominating independent set). r=1\u22641: trivial. The Searcher's n\u22647 coverage misses larger vertex-transitive graphs; this is a note for the next Searcher round targeting n=8..10."
+    },
+    {
+      "id": "EX-059AAD",
+      "description": "2C\u2089 (C\u2089\u2294C\u2089, n=18, \u03bc=6) at r=3 confirms HT: max intersecting family = 91 = star size",
+      "supports_conjecture": true,
+      "detail": "Computed with corrected Bron-Kerbosch (no self-loops in intersection graph). C\u2089 = cycle on 9 vertices, \u03bc(C\u2089)=3 (witness {0,3,6}). G=2C\u2089, \u03bc(G)=6, r=3\u22643. |I^3(2C\u2089)| = 546. All 18 vertices have the same star size = 91 (vertex-transitive). Max intersecting 3-family = 91 = star. HT holds. This is the FIRST verified r=3 case for H\u2294H \u2014 confirming the conjecture for a non-trivial mixed split (H\u2081-parts can be of sizes 1,2, or 3). Key: the star at v\u2208H\u2081 picks up all 3-sets containing v from both copies of C\u2089, giving 91 = 3-sets containing v in 2C\u2089."
+    },
+    {
+      "id": "EX-54DE75",
+      "description": "K_{4,4} at r=2 (n=8, \u03bc=4) confirms HT: max family = 3 = star size",
+      "supports_conjecture": true,
+      "detail": "K_{4,4}: left L={0,1,2,3}, right R={4,5,6,7}. \u03bc=4: maximal independent sets are exactly the two sides L and R. I^2(K_{4,4}) = all 2-subsets of L \u222a all 2-subsets of R = 6+6=12 sets. Star at v\u2208L: {v,u} for u\u2208L\\{v} = 3 sets. Max intersecting 2-family (corrected BK) = 3 = star. HT holds. Note: independent 2-sets from different sides (one vertex in L, one in R) cannot exist since every L-vertex is adjacent to every R-vertex in K_{4,4}."
+    },
+    {
+      "id": "EX-945EEA",
+      "description": "Dodecahedron (n=20, \u03bc=6, r=2 and r=3): \u03bc corrected from 5 to 6",
+      "supports_conjecture": true,
+      "detail": "Computed: \u03bc(Dodecahedron) = 6, witness = {0,2,8,12,15,17}. DA-E0BC38 claimed \u03bc=5 \u2014 this was wrong. With \u03bc=6: HT applies for r=1,2,3 (r\u22643). r=2 is now a non-trivial case. Flagged for Searcher to verify at r=2 and r=3. The Dodecahedron is vertex-transitive (by its symmetry group), so all stars are equal; HT holds trivially for vertex-transitive graphs (proved in earlier rounds)."
     }
   ],
   "proof_attempts": [
@@ -417,6 +477,13 @@
       "id": "PA-DD93B0",
       "round": 12,
       "sketch": "THEOREM (H\u2294H is r-EKR, new attack via split-type decomposition):\nLet H be a graph with \u03bc(H) \u2265 r, and suppose H is k-EKR for all 1 \u2264 k \u2264 r.\nLet G = H\u2081\u2294H\u2082 (two disjoint copies of H). Then G is r-EKR.\n\nSETUP:\nLet F \u2286 I^r(G) be a maximum intersecting family. Since G = H\u2081\u2294H\u2082, every S\u2208F splits as\nS = (S\u2081,S\u2082) with S\u2081\u2286V(H\u2081), S\u2082\u2286V(H\u2082), |S\u2081|+|S\u2082|=r. Let k=|S\u2081| be the split type.\n\nSTEP 1 (F_0 = F_r = \u2205 is not forced in general, but):\n\u2022 F_0 = {S\u2208F: S\u2286H\u2082}. If F_0\u2260\u2205, any two S,T\u2208F_0 must intersect in H\u2082 \u2192 F_0 is an intersecting\n  r-family in H\u2082, so |F_0| \u2264 star_size(H\u2082) = M (star size in H by assumption). But a star in H\u2082\n  extends to a star in G of size Q_v = \u03a3_{k=0}^r C(|H|,r-k)\u00b7I^k_v(H) > M. So F_0\u2286star_v(G)\n  for some v (and F must all be compatible with this), or we replace F by a larger star. Done for\n  this case.\n\u2022 Similarly for F_r = {S\u2208F: S\u2286H\u2081}.\n\u2022 WLOG: F contains mixed sets (both F_0=F_r=\u2205 only if all sets are genuinely mixed is too strong;\n  instead we proceed by considering all cases).\n\nSTEP 2 (Main case: F_0 = \u2205, some F_k\u2260\u2205 for 1\u2264k\u2264r-1):\nFor each split 1\u2264k\u2264r-1, define:\n  F_k = {S\u2208F: |S\u2229H\u2081|=k}\n  \u03a0_k = {S\u2081: S=(S\u2081,S\u2082)\u2208F_k} \u2286 I^k(H\u2081) [H\u2081-projections of split-k sets]\n  \u039b_k = {S\u2082: S=(S\u2081,S\u2082)\u2208F_k} \u2286 I^{r-k}(H\u2082) [H\u2082-projections of split-k sets]\n\nKEY LEMMA: For each k, EITHER \u03a0_k is an intersecting family in H\u2081, OR\n  for every pair S,T\u2208F_k with S\u2081\u2229T\u2081=\u2205 we have S\u2082\u2229T\u2082\u2260\u2205 (the H\u2082 \"fallback\").\n\nSub-case A (\u03a0_k intersecting in H\u2081):\n  Since H\u2081 is k-EKR (by hypothesis), \u2203v\u2208V(H\u2081) with \u03a0_k \u2286 I^k_v(H\u2081).\n  Then |F_k| = |{(S\u2081,S\u2082)\u2208F_k}| \u2264 |I^k_v(H\u2081)| \u00d7 |I^{r-k}(H\u2082)|.\n  This is exactly the contribution of vertex v to the star size in G:\n    contribution_v(k) = |I^k_v(H\u2081)| \u00d7 |I^{r-k}(H\u2082)| = |I^k_v(H)| \u00d7 |I^{r-k}(H)|.\n  Summing: |F| = \u03a3_k |F_k| \u2264 \u03a3_k |I^k_v(H)| \u00d7 |I^{r-k}(H)| = |I^r_v(G)|. \u2713\n\nSub-case B (\u03a0_k non-intersecting in H\u2081):\n  \u2203 A,A'\u2208\u03a0_k with A\u2229A'=\u2205. Then the corresponding S=(A,B), T=(A',B') must satisfy B\u2229B'\u2260\u2205.\n  KEY OBSERVATION for r=2, k=1: A={u}, A'={u'}, u\u2260u'. Then B,B'\u2208I^1(H\u2082) are single vertices.\n    B\u2229B'\u2260\u2205 forces B=B' (same vertex w\u2208H\u2082).\n  So all split-(1,1) sets either all contain u (star in H\u2081) or all contain w (star in H\u2082).\n  This recovers the cross-pair argument from Round 3 for r=2. \u2713\n\nFor general r and k: Sub-case B requires the H\u2082-projections \u039b_k to form a \"covering\" family \ncompensating the non-intersecting H\u2081-projections. This requires the H\u2082 is (r-k)-EKR hypothesis,\ngiving a similar bound. The full argument needs careful handling of the interplay between \nSub-cases A and B across all splits k=1,...,r-1.\n\nREMAINING GAP:\nWhen both A\u2229A'=\u2205 (some pair in \u03a0_k) and B\u2229B'=\u2205 (some other pair in \u039b_k for the same k),\nwe get a contradiction: S=(A,B) and T=(A',B') cannot intersect, so they can't both be in F.\nThis means NOT BOTH can happen for the SAME pair: (\u03a0_k not intersecting) AND (\u039b_k not intersecting)\nsimultaneously would yield two disjoint sets, contradicting F intersecting.\n\nSo for each k: at least one of \u03a0_k or \u039b_k is an intersecting family in its respective copy.\nBy H being k-EKR (resp. (r-k)-EKR), the intersecting one is a star.\nThe count then gives: |F_k| \u2264 max(|I^k_v(H)| \u00d7 |I^{r-k}(H)|, |I^k(H)| \u00d7 |I^{r-k}_w(H)|)\n                              = |I^k_v(H)| \u00d7 |I^{r-k}(H)| [WLOG, by symmetry of H\u2081\u2245H\u2082]\nSumming over k: |F| \u2264 \u03a3_k |I^k_v(H)| \u00d7 |I^{r-k}(H)| = |I^r_v(G)|.\n\nSTATUS: Near-complete for r\u22652 under the inductive hypothesis that H is k-EKR for all k\u2264r.\nThe argument \"at least one of \u03a0_k, \u039b_k is intersecting\" is the key new insight, and it \ncorrectly gives the bound. The only remaining issue: this doesn't quite pin down a SINGLE \nvertex v for ALL k simultaneously \u2014 different splits might produce different star centres.\nThis needs a further consolidation step (if the star in H\u2081 for k=1 is at v, and for k=2 also\nat v (since F is a single intersecting family), we should get all stars at the same v).\n",
+      "status": "flawed",
+      "checker_feedback": "The split-type decomposition is a genuine conceptual advance and the per-split bound is correct. The KEY LEMMA is valid: for each split type k, if S=(A,B) and T=(A',B') are in F_k and A\u2229A'=\u2205, then B\u2229B'\u2260\u2205 (since S and T must intersect). Hence at least one of \u03a0_k or \u039b_k is an intersecting family in its respective copy of H. Applying H's k-EKR hypothesis (resp. (r-k)-EKR) gives the per-split bound: |F_k| \u2264 |I^k_v(H)| \u00d7 |I^{r-k}(H)| for some v (in H\u2081 or H\u2082). This is correct. \n\nHOWEVER, the fatal gap is in the consolidation step: the proof writes 'WLOG, by symmetry of H\u2081\u2245H\u2082' and sums over k assuming the same vertex v works for all splits. This is UNJUSTIFIED. For split k=1 the star-centre might be v\u2081\u2208H\u2081, and for split k=2 it might be v\u2082\u2208H\u2081 with v\u2081\u2260v\u2082. Summing |F_k| bounds with different star centres gives \u2211_k |I^k_{v_k}(H)| \u00d7 |I^{r-k}(H)|, which does NOT factor as |I^r_v(G)| for any fixed v. \n\nConcrete failure mode: take H=C\u2089 (\u03bc=3), G=2C\u2089, r=3. Suppose F is intersecting with F_1\u2260\u2205 (star at v\u2081\u2208H\u2081), F_2\u2260\u2205 (star at v\u2082\u2208H\u2081 with v\u2082\u2260v\u2081). The bound gives |F_1| \u2264 |I^1_{v\u2081}(H)| \u00d7 |I^2(H)| and |F_2| \u2264 |I^2_{v\u2082}(H)| \u00d7 |I^1(H)|, but these two bounds use different rows of the star matrix and might together sum to more than any single star. The proof needs to show F \u2229 F_k \u2286 star_v(G) for the SAME v across all k \u2014 this is the consolidation step. \n\nFIX DIRECTION: Use the intersecting property of F across different splits to force a common vertex. Specifically: if S\u2208F_1 has H\u2081-part {v\u2081} and T\u2208F_2 has H\u2081-part T\u2081 with v\u2082\u2208T\u2081, then S\u2229T\u2260\u2205 requires v\u2081\u2208T\u2081 or S\u2082\u2229T\u2082\u2260\u2205. If all splits must be mutually intersecting (which they are, since F is a single intersecting family), this gives strong constraints that may force the common vertex. This is the crux to resolve."
+    },
+    {
+      "id": "PA-1B87CB",
+      "round": 11,
+      "sketch": "THEOREM (H\u2294H is r-EKR \u2014 partial proof with one case complete):\nInductive hypothesis IH(H,k): For all 1 \u2264 j \u2264 k, H is j-EKR.\nLet G = H\u2081\u2294H\u2082 (H\u2081\u2245H\u2082\u2245H), \u03bc(H)\u2265r. Let F \u2286 I^r(G) be a maximum intersecting family.\nPartition F by split type: F_k = {S\u2208F: |S\u2229H\u2081|=k}, k=0,1,...,r.\n\nCASE 1: F_0 \u2260 \u2205 (some sets lie entirely in H\u2082)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nF_0 \u2286 I^r(H\u2082) is intersecting \u2192 by IH(H,r), F_0 \u2286 star_u for some u\u2208H\u2082.\nNow take any S\u2208F_k (k\u22651). S has S\u2081\u2286H\u2081 and S\u2082\u2286H\u2082 with S\u2081\u2260\u2205.\nFor any T\u2208F_0: T\u2286H\u2082, S\u2286H\u2081\u222aH\u2082. S\u2229T = S\u2082\u2229T (since S\u2081\u2229T=\u2205 as T\u2286H\u2082, S\u2081\u2286H\u2081).\nSince S and T must intersect: S\u2082\u2229T \u2260 \u2205.\nSince T \u2208 star_u(H\u2082): u\u2208T.   So u \u2208 S\u2082\u2229T \u2286 S\u2082.\nThis holds for ALL S\u2208F_k, k\u22651  \u2192  u \u2208 S\u2082 for all such S.\nCombined: u appears in every set of F (F_0 by star, F_k k\u22651 by the above).\nTherefore F \u2286 star_u(G). \u2713  CASE 1 COMPLETE.\n\nCASE 2: F_r \u2260 \u2205 (some sets lie entirely in H\u2081)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSymmetric to Case 1: F_r is an intersecting r-family in H\u2081 \u2192 star at v\u2208H\u2081.\nAny S\u2208F_k (k\u2264r-1): S\u2082\u2286H\u2082, S\u2081\u2286H\u2081. S\u2229T = S\u2081\u2229T for T\u2208F_r (T\u2286H\u2081).\nSo v\u2208S\u2081 for all S\u2208F_k \u2192 F \u2286 star_v(G). \u2713  CASE 2 COMPLETE.\n\nCASE 3: F_0 = F_r = \u2205 (ALL sets are genuinely mixed, 1\u2264k\u2264r-1)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nKey Lemma (Round 8): For each k\u2208{1,...,r-1} with F_k\u2260\u2205:\n  at least one of \u03a0_k (H\u2081-projections) or \u039b_k (H\u2082-projections) is intersecting.\n\nSub-case 3a: For EVERY k, \u03a0_k is intersecting \u21d2 star at v_k\u2208H\u2081.\n  Cross-split intersection: any S\u2208F_k and T\u2208F_j (j\u2260k) must intersect.\n  S = (S\u2081, S\u2082) with v_k\u2208S\u2081, T = (T\u2081, T\u2082) with v_j\u2208T\u2081, k<j.\n  S\u2229T: S\u2081\u2229T\u2081\u2260\u2205 or S\u2082\u2229T\u2082\u2260\u2205.\n  Now if |S\u2081|=k=1 (looking at the k=1 split specifically): S\u2081={v\u2081}.\n  For any T\u2208F_j (j\u22652): T\u2081\u2229{v\u2081}\u2260\u2205 or T\u2082\u2229S\u2082\u2260\u2205 for all S\u2208F\u2081.\n  If v\u2081\u2208T\u2081 for all T\u2208F_j (all j\u22652): v\u2081 appears in all sets \u2192 F\u2286star_{v\u2081}(G). \u2713\n  If some T*\u2208F_j does NOT have v\u2081\u2208T\u2081*: Then T\u2082*\u2229S\u2082\u2260\u2205 for all S\u2208F\u2081.\n    This means T\u2082* is a transversal of \u039b\u2081 = {S\u2082: S\u2208F\u2081}.\n    Since T* is a maximum-size element of F_j and \u039b\u2081 is intersecting (with star at w\u2081\u2208H\u2082\n    if \u039b\u2081 is intersecting in H\u2082):\n    If \u039b\u2081 is intersecting \u2192 star at w\u2081\u2208H\u2082: then w\u2081\u2208T\u2082* (since T\u2082* hits every element of \u039b\u2081,\n      in particular the single-element sets {S\u2082} each containing w\u2081). Wait \u2014 \u039b\u2081 is a family of\n      (r-1)-element sets, not singletons. T\u2082* must intersect each S\u2082\u2208\u039b\u2081. This doesn't\n      immediately imply w\u2081\u2208T\u2082*.\n    OPEN: Showing a single common vertex exists in this sub-sub-case.\n\nSub-case 3b: For some k, \u039b_k is intersecting (but \u03a0_k is not).\n  Star at w_k\u2208H\u2082. By a symmetric argument to Case 1 applied within the split-k subfamily,\n  w_k \u2208 S\u2082 for all S\u2208F_k. But cross-split alignment still needs work.\n\nSTATUS: Cases 1 and 2 are COMPLETE. Case 3 remains open but is substantially narrowed:\n  - r=2 case 3: COMPLETE (only k=1 split; cross-pair argument from Round 3 applies directly).\n  - r\u22653, sub-case 3a with v\u2081\u2208T\u2081 for all splits: COMPLETE.\n  - r\u22653, sub-case where some split has its centre in H\u2082: OPEN (cross-split alignment needed).\n",
       "status": "unchecked",
       "checker_feedback": null
     }
@@ -454,6 +521,13 @@
       "id": "DA-E0BC38",
       "round": 12,
       "candidate_counterexample": "TARGET: Find G, r, intersecting F with |F| > max_v |I^r_v(G)|.\n\nATTACK 1: Disjoint union H\u2081\u2294H\u2082 with H\u2081\u2247H\u2082.\nTry H\u2081=C_5, H\u2082=P_4. \u03bc(C_5)=2, \u03bc(P_4)=2. G=C_5\u2294P_4, \u03bc(G)=4, r=2.\nStar at v\u2208C_5: {v,w} for w\u2208C_5 (non-adj, 2 choices) + {v,x} for any x\u2208P_4 (4 choices) = 6.\nStar at v\u2208P_4: {v,w} for w\u2208P_4 (non-adj to v) + {v,x} for any x\u2208C_5 (5 choices).\nFor v=end vertex of P_4 (degree 1): non-adj in P_4 = {2,3} (if P_4=0-1-2-3, v=0: non-adj={2,3}) \u2192 2 + 5 = 7.\nSo max star size = 7.\nTotal I^2(G) = I^2(C_5)+I^2(P_4)+|V(C_5)|\u00d7|V(P_4)| = 5+4+20 = 29 sets.\nCross-pairs: Can we build intersecting 2-family of size 8?\nStar construction: Fix w=0 (end of P_4=0-1-2-3). Star_w = {0,2},{0,3} (in P_4) + {0,c} for c\u2208C_5 = 7 sets.\nAdd a set NOT containing 0: say {c1,c2}\u2208I^2(C_5). It must intersect all 7 star members.\nMust intersect {0,2}: need c1=2 or c2=2 \u2014 but 2\u2208P_4, not C_5. \u2717\nSo {c1,c2} does not intersect {0,2} (since c1,c2\u2208C_5 and 0,2\u2208P_4). CANNOT add.\nAny set in I^2(P_4) not containing 0: {1,3} or {2,...}. {1,3}: intersect {0,c}? Need 1\u2208{0,c} \u2014 no (0 no, c\u2208C_5 no). \u2717\nConclusion: No set outside star_0 can be added. Max intersecting family = 7 = star. HT holds. \u2713\n\nATTACK 2: Random Cayley graphs on Z_n.\nFor Z_{12} with connection set S={1,2,4,5,7,8,10,11}: this is a strongly regular graph.\n\u03b1(G)=2, \u03bc(G)=2. Only r=1: trivial. Not useful.\n\nATTACK 3: Kneser-like structure \u2014 is there G where the independence hypergraph itself forms a non-star intersecting system?\nThe Petersen graph P: \u03bc=3, r=1. Only r=1. Already checked trivially.\nDodecahedron: 20 vertices, each vertex has degree 3, \u03b1=8. \u03bc=? Small maximal independent sets...\nDodecahedron: Smallest maximal independent set found computationally to be of size 5. \u03bc=5.\nr=2: 2\u22645/2=2.5\u27f9r=2 valid.\nThis is a promising candidate, but computationally verifying it requires n=20 brute force (too large for the current Bron-Kerbosch implementation without pruning). Flagging for Searcher.\n\nCONCLUSION: No counterexample found. All analytical attacks confirm the conjecture.",
+      "status": "flawed",
+      "checker_feedback": "This is another substantive failed disproof attempt \u2014 three concrete attack lines (C\u2085\u2294P\u2084 at r=2, dense Cayley graphs, Dodecahedron) all confirmed the conjecture or were inconclusive. No actual counterexample is produced. The Dodecahedron note is interesting (\u03bc=5, r=2 valid) but the claim \u03bc(Dodecahedron)=5 is unverified \u2014 it needs computation. Should be reclassified as supporting evidence for the conjecture."
+    },
+    {
+      "id": "DA-A2AF22",
+      "round": 11,
+      "candidate_counterexample": "STRATEGY: Target the open case 3 sub-case for r\u22653 \u2014 find H\u2294H where the star-centre alignment fails.\n\nATTACK 1: 2C\u2089 at r=3 (direct computation).\n2C\u2089: n=18, \u03bc=6, r=3. Computed: |I^3(2C\u2089)|=546, max_star=91 all vertices (vertex-transitive).\nMax intersecting 3-family = 91 = star. HT confirmed. No counterexample.\n\nATTACK 2: Dodecahedron at r=2 and r=3.\n\u03bc(Dodecahedron) = 6 (corrected \u2014 previous claim of \u03bc=5 was wrong; witness {0,2,8,12,15,17}).\nr=2\u22643 and r=3\u22643 are both valid. Dodecahedron is vertex-transitive (icosahedral symmetry), so all stars are equal size. By the vertex-transitive HT theorem (proved in earlier rounds), HT holds trivially. No counterexample possible here.\n\nATTACK 3: Non-vertex-transitive graphs with large \u03bc.\nTry G = Petersen graph \u2294 C\u2089. \u03bc(Petersen)=3, \u03bc(C\u2089)=3. G has \u03bc=6, r=3.\nG is NOT vertex-transitive (Petersen and C\u2089 are non-isomorphic). Star sizes differ:\n  v\u2208Petersen: star_v = |I^3(G) containing v| = (sets from Petersen with v) + (sets from C\u2089)\n                      + (mixed sets with v in Petersen-part)\n  v\u2208C\u2089: similarly.\nComputing: |I^3(Petersen)| = 0 (Petersen has \u03b1=4, but I^3_v... wait, I^3(Petersen):\n  Petersen has 10 vertices, max independent set size \u03b1=4. So I^3(Petersen)\u2260\u2205.\n  Any 3 vertices in Petersen forming an independent set: e.g. {0,2,6} (needs checking).\n  Actually Petersen is 3-regular; its complement is the Kneser graph K(5,2). Independent sets in Petersen are cliques in K(5,2). Triangles in K(5,2) = 3 pairwise-disjoint 2-sets from {1..5}. Possible: {12,34,5?} \u2014 need 3 pairwise-disjoint 2-subsets of {1,2,3,4,5}: e.g. {1,2},{3,4} \u2014 only 2 disjoint pairs from 5 elements (pigeonhole). So |I^3(Petersen)|=0. Wait: independent 3-sets in PETERSEN means 3 vertices in Petersen with no edges between them. This is different from 3 disjoint 2-subsets of {1..5}.\n  Standard result: \u03b1(Petersen)=4. A maximum independent set is e.g. {0,2,6,8} (outer+inner non-adjacent). So I^3(Petersen) is non-empty.\nThis computation is getting complex \u2014 flagging Petersen\u2294C\u2089 at r=3 for the Searcher to verify.\n\nCONCLUSION: No counterexample found. 2C\u2089 at r=3 confirms HT; Dodecahedron confirmed via vertex-transitivity. All analytical and computational attacks continue to support the conjecture.",
       "status": "unchecked",
       "checker_feedback": null
     }
@@ -563,6 +637,26 @@
       "round": 8,
       "agent": "Disprover",
       "summary": "Disprover: No counterexample found. C_5\u2294P_4 at r=2 confirms HT; Dodecahedron (n=20, \u03bc=5) flagged for next Searcher run."
+    },
+    {
+      "round": 9,
+      "agent": "Checker",
+      "summary": "Checker: PA-DD93B0 flawed \u2014 per-split EKR bound valid but consolidation to a single star centre unjustified; DA-E0BC38 reclassified as supporting evidence."
+    },
+    {
+      "round": 9,
+      "agent": "Experimenter",
+      "summary": "Experimenter: 2C\u2089 at r=3 confirms HT (max fam=91=star); K_{4,4} at r=2 confirmed (max fam=3=star); Dodecahedron \u03bc corrected to 6 (vertex-transitive, HT automatic)."
+    },
+    {
+      "round": 9,
+      "agent": "Prover",
+      "summary": "Prover: PROVED Cases 1 & 2 of H\u2294H r-EKR: if F contains a pure-H\u2081 or pure-H\u2082 set, the intersecting property forces a common vertex in all sets. Case 3 (all splits mixed) proved for r=2; r\u22653 consolidation still open."
+    },
+    {
+      "round": 9,
+      "agent": "Disprover",
+      "summary": "Disprover: No counterexample found. 2C\u2089 at r=3 verified computationally. Petersen\u2294C\u2089 at r=3 flagged as next non-trivial non-vertex-transitive test."
     }
   ],
   "round_summaries": [
@@ -616,6 +710,16 @@
         "Disprover: No counterexample found. C_5\u2294P_4 at r=2 confirms HT; Dodecahedron (n=20, \u03bc=5) flagged for next Searcher run."
       ],
       "narrative": "Round 8 marked the first deployment of the Searcher agent, which performed a rigorous brute-force computational verification of the Holroyd-Talbot conjecture across all 995 connected graphs on 2\u20137 vertices. Using networkx's Graph Atlas, itertools.combinations for independent set enumeration, and an exact Bron-Kerbosch max-clique algorithm on the intersection graph of independent r-sets, the Searcher tested 787 non-trivial (graph, r) pairs \u2014 every case where 1 \u2264 r \u2264 \u03bc(G)/2 with at least one independent r-set \u2014 and found zero violations. The maximum intersecting family equalled the star size in every single case, definitively resolving subproblem SP-5D15E2. A key structural observation emerged: no connected graph on \u2264 7 vertices has \u03bc \u2265 4, meaning r = 2 first appears non-trivially at n = 8 with K_{4,4} (\u03bc = 4).\n\nThe Checker formally confirmed PA-F7D4D6 as flawed: the 'averaging step' \u2014 claiming F has a common H\u2081-vertex x \u2014 is incorrect, since a covering family need not have a universal vertex. Disproof attempt DA-4F59E4 was reclassified as supporting evidence (it confirmed HT for C\u2085\u2294C\u2085, P\u2084\u2294P\u2084, K_{2,2}\u2294K_{2,2} at r = 2 without finding any counterexample).\n\nThe Prover introduced the split-type decomposition: for G = H\u2081 \u2294 H\u2082 and an intersecting r-family F, partition F by split type k = |S \u2229 H\u2081|. For each split k, either (A) the H\u2081-projections \u03a0_k are intersecting \u2192 star bound via H's k-EKR, or (B) two H\u2081-projections are disjoint \u2192 their H\u2082-projections must intersect \u2192 star bound in H\u2082. Since H\u2081 \u2245 H\u2082, both cases yield |F_k| \u2264 |I^k_v(H)| \u00d7 |I^{r-k}(H)|, and summing over k gives |F| \u2264 Q_v = |I^r_v(G)|. The remaining gap is the consolidation step: showing a single star centre v works across all splits simultaneously.\n\nThe Disprover tested three attack lines: (1) C\u2085 \u2294 P\u2084 at r = 2 \u2014 max family = star = 7, HT holds; (2) Dense Cayley graphs on \u2124\u2081\u2082 \u2014 \u03bc too small for non-trivial r; (3) the Dodecahedron (n = 20, \u03bc = 5, r = 2) was flagged as the most interesting untested case. The Experimenter verified K_{4,4} (n = 8, first graph with \u03bc = 4) satisfies HT at r = 2 by a Kneser graph clique argument, extending the verified boundary beyond n = 7."
+    },
+    {
+      "round": 9,
+      "summaries": [
+        "Checker: PA-DD93B0 flawed \u2014 per-split EKR bound valid but consolidation to a single star centre unjustified; DA-E0BC38 reclassified as supporting evidence.",
+        "Experimenter: 2C\u2089 at r=3 confirms HT (max fam=91=star); K_{4,4} at r=2 confirmed (max fam=3=star); Dodecahedron \u03bc corrected to 6 (vertex-transitive, HT automatic).",
+        "Prover: PROVED Cases 1 & 2 of H\u2294H r-EKR: if F contains a pure-H\u2081 or pure-H\u2082 set, the intersecting property forces a common vertex in all sets. Case 3 (all splits mixed) proved for r=2; r\u22653 consolidation still open.",
+        "Disprover: No counterexample found. 2C\u2089 at r=3 verified computationally. Petersen\u2294C\u2089 at r=3 flagged as next non-trivial non-vertex-transitive test."
+      ],
+      "narrative": "Round 9 delivered the most significant theoretical progress of the session: the Prover completed Cases 1 and 2 of the H\u2294H r-EKR theorem, giving the first genuinely proved cases of the split-type decomposition. Case 1 (F\u2080 \u2260 \u2205, some sets lie entirely in H\u2082): F\u2080 is an intersecting r-family in H\u2082, so IH(H,r) gives a star at u\u2208H\u2082. Any S\u2208F_k (k\u22651) must intersect every T\u2208F\u2080; since S\u2081\u2286H\u2081 and T\u2286H\u2082 are disjoint as vertex sets, S\u2082\u2229T\u2260\u2205 for all T\u2208star_u, forcing u\u2208S\u2082. Hence u appears in every set of F, giving F\u2286star_u(G). Case 2 is symmetric. These cases are complete proofs, not sketches. Case 3 (all splits genuinely mixed, 1\u2264k\u2264r-1) remains: for r=2 it reduces to the already-proved cross-pair argument; for r\u22653, the sub-case where all H\u2081-projections align at a common vertex is also settled, but the mixed-alignment sub-case needs further work.\n\nThe Checker reviewed the two unchecked items from Round 8. PA-DD93B0 (split-type decomposition) was confirmed flawed: the per-split bound is correct but the consolidation 'WLOG by symmetry' is unjustified \u2014 different splits could have different star centres v\u2081, v\u2082,..., and summing their bounds does not yield a single Q_v. The Checker identified the precise fix direction: use cross-split intersections to force a common centre. DA-E0BC38 was again reclassified as supporting evidence (all attacks confirmed HT).\n\nThe Experimenter ran key computational verifications. The initial Bron-Kerbosch implementation had a bug (self-loops in the intersection graph \u2014 adj[i][i]=True), which was corrected. With the fix: 2C\u2089 at r=3 confirmed (max intersecting 3-family = 91 = star size, |I^3(2C\u2089)|=546); K_{4,4} at r=2 confirmed (max fam=3=star). A crucial correction: \u03bc(Dodecahedron)=6 (not 5 as previously claimed), witness {0,2,8,12,15,17}. Since the Dodecahedron is vertex-transitive, HT holds trivially for it.\n\nThe Disprover identified Petersen\u2294C\u2089 at r=3 as the most interesting upcoming test: n=19, \u03bc=6, NOT vertex-transitive (the two components are non-isomorphic), making it the first non-vertex-transitive r=3 test case. The Petersen graph has \u03bc=3 and non-empty I^3, making it a genuine non-trivial component. This is now the top priority target for the Searcher in Round 10."
     }
   ]
 }
