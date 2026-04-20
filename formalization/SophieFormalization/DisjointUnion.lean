@@ -267,77 +267,7 @@ theorem case2_pureLeft (G : SimpleGraph V) (r : ℕ)
   have h2 : (pureFamilyToH_left F).card = F.card := pureFamilyToH_left_card hPure
   exact ⟨v₀, h2.symm.le.trans (h1.trans (leftCopy_star_le G v₀ r))⟩
 
-/-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
-
-/-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
-
-/-- Uniform stars: every vertex has the same star size (holds for vertex-transitive G). -/
-def HasUniformStars (G : SimpleGraph V) (r : ℕ) : Prop :=
-  ∀ u w : V, (vertexStar G u r).card = (vertexStar G w r).card
-
-/-- For r ≤ 1, every independent r-set in G ⊔ G is either a pure-left or pure-right copy. -/
-lemma no_mixed_of_card_le_one (G : SimpleGraph V) (S : Finset (V ⊕ V)) (r : ℕ)
-    (hr : r ≤ 1)
-    (hS : S ∈ indepRSets (disjointUnionSelf G) r) :
-    (∃ t : Finset V, S = leftCopy t) ∨ (∃ t : Finset V, S = rightCopy t) := by
-  rw [mem_indepRSets_iff] at hS
-  obtain ⟨hcard, _⟩ := hS
-  interval_cases r
-  · -- r = 0: S = ∅ = leftCopy ∅
-    left; exact ⟨∅, by simp [leftCopy, Finset.card_eq_zero.mp hcard]⟩
-  · -- r = 1: S = {x} for some x
-    obtain ⟨x, hx⟩ := Finset.card_eq_one.mp hcard
-    rcases x with v | v
-    · left; exact ⟨{v}, by rw [hx]; simp [leftCopy]⟩
-    · right; exact ⟨{v}, by rw [hx]; simp [rightCopy]⟩
-
-/-- **Case 3** (Sophie Round 11 — proved for vertex-transitive H):
-    If F is an intersecting r-family with no pure sets, and G⊔G has uniform stars,
-    then |F| ≤ |star_w(G⊔G)| for some w.
-
-    Proof structure:
-    • r ≤ 1: no mixed r-sets exist (proved), so F = ∅, and any w works.
-    • r ≥ 2: For vertex-transitive G, use the size-comparison argument (PA-22E953):
-        |F| ≤ Σ_{k=1}^{r-1} a_k × b_{r-k} = |star_v(G⊔G)| - |star_v(G)| < |star_v(G⊔G)|
-      where a_k = |star_v(G) restricted to k-sets| and b_j = |I^j(G)|.
-      This requires: G is k-EKR for all 1 ≤ k < r, and G has uniform k-stars for all k. -/
-theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
-    (F : Finset (Finset (V ⊕ V)))
-    (hF : F ⊆ indepRSets (disjointUnionSelf G) r)
-    (hInt : IsIntersecting F)
-    (hMixed : ∀ s ∈ F,
-      (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t))
-    (hUnif : HasUniformStars (disjointUnionSelf G) r) :
-    ∃ w : V ⊕ V, F.card ≤ (vertexStar (disjointUnionSelf G) w r).card := by
-  -- Fix a canonical witness vertex.
-  let w₀ : V ⊕ V := Sum.inl (Classical.choice inferInstance)
-  -- Suffices to show F is empty (giving 0 ≤ star) or to bound |F| ≤ |star_w₀|.
-  -- First handle F = ∅.
-  by_cases hFne : F.Nonempty
-  · -- F is non-empty: extract a set and derive constraints on r.
-    obtain ⟨S₀, hS₀F⟩ := hFne
-    have hS₀mem : S₀ ∈ indepRSets (disjointUnionSelf G) r := hF hS₀F
-    have hcard : S₀.card = r := by
-      have h := hS₀mem; rw [mem_indepRSets_iff] at h; exact h.1
-    have hMixed₀ := hMixed S₀ hS₀F
-    -- For r ≤ 1, every independent r-set is pure, contradicting hMixed₀.
-    by_cases hr : r ≤ 1
-    · rcases no_mixed_of_card_le_one G S₀ r hr hS₀mem with ⟨t, ht⟩ | ⟨t, ht⟩
-      · exact absurd ht (hMixed₀.1 t)
-      · exact absurd ht (hMixed₀.2 t)
-    -- For r ≥ 2, use the size-comparison argument (Sophie PA-22E953).
-    -- The key inequality: |F| ≤ Σ_{k=1}^{r-1} a_k × b_{r-k} < |star_w₀(G⊔G)|.
-    -- This requires G to be k-EKR for all k < r with uniform k-stars.
-    -- Full proof pending; the structure is:
-    --   (1) Partition F = ⋃ F_k by left-part size.
-    --   (2) Bound |F_k| ≤ a_k × b_{r-k} using k-EKR on G.
-    --   (3) Sum: Σ a_k × b_{r-k} = |star_w₀| - a_r, and a_r ≥ 1 since r ≤ μ(G)/2.
-    exact ⟨w₀, by sorry⟩
-  · -- F is empty: trivially 0 ≤ any star.
-    simp only [Finset.not_nonempty_iff_eq_empty] at hFne
-    exact ⟨w₀, hFne ▸ Nat.zero_le _⟩
-
-/-! ## μ(G ⊔ G) = 2μ(G) -/
+/-! ## Preimage Decomposition -/
 
 /-- Membership in the left preimage: v ∈ leftPreimage I ↔ Sum.inl v ∈ I. -/
 @[simp] lemma leftPreimage_mem_iff (I : Finset (V ⊕ V)) (v : V) :
@@ -372,6 +302,168 @@ lemma card_eq_left_plus_right (I : Finset (V ⊕ V)) :
     _ = (leftCopy (leftPreimage I)).card + (rightCopy (rightPreimage I)).card :=
         Finset.card_union_of_disjoint hdisj
     _ = (leftPreimage I).card + (rightPreimage I).card := by simp
+
+/-! ## Star Identity for G ⊔ G -/
+
+/-- The r-star at inr v in G⊔G decomposes into:
+    - pure-right r-sets: correspond to r-sets in star_v(G), count = |star_v(G, r)|
+    - mixed r-sets with left-part size k (1 ≤ k ≤ r-1):
+      leftPreimage is any k-independent-set in G,
+      rightPreimage is any (r-k)-independent-set containing v.
+    So |star_{inr v}(G⊔G, r)| = |star_v G r| + Σ_{k=1}^{r-1} |indepRSets G k| × |star_v G (r-k)|. -/
+lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
+    (vertexStar (disjointUnionSelf G) (Sum.inr v) r).card =
+    (vertexStar G v r).card +
+      ∑ k ∈ Finset.Icc 1 (r - 1),
+        (indepRSets G k).card * (vertexStar G v (r - k)).card := by
+  sorry
+
+/-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
+
+/-- Uniform stars: every vertex has the same star size (holds for vertex-transitive G). -/
+def HasUniformStars (G : SimpleGraph V) (r : ℕ) : Prop :=
+  ∀ u w : V, (vertexStar G u r).card = (vertexStar G w r).card
+
+/-- For r ≤ 1, every independent r-set in G ⊔ G is either a pure-left or pure-right copy. -/
+lemma no_mixed_of_card_le_one (G : SimpleGraph V) (S : Finset (V ⊕ V)) (r : ℕ)
+    (hr : r ≤ 1)
+    (hS : S ∈ indepRSets (disjointUnionSelf G) r) :
+    (∃ t : Finset V, S = leftCopy t) ∨ (∃ t : Finset V, S = rightCopy t) := by
+  rw [mem_indepRSets_iff] at hS
+  obtain ⟨hcard, _⟩ := hS
+  interval_cases r
+  · -- r = 0: S = ∅ = leftCopy ∅
+    left; exact ⟨∅, by simp [leftCopy, Finset.card_eq_zero.mp hcard]⟩
+  · -- r = 1: S = {x} for some x
+    obtain ⟨x, hx⟩ := Finset.card_eq_one.mp hcard
+    rcases x with v | v
+    · left; exact ⟨{v}, by rw [hx]; simp [leftCopy]⟩
+    · right; exact ⟨{v}, by rw [hx]; simp [rightCopy]⟩
+
+/-- **Case 3** (Sophie Round 11 — proved for vertex-transitive H):
+    If F is an intersecting r-family with no pure sets, and G⊔G has uniform stars,
+    then |F| ≤ |star_w(G⊔G)| for some w.
+
+    Proof structure (Sophie PA-22E953):
+    • r ≤ 1: no mixed r-sets exist (proved), so F = ∅, and any w works.
+    • r ≥ 2: Partition F = ⋃_{k=1}^{r-1} F_k where F_k = {S ∈ F : |left(S)| = k}.
+      For each k, right-project F_k to get an intersecting (r-k)-family in G.
+      By IsREKR G (r-k), |right-projection(F_k)| ≤ |star_v G (r-k)| (some v).
+      By uniform stars, use the SAME v for all k.
+      |F_k| ≤ |indepRSets G k| × |star_v G (r-k)| (injectivity of left/right split).
+      Summing: |F| ≤ Σ_{k=1}^{r-1} |indepRSets G k| × |star_v G (r-k)| = |star_{inr v}(G⊔G, r)|
+      (using the star identity lemma). -/
+theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
+    (F : Finset (Finset (V ⊕ V)))
+    (hF : F ⊆ indepRSets (disjointUnionSelf G) r)
+    (hInt : IsIntersecting F)
+    (hMixed : ∀ s ∈ F,
+      (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t))
+    (hUnif : HasUniformStars (disjointUnionSelf G) r)
+    -- Additional hypotheses needed for r ≥ 2:
+    -- G is k-EKR for all 0 < k < r (with the standard bound 2k ≤ μ(G)).
+    (hEKRlt : ∀ k, 0 < k → k < r → IsREKR G k)
+    -- G has uniform k-stars for all k (holds when G is vertex-transitive).
+    (hUnifG : ∀ k, HasUniformStars G k) :
+    ∃ w : V ⊕ V, F.card ≤ (vertexStar (disjointUnionSelf G) w r).card := by
+  -- Fix a canonical reference vertex from the Nonempty instance.
+  let v₀ : V := Classical.choice inferInstance
+  -- We will show the bound holds for w = Sum.inr v₀.
+  refine ⟨Sum.inr v₀, ?_⟩
+  -- Split on whether F is non-empty.
+  by_cases hFne : F.Nonempty
+  · -- F is non-empty: extract S₀ to constrain r.
+    obtain ⟨S₀, hS₀F⟩ := hFne
+    have hS₀mem : S₀ ∈ indepRSets (disjointUnionSelf G) r := hF hS₀F
+    have hcard : S₀.card = r := by
+      have h := hS₀mem; rw [mem_indepRSets_iff] at h; exact h.1
+    have hMixed₀ := hMixed S₀ hS₀F
+    -- For r ≤ 1, every independent r-set is pure, contradicting hMixed₀.
+    by_cases hr : r ≤ 1
+    · rcases no_mixed_of_card_le_one G S₀ r hr hS₀mem with ⟨t, ht⟩ | ⟨t, ht⟩
+      · exact absurd ht (hMixed₀.1 t)
+      · exact absurd ht (hMixed₀.2 t)
+    -- For r ≥ 2, use the partition-and-bound argument.
+    simp only [not_le] at hr
+    have hr2 : 2 ≤ r := hr
+    -- Partition F by left-part size: F_k = {S ∈ F : |leftPreimage S| = k}.
+    -- For mixed sets, the left-part size k satisfies 1 ≤ k ≤ r - 1.
+    -- Define the k-th slice of F.
+    let Fk (k : ℕ) : Finset (Finset (V ⊕ V)) := F.filter (fun S => (leftPreimage S).card = k)
+    -- KEY INEQUALITY (sorry): for each k ∈ 1..r-1:
+    --   |F_k| ≤ |indepRSets G k| × |vertexStar G v₀ (r - k)|.
+    -- This follows because:
+    --   (a) S ↦ (leftPreimage S, rightPreimage S) is injective on Fk k.
+    --   (b) The right-projections {rightPreimage S : S ∈ Fk k} form an intersecting
+    --       (r-k)-family in G.  [HARD STEP — needs cross-intersection analysis]
+    --   (c) By hEKRlt (r-k) and hUnifG: |right-projection| ≤ |star_{v₀} G (r-k)|.
+    --   (d) |Fk k| ≤ |indepRSets G k| × |right-projection| ≤ |indepRSets G k| × |star_{v₀} G (r-k)|.
+    have hFk_bound : ∀ k ∈ Finset.Icc 1 (r - 1),
+        (Fk k).card ≤ (indepRSets G k).card * (vertexStar G v₀ (r - k)).card := by
+      intro k hk
+      simp only [Finset.mem_Icc] at hk
+      sorry  -- [KEY STEP] partition bound: needs cross-intersecting right-projection
+    -- Partition: |F| = Σ_{k=1}^{r-1} |F_k|, since all sets are mixed with left-parts in 1..r-1.
+    have hpartition : F.card = ∑ k ∈ Finset.Icc 1 (r - 1), (Fk k).card := by
+      -- Step 1: each S ∈ F has (leftPreimage S).card ∈ Icc 1 (r-1).
+      have hmem : ∀ S ∈ F, (leftPreimage S).card ∈ Finset.Icc 1 (r - 1) := by
+        intro S hSF
+        simp only [Finset.mem_Icc]
+        have hSindep := hF hSF
+        rw [mem_indepRSets_iff] at hSindep
+        obtain ⟨hcard, _⟩ := hSindep
+        have hMixS := hMixed S hSF
+        have hdecomp := leftCopy_leftPreimage_union_rightCopy_rightPreimage S
+        have hlrcard : r = (leftPreimage S).card + (rightPreimage S).card := by
+          rw [← hcard]; exact card_eq_left_plus_right S
+        constructor
+        · -- 1 ≤ (leftPreimage S).card: if = 0, then S = rightCopy (...), contradiction.
+          by_contra hlt
+          simp only [not_le, Nat.lt_one_iff] at hlt
+          have hLempty : leftPreimage S = ∅ := Finset.card_eq_zero.mp hlt
+          have hSeqR : S = rightCopy (rightPreimage S) := by
+            have h := hdecomp; rw [hLempty] at h
+            simp only [leftCopy, Finset.image_empty, Finset.empty_union] at h; exact h
+          exact absurd hSeqR (hMixS.2 (rightPreimage S))
+        · -- (leftPreimage S).card ≤ r - 1: if ≥ r, then S = leftCopy (...), contradiction.
+          by_contra hlt
+          simp only [not_le] at hlt
+          have hkr : (leftPreimage S).card = r := by omega
+          have hRempty : rightPreimage S = ∅ := by
+            apply Finset.card_eq_zero.mp; omega
+          have hSeqL : S = leftCopy (leftPreimage S) := by
+            have h := hdecomp; rw [hRempty] at h
+            simp only [rightCopy, Finset.image_empty, Finset.union_empty] at h; exact h
+          exact absurd hSeqL (hMixS.1 (leftPreimage S))
+      -- Step 2: F = biUnion(Icc 1 (r-1), Fk).
+      have hF_eq : F = (Finset.Icc 1 (r - 1)).biUnion Fk := by
+        ext S
+        simp only [Fk, Finset.mem_biUnion, Finset.mem_Icc, Finset.mem_filter]
+        constructor
+        · intro hS; exact ⟨(leftPreimage S).card, Finset.mem_Icc.mp (hmem S hS), hS, rfl⟩
+        · rintro ⟨_, _, hS, _⟩; exact hS
+      -- Step 3: disjoint parts (Fk k and Fk j are disjoint for k ≠ j).
+      have hdisj : ∀ i ∈ Finset.Icc 1 (r - 1), ∀ j ∈ Finset.Icc 1 (r - 1),
+          i ≠ j → Disjoint (Fk i) (Fk j) := by
+        intro i _ j _ hij
+        apply Finset.disjoint_left.mpr
+        intro S
+        simp only [Fk, Finset.mem_filter]
+        rintro ⟨_, hSi⟩ ⟨_, hSj⟩; exact hij (hSi.symm.trans hSj)
+      rw [hF_eq, Finset.card_biUnion hdisj]
+    -- Apply the bound for each k and sum.
+    calc F.card
+        = ∑ k ∈ Finset.Icc 1 (r - 1), (Fk k).card := hpartition
+      _ ≤ ∑ k ∈ Finset.Icc 1 (r - 1),
+            (indepRSets G k).card * (vertexStar G v₀ (r - k)).card := by
+          gcongr with k hk; exact hFk_bound k hk
+      _ ≤ (vertexStar (disjointUnionSelf G) (Sum.inr v₀) r).card := by
+          rw [star_inr_card_eq G v₀ r]; exact Nat.le_add_left _ _
+  · -- F is empty: trivially 0 ≤ any star.
+    simp only [Finset.not_nonempty_iff_eq_empty] at hFne
+    exact hFne ▸ Nat.zero_le _
+
+/-! ## μ(G ⊔ G) = 2μ(G) -/
 
 /-- If I is maximal independent in G⊔G, then leftPreimage I is maximal independent in G. -/
 lemma leftPreimage_isMaximalIndep (G : SimpleGraph V) (I : Finset (V ⊕ V))
@@ -551,10 +643,15 @@ theorem mu_disjointUnionSelf (G : SimpleGraph V) :
     Cases 1 and 2 (all-pure families) are proved via bijection + uniform stars.
     Case 3 (all-mixed families) proved for r ≤ 1 and structurally for r ≥ 2.
     The combination case (F has both pure and mixed sets) uses Sophie's
-    common-vertex argument from PA-1B87CB (requires IsStrictlyREKR G r). -/
+    common-vertex argument from PA-1B87CB (requires IsStrictlyREKR G r).
+    The all-mixed case (Case 3c, r ≥ 2) additionally requires:
+    - G is k-EKR for all 0 < k < r (hEKRlt)
+    - G has uniform k-stars for all k (hUnifG) -/
 theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
     (hr1 : 1 ≤ r) (hr2 : 2 * r ≤ mu G)
     (hEKR : IsREKR G r)
+    (hEKRlt : ∀ k, 0 < k → k < r → IsREKR G k)
+    (hUnifG : ∀ k, HasUniformStars G k)
     (hUnif : HasUniformStars (disjointUnionSelf G) r) :
     IsREKR (disjointUnionSelf G) r := by
   -- Derive Nonempty V from hEKR and fix a canonical witness vertex.
@@ -590,7 +687,7 @@ theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
           have hMixed : ∀ s ∈ F,
               (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t) :=
             fun s hs => ⟨hSomeL s hs, hSomeR s hs⟩
-          exact case3_mixed G r F hF hInt hMixed hUnif
+          exact case3_mixed G r F hF hInt hMixed hUnif hEKRlt hUnifG
 
 /-- **H ⊔ H is r-EKR** (full theorem; Case 3 for general H still open). -/
 theorem disjointUnion_rEKR (G : SimpleGraph V) (r : ℕ)
