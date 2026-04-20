@@ -1,14 +1,37 @@
 /-
   SophieFormalization.DisjointUnion
-  Formalizes Sophie's proof of the H ⊔ H r-EKR theorem (Rounds 9–11).
+  Formalizes Sophie's proof of the H ⊔ H r-EKR theorem (Rounds 9–14).
 
   The main result: if H is r-EKR and μ(H) ≥ r, then H ⊔ H is r-EKR.
 
-  Proof structure (Sophie Round 9–11):
-    Partition F ⊆ I^r(G) by split type F_k = {S ∈ F : |S ∩ H₁| = k}.
-    Case 1: F_r ≠ ∅  (pure-left sets exist)  → proved completely ✓
-    Case 2: F_0 ≠ ∅  (pure-right sets exist) → proved completely ✓
-    Case 3: F_0 = F_r = ∅ (all sets mixed)   → proved for vertex-transitive H ✓
+  Proof structure (Sophie Rounds 9–14):
+    Partition F ⊆ I^r(G⊔G) by split type F_k = {S ∈ F : |S ∩ H₁| = k}.
+
+    Case 1: F is all-pure-right (F_0 = F) → proved completely ✓
+      Bijection rightPreimage : F → F' ⊆ I^r(H), then |F'| ≤ |star_u(H)| by IsREKR.
+
+    Case 2: F is all-pure-left (F_r = F) → proved completely ✓
+      Symmetric to Case 1.
+
+    Case 3a: F has both pure-right and pure-left members → contradiction ✓
+      leftCopy s ∩ rightCopy t = ∅ always, so F cannot be intersecting. PROVED.
+
+    Case 3b/3b': F has pure-right+mixed or pure-left+mixed → OPEN (sorry)
+      Needs: IsStrictlyREKR G r (common-vertex forcing argument).
+      Open subproblem SP-86620A in Sophie knowledge base.
+
+    Case 3c: F is all-mixed (F_0 = F_r = ∅) → proved up to hFk_bound ✓/sorry
+      Structure PROVED: |F| = Σ|F_k| ≤ Σ|I^k(H)|×|star_v₀(H,r-k)| = |star_{inr v₀}(G⊔G)|.
+      REMAINING SORRY: hFk_bound — |F_k| ≤ |I^k(H)|×|star_v₀(H,r-k)| for each k.
+      This needs cross-intersecting EKR (SP-EFF503 in Sophie knowledge base).
+      For vertex-transitive H: proved for r≤1 (no mixed sets exist); r≥2 uses hFk_bound.
+
+  KEY PROVED LEMMAS:
+    • mu_disjointUnionSelf : μ(G⊔G) = 2μ(G)                           ✓
+    • star_inr_card_eq : |star_{inr v}(G⊔G)| = Σ decomposition         ✓
+    • case1_pureRight / case2_pureLeft                                  ✓
+    • not_both_pureCopies_intersecting : no pure-left AND pure-right     ✓
+    • case3_mixed  (up to hFk_bound sorry)                              ✓/sorry
 -/
 
 import SophieFormalization.Basic
@@ -455,6 +478,32 @@ lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
 def HasUniformStars (G : SimpleGraph V) (r : ℕ) : Prop :=
   ∀ u w : V, (vertexStar G u r).card = (vertexStar G w r).card
 
+/-! ### Pure-pair exclusion lemmas -/
+
+/-- leftCopy and rightCopy always produce disjoint sets in V ⊕ V. -/
+lemma leftCopy_disjoint_rightCopy (s t : Finset V) :
+    Disjoint (leftCopy s) (rightCopy t) := by
+  apply Finset.disjoint_left.mpr
+  intro x hxL hxR
+  simp only [leftCopy, rightCopy, Finset.mem_image] at hxL hxR
+  obtain ⟨a, _, rfl⟩ := hxL
+  obtain ⟨b, _, h⟩ := hxR
+  exact Sum.inl_ne_inr h.symm
+
+/-- An intersecting family cannot contain both a pure-left and a pure-right member.
+    Proof: leftCopy s ∩ rightCopy t = ∅ for any s t (left and right injections have
+    disjoint ranges), so the two sets cannot meet — contradicting IsIntersecting. -/
+lemma not_both_pureCopies_intersecting
+    (F : Finset (Finset (V ⊕ V)))
+    (hInt : IsIntersecting F)
+    {s t : Finset V}
+    (hL : leftCopy s ∈ F) (hR : rightCopy t ∈ F) : False := by
+  obtain ⟨x, hx⟩ := hInt _ hL _ hR
+  rw [Finset.mem_inter] at hx
+  simp only [leftCopy, rightCopy, Finset.mem_image] at hx
+  obtain ⟨⟨a, _, rfl⟩, ⟨b, _, h⟩⟩ := hx
+  exact Sum.inl_ne_inr h.symm
+
 /-- For r ≤ 1, every independent r-set in G ⊔ G is either a pure-left or pure-right copy. -/
 lemma no_mixed_of_card_le_one (G : SimpleGraph V) (S : Finset (V ⊕ V)) (r : ℕ)
     (hr : r ≤ 1)
@@ -770,14 +819,26 @@ theorem mu_disjointUnionSelf (G : SimpleGraph V) :
 
 /-! ## Main Results -/
 
-/-- **H ⊔ H is r-EKR for vertex-transitive H** (Sophie Rounds 9–11).
-    Cases 1 and 2 (all-pure families) are proved via bijection + uniform stars.
-    Case 3 (all-mixed families) proved for r ≤ 1 and structurally for r ≥ 2.
-    The combination case (F has both pure and mixed sets) uses Sophie's
-    common-vertex argument from PA-1B87CB (requires IsStrictlyREKR G r).
-    The all-mixed case (Case 3c, r ≥ 2) additionally requires:
-    - G is k-EKR for all 0 < k < r (hEKRlt)
-    - G has uniform k-stars for all k (hUnifG) -/
+/-- **H ⊔ H is r-EKR for vertex-transitive H** (Sophie Rounds 9–14).
+
+    FULLY PROVED cases (no sorry):
+    • Case 1: F all-pure-right  → bijection to H, apply IsREKR.
+    • Case 2: F all-pure-left   → symmetric.
+    • Case 3a (impossible): F has a pure-left AND a pure-right member → contradiction,
+      since leftCopy s ∩ rightCopy t = ∅, so they cannot meet (not_both_pureCopies_intersecting).
+
+    OPEN (sorry — remaining gaps):
+    • Case 3b: F has pure-right + mixed sets (no pure-left):
+        Needs IsStrictlyREKR G r to force a common right-copy vertex via PA-1B87CB.
+    • Case 3b': F has pure-left + mixed sets (no pure-right): symmetric.
+    • Case 3c (all-mixed): proved up to hFk_bound sorry:
+        |F_k| ≤ |I^k(G)| × |star_v₀(G, r-k)| for each split type k.
+        Needs cross-intersecting EKR (SP-EFF503 in Sophie knowledge base).
+
+    Additional hypotheses (needed for Case 3c structure):
+    - hEKRlt: G is k-EKR for all 0 < k < r
+    - hUnifG: G has uniform k-stars for all k (follows from vertex-transitivity)
+    - hUnif:  G⊔G has uniform r-stars (follows from vertex-transitivity) -/
 theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
     (hr1 : 1 ≤ r) (hr2 : 2 * r ≤ mu G)
     (hEKR : IsREKR G r)
@@ -809,10 +870,32 @@ theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
       -- and forces every set in F to contain a common right-copy vertex u.
       -- Requires: IsStrictlyREKR G r to guarantee F₀ ⊆ star_u for some u.
       by_cases hSomeR : ∃ s ∈ F, ∃ t : Finset V, s = rightCopy t
-      · sorry  -- Sophie Case 1 (mixed+pure-right): needs common-vertex argument
-      · -- Case 3b: F has some pure-left sets (and no pure-right sets).
+      · -- Case 3a: F has some pure-right sets [hSomeR] and is neither all-pure-right
+        --   nor all-pure-left. F may also have pure-left or mixed sets.
+        --   • Sub-case: F has BOTH a pure-left and a pure-right member.
+        --     Then leftCopy s ∩ rightCopy t = ∅ (disjoint ranges in V⊕V), so they
+        --     can't intersect — contradicting hInt. Close this sub-case.
+        --   • Sub-case: F has pure-right and mixed (no pure-left) — genuinely open.
+        --     This is the common-vertex argument: need that the pure-right subfamily
+        --     forces all mixed sets to share a specific right-copy vertex.
+        --     Requires IsStrictlyREKR G r (each max intersecting family = a star).
+        obtain ⟨sR, hsFR, tR, rfl⟩ := hSomeR
+        by_cases hSomeL' : ∃ sL ∈ F, ∃ tL : Finset V, sL = leftCopy tL
+        · -- Sub-case: F has both a pure-left leftCopy tL and pure-right rightCopy tR.
+          --   These cannot intersect — contradiction with hInt.
+          obtain ⟨sL, hsFL, tL, rfl⟩ := hSomeL'
+          exact absurd (not_both_pureCopies_intersecting F hInt hsFL hsFR) id
+        · -- Sub-case: F has pure-right [hsFR] and no pure-left sets [hSomeL' fails].
+          --   All non-pure-right members of F are mixed.
+          --   Open: show every mixed S ∈ F shares a right-copy vertex with all
+          --   pure-right sets in F (common-vertex argument, needs IsStrictlyREKR G r).
+          sorry  -- [OPEN] pure-right + mixed case: needs IsStrictlyREKR G r
+      · -- Case 3b: F has some pure-left sets [hSomeL] and no pure-right sets
+        --   [¬hSomeR holds via the outer by_cases].
+        --   All non-pure-left members of F are mixed.
+        --   Open: symmetric common-vertex argument for pure-left + mixed.
         by_cases hSomeL : ∃ s ∈ F, ∃ t : Finset V, s = leftCopy t
-        · sorry  -- Sophie Case 2 (mixed+pure-left): needs common-vertex argument
+        · sorry  -- [OPEN] pure-left + mixed case: needs IsStrictlyREKR G r (symmetric to 3a)
         · -- Case 3c: F has NO pure sets → all mixed.
           simp only [not_exists, not_and] at hSomeR hSomeL
           have hMixed : ∀ s ∈ F,
