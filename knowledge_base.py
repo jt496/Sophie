@@ -134,10 +134,12 @@ class KnowledgeBase:
     def log(self, round_: int, agent: str, summary: str) -> None:
         self._data["log"].append({"round": round_, "agent": agent, "summary": summary})
 
-    def log_round_summary(self, round_: int, summaries: List[str]) -> None:
+    def log_round_summary(self, round_: int, summaries: List[str], narrative: str = "") -> None:
         """Persist the full per-agent summary rollup for a completed round."""
-        self._data["round_summaries"].append({"round": round_, "summaries": summaries})
-        self._save()
+        entry: dict = {"round": round_, "summaries": summaries}
+        if narrative:
+            entry["narrative"] = narrative
+        self._data["round_summaries"].append(entry)
         self._save()
 
     def increment_round(self) -> int:
