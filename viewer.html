@@ -392,7 +392,7 @@
   <div id="session-list-wrap" style="display:none">
     <div id="session-list-header">
       <span id="session-list-label">Sessions</span>
-      <button class="btn-secondary" style="padding:5px 12px;font-size:12px" id="btn-refresh">Refresh</button>
+      <button class="btn-secondary" style="padding:5px 12px;font-size:12px" id="btn-refresh" title="Reload current session from disk (also auto-refreshes every 15 s)">↻ Refresh</button>
     </div>
     <div id="session-list"></div>
   </div>
@@ -445,7 +445,29 @@
 
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
-let _dirHandle = null;
+let _dirHandle     = null;
+let _currentHandle = null;   // FileSystemFileHandle for the open session
+let _pollInterval  = null;   // auto-refresh timer
+
+function startPolling() {
+  stopPolling();
+  _pollInterval = setInterval(async () => {
+    if (_currentHandle) await reloadCurrentSession();
+  }, 15000);
+}
+
+function stopPolling() {
+  if (_pollInterval) { clearInterval(_pollInterval); _pollInterval = null; }
+}
+
+async function reloadCurrentSession() {
+  if (!_currentHandle) return;
+  try {
+    const file = await _currentHandle.getFile();
+    const text = await file.text();
+    render(JSON.parse(text));
+  } catch (e) { console.warn('Auto-reload failed:', e); }
+}
 
 // ── DOM refs ───────────────────────────────────────────────────────────────
 const dropZone   = document.getElementById('drop-zone');
@@ -471,6 +493,9 @@ btnDir.addEventListener('click', async () => {
 });
 
 btnRefresh.addEventListener('click', async () => {
+  // If a session is open, re-read and re-render it first
+  if (_currentHandle) await reloadCurrentSession();
+  // Then also refresh the session list in the background
   if (_dirHandle) await populateSessionList(_dirHandle);
 });
 
@@ -522,7 +547,17 @@ async function populateSessionList(dirHandle) {
 
   list.querySelectorAll('.session-item').forEach(el => {
     const idx = +el.dataset.idx;
-    el.addEventListener('click', () => render(sessions[idx].data));
+    el.addEventListener('click', async () => {
+      _currentHandle = sessions[idx].handle;
+      // Re-read fresh data from disk before rendering
+      try {
+        const file = await _currentHandle.getFile();
+        const text = await file.text();
+        render(JSON.parse(text));
+      } catch {
+        render(sessions[idx].data);  // fallback to cached copy
+      }
+    });
   });
 
   wrap.style.display = 'block';
@@ -560,6 +595,8 @@ function loadFile(file) {
 }
 
 function resetViewer() {
+  stopPolling();
+  _currentHandle = null;
   document.getElementById('landing').style.display = 'block';
   document.getElementById('app').style.display = 'none';
   fileInput.value = '';
@@ -602,6 +639,8 @@ function render(d) {
 
   document.getElementById('landing').style.display = 'none';
   document.getElementById('app').style.display = 'block';
+  // Start auto-polling if we have a persistent file handle
+  if (_currentHandle) startPolling();
 }
 
 function renderRounds(d) {
