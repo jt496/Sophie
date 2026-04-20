@@ -339,9 +339,171 @@ theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
 
 /-! ## μ(G ⊔ G) = 2μ(G) -/
 
+/-- Membership in the left preimage: v ∈ leftPreimage I ↔ Sum.inl v ∈ I. -/
+@[simp] lemma leftPreimage_mem_iff (I : Finset (V ⊕ V)) (v : V) :
+    v ∈ leftPreimage I ↔ Sum.inl v ∈ I := by
+  simp [leftPreimage, Finset.mem_filterMap]
+
+/-- Membership in the right preimage: v ∈ rightPreimage I ↔ Sum.inr v ∈ I. -/
+@[simp] lemma rightPreimage_mem_iff (I : Finset (V ⊕ V)) (v : V) :
+    v ∈ rightPreimage I ↔ Sum.inr v ∈ I := by
+  simp [rightPreimage, Finset.mem_filterMap]
+
+/-- Any I : Finset (V⊕V) decomposes as leftCopy (leftPreimage I) ∪ rightCopy (rightPreimage I). -/
+lemma leftCopy_leftPreimage_union_rightCopy_rightPreimage (I : Finset (V ⊕ V)) :
+    I = leftCopy (leftPreimage I) ∪ rightCopy (rightPreimage I) := by
+  ext x; rcases x with v | v <;>
+    simp [leftPreimage_mem_iff, rightPreimage_mem_iff, leftCopy, rightCopy, Finset.mem_image]
+
+/-- |I| = |leftPreimage I| + |rightPreimage I| for any I : Finset (V⊕V). -/
+lemma card_eq_left_plus_right (I : Finset (V ⊕ V)) :
+    I.card = (leftPreimage I).card + (rightPreimage I).card := by
+  have hdecomp := leftCopy_leftPreimage_union_rightCopy_rightPreimage I
+  have hdisj : Disjoint (leftCopy (leftPreimage I)) (rightCopy (rightPreimage I)) := by
+    apply Finset.disjoint_left.mpr
+    intro x hxL hxR
+    simp only [leftCopy, Finset.mem_image] at hxL
+    simp only [rightCopy, Finset.mem_image] at hxR
+    obtain ⟨a, _, rfl⟩ := hxL
+    obtain ⟨b, _, h⟩ := hxR
+    exact Sum.inl_ne_inr h.symm
+  calc I.card
+      = (leftCopy (leftPreimage I) ∪ rightCopy (rightPreimage I)).card := by rw [← hdecomp]
+    _ = (leftCopy (leftPreimage I)).card + (rightCopy (rightPreimage I)).card :=
+        Finset.card_union_of_disjoint hdisj
+    _ = (leftPreimage I).card + (rightPreimage I).card := by simp
+
+/-- If I is maximal independent in G⊔G, then leftPreimage I is maximal independent in G. -/
+lemma leftPreimage_isMaximalIndep (G : SimpleGraph V) (I : Finset (V ⊕ V))
+    (hI : IsMaximalIndep (disjointUnionSelf G) I) : IsMaximalIndep G (leftPreimage I) := by
+  constructor
+  · -- IsIndepSet G (leftPreimage I)
+    intro v hv w hw hAdj
+    have hInlv : Sum.inl v ∈ I := (leftPreimage_mem_iff I v).mp hv
+    have hInlw : Sum.inl w ∈ I := (leftPreimage_mem_iff I w).mp hw
+    have hAdjGG : (disjointUnionSelf G).Adj (Sum.inl v) (Sum.inl w) := by
+      simp only [disjointUnionSelf]; exact hAdj
+    exact absurd hAdjGG (hI.1 (Sum.inl v) hInlv (Sum.inl w) hInlw)
+  · -- maximality
+    intro v hv
+    have hInlv_not : Sum.inl v ∉ I := fun h => hv ((leftPreimage_mem_iff I v).mpr h)
+    obtain ⟨u, huI, hAdj⟩ := hI.2 (Sum.inl v) hInlv_not
+    rcases u with a | a
+    · -- u = Sum.inl a: gives G.Adj v a with a ∈ leftPreimage I
+      exact ⟨a, (leftPreimage_mem_iff I a).mpr huI, by simpa [disjointUnionSelf] using hAdj⟩
+    · -- u = Sum.inr a: impossible (no left-right edges in G⊔G)
+      simp [disjointUnionSelf] at hAdj
+
+/-- If I is maximal independent in G⊔G, then rightPreimage I is maximal independent in G. -/
+lemma rightPreimage_isMaximalIndep (G : SimpleGraph V) (I : Finset (V ⊕ V))
+    (hI : IsMaximalIndep (disjointUnionSelf G) I) : IsMaximalIndep G (rightPreimage I) := by
+  constructor
+  · intro v hv w hw hAdj
+    have hInrv : Sum.inr v ∈ I := (rightPreimage_mem_iff I v).mp hv
+    have hInrw : Sum.inr w ∈ I := (rightPreimage_mem_iff I w).mp hw
+    have hAdjGG : (disjointUnionSelf G).Adj (Sum.inr v) (Sum.inr w) := by
+      simp only [disjointUnionSelf]; exact hAdj
+    exact absurd hAdjGG (hI.1 (Sum.inr v) hInrv (Sum.inr w) hInrw)
+  · intro v hv
+    have hInrv_not : Sum.inr v ∉ I := fun h => hv ((rightPreimage_mem_iff I v).mpr h)
+    obtain ⟨u, huI, hAdj⟩ := hI.2 (Sum.inr v) hInrv_not
+    rcases u with a | a
+    · simp [disjointUnionSelf] at hAdj
+    · exact ⟨a, (rightPreimage_mem_iff I a).mpr huI, by simpa [disjointUnionSelf] using hAdj⟩
+
+/-- leftCopy IL ∪ rightCopy IR is maximal independent in G⊔G when IL, IR are maximal in G. -/
+lemma leftRightCopy_isMaximalIndep (G : SimpleGraph V) (IL IR : Finset V)
+    (hL : IsMaximalIndep G IL) (hR : IsMaximalIndep G IR) :
+    IsMaximalIndep (disjointUnionSelf G) (leftCopy IL ∪ rightCopy IR) := by
+  constructor
+  · -- Independence: any two adjacent elements from the union are contradicted.
+    intro x hx y hy hAdj
+    simp only [Finset.mem_union] at hx hy
+    rcases x with a | a
+    · -- x = inl a: get a ∈ IL from hx (inr a can't be in leftCopy IL)
+      have haIL : a ∈ IL := by
+        rcases hx with hx | hx
+        · simp [leftCopy] at hx; exact hx
+        · simp [rightCopy] at hx
+      rcases y with b | b
+      · -- y = inl b: G.Adj a b from hAdj; get b ∈ IL
+        have hbIL : b ∈ IL := by
+          rcases hy with hy | hy
+          · simp [leftCopy] at hy; exact hy
+          · simp [rightCopy] at hy
+        simp [disjointUnionSelf] at hAdj
+        exact absurd hAdj (hL.1 a haIL b hbIL)
+      · -- y = inr b: no left-right edges in G⊔G
+        simp [disjointUnionSelf] at hAdj
+    · -- x = inr a: get a ∈ IR
+      have haIR : a ∈ IR := by
+        rcases hx with hx | hx
+        · simp [leftCopy] at hx
+        · simp [rightCopy] at hx; exact hx
+      rcases y with b | b
+      · -- y = inl b: no right-left edges
+        simp [disjointUnionSelf] at hAdj
+      · -- y = inr b: G.Adj a b; get b ∈ IR
+        have hbIR : b ∈ IR := by
+          rcases hy with hy | hy
+          · simp [leftCopy] at hy
+          · simp [rightCopy] at hy; exact hy
+        simp [disjointUnionSelf] at hAdj
+        exact absurd hAdj (hR.1 a haIR b hbIR)
+  · -- Maximality: every vertex not in the union is adjacent to some member.
+    intro z hz
+    rcases z with v | v
+    · -- z = inl v: v ∉ IL
+      have hvL : v ∉ IL := by
+        intro h
+        exact hz (Finset.mem_union_left _ (Finset.mem_image_of_mem _ h))
+      obtain ⟨w, hwL, hAdj⟩ := hL.2 v hvL
+      exact ⟨Sum.inl w,
+        Finset.mem_union_left _ (Finset.mem_image_of_mem _ hwL),
+        by simp [disjointUnionSelf, hAdj]⟩
+    · -- z = inr v: v ∉ IR
+      have hvR : v ∉ IR := by
+        intro h
+        exact hz (Finset.mem_union_right _ (Finset.mem_image_of_mem _ h))
+      obtain ⟨w, hwR, hAdj⟩ := hR.2 v hvR
+      exact ⟨Sum.inr w,
+        Finset.mem_union_right _ (Finset.mem_image_of_mem _ hwR),
+        by simp [disjointUnionSelf, hAdj]⟩
+
+/-- The stability number mu G is a lower bound for any maximal independent set's size. -/
+lemma mu_le_card_maximalIndep (G : SimpleGraph V) (I : Finset V)
+    (hI : IsMaximalIndep G I) : mu G ≤ I.card :=
+  csInf_le ⟨0, fun k _ => Nat.zero_le k⟩ ⟨I, hI, rfl⟩
+
+/-- **μ(G ⊔ G) = 2μ(G)**: the stability number of the disjoint union is twice that of G.
+
+    Proof sketch:
+    • (≥) Every maximal independent set I of G⊔G decomposes as a disjoint union of
+      leftPreimage I and rightPreimage I, each of which is maximal independent in G.
+      So |I| ≥ μ(G) + μ(G) = 2μ(G).
+    • (≤) Given a minimum-size maximal independent set I_min of G, the set
+      leftCopy I_min ∪ rightCopy I_min is maximal independent in G⊔G of size 2μ(G). -/
 theorem mu_disjointUnionSelf (G : SimpleGraph V) :
     mu (disjointUnionSelf G) = 2 * mu G := by
-  sorry
+  apply Nat.le_antisymm
+  · -- mu(G⊔G) ≤ 2*mu(G):
+    -- Witness: if I_min achieves mu(G), then leftCopy I_min ∪ rightCopy I_min
+    -- is maximal in G⊔G with card = 2*mu(G).
+    apply csInf_le ⟨0, fun k _ => Nat.zero_le k⟩
+    -- Need: 2*mu(G) ∈ {k | ∃ I : Finset (V⊕V), IsMaximalIndep (G⊔G) I ∧ I.card = k}
+    -- Get the minimum-achieving maximal indep set in G (nonemptiness needed here).
+    sorry
+  · -- 2*mu(G) ≤ mu(G⊔G):
+    -- For each maximal I in G⊔G: |I| ≥ 2*mu(G), established from the decomposition.
+    apply le_csInf
+    · -- G⊔G has at least one maximal independent set (needed for nonemptiness).
+      sorry
+    · -- Each maximal I in G⊔G has card ≥ 2*mu(G).
+      rintro k ⟨I, hI, hcard⟩
+      rw [← hcard]
+      have hL := mu_le_card_maximalIndep G (leftPreimage I) (leftPreimage_isMaximalIndep G I hI)
+      have hR := mu_le_card_maximalIndep G (rightPreimage I) (rightPreimage_isMaximalIndep G I hI)
+      linarith [card_eq_left_plus_right I]
 
 /-! ## Main Results -/
 
@@ -384,7 +546,7 @@ theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
         by_cases hSomeL : ∃ s ∈ F, ∃ t : Finset V, s = leftCopy t
         · sorry  -- Sophie Case 2 (mixed+pure-left): needs common-vertex argument
         · -- Case 3c: F has NO pure sets → all mixed.
-          push_neg at hSomeR hSomeL
+          simp only [not_exists, not_and] at hSomeR hSomeL
           have hMixed : ∀ s ∈ F,
               (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t) :=
             fun s hs => ⟨hSomeL s hs, hSomeR s hs⟩
