@@ -475,6 +475,37 @@ lemma mu_le_card_maximalIndep (G : SimpleGraph V) (I : Finset V)
     (hI : IsMaximalIndep G I) : mu G ≤ I.card :=
   csInf_le ⟨0, fun k _ => Nat.zero_le k⟩ ⟨I, hI, rfl⟩
 
+/-- Every finite simple graph has a maximal independent set.
+    Proof: among all independent sets (finitely many), take one of maximum cardinality.
+    If it could be extended by a vertex v, it would be strictly larger — contradiction. -/
+lemma exists_isMaximalIndep (G : SimpleGraph V) : ∃ I : Finset V, IsMaximalIndep G I := by
+  -- The collection of all independent sets is a nonempty finite set (includes ∅).
+  have hne : ((Finset.univ : Finset (Finset V)).filter (IsIndepSet G ·)).Nonempty :=
+    ⟨∅, Finset.mem_filter.mpr ⟨Finset.mem_univ _, by simp [IsIndepSet]⟩⟩
+  -- Pick a maximum-cardinality independent set.
+  obtain ⟨I, hImem, hImax⟩ :=
+    ((Finset.univ : Finset (Finset V)).filter (IsIndepSet G ·)).exists_max_image (·.card) hne
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hImem
+  have hImax' : ∀ J : Finset V, IsIndepSet G J → J.card ≤ I.card := by
+    intro J hJ
+    exact hImax J (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hJ⟩)
+  -- I is maximal: adding any v ∉ I would violate the maximality of I's cardinality.
+  refine ⟨I, hImem, fun v hv => ?_⟩
+  by_contra h
+  simp only [not_exists, not_and] at h
+  -- h : ∀ w ∈ I, ¬ G.Adj v w; so insert v I is still independent (strictly larger).
+  have hI_insert : IsIndepSet G (insert v I) := by
+    intro a ha b hb hAdj
+    simp only [Finset.mem_insert] at ha hb
+    rcases ha with rfl | ha <;> rcases hb with rfl | hb
+    · exact G.loopless.irrefl _ hAdj
+    · exact absurd hAdj (h b hb)
+    · exact absurd (G.symm hAdj) (h a ha)
+    · exact hImem a ha b hb hAdj
+  have hcard := hImax' (insert v I) hI_insert
+  have hlt := Finset.card_lt_card (Finset.ssubset_insert hv)
+  omega
+
 /-- **μ(G ⊔ G) = 2μ(G)**: the stability number of the disjoint union is twice that of G.
 
     Proof sketch:
@@ -487,17 +518,26 @@ theorem mu_disjointUnionSelf (G : SimpleGraph V) :
     mu (disjointUnionSelf G) = 2 * mu G := by
   apply Nat.le_antisymm
   · -- mu(G⊔G) ≤ 2*mu(G):
-    -- Witness: if I_min achieves mu(G), then leftCopy I_min ∪ rightCopy I_min
-    -- is maximal in G⊔G with card = 2*mu(G).
+    -- Get the minimum-cardinality maximal indep set I_min achieving mu(G).
+    have hGne : {k : ℕ | ∃ I : Finset V, IsMaximalIndep G I ∧ I.card = k}.Nonempty := by
+      obtain ⟨I, hI⟩ := exists_isMaximalIndep G; exact ⟨I.card, I, hI, rfl⟩
+    obtain ⟨I_min, hI_min, hI_min_card⟩ := csInf_mem hGne
+    -- leftCopy I_min ∪ rightCopy I_min is maximal in G⊔G of size 2*mu(G).
     apply csInf_le ⟨0, fun k _ => Nat.zero_le k⟩
-    -- Need: 2*mu(G) ∈ {k | ∃ I : Finset (V⊕V), IsMaximalIndep (G⊔G) I ∧ I.card = k}
-    -- Get the minimum-achieving maximal indep set in G (nonemptiness needed here).
-    sorry
+    have hdisj : Disjoint (leftCopy I_min) (rightCopy I_min) := by
+      apply Finset.disjoint_left.mpr; intro x hxL hxR
+      simp only [leftCopy, rightCopy, Finset.mem_image] at hxL hxR
+      obtain ⟨a, _, rfl⟩ := hxL; obtain ⟨b, _, h⟩ := hxR
+      exact Sum.inl_ne_inr h.symm
+    exact ⟨leftCopy I_min ∪ rightCopy I_min,
+      leftRightCopy_isMaximalIndep G I_min I_min hI_min hI_min,
+      by unfold mu; rw [Finset.card_union_of_disjoint hdisj, leftCopy_card, rightCopy_card];
+         simp only [hI_min_card]; ring⟩
   · -- 2*mu(G) ≤ mu(G⊔G):
-    -- For each maximal I in G⊔G: |I| ≥ 2*mu(G), established from the decomposition.
     apply le_csInf
-    · -- G⊔G has at least one maximal independent set (needed for nonemptiness).
-      sorry
+    · -- G⊔G has a maximal independent set (nonemptiness).
+      obtain ⟨I, hI⟩ := exists_isMaximalIndep G
+      exact ⟨_, leftCopy I ∪ rightCopy I, leftRightCopy_isMaximalIndep G I I hI hI, rfl⟩
     · -- Each maximal I in G⊔G has card ≥ 2*mu(G).
       rintro k ⟨I, hI, hcard⟩
       rw [← hcard]
