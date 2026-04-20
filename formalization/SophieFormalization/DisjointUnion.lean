@@ -15,7 +15,7 @@ import SophieFormalization.Basic
 import SophieFormalization.HolroydTalbot
 
 open Classical
-
+set_option linter.unusedSectionVars false
 variable {V : Type*} [DecidableEq V] [Fintype V]
 
 /-! ## The Disjoint-Union Graph -/
@@ -316,7 +316,138 @@ lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
     (vertexStar G v r).card +
       ∑ k ∈ Finset.Icc 1 (r - 1),
         (indepRSets G k).card * (vertexStar G v (r - k)).card := by
-  sorry
+  -- Slice the star by left-part size.
+  let Sk (k : ℕ) : Finset (Finset (V ⊕ V)) :=
+    (vertexStar (disjointUnionSelf G) (Sum.inr v) r).filter (fun S => (leftPreimage S).card = k)
+  -- The star is (Sk 0) ∪ (⋃_{k=1}^{r-1} Sk k): size-r sets containing inr v have
+  -- left-part size 0 (pure-right) or 1..r-1 (mixed); left-part size r impossible
+  -- since inr v ∈ S means v ∈ rightPreimage S, but pure-left has no right elements.
+  -- Step A: Sk 0 = image rightCopy (vertexStar G v r), so |Sk 0| = |vertexStar G v r|.
+  have hSk0 : (Sk 0).card = (vertexStar G v r).card := by
+    suffices himg : Sk 0 = (vertexStar G v r).image rightCopy by
+      rw [himg]
+      apply Finset.card_image_of_injective
+      intro a b hab
+      simp only [rightCopy, Finset.image_inj Sum.inr_injective] at hab
+      exact hab
+    ext S
+    simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff,
+               rightPreimage_mem_iff, Finset.mem_image]
+    constructor
+    · intro ⟨⟨⟨hcard, hindep⟩, hvS⟩, hk0⟩
+      have hLempty : leftPreimage S = ∅ := Finset.card_eq_zero.mp hk0
+      have hSeqR : S = rightCopy (rightPreimage S) := by
+        have h := leftCopy_leftPreimage_union_rightCopy_rightPreimage S
+        rw [hLempty] at h; simp only [leftCopy, Finset.image_empty, Finset.empty_union] at h
+        exact h
+      refine ⟨rightPreimage S, ⟨⟨?_, ?_⟩, (rightPreimage_mem_iff S v).mpr hvS⟩, hSeqR.symm⟩
+      · -- card
+        rw [← rightCopy_card, ← hSeqR]; exact hcard
+      · -- independence
+        exact isIndepSet_rightCopy.mp (hSeqR ▸ hindep)
+    · rintro ⟨t, ⟨⟨htcard, htindep⟩, hvt⟩, rfl⟩
+      refine ⟨⟨⟨by simp [htcard], isIndepSet_rightCopy.mpr htindep⟩,
+               by simp [mem_rightCopy, hvt]⟩, ?_⟩
+      -- (leftPreimage (rightCopy t)).card = 0
+      have : leftPreimage (rightCopy t) = ∅ := by
+        ext w; simp [leftPreimage_mem_iff]
+      simp [this]
+  -- Step B: For k ∈ 1..r-1, Sk k bijects with indepRSets G k × vertexStar G v (r-k),
+  --         so |Sk k| = |indepRSets G k| × |vertexStar G v (r-k)|.
+  have hSkk : ∀ k ∈ Finset.Icc 1 (r - 1),
+      (Sk k).card = (indepRSets G k).card * (vertexStar G v (r - k)).card := by
+    intro k hk
+    simp only [Finset.mem_Icc] at hk
+    rw [← Finset.card_product]
+    apply Finset.card_bij (fun S _ => (leftPreimage S, rightPreimage S))
+    · -- well-formedness: (leftPreimage S, rightPreimage S) ∈ indepRSets G k ×ˢ vertexStar G v (r-k)
+      intro S hS
+      simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff,
+                 rightPreimage_mem_iff] at hS
+      obtain ⟨⟨⟨hcard, hindep⟩, hvS⟩, hLcard⟩ := hS
+      have hRcard : (rightPreimage S).card = r - k := by
+        have := card_eq_left_plus_right S; rw [hcard, hLcard] at this; omega
+      simp only [Finset.mem_product, mem_indepRSets_iff, mem_vertexStar_iff, mem_indepRSets_iff]
+      refine ⟨⟨hLcard, fun x hx y hy hAdj => ?_⟩,
+             ⟨⟨hRcard, fun x hx y hy hAdj => ?_⟩, (rightPreimage_mem_iff S v).mpr hvS⟩⟩
+      · -- IsIndepSet G (leftPreimage S): lift to G⊔G via leftCopy
+        have h := hindep (Sum.inl x) ((leftPreimage_mem_iff S x).mp hx)
+                         (Sum.inl y) ((leftPreimage_mem_iff S y).mp hy)
+        exact h hAdj
+      · -- IsIndepSet G (rightPreimage S): lift to G⊔G via rightCopy
+        have h := hindep (Sum.inr x) ((rightPreimage_mem_iff S x).mp hx)
+                         (Sum.inr y) ((rightPreimage_mem_iff S y).mp hy)
+        exact h hAdj
+    · -- injectivity: S determined by (leftPreimage S, rightPreimage S)
+      intro S₁ _ S₂ _ heq
+      simp only [Prod.mk.injEq] at heq
+      obtain ⟨hLeq, hReq⟩ := heq
+      have h1 := leftCopy_leftPreimage_union_rightCopy_rightPreimage S₁
+      have h2 := leftCopy_leftPreimage_union_rightCopy_rightPreimage S₂
+      rw [hLeq, hReq] at h1; exact h1.trans h2.symm
+    · -- surjectivity: given (L, R), take leftCopy L ∪ rightCopy R ∈ Sk k
+      intro ⟨L, R⟩ hLR
+      simp only [Finset.mem_product, mem_indepRSets_iff, mem_vertexStar_iff,
+                 mem_indepRSets_iff] at hLR
+      obtain ⟨⟨hLcard, hLindep⟩, ⟨⟨hRcard, hRindep⟩, hvR⟩⟩ := hLR
+      have hdisj : Disjoint (leftCopy L) (rightCopy R) := by
+        apply Finset.disjoint_left.mpr
+        intro x hxL hxR
+        simp only [leftCopy, rightCopy, Finset.mem_image] at hxL hxR
+        obtain ⟨a, _, rfl⟩ := hxL; obtain ⟨b, _, h⟩ := hxR
+        exact Sum.inl_ne_inr h.symm
+      have hLRcard : (leftCopy L ∪ rightCopy R).card = r := by
+        rw [Finset.card_union_of_disjoint hdisj]; simp [hLcard, hRcard]; omega
+      refine ⟨leftCopy L ∪ rightCopy R, ?_, ?_⟩
+      · simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff]
+        refine ⟨⟨⟨hLRcard, ?_⟩, by simp [mem_rightCopy, hvR]⟩, ?_⟩
+        · -- IsIndepSet (disjointUnionSelf G) (leftCopy L ∪ rightCopy R)
+          intro x hxLR y hyLR
+          simp only [Finset.mem_union, leftCopy, rightCopy, Finset.mem_image] at hxLR hyLR
+          rcases hxLR with ⟨a, ha, rfl⟩ | ⟨a, ha, rfl⟩ <;>
+          rcases hyLR with ⟨b, hb, rfl⟩ | ⟨b, hb, rfl⟩
+          · exact hLindep a ha b hb
+          · simp [disjointUnionSelf]
+          · simp [disjointUnionSelf]
+          · exact hRindep a ha b hb
+        · -- (leftPreimage (leftCopy L ∪ rightCopy R)).card = k
+          have : leftPreimage (leftCopy L ∪ rightCopy R) = L := by
+            ext w; simp [leftPreimage_mem_iff]
+          rw [this, hLcard]
+      · simp only [Prod.mk.injEq]
+        exact ⟨by ext w; simp [leftPreimage_mem_iff],
+               by ext w; simp [rightPreimage_mem_iff]⟩
+  -- Step C: The star decomposes as biUnion (Icc 0 (r-1)) Sk;
+  -- separate k=0 from k≥1, apply hSk0 and hSkk.
+  -- Every S in the star has leftPreimage size in Icc 0 (r-1) (since it contains inr v).
+  have hmem_star : ∀ S ∈ vertexStar (disjointUnionSelf G) (Sum.inr v) r,
+      (leftPreimage S).card ∈ Finset.Icc 0 (r - 1) := by
+    intro S hS
+    simp only [mem_vertexStar_iff, mem_indepRSets_iff, Finset.mem_Icc] at hS ⊢
+    obtain ⟨⟨hcard, _⟩, hvS⟩ := hS
+    refine ⟨Nat.zero_le _, ?_⟩
+    have hRne : v ∈ rightPreimage S := (rightPreimage_mem_iff S v).mpr hvS
+    have hRpos : 0 < (rightPreimage S).card := Finset.card_pos.mpr ⟨v, hRne⟩
+    have := card_eq_left_plus_right S; rw [hcard] at this; omega
+  have hstar_eq : vertexStar (disjointUnionSelf G) (Sum.inr v) r =
+      Finset.biUnion (Finset.Icc 0 (r - 1)) Sk := by
+    ext S
+    simp only [Finset.mem_biUnion, Sk, Finset.mem_filter]
+    exact ⟨fun hS => ⟨(leftPreimage S).card, hmem_star S hS, hS, rfl⟩,
+           fun ⟨_, _, hS, rfl⟩ => hS⟩
+  have hdisj_Sk : ∀ i ∈ Finset.Icc 0 (r - 1), ∀ j ∈ Finset.Icc 0 (r - 1),
+      i ≠ j → Disjoint (Sk i) (Sk j) := by
+    intro i _ j _ hij
+    apply Finset.disjoint_filter.mpr
+    intro S _ hi hj; exact hij (hi.symm.trans hj)
+  have hIcc_split : Finset.Icc 0 (r - 1) = {0} ∪ Finset.Icc 1 (r - 1) := by
+    ext k; simp only [Finset.mem_Icc, Finset.mem_union, Finset.mem_singleton]; omega
+  have h01disj : Disjoint ({0} : Finset ℕ) (Finset.Icc 1 (r - 1)) := by
+    simp [Finset.disjoint_left]
+  rw [hstar_eq, Finset.card_biUnion hdisj_Sk, hIcc_split,
+      Finset.sum_union h01disj, Finset.sum_singleton, hSk0]
+  congr 1
+  exact Finset.sum_congr rfl hSkk
 
 /-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
 
