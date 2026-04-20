@@ -119,14 +119,33 @@ class Searcher(BaseAgent):
             for ex in examples[-6:]:
                 ex_section += f"  • {ex['description']}\n"
 
+        # Surface proof/disproof attempts so Searcher can target the same families
+        pa_section = ""
+        pas = [p for p in snapshot.get("proof_attempts", []) if p["status"] != "valid"]
+        if pas:
+            pa_section = "\n\nPROOF ATTEMPTS (flawed/unchecked — search the cases they rely on):\n"
+            for p in pas[-4:]:
+                sketch = p.get("sketch", "")[:300].replace("\n", " ")
+                pa_section += f"  [{p['id']} {p['status']}] {sketch}...\n"
+
+        da_section = ""
+        das = snapshot.get("disproof_attempts", [])
+        if das:
+            da_section = "\n\nDISPROOF ATTEMPTS (all inconclusive so far — can computation do better?):\n"
+            for d in das[-3:]:
+                cand = d.get("candidate_counterexample", "")[:300].replace("\n", " ")
+                da_section += f"  [{d['id']} {d['status']}] {cand}...\n"
+
         return (
             f"ROUND {round_}\n\n"
             f"{ctx}"
             f"{sp_section}"
-            f"{ex_section}\n\n"
+            f"{ex_section}"
+            f"{pa_section}"
+            f"{da_section}\n\n"
             "Write Python code to computationally search for a counterexample. "
             "Run it using `.venv/bin/python` and report results. "
-            "Focus on graph families from the open subproblems above. "
+            "Focus on graph families flagged in the open subproblems and proof attempts above. "
             "Output only the JSON block."
         )
 
@@ -155,7 +174,7 @@ class Searcher(BaseAgent):
                     description=full_desc,
                     supports_conjecture=not found,
                     detail=(
-                        f"Code:\n{response.get('code','')[:1000]}\n\n"
+                        f"Code:\n{response.get('code','')}\n\n"
                         f"Output:\n{response.get('terminal_output','')}"
                     ),
                 )
