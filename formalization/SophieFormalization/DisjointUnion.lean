@@ -20,18 +20,21 @@
       Needs: IsStrictlyREKR G r (common-vertex forcing argument).
       Open subproblem SP-86620A in Sophie knowledge base.
 
-    Case 3c: F is all-mixed (F_0 = F_r = ∅) → proved up to hFk_bound ✓/sorry
-      Structure PROVED: |F| = Σ|F_k| ≤ Σ|I^k(H)|×|star_v₀(H,r-k)| = |star_{inr v₀}(G⊔G)|.
-      REMAINING SORRY: hFk_bound — |F_k| ≤ |I^k(H)|×|star_v₀(H,r-k)| for each k.
-      This needs cross-intersecting EKR (SP-EFF503 in Sophie knowledge base).
-      For vertex-transitive H: proved for r≤1 (no mixed sets exist); r≥2 uses hFk_bound.
+    Case 3c: F is all-mixed (F_0 = F_r = ∅) → PROOF STRATEGY IS FLAWED (Round 15)
+      The termwise bound hFk_bound: |F_k| ≤ |I^k(H)|×|star_v₀(H,r-k)| is FALSE.
+      COUNTEREXAMPLE (DA-TERM07): G=K₄^c, r=3, k=2.
+        Left-star-at-0 family: |F₂| = 12, but bound = |I²|×|star_v(G,1)| = 6×1 = 6.
+      The partition approach cannot bound each slice termwise.
+      CORRECT OBSERVATION: The GLOBAL bound |F| ≤ |star_w(G⊔G,r)| still holds;
+        slices COUPLE (large F_k forces small F_{r-k}). New approach needed.
+      See SP-MX15A1 in Sophie knowledge base.
 
   KEY PROVED LEMMAS:
     • mu_disjointUnionSelf : μ(G⊔G) = 2μ(G)                           ✓
     • star_inr_card_eq : |star_{inr v}(G⊔G)| = Σ decomposition         ✓
     • case1_pureRight / case2_pureLeft                                  ✓
     • not_both_pureCopies_intersecting : no pure-left AND pure-right     ✓
-    • case3_mixed  (up to hFk_bound sorry)                              ✓/sorry
+    • case3_mixed  (proof strategy FLAWED — hFk_bound is FALSE, see R15)   ✗/sorry
 -/
 
 import SophieFormalization.Basic
@@ -354,8 +357,7 @@ lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
       simp only [rightCopy, Finset.image_inj Sum.inr_injective] at hab
       exact hab
     ext S
-    simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff,
-               rightPreimage_mem_iff, Finset.mem_image]
+    simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff, Finset.mem_image]
     constructor
     · intro ⟨⟨⟨hcard, hindep⟩, hvS⟩, hk0⟩
       have hLempty : leftPreimage S = ∅ := Finset.card_eq_zero.mp hk0
@@ -385,8 +387,7 @@ lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
     apply Finset.card_bij (fun S _ => (leftPreimage S, rightPreimage S))
     · -- well-formedness: (leftPreimage S, rightPreimage S) ∈ indepRSets G k ×ˢ vertexStar G v (r-k)
       intro S hS
-      simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff,
-                 rightPreimage_mem_iff] at hS
+      simp only [Sk, Finset.mem_filter, mem_vertexStar_iff, mem_indepRSets_iff] at hS
       obtain ⟨⟨⟨hcard, hindep⟩, hvS⟩, hLcard⟩ := hS
       have hRcard : (rightPreimage S).card = r - k := by
         have := card_eq_left_plus_right S; rw [hcard, hLcard] at this; omega
@@ -466,7 +467,7 @@ lemma star_inr_card_eq (G : SimpleGraph V) (v : V) (r : ℕ) :
   have hIcc_split : Finset.Icc 0 (r - 1) = {0} ∪ Finset.Icc 1 (r - 1) := by
     ext k; simp only [Finset.mem_Icc, Finset.mem_union, Finset.mem_singleton]; omega
   have h01disj : Disjoint ({0} : Finset ℕ) (Finset.Icc 1 (r - 1)) := by
-    simp [Finset.disjoint_left]
+    simp
   rw [hstar_eq, Finset.card_biUnion hdisj_Sk, hIcc_split,
       Finset.sum_union h01disj, Finset.sum_singleton, hSk0]
   congr 1
@@ -570,19 +571,20 @@ theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
     -- For mixed sets, the left-part size k satisfies 1 ≤ k ≤ r - 1.
     -- Define the k-th slice of F.
     let Fk (k : ℕ) : Finset (Finset (V ⊕ V)) := F.filter (fun S => (leftPreimage S).card = k)
-    -- KEY INEQUALITY (sorry): for each k ∈ 1..r-1:
-    --   |F_k| ≤ |indepRSets G k| × |vertexStar G v₀ (r - k)|.
-    -- This follows because:
-    --   (a) S ↦ (leftPreimage S, rightPreimage S) is injective on Fk k.
-    --   (b) The right-projections {rightPreimage S : S ∈ Fk k} form an intersecting
-    --       (r-k)-family in G.  [HARD STEP — needs cross-intersection analysis]
-    --   (c) By hEKRlt (r-k) and hUnifG: |right-projection| ≤ |star_{v₀} G (r-k)|.
-    --   (d) |Fk k| ≤ |indepRSets G k| × |right-projection| ≤ |indepRSets G k| × |star_{v₀} G (r-k)|.
+    -- ⚠ WARNING (Sophie Round 15, DA-TERM07): The termwise bound below is FALSE.
+    -- COUNTEREXAMPLE: G = K₄^c (empty graph on 4 vertices), r = 3, k = 2.
+    --   Left-star-at-0 k=2 family: |F₂| = 12 (intersecting ✓).
+    --   Bound: |I²(K₄^c)| × |star_v(K₄^c, 1)| = 6 × 1 = 6 < 12. VIOLATED.
+    -- The proof strategy via this termwise bound is INCORRECT.
+    -- The GLOBAL bound |F| ≤ |star_w(G⊔G,r)| DOES hold (verified computationally),
+    -- but cannot be proved by summing this false termwise inequality.
+    -- A correct proof requires SP-MX15A1 (All-mixed EKR via global/coupling argument).
+    -- The sorry below is retained to hold the proof structure, but its statement is WRONG.
     have hFk_bound : ∀ k ∈ Finset.Icc 1 (r - 1),
         (Fk k).card ≤ (indepRSets G k).card * (vertexStar G v₀ (r - k)).card := by
       intro k hk
       simp only [Finset.mem_Icc] at hk
-      sorry  -- [KEY STEP] partition bound: needs cross-intersecting right-projection
+      sorry  -- ⚠ STATEMENT IS FALSE — see DA-TERM07 (R15). Needs replacement.
     -- Partition: |F| = Σ_{k=1}^{r-1} |F_k|, since all sets are mixed with left-parts in 1..r-1.
     have hpartition : F.card = ∑ k ∈ Finset.Icc 1 (r - 1), (Fk k).card := by
       -- Step 1: each S ∈ F has (leftPreimage S).card ∈ Icc 1 (r-1).
