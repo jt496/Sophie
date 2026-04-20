@@ -10,27 +10,27 @@ and recording everything in a persistent knowledge base.
 ## Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                          Conductor                               │
-│  (LLM-backed)  decides which agents to run each round            │
-└────────┬──────────────────────────────────────────────────┬──────┘
-         │                                                  │
-         ▼                                                  ▼
-  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────┐
-  │ Experimenter│   │   Prover    │   │  Disprover  │   │ Checker │
-  │             │   │             │   │             │   │         │
-  │ Concrete    │   │ Constructs  │   │ Hunts for   │   │ Verifies│
-  │ examples &  │   │ proofs and  │   │ counterex-  │   │ proofs &│
-  │ special     │   │ partial     │   │ amples and  │   │ counter-│
-  │ cases       │   │ results     │   │ flaws       │   │ examples│
-  └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └────┬────┘
-         │                 │                 │               │
-         └─────────────────┴─────────────────┴───────────────┘
-                                     │
-                             ┌───────▼────────┐
-                             │ Knowledge Base │
-                             │  (JSON on disk)│
-                             └────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│                              Conductor                                   │
+│  (LLM-backed)  decides which agents to run each round                    │
+└──┬──────────────────────────────────────────────────────────────────┬───┘
+   │                                                                  │
+   ▼                                                                  ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────┐ ┌──────────────┐
+│ Experimenter│ │   Prover    │ │  Disprover  │ │ Checker │ │   Searcher   │
+│             │ │             │ │             │ │         │ │              │
+│ Concrete    │ │ Constructs  │ │ Hunts for   │ │Verifies │ │ Writes &     │
+│ examples &  │ │ proofs and  │ │ counterex-  │ │ proofs &│ │ runs Python  │
+│ special     │ │ partial     │ │ amples and  │ │ counter-│ │ code; brute- │
+│ cases       │ │ results     │ │ flaws       │ │ examples│ │ force search │
+└──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └────┬────┘ └──────┬───────┘
+       │               │               │             │             │
+       └───────────────┴───────────────┴─────────────┴─────────────┘
+                                       │
+                               ┌───────▼────────┐
+                               │ Knowledge Base │
+                               │  (JSON on disk)│
+                               └────────────────┘
 ```
 
 ### Agents
@@ -41,6 +41,7 @@ and recording everything in a persistent knowledge base.
 | **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. |
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
 | **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
+| **Searcher** | Writes and executes Python code (networkx, itertools, `lib/graph_utils`) to brute-force search for counterexamples across graph families. |
 | **Conductor** | Orchestrates the loop: decides the agent schedule, detects convergence, presents the final report. |
 
 ### Knowledge Base
@@ -107,7 +108,33 @@ Edit `config.py` to tune:
 | `MAX_ROUNDS` | `20` | Hard cap on Conductor iterations |
 | `CONVERGENCE_PATIENCE` | `3` | Rounds with no new findings before stopping |
 | `MAX_TOKENS_*` | varies | Per-agent token budgets |
+| `MAX_TOKENS_SEARCHER` | `8192` | Token budget for Searcher's code-writing response |
 | `KB_DIR` | `sessions/` | Where JSON session files are written |
+
+---
+
+## Reusable algorithm library (`lib/`)
+
+Algorithms discovered or used by the Searcher are saved in `lib/graph_utils.py`
+so that subsequent rounds can import them directly without re-deriving them.
+
+| Function | Description |
+|---|---|
+| `mu(G)` | Minimum maximal independent set size of a networkx graph (brute force) |
+| `mu_witness(G)` | Same, also returns the witness set |
+| `independent_sets_of_size(G, r)` | All independent r-subsets of G |
+| `star_size(v, indep_sets)` | Number of r-sets containing vertex v |
+| `max_star_size(G, indep_sets)` | Largest star size and its centre |
+| `max_intersecting_family_size(indep_sets)` | Exact maximum intersecting family (Bron–Kerbosch) |
+| `verify_ht(G, r)` | Check HT conjecture for (G, r); returns a result dict |
+| `verify_ht_all_r(G)` | Run `verify_ht` for all valid r ≤ μ(G)//2 |
+
+In Searcher scripts, import with:
+
+```python
+import sys; sys.path.insert(0, '.')
+from lib.graph_utils import mu, independent_sets_of_size, max_intersecting_family_size, verify_ht
+```
 
 ---
 
@@ -194,7 +221,7 @@ automatically; just ensure `ANTHROPIC_API_KEY` is set in your environment.
 > equals n²." Run 3 rounds and show me the full report.
 
 Claude will call `explore_conjecture(conjecture="...", max_rounds=3)` and
-stream back structured findings from all five agents.
+stream back structured findings from all six agents.
 
 ### Debugging the server
 

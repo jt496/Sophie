@@ -715,12 +715,12 @@ function renderExamples(examples) {
     const supMap = {true: ['supports','badge-supports'], false: ['contradicts','badge-contradicts'], null: ['neutral','badge-neutral']};
     const [supLabel, supClass] = supMap[ex.supports_conjecture] ?? ['?','badge-neutral'];
     html += `
-      <div class="card" id="card-${ex.id}">
+      <div class="card expanded" id="card-${ex.id}">
         <div class="card-header" onclick="toggleCard('${ex.id}')">
           <span class="card-id">${esc(ex.id)}</span>
           <span class="card-title">${esc(ex.description)}</span>
           <span class="card-badge ${supClass}">${supLabel}</span>
-          <span class="chevron">▾</span>
+          <span class="chevron">▴</span>
         </div>
         <div class="card-body">${esc(ex.detail)}</div>
       </div>`;
