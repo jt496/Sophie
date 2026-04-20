@@ -1,0 +1,5 @@
+{
+  "lean4.serverEnv": {
+    "ELAN_NO_OVERRIDE_NOTICE": "1"
+  }
+}
