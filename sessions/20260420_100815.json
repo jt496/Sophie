@@ -800,7 +800,8 @@
         "Prover: Case 3 of H+H r-EKR CLOSED \u2014 all-mixed F misses k=r term |I^r_v(H)|>0. With Cases 1&2, H+H r-EKR fully proved modulo Checker acceptance.",
         "Disprover: Corrected Prover Q_v formula (k=0 term spurious). Verified gap=|I^r_v(H)| in 2P4 and 2C9. No counterexample. Size-comparison argument is SOUND.",
         "Searcher: BK confirms Petersen+C9 at r=3: max_fam=100=max_star. r=1,2 also verified. lib.graph_utils on 600 sets completed instantly."
-      ]
+      ],
+      "narrative": "Round 10 marks a major breakthrough: all three cases of the H\u2294H r-EKR theorem are now resolved. The Checker verified Cases 1 and 2 as sound lemmas. The Prover closed Case 3 via a size-comparison argument: any all-mixed intersecting r-family F lies in \u03a3_{k=1}^{r-1} |I^k_v(H)|\u00b7|I^{r-k}(H)|, strictly missing the k=r term |I^r_v(H)|>0 (since \u03bc(H)\u2265r), so F is sub-maximal. This, combined with Cases 1 and 2, proves H\u2294H is r-EKR for 1\u2264r\u2264\u03bc(H\u2294H)/2. The Disprover confirmed the corrected Q_v formula (k starts at 1, not 0) and verified the gap computationally on 2P\u2084 and 2C\u2089. The Searcher ran BK on Petersen\u2294C\u2089 for r=1,2,3, confirming max_fam=max_star=100 at r=3. The Experimenter proved C\u2085\u2294C\u2087 is strictly 2-EKR."
     }
   ]
 }
