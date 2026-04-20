@@ -269,14 +269,39 @@ theorem case2_pureLeft (G : SimpleGraph V) (r : ℕ)
 
 /-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
 
+/-! ## Case 3: All-Mixed Families (Sophie Round 11) -/
+
 /-- Uniform stars: every vertex has the same star size (holds for vertex-transitive G). -/
 def HasUniformStars (G : SimpleGraph V) (r : ℕ) : Prop :=
   ∀ u w : V, (vertexStar G u r).card = (vertexStar G w r).card
 
+/-- For r ≤ 1, every independent r-set in G ⊔ G is either a pure-left or pure-right copy. -/
+lemma no_mixed_of_card_le_one (G : SimpleGraph V) (S : Finset (V ⊕ V)) (r : ℕ)
+    (hr : r ≤ 1)
+    (hS : S ∈ indepRSets (disjointUnionSelf G) r) :
+    (∃ t : Finset V, S = leftCopy t) ∨ (∃ t : Finset V, S = rightCopy t) := by
+  rw [mem_indepRSets_iff] at hS
+  obtain ⟨hcard, _⟩ := hS
+  interval_cases r
+  · -- r = 0: S = ∅ = leftCopy ∅
+    left; exact ⟨∅, by simp [leftCopy, Finset.card_eq_zero.mp hcard]⟩
+  · -- r = 1: S = {x} for some x
+    obtain ⟨x, hx⟩ := Finset.card_eq_one.mp hcard
+    rcases x with v | v
+    · left; exact ⟨{v}, by rw [hx]; simp [leftCopy]⟩
+    · right; exact ⟨{v}, by rw [hx]; simp [rightCopy]⟩
+
 /-- **Case 3** (Sophie Round 11 — proved for vertex-transitive H):
-    If F is an intersecting r-family with no pure sets, and G has uniform stars,
-    then |F| < max star size, so |F| ≤ max star size. -/
-theorem case3_mixed (G : SimpleGraph V) (r : ℕ)
+    If F is an intersecting r-family with no pure sets, and G⊔G has uniform stars,
+    then |F| ≤ |star_w(G⊔G)| for some w.
+
+    Proof structure:
+    • r ≤ 1: no mixed r-sets exist (proved), so F = ∅, and any w works.
+    • r ≥ 2: For vertex-transitive G, use the size-comparison argument (PA-22E953):
+        |F| ≤ Σ_{k=1}^{r-1} a_k × b_{r-k} = |star_v(G⊔G)| - |star_v(G)| < |star_v(G⊔G)|
+      where a_k = |star_v(G) restricted to k-sets| and b_j = |I^j(G)|.
+      This requires: G is k-EKR for all 1 ≤ k < r, and G has uniform k-stars for all k. -/
+theorem case3_mixed [Nonempty V] (G : SimpleGraph V) (r : ℕ)
     (F : Finset (Finset (V ⊕ V)))
     (hF : F ⊆ indepRSets (disjointUnionSelf G) r)
     (hInt : IsIntersecting F)
@@ -284,11 +309,33 @@ theorem case3_mixed (G : SimpleGraph V) (r : ℕ)
       (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t))
     (hUnif : HasUniformStars (disjointUnionSelf G) r) :
     ∃ w : V ⊕ V, F.card ≤ (vertexStar (disjointUnionSelf G) w r).card := by
-  -- Sophie's argument (Round 11):
-  -- Mixed sets split as S = S_L ∪ S_R with 1 ≤ |S_L| ≤ r-1.
-  -- The per-split bound gives |F| ≤ Σ_{k=1}^{r-1} max_v|I^k_v(G)| · |I^{r-k}(G)|.
-  -- For vertex-transitive G, this sum equals |star_v(G⊔G)| - |I^r_v(G)| < |star_v(G⊔G)|.
-  sorry
+  -- Fix a canonical witness vertex.
+  let w₀ : V ⊕ V := Sum.inl (Classical.choice inferInstance)
+  -- Suffices to show F is empty (giving 0 ≤ star) or to bound |F| ≤ |star_w₀|.
+  -- First handle F = ∅.
+  by_cases hFne : F.Nonempty
+  · -- F is non-empty: extract a set and derive constraints on r.
+    obtain ⟨S₀, hS₀F⟩ := hFne
+    have hS₀mem : S₀ ∈ indepRSets (disjointUnionSelf G) r := hF hS₀F
+    have hcard : S₀.card = r := by
+      have h := hS₀mem; rw [mem_indepRSets_iff] at h; exact h.1
+    have hMixed₀ := hMixed S₀ hS₀F
+    -- For r ≤ 1, every independent r-set is pure, contradicting hMixed₀.
+    by_cases hr : r ≤ 1
+    · rcases no_mixed_of_card_le_one G S₀ r hr hS₀mem with ⟨t, ht⟩ | ⟨t, ht⟩
+      · exact absurd ht (hMixed₀.1 t)
+      · exact absurd ht (hMixed₀.2 t)
+    -- For r ≥ 2, use the size-comparison argument (Sophie PA-22E953).
+    -- The key inequality: |F| ≤ Σ_{k=1}^{r-1} a_k × b_{r-k} < |star_w₀(G⊔G)|.
+    -- This requires G to be k-EKR for all k < r with uniform k-stars.
+    -- Full proof pending; the structure is:
+    --   (1) Partition F = ⋃ F_k by left-part size.
+    --   (2) Bound |F_k| ≤ a_k × b_{r-k} using k-EKR on G.
+    --   (3) Sum: Σ a_k × b_{r-k} = |star_w₀| - a_r, and a_r ≥ 1 since r ≤ μ(G)/2.
+    exact ⟨w₀, by sorry⟩
+  · -- F is empty: trivially 0 ≤ any star.
+    simp only [Finset.not_nonempty_iff_eq_empty] at hFne
+    exact ⟨w₀, hFne ▸ Nat.zero_le _⟩
 
 /-! ## μ(G ⊔ G) = 2μ(G) -/
 
@@ -299,16 +346,49 @@ theorem mu_disjointUnionSelf (G : SimpleGraph V) :
 /-! ## Main Results -/
 
 /-- **H ⊔ H is r-EKR for vertex-transitive H** (Sophie Rounds 9–11).
-    Cases 1 and 2 are fully proved above; Case 3 requires vertex-transitivity. -/
+    Cases 1 and 2 (all-pure families) are proved via bijection + uniform stars.
+    Case 3 (all-mixed families) proved for r ≤ 1 and structurally for r ≥ 2.
+    The combination case (F has both pure and mixed sets) uses Sophie's
+    common-vertex argument from PA-1B87CB (requires IsStrictlyREKR G r). -/
 theorem disjointUnion_rEKR_vertexTransitive (G : SimpleGraph V) (r : ℕ)
     (hr1 : 1 ≤ r) (hr2 : 2 * r ≤ mu G)
     (hEKR : IsREKR G r)
     (hUnif : HasUniformStars (disjointUnionSelf G) r) :
     IsREKR (disjointUnionSelf G) r := by
-  -- IsREKR requires finding a FIXED w : V⊕V that works for ALL intersecting families.
-  -- Cases 1 and 2 each give a fixed v₀ from hEKR that works for pure families.
-  -- The full argument (combining cases) is complex; main structure is sorry.
-  sorry
+  -- Derive Nonempty V from hEKR and fix a canonical witness vertex.
+  haveI hV : Nonempty V := ⟨hEKR.choose⟩
+  -- Use inr of hEKR's witness as our fixed vertex. By HasUniformStars, any vertex
+  -- gives the same star size, so it suffices to find ANY w with |F| ≤ |star_w|
+  -- and then transfer to this fixed vertex via hUnif.
+  refine ⟨Sum.inr hEKR.choose, fun F hF hInt => ?_⟩
+  -- Find SOME witness w (may depend on F), then transfer via uniform stars.
+  suffices h : ∃ w : V ⊕ V, F.card ≤ (vertexStar (disjointUnionSelf G) w r).card by
+    obtain ⟨w, hw⟩ := h
+    exact hw.trans_eq (hUnif w (Sum.inr hEKR.choose))
+  -- Now find any good w by case-splitting on the type of F.
+  -- Case 1: F is entirely pure-right → use bijection to H.
+  by_cases hAllR : ∀ s ∈ F, ∃ t : Finset V, s = rightCopy t
+  · obtain ⟨u, hu⟩ := case1_pureRight G r F hF hInt hAllR hEKR
+    exact ⟨Sum.inr u, hu⟩
+  · -- Case 2: F is entirely pure-left → use bijection to H.
+    by_cases hAllL : ∀ s ∈ F, ∃ t : Finset V, s = leftCopy t
+    · obtain ⟨u, hu⟩ := case2_pureLeft G r F hF hInt hAllL hEKR
+      exact ⟨Sum.inl u, hu⟩
+    · -- Case 3a: F has some pure-right sets (and some non-pure-right sets).
+      -- Sophie's argument (PA-1B87CB, R9): the pure-right subfamily is intersecting,
+      -- and forces every set in F to contain a common right-copy vertex u.
+      -- Requires: IsStrictlyREKR G r to guarantee F₀ ⊆ star_u for some u.
+      by_cases hSomeR : ∃ s ∈ F, ∃ t : Finset V, s = rightCopy t
+      · sorry  -- Sophie Case 1 (mixed+pure-right): needs common-vertex argument
+      · -- Case 3b: F has some pure-left sets (and no pure-right sets).
+        by_cases hSomeL : ∃ s ∈ F, ∃ t : Finset V, s = leftCopy t
+        · sorry  -- Sophie Case 2 (mixed+pure-left): needs common-vertex argument
+        · -- Case 3c: F has NO pure sets → all mixed.
+          push_neg at hSomeR hSomeL
+          have hMixed : ∀ s ∈ F,
+              (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t) :=
+            fun s hs => ⟨hSomeL s hs, hSomeR s hs⟩
+          exact case3_mixed G r F hF hInt hMixed hUnif
 
 /-- **H ⊔ H is r-EKR** (full theorem; Case 3 for general H still open). -/
 theorem disjointUnion_rEKR (G : SimpleGraph V) (r : ℕ)
