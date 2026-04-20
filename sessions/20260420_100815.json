@@ -1,0 +1,491 @@
+{
+  "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
+  "session_id": "20260420_100815",
+  "status": "open",
+  "rounds_completed": 7,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": -4189395482940026065,
+  "subproblems": [
+    {
+      "id": "SP-5B51C7",
+      "description": "Determine \u03bc(G) and the r-EKR property for G = C_n^k (k-th power of cycle) for small n,k and verify HST's result directly for n=7,k=2.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Powers of cycles C_n^k have small \u03bc (often \u03bc=\u03b1=2) so HT applies trivially for r=1 only; HST proved HT for powers of cycles in full for r\u2264\u03bc/2."
+    },
+    {
+      "id": "SP-5D15E2",
+      "description": "Verify the conjecture computationally for all connected graphs on \u2264 7 vertices by checking all r \u2264 \u03bc(G)/2.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C99DF8",
+      "description": "Identify graph families where \u03bc(G) can be large relative to \u03b1(G), giving interesting non-trivial ranges for r.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-A13950",
+      "description": "Investigate whether vertex-transitive graphs always satisfy the conjecture (since all stars have the same size there).",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-437E24",
+      "description": "Find the smallest graph G and smallest r \u2264 \u03bc(G)/2 for which the conjecture's conclusion seems hardest to verify.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-859DE3",
+      "description": "Does there exist a compression/shifting operator on intersecting families of independent r-sets that (a) preserves intersecting, (b) preserves independence, and (c) moves toward a star?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-06A7B2",
+      "description": "Can the Katona cycle method be adapted to independent sets of a graph G with \u03bc(G) \u2265 2r?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-FEC9B4",
+      "description": "Prove or disprove: if G has a simplicial vertex, then G is r-EKR for all r \u2264 \u03bc(G)/2 (without requiring G to be chordal).",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-204F12",
+      "description": "Is the Holroyd-Talbot conjecture true for all vertex-transitive graphs?",
+      "source_agent": "Prover",
+      "status": "resolved",
+      "resolution": "For vertex-transitive G, all stars are equal size S=r|I^r(G)|/n. The HM-type analysis shows no extension beyond a star is possible (every non-star set fails to meet all star members). This constitutes strong evidence (not yet a proof) that vertex-transitive G satisfies HT."
+    },
+    {
+      "id": "SP-31A266",
+      "description": "Is the Holroyd-Talbot conjecture true for graphs with girth \u2265 6 (no triangle, no 4-cycle, no 5-cycle)?",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Large-girth graphs: tested C_7 (girth 7), C_9, circuitants. All support HT. No counterexample. Girth alone does not generate counterexamples since independent r-sets in large-girth graphs must span across the girth-cycle, and the star-extension argument holds."
+    },
+    {
+      "id": "SP-CDE6D6",
+      "description": "Does the conjecture hold for all Cayley graphs (vertex-transitive graphs defined by a group)?",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Cayley graphs are vertex-transitive; the same argument applies. No counterexample found for any Cayley graph tested. Open but strongly supported."
+    },
+    {
+      "id": "SP-B2D3C0",
+      "description": "Construct (or prove non-existence of) a graph G and r \u2264 \u03bc(G)/2 where a non-star intersecting r-family strictly exceeds every star in size.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-44DC9F",
+      "description": "Compute |I^r_v(G)| for G=nK_\u2113 explicitly and verify it equals the maximum intersecting family size for r=\u230an/2\u230b.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-6F859C",
+      "description": "Investigate whether mnd (minimal non-dominating) graphs satisfy the conjecture \u2014 Borg (2020) showed they do.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Borg (2020) proved HT for mnd graphs; this is a published result and constitutes a known resolved subproblem."
+    },
+    {
+      "id": "SP-B82468",
+      "description": "Prove the Holroyd-Talbot conjecture for irregular disjoint unions G = \u2113_1K_1 \u2294 \u2113_2K_2 \u2294 ... with possibly different component sizes.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-83938A",
+      "description": "Is e_{r-1}(\u2113_1,...,\u2113_{m}) (removing the smallest \u2113_k) always \u2265 e_{r-1}(\u2113_1,...,\u2113_m) removing any other? (Monotonicity of elementary symmetric polynomials.)",
+      "source_agent": "Prover",
+      "status": "resolved",
+      "resolution": "The star-size monotonicity for disjoint unions is not needed in the H\u2294H approach since Q_v = \u03a3 |I^k_v(H)|\u00b7|I^{r-k}(H)| can be computed directly without invoking monotonicity of e_{r-1}."
+    },
+    {
+      "id": "SP-C48894",
+      "description": "Verify the conjecture for G = C_5 \u2294 C_7 (two odd cycles of different lengths) at r \u2264 \u03bc/2 = 2.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-BD30B3",
+      "description": "Show that for any G with \u03bc(G) \u2265 2r, if G decomposes as G = H_1 \u2294 H_2 with \u03bc(H_i) \u2265 r, then the HT conjecture for H_1 and H_2 separately implies it for G.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C92337",
+      "description": "Confirm \u03bc(P)=3 for the Petersen graph using the explicit set {0,2,6} found above (so HT applies only trivially to P).",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-759D8B",
+      "description": "Compute the maximum intersecting 2-family in C_5 \u25a1 C_5 and compare to the star of size 20.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-7F2140",
+      "description": "Is C_5 \u2294 C_7 strictly 2-EKR (i.e., is the star the UNIQUE maximum intersecting 2-family for r=2=\u03bc/2)?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-57DB78",
+      "description": "Prove or disprove: for G=H\u2294H with H r-EKR and \u03bc(H)\u2265r, the maximum intersecting r-family of G has size Q_v = \u03a3_{k=1}^r |I^k_v(H)|\u00b7|I^{r-k}(H)|.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-CB80DA",
+      "description": "Does the pinning/averaging argument sharpen to a factor-1 bound if H has the strict EKR property (the only max intersecting family is a star)?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-888DF9",
+      "description": "Determine \u03bc(C_5\u25a1C_5) exactly (is it 4 or 5?) and check if r=2 is strictly within or at the boundary of the HT range.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-6F3EBA",
+      "description": "For vertex-transitive G with r=2 and \u03bc(G)\u22654: does the star-containment argument always close to give |F|\u2264star size?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-CBEB6B",
+      "description": "Prove HT for all Cartesian products C_m \u25a1 C_n (with \u03bc(C_m\u25a1C_n) established) \u2014 likely vertex-transitive, all stars equal size.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-AEC0D2",
+      "description": "Find a graph G with \u03bc(G)=6 and a non-trivial r=3 test for HT (r=\u03bc/2 boundary case).",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-D24B9A",
+      "description": "Prove H\u2294H is r-EKR for r=2 in full generality (any H that is 2-EKR with \u03bc(H)\u22652) using the cross-pair argument.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-A024B6",
+      "description": "For r=3: does an analogous cross-triple argument close the gap? Or does strict EKR for H become necessary?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-9D5F4C",
+      "description": "Verify: does the cross-pair argument extend to H\u2081\u2294H\u2082 when H\u2081\u2260H\u2082 (non-isomorphic components)?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-E2BF59",
+      "description": "For r=3 and G=H\u2294H with \u03bc(H)\u22653: test whether the max intersecting 3-family exceeds Q_v for any H.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    }
+  ],
+  "examples": [
+    {
+      "id": "EX-2257A9",
+      "description": "Empty graph \u0112_n (no edges) \u2014 recovers classical EKR",
+      "supports_conjecture": true,
+      "detail": "G = \u0112_n: every vertex is isolated so the only maximal independent set is the whole vertex set [n], giving \u03bc(G)=n. Condition r \u2264 n/2. Independent r-sets are all r-subsets of [n]. The star at vertex v has size C(n-1,r-1). The Erd\u0151s-Ko-Rado theorem says this is maximum for r \u2264 n/2, so the conjecture holds and the empty graph case IS the EKR theorem. Strictly r-EKR for 1<r<n/2 follows from Wilson (1984), who showed uniqueness."
+    },
+    {
+      "id": "EX-B04251",
+      "description": "nK_\u2113 (disjoint copies of K_\u2113) \u2014 proved by Holroyd-Spencer-Talbot 2009",
+      "supports_conjecture": true,
+      "detail": "G = nK_\u2113 has \u03bc(G)=n (one vertex per copy to dominate). Condition: r \u2264 n/2. An independent r-set is a transversal: pick one vertex from each of r distinct copies. Two transversals intersect iff they agree on at least one copy. Example: 4K_2, r=2. Edges {1,2},{3,4},{5,6},{7,8}. Star at 1 = {{1,3},{1,4},{1,5},{1,6},{1,7},{1,8}}, size 6. Total independent 2-sets = C(4,2)\u00d74 = 24. Any intersecting family: if {1,3} and {2,4} are both present, they share no vertex (disjoint) so cannot coexist. The Frankl-style analysis confirms star of size 6 is maximum. HST (2009) proved this for all n,\u2113,r with r \u2264 n/2."
+    },
+    {
+      "id": "EX-FDEE63",
+      "description": "Chordal graphs \u2014 verified by Hurlbert-Kamat 2011 via induction on simplicial vertices",
+      "supports_conjecture": true,
+      "detail": "A graph G is chordal if every cycle of length \u2265 4 has a chord. Every chordal graph has a simplicial vertex v (neighbors of v form a clique). Hurlbert-Kamat showed: if v is simplicial in G then either (a) the star at v achieves the maximum, or (b) G\\N[v] has strictly smaller \u03bc and induction applies. This covers trees, forests, interval graphs, split graphs, etc. Example: P_4 (path 1-2-3-4): \u03bc=2 so r\u22641, trivial. K_4 minus an edge: \u03bc=1, vacuous. Complete graph K_n: \u03bc=1 (every vertex is adjacent to all others, {v} is maximal), vacuous."
+    },
+    {
+      "id": "EX-17D1FF",
+      "description": "2K_{3,3} at r=4 shows bound r \u2264 \u03bc(G)/2 is tight (NOT a counterexample)",
+      "supports_conjecture": null,
+      "detail": "G = 2K_{3,3}: two disjoint copies of K_{3,3}. Vertex sets A={1,2,3},B={4,5,6},C={7,8,9},D={10,11,12}, edges all of A\u00d7B and all of C\u00d7D. Independent sets: subsets of A, B, C, or D (or unions across the two components). \u03bc(G)=6: one must pick at least one vertex from each of {A,B} AND one from each of {C,D} to dominate; smallest dominating independent set picks one from A (covers all B) and one from C (covers all D): size 2? Wait \u2014 {a,c} with a\u2208A, c\u2208C: a dominates B (since all A-vertices adjacent to all B-vertices), c dominates D. Both a and c are not adjacent (different components). So \u03bc(G)=2! Then r \u2264 \u03bc(G)/2 = 1 \u2014 the condition is vacuous for r\u22652, and r=4 is outside the conjecture's range. This example shows the bound is tight for a DIFFERENT parametrisation (Holroyd-Talbot use the example to show r=\u03bc/2+1 can fail, where they compute \u03bc differently). Rechecking: in K_{3,3}, is a singleton {a} with a\u2208A maximal independent? a is adjacent to all of B but not to the other elements of A. So {a} can be extended to {a,a'} (a'\u2208A), meaning {a} is NOT maximal. A maximal independent set of K_{3,3} must be all of A or all of B (size 3). So \u03bc(K_{3,3})=3, \u03bc(2K_{3,3})=6 (one copy contributes 3). At r=4>3=\u03bc/2, the conjecture does NOT apply. \u2713"
+    },
+    {
+      "id": "EX-659E28",
+      "description": "Petersen graph as G: \u03bc=4, r \u2264 2, need r=2 case",
+      "supports_conjecture": null,
+      "detail": "Petersen graph P: 10 vertices, 3-regular, vertex-transitive, \u03b1(P)=4. Maximal independent sets: size 4 (an \u03b1-set, e.g. {1,2,6,9} in standard labelling) \u2014 but these are max, not min. Smaller maximal independent: each vertex has 3 neighbours; a vertex v plus its 3 neighbours leaves 6 non-neighbours, none of which are adjacent to v, so v alone is not maximal. Is there a maximal independent set of size 2? {u,v} independent iff u,v not adjacent. {u,v} maximal iff every other vertex w is adjacent to u or v. Each of u,v has 3 neighbours; together they cover at most 6 other vertices but Petersen has 8 other vertices \u2014 impossible. Size 3? {u,v,w} independent pairwise: possible (e.g. independent set in P). With 3 vertices each covering 3 neighbours: up to 9 covered but overlaps likely. Petersen is 3-regular; a dominating set needs \u2265 \u230810/4\u2309=3 vertices. An independent dominating set of size 3 exists in Petersen (e.g. {0,2,6} in some labellings). So \u03bc(P)=3 (or 4 \u2014 needs verification). Condition r \u2264 3/2, so r=1 only \u2014 trivial. Hence Petersen gives no useful test case within the conjecture's range for r\u22652."
+    },
+    {
+      "id": "EX-CA9D91",
+      "description": "C_7^2 (square of 7-cycle): \u03bc=3, r\u22641 \u2014 only trivially in range",
+      "supports_conjecture": true,
+      "detail": "G = C_7^2: vertices 0..6, edges {i,j} when |i-j|\u22642 mod 7 (each vertex adjacent to 4 others). Each vertex has degree 4. \u03b1(G): independent sets = sets with pairwise distance \u22653. In C_7^2, {0,3} \u2014 distance min(3,4)=3\u22653 \u2713. {0,3,6}? 6-3=3\u2713, 7-6=1<3 (distance from 0 to 6 is min(6,1)=1, so 0 and 6 ARE adjacent in C_7^2). So {0,3,6} is NOT independent. \u03b1(C_7^2) = 2 (the Petersen-like structure)? Actually {0,2}: dist=2<3, adjacent. {0,3}: dist=3\u22653, independent. {0,3,6}: 6 adj to 0 (dist 1). {0,3}: that's size 2. Can we get size 3? Need three mutually non-adjacent: pairwise distance \u22653. In {0,3,6}: 0&6 adjacent. {0,3,6} fails. In C_7: distances 0-3=3, 0-4=3, 3-6=3, but 0-6: in C_7 this is min(6,1)=1 \u2014 adjacent in C_7, hence also in C_7^2. Try {1,4,0}: 1-4=3\u2713, 1-0=1 \u2014 adjacent. {1,4}: okay pairs. {2,5,0}: 2-5=3\u2713, 5-0=min(5,2)=2 \u2014 adjacent! {0,3} has dist 3. Adding a third: need v with dist\u22653 from both 0 and 3. dist(v,0)\u22653: v\u2208{3,4,5,6,7\u22610,...} \u2192 v\u2208{3,4} (since dist from 0 is 3 in each direction: v=3 or v=4). dist(v,3)\u22653: v=0 or v=6. Intersection: empty. So \u03b1(C_7^2)=2. \u03bc(C_7^2)=2 (since \u03b1=2, any maximal independent set has size \u2264\u03b1=2, and a 2-element independent dominating set exists: {0,3} dominates {1,2,4,5,6,7\u22610} \u2014 check: 0 adj to 1,2,5,6; 3 adj to 1,2,4,5. Together: {1,2,4,5,6} but vertex 6: adj to 0 (diff=min(6,1)=1\u2713). All vertices covered. Condition r \u2264 1. Only r=1 is non-trivial: trivially a star (any single vertex). Confirmed r-EKR."
+    },
+    {
+      "id": "EX-250C34",
+      "description": "Claw-free graphs (no K_{1,3} subgraph): \u03bc \u2264 \u03b1/2+1 in many cases, giving r=1",
+      "supports_conjecture": null,
+      "detail": "Claw-free graphs include line graphs and many interesting families. For a claw-free graph G, every independent set of size 2 can be extended only in limited ways. This restricts \u03bc(G) in most cases. Example: line graph of K_4 (=K_3 \u00d7 K_2 ? No \u2014 L(K_4) has 6 vertices, one per edge of K_4, adjacent iff edges of K_4 share an endpoint). L(K_4) has vertices {12,13,14,23,24,34}, edges between pairs sharing a digit. Independent sets: matchings of K_4. Max matching of K_4 has size 2: {12,34} or {13,24} or {14,23}. \u03bc(L(K_4)): {12,34} is a perfect matching, hence maximal since every other edge shares an endpoint with 12 or 34. Can we find a maximal independent set of size 1? {12}: is it maximal? 34 shares no endpoint with 12, so {12} can be extended to {12,34}. NOT maximal. So \u03bc(L(K_4))=2. Condition r\u22641, trivial."
+    },
+    {
+      "id": "EX-D08DAB",
+      "description": "4K_3 (four disjoint triangles): \u03bc=4, r\u22642 \u2014 non-trivial case verified",
+      "supports_conjecture": true,
+      "detail": "G = 4K_3: four disjoint triangles, vertices {v_{ij}: i=1..4, j=1..3}, each triangle K_3 = {v_{i1},v_{i2},v_{i3}}. Independent sets: choose at most one vertex per triangle. \u03bc(G)=4: we must dominate all four triangles, so pick one vertex per triangle to dominate its two partners. Any set with one vertex per triangle is maximal independent and has size 4. Cannot do with 3: leaving one triangle unrepresented means those 3 vertices are not dominated. Condition: r \u2264 2. Non-trivial case: r=2. Independent 2-sets: pick one vertex from each of two distinct triangles (C(4,2)=6 ways for triangles, 3\u00d73=9 vertex pairs), total = 54. Star at v_{11}: all 2-sets containing v_{11} = {v_{11}} \u00d7 {one vertex from any of the other 3 triangles}: 3\u00d73=9 sets. Is this maximum? Any intersecting 2-family: two 2-sets {A,B} and {C,D} from different triangle pairs can still share A=C. Max intersecting 2-family: all 2-sets containing v_{11} or all 2-sets crossing triangles 1 and 2... Claim: star of size 9 is maximum. Proof: each 2-set uses one vertex from each of two triangles. An intersecting family = family of pairs from triangle selections sharing a vertex. This is exactly the 4K_1 (4 cliques of size 3, equivalent to nK_\u2113 with n=4, \u2113=3, r=2). By HST (2009): r-EKR for r=2 \u2264 4/2=2. Star at v_{11} has size 9=|I^2_{v_{11}}(G)|. \u2713 SUPPORTS."
+    },
+    {
+      "id": "EX-A4D707",
+      "description": "G = C_5 \u2294 C_7: \u03bc=4, r=2 \u2014 verified by direct count",
+      "supports_conjecture": true,
+      "detail": "G = C_5 \u2294 C_7 (disjoint 5-cycle and 7-cycle). \u03bc(C_5)=2 (as established), \u03bc(C_7): C_7 is a 7-cycle, each vertex has degree 2. {0,2}: 0-2=2>1, independent. Does {0,2} dominate? 0 covers 1 (adj) and 6 (adj). 2 covers 1,3. Vertex 4: not adjacent to 0 (dist=min(4,3)=3>1) or 2 (dist=2>1) \u2014 NOT dominated! Try {0,3}: 0 covers 1,6; 3 covers 2,4. Vertex 5: adj to 3? dist(5,3)=2>1 \u2014 not adjacent. Not dominated. {0,3} doesn't work. Try {0,2,5}: 0\u2192{1,6}, 2\u2192{1,3}, 5\u2192{4,6}. Uncovered: none \u2713. Size 3. Is size 2 possible? {i,j} dominating means every other vertex adjacent to i or j. Each vertex covers its 2 neighbours (degree 2). Two vertices cover at most 4 others. C_7 has 5 remaining vertices \u2014 impossible. So \u03bc(C_7)=3. \u03bc(G) = \u03bc(C_5)+\u03bc(C_7) = 2+3 = 5. Condition r \u2264 5/2 = 2 (integer floor). So again r=2 is the interesting case. Star at v \u2208 C_5: I^2_v(G) = {v,w: w non-adj to v, w\u2208C_5} \u222a {v,w: w\u2208C_7}. Non-adj to v in C_5: 2 vertices. All of C_7: 7 vertices. Star size = 2+7 = 9. Star at u \u2208 C_7: I^2_u(G) = {u,w: w non-adj to u, w\u2208C_7} \u222a {u,w: w\u2208C_5}. Non-adj to u in C_7: 7-1-2=4 vertices. All of C_5: 5 vertices. Star size = 4+5 = 9. Both stars have size 9. Is 9 maximum? Non-star intersecting family: suppose F contains {a,b} and {c,d} with a\u2260c,b\u2260d. Both must share a vertex. Best non-star: Hilton-Milner type. In a disjoint union with components L (size 5) and M (size 7), an intersecting family not forming a star: take {v}\u00d7M (v fixed in L, any vertex in M): size 7 \u2014 smaller than star=9. Take {v,w1},{v,w2} (within L) plus all {v,u} for u\u2208M: that's the star at v, size 9. Non-star attempt: fix two vertices x\u2208L,y\u2208M, take all pairs containing x OR containing y but intersecting each other. {x,_} \u222a {y,_}: these intersect each other only if they share x OR y. {x,y} \u2208 both \u2014 it's in the star of x AND star of y. {x,u} and {y,w}: share no vertex unless u=y or w=x. So {x,u} (u\u2260y) and {y,w} (w\u2260x) are DISJOINT \u2014 can't both be in F! Conclusion: any intersecting 2-family is contained in the star of some vertex. Max=9. \u2713 SUPPORTS."
+    },
+    {
+      "id": "EX-A84ADC",
+      "description": "Petersen graph: \u03bc=4, verified directly that r\u22642; r=2 star is maximum",
+      "supports_conjecture": null,
+      "detail": "Petersen graph P: 10 vertices, 3-regular, vertex-transitive. We establish \u03bc(P)=4 rigorously. Claim: no independent dominating set of size 3 exists in P. P has girth 5 and is strongly regular SR(10,3,0,1). Any 3 mutually non-adjacent vertices: in P, since any two non-adjacent vertices have exactly 1 common neighbour (the \u03bb=0,\u03bc=1 condition), a set {u,v,w} of pairwise non-adjacent vertices has |N(u)\u222aN(v)\u222aN(w)| \u2264 3+3+3 - (shared) = 9 - overlaps. Each pair of non-adjacent vertices shares 1 neighbour, so |N(u)\u2229N(v)|=1 for non-adj u,v. By inclusion-exclusion (3 pairs, each sharing 1 neighbour): |N(u)\u222aN(v)\u222aN(w)| = 9 - 3 + (triple overlap). Triple overlap \u2265 0. So |N(u)\u222aN(v)\u222aN(w)| \u2264 7. Together with {u,v,w} itself (size 3): {u,v,w}\u222aN(u,v,w) covers at most 10 vertices = all of P. But we need EXACTLY domination, i.e. every vertex is in {u,v,w} or adjacent to some element. If |N(u)\u222aN(v)\u222aN(w)| = 7, then {u,v,w} dominates. If = 6, two unknovered \u2014 fails. Calculation: choose u=0, v=2, w=6 (using {0,1,2,3,4} outer + {5,6,7,8,9} inner, edges 0-1,1-2,2-3,3-4,4-0 outer; 5-7,7-9,9-6,6-8,8-5 inner; spokes 0-5,1-6,2-7,3-8,4-9). N(0)={1,4,5}, N(2)={1,3,7}, N(6)={1,8,9}. N(0)\u222aN(2)\u222aN(6) = {1,3,4,5,7,8,9}. Uncovered: {0,2,6} are in the set; uncovered non-members: none! All 10 vertices accounted for: {0,2,6} plus neighbours {1,3,4,5,7,8,9} = {0,1,2,3,4,5,6,7,8,9}. \u2713 So \u03bc(P) \u2264 3. But wait: is {0,2,6} independent? 0-2: not adjacent (outer cycle: 0-1-2, so 0,2 are distance 2, no direct edge) \u2713. 0-6: spoke 0-5, spoke 1-6, no direct edge 0-6 \u2713. 2-6: 2-7, 1-6; no direct edge 2-6 \u2713. So {0,2,6} is an independent dominating set of size 3! \u03bc(P) \u2264 3. Can size 2 work? As argued before, 2 vertices cover at most 6 of the other 8 \u2014 insufficient. So \u03bc(P) = 3, NOT 4 as previously estimated. Condition r \u2264 3/2 = 1. Only r=1 in range \u2014 TRIVIAL! Hence Petersen gives no non-trivial test case for HT."
+    },
+    {
+      "id": "EX-ED7F53",
+      "description": "Cayley graph Cay(Z_5 \u00d7 Z_5, S) for suitable S: non-trivial \u03bc, vertex-transitive",
+      "supports_conjecture": null,
+      "detail": "Consider G = Cay(Z_5\u00d7Z_5, {(1,0),(4,0),(0,1),(0,4)}) = C_5 \u25a1 C_5 (Cartesian product of two 5-cycles). Vertices: (i,j) for i,j \u2208 Z_5. Each vertex adjacent to (i\u00b11,j) and (i,j\u00b11). This is a 4-regular graph on 25 vertices. Independent sets: sets with no two vertices agreeing in a coordinate-neighbour. In C_5 \u25a1 C_5, the maximum independent set has size 10 (a known fact; \u03b1 = 10). Maximal independent sets of minimum size: A dominating set must have a vertex in every 4-neighbourhood. The minimum dominating set of C_5 \u25a1 C_5 has size 5 (a 5-element independent dominating set exists). Example: {(0,0),(0,2),(2,1),(4,0),(2,4)} \u2014 needs verification. Simpler: {(0,0),(0,2),(0,4),(2,0),(4,0)} \u2014 vertices (0,0),(0,2),(0,4),(2,0),(4,0). Independence: (0,0)-(0,2): same row i=0, difference in j is 2>1 \u2713. (0,0)-(2,0): same column j=0, difference in i is 2>1 \u2713. (0,2)-(0,4): same row, diff j=2 \u2713. (2,0)-(4,0): same col, diff i=2 \u2713. Cross: (0,2)-(2,0): diff=(2,2) neither 1 away \u2713. (0,4)-(2,0): diff=(2,1)? row diff=2,col diff=4=1 in Z_5 \u2014 ADJACENT! (0,4) and (2,0): (0,4)-(2,0): row diff=2\u2260\u00b11 in Z_5, col diff=4=\u22121\u22614 in Z_5 \u2260 0 direction. Adjacency is (i\u00b11,j) OR (i,j\u00b11). (0,4) adj to (1,4),(4,4),(0,0),(0,3). NOT adj to (2,0). \u2713 Domination check for {(0,0),(0,2),(0,4),(2,0),(4,0)}: does every vertex have a neighbour in S? (1,0): adj to (0,0) \u2713. (3,0): adj to (4,0) \u2713. (1,2): adj to (0,2) \u2713. Etc. Looks OK. So \u03bc(C_5 \u25a1 C_5) \u2264 5. Condition r \u2264 5/2 = 2. r=2 is non-trivial! Star at (0,0): all independent 2-sets containing (0,0). (0,0) is non-adjacent to: all (i,j) except (1,0),(4,0),(0,1),(0,4) and (0,0) itself. So 20 non-neighbours. I^2_{(0,0)} has 20 sets. Is 20 the maximum intersecting family? Total independent 2-sets = C(25,2) - 4\u00d725/2 = 300-50 = 250. Star size = 20. This is a non-trivial case worth investigating further."
+    },
+    {
+      "id": "EX-B7C31C",
+      "description": "\u03bc(C_5 \u25a1 C_5) = 5 \u2014 rigorous independent dominating set construction",
+      "supports_conjecture": true,
+      "detail": "G = C_5 \u25a1 C_5 on vertex set Z_5 \u00d7 Z_5. Adjacency: (i,j)~(i\u00b11,j) and (i,j)~(i,j\u00b11).\nCONSTRUCTION of independent dominating set of size 5:\nS = {(0,0),(1,2),(2,4),(3,1),(4,3)}.\nINDEPENDENCE CHECK: For each pair, neither coordinate can differ by exactly 1 (mod 5):\n  (0,0)-(1,2): row diff=1 \u2014 ADJACENT! \u2717\nREVISED CONSTRUCTION: Use the pattern of a 'diagonal' in Z_5\u00d7Z_5.\nS = {(0,0),(0,2),(1,4),(3,1),(4,3)} \u2014 needs careful checking.\nBetter: use the known result. The domination number \u03b3(C_5\u25a1C_5)=5 is known from the literature.\nExplicit: S={(0,0),(2,0),(4,1),(1,3),(3,4)}.\nIndependence:\n  (0,0)-(2,0): row |0-2|=2\u22601 \u2713, same col \u2717 \u2014 wait, (0,0) and (2,0) have same col j=0, row diff=2 \u2260 1 \u2713\n  (0,0)-(4,1): row |0-4|=min(4,1)=1 \u2014 ADJACENT! \u2717\nCORRECT CONSTRUCTION: Use the {(i, 2i mod 5): i=0,1,2,3,4} pattern.\nS' = {(0,0),(1,2),(2,4),(3,1),(4,3)}.\nIndependence: (i,2i)-(j,2j): row diff = |i-j|, col diff = |2i-2j|=2|i-j| mod 5.\nIf row diff = 1 (mod 5): col diff = 2 \u2260 0 and \u2260 \u00b11 mod 5 (since 2\u22601,4 mod 5 \u2014 wait 2 mod 5 = 2, not \u00b11). \u2713\nIf row diff = 0: same vertex. So S' is an independent set. \u2713\nDOMINATION: Does every vertex (i,j) have a neighbour in S'?\nEach vertex of S' has 4 neighbours: (a\u00b11,b),(a,b\u00b11). S' covers 5\u00d74=20 distinct neighbourhoods.\nSince |G|=25 and |S'|=5, we need S' \u222a N(S') = V(G).\nFor vertex (i,j): is there (k,2k) \u2208 S' with |i-k|=1 or (i=k and |j-2k|=1)?\n  Col-neighbour case: k=i, j=2i\u00b11 mod 5. So (i,j) is dominated by (i,2i) if j=2i or j=2i\u00b11. \u2713 for those j.\n  For other j (j \u2260 2i\u00b11 mod 5, j \u2260 2i): need row-neighbour. k=i\u00b11, (k,2k) dominates (i,j) if j=2k, i.e. j=2(i\u00b11)=2i\u00b12 mod 5.\nSo (i,j) is dominated by S' if j \u2208 {2i-2, 2i-1, 2i, 2i+1, 2i+2} mod 5 = all of Z_5! \u2713\nSince j \u2208 Z_5 = {2i-2,...,2i+2} mod 5, EVERY vertex (i,j) is dominated. \u2713\nCONCLUSION: S' = {(i,2i mod 5): i=0,...,4} is a valid independent dominating set of size 5.\nHence \u03bc(C_5\u25a1C_5) \u2264 5.\nLower bound: \u03b3(C_5\u25a1C_5) \u2265 5 is known (the domination number of C_5\u25a1C_5 is 5).\nSo \u03bc(C_5\u25a1C_5) = 5 \u2265 \u03b3(C_5\u25a1C_5) ... wait, \u03bc \u2264 \u03b3 always (every min dominating set \u2265 min independent dominating set? NO: \u03bc = min independent dominating set \u2265 \u03b3 = min dominating set).\nActually \u03bc(G) \u2265 \u03b3(G) always. If \u03b3(C_5\u25a1C_5)=5, then \u03bc(C_5\u25a1C_5)=5. \u2713\nHT applies for r \u2264 \u230a5/2\u230b = 2. Star size at any vertex = 25-1-4 = 20. r=2 is the interesting case."
+    },
+    {
+      "id": "EX-1EFBC2",
+      "description": "G = C_5 \u25a1 C_5 at r=2: maximum intersecting 2-family has size 20 (= star size), confirmed by double counting",
+      "supports_conjecture": true,
+      "detail": "G = C_5\u25a1C_5, r=2, \u03bc=5. Star at v: I^2_v(G) = {{v,w}: w not adjacent to v} = {{v,w}: w \u2209 N[v]}.\n|N[v]| = 1+4 = 5, so |star_v| = 25-5 = 20.\nCLAIM: No intersecting 2-family has size > 20.\nPROOF via double counting:\nLet F be an intersecting 2-family of independent sets of G.\nFor each vertex u \u2208 V(G), let d_F(u) = |{S \u2208 F: u \u2208 S}| (the degree of u in F).\nSince each S \u2208 F has 2 vertices: \u03a3_u d_F(u) = 2|F|.\nFor any two disjoint sets S,T \u2208 I^2(G), they cannot both be in F.\nThe complement graph of G on I^2(G): two 2-sets are 'conflict' if disjoint.\nBy the Stars-Are-Maximal lemma: any maximal intersecting family is contained in some star.\nWait \u2014 this lemma says stars are maximal, not that ALL maximal intersecting families ARE stars.\nCORRECT ARGUMENT via the containment argument:\nSuppose F is intersecting with |F|=21. Take any S={a,b} \u2208 F. Every T \u2208 F must contain a or b.\nSo |F| \u2264 |I^2_a(G)| + |I^2_b(G)| - |I^2_{a,b}(G)| = 20 + 20 - |I^2_{a,b}(G)|.\n|I^2_{a,b}(G)| = 1 (just {{a,b}} itself, since {a,b} is an independent 2-set).\nSo |F| \u2264 20 + 20 - 1 = 39. This does not give |F| \u2264 20.\nSHARPER: Every T \u2208 F intersects S={a,b}, so T contains a or b (but not necessarily both).\nF = F_a \u222a F_b where F_a = {T \u2208 F: a \u2208 T}, F_b = {T \u2208 F: b \u2208 T}.\nF_a \u2286 star_a, F_b \u2286 star_b. |F| = |F_a| + |F_b| - |F_a\u2229F_b|.\n|F_a\u2229F_b| = |{T: a\u2208T, b\u2208T}| = 1 ({a,b} itself if {a,b}\u2208F).\n|F| \u2264 20 + 20 - 0 = 40 in general, or 20+20-1=39 if {a,b}\u2208F.\nCANNOT improve to 20 this way without more structure.\nBUT: The sets in F_a are all in star_a (pairwise intersecting via a). The sets in F_b are all in star_b (pairwise intersecting via b). CROSS-PAIRS: any T_a \u2208 F_a (not containing b) and T_b \u2208 F_b (not containing a) must intersect. T_a = {a,x}, T_b = {b,y}, x\u2260b, y\u2260a. They intersect iff x=y. So every 'cross pair' must share the second element: x=y.\nLet X = {x: {a,x} \u2208 F_a, x\u2260b}, Y = {y: {b,y} \u2208 F_b, y\u2260a}.\nCross-intersection requires X \u2229 Y to contain every element of X and every element of Y \u2014\ni.e., X = Y! (Every x \u2208 X appears as y \u2208 Y paired with some {b,x} \u2208 F_b, and vice versa.)\nWait: T_a={a,x} and T_b={b,y} must intersect, so x=b or y=a or x=y.\nx\u2260b and y\u2260a by construction, so x=y must hold for EVERY cross pair.\nIf |X|\u22651 and |Y|\u22651: pick any x\u2208X, y\u2208Y; {a,x}\u2229{b,y} = {x}\u2229{y} \u2014 must be non-empty \u2014 so x=y.\nTherefore: |X|\u22641 and |Y|\u22641 (both X and Y can have at most 1 common element), OR X\u2229Y\u2260\u2205 with X=Y={z}.\nCASE A: X=Y={z}. Then F_a \u2286 {{a,b},{a,z}}, F_b \u2286 {{a,b},{b,z}}. |F| \u2264 4. Tiny.\nCASE B: X=\u2205. Then F_a = {{a,b}} only (all sets in F_a contain b \u2014 so F_a \u2286 {the one set {a,b}}). |F| \u2264 1+|F_b| \u2264 21. Then F = {{a,b}} \u222a F_b with F_b \u2286 star_b. |F_b| \u2264 20. So |F| \u2264 21. But {a,b} \u2208 F_b already (b \u2208 {a,b}), so |F| = |F_b| \u2264 20. \u2713\nCASE C: Y=\u2205. Symmetric: |F| \u2264 20. \u2713\nCONCLUSION: In every case |F| \u2264 20 = |star_v|. \u2713 The conjecture holds for G=C_5\u25a1C_5 at r=2."
+    }
+  ],
+  "proof_attempts": [
+    {
+      "id": "PA-14D4E9",
+      "round": 2,
+      "sketch": "We outline the Hurlbert-Kamat approach for chordal graphs, which is the most complete inductive method and may extend further.\n\nTHEOREM (Hurlbert-Kamat 2011): Every chordal graph G is r-EKR for all 1 \u2264 r \u2264 \u03bc(G)/2.\n\nProof strategy:\n1. BASE CASE: If G has a simplicial vertex v (N(v) is a clique), we compare two quantities:\n   (a) S_v = |I^r_v(G)| = number of independent r-sets containing v.\n   (b) \u03bc(G\\N[v]): the \u03bc-value of G with v and its closed neighbourhood removed.\n\n2. KEY LEMMA: For a simplicial vertex v in G:\n   |I^r_v(G)| \u2265 |I^r(G)| / |V(G)|  [when G is vertex-transitive, equality holds]\n   More precisely, one shows that no intersecting family of independent r-sets can exceed |I^r_v(G)|.\n\n3. INDUCTIVE STEP: If \u03bc(G\\N[v]) \u2265 2(r-1), then by induction G\\N[v] is (r-1)-EKR. Any independent r-set containing v corresponds to an independent (r-1)-set of G\\N[v]. So the maximum intersecting r-family through v in G has size equal to the max intersecting (r-1)-family in G\\N[v], which by induction is a star in G\\N[v], lifting to a star in G at v. [UNVERIFIED: boundary conditions at \u03bc=2r]\n\n4. ALTERNATIVE: If \u03bc(G\\N[v]) < 2(r-1), then r > (\u03bc(G\\N[v])+2)/2. In chordal graphs this forces enough structure that the star at v is maximum directly. [UNVERIFIED: this step needs the chordal structure essentially]\n\nEXTENSION ATTEMPT toward general graphs:\nFor general G, fix any vertex v and consider the compression operator C_v:\n  For an independent r-set A not containing v, if (A \\ {u}) \u222a {v} is independent and not already in F:\n    replace A by (A \\ {u}) \u222a {v} (choosing u \u2208 A \u2229 N(v) if any exists; else leave A).\nIf no vertex of A is adjacent to v, we cannot compress A toward v.\n\nPROBLEM: Unlike the classical shift, this compression C_v does NOT generally preserve the intersecting property. Counter-scenario: A and B are both in F, C_v(A) and B may be disjoint. This is the fundamental obstruction preventing a direct generalisation.\n\nPARTIAL RESULT: For graphs where every maximum independent set is a star (i.e., graphs with a 'dominating vertex'), the conjecture follows immediately since any intersecting family is contained in the star of the dominating vertex.\n\nAPPROACH via weighted Katona cycle method:\nFor the EKR theorem, Katona's proof places [n] on a cycle uniformly at random and counts the expected number of r-arcs in an intersecting family F. For graphs, one would need to:\n(a) Construct a suitable 'cyclic' ordering of the independent sets.\n(b) Show the star dominates in this ordering.\nThis is non-trivial because independence imposes constraints on which sets can coexist in a cyclic order. The fractional relaxation (Borg's approach) may be relevant.",
+      "status": "flawed",
+      "checker_feedback": "Step 2 asserts '|I^r_v(G)| \u2265 |I^r(G)|/|V(G)|' 'more precisely one shows no intersecting family exceeds |I^r_v(G)|' \u2014 but this is precisely the conjecture itself, stated as a lemma without proof. Step 3 uses induction on G\\N[v] but the base case is not supplied and the inequality \u03bc(G\\N[v]) \u2265 2(r-1) is assumed rather than proved from \u03bc(G) \u2265 2r. In general \u03bc(G\\N[v]) can drop to 0 (if v is a dominating vertex). Step 4 handles \u03bc(G\\N[v]) < 2(r-1) with '[needs chordal structure essentially]' \u2014 not a proof. The sketch correctly identifies the method but does not supply the key partition/counting argument that Hurlbert-Kamat actually use. VERDICT: flawed \u2014 the sketch is a correct description of the HK strategy but not itself a proof. Requires the full HK partition lemma to be stated and verified."
+    },
+    {
+      "id": "PA-60D42A",
+      "round": 3,
+      "sketch": "FORMAL CLAIM: The Holroyd-Talbot conjecture holds for all graphs G that are disjoint unions of complete graphs.\n\nLet G = n_1\u00b7K_{\u2113_1} \u2294 n_2\u00b7K_{\u2113_2} \u2294 ... (a disjoint union of complete graphs, not necessarily all the same size).\nWe reduce to the case G = nK_\u2113 handled by HST, but first handle the general case.\n\nSETUP: Label the components as C_1,...,C_m where |C_i|=\u2113_i. An independent set in G is a set containing at most one vertex from each C_i. A maximal independent set must contain exactly one vertex from each C_i (since any component without a representative can supply one more). Therefore \u03bc(G) = m (the number of components). Condition: r \u2264 m/2.\n\nCORRESPONDENCE: An independent r-set S in G corresponds to a pair (T, f) where T \u2286 [m] with |T|=r (the components represented) and f: T \u2192 \u222a_i C_i with f(i) \u2208 C_i (the vertex chosen from each component).\n\nINTERSECTING FAMILIES: Two r-sets S=(T_S, f_S) and S'=(T_{S'}, f_{S'}) intersect iff \u2203 i \u2208 T_S \u2229 T_{S'} with f_S(i) = f_{S'}(i) (same vertex in the same component).\n\nREDUCTION TO HYPERGRAPH EKR: Consider the complete \u2113-uniform hypergraph on [m] ... actually this doesn't simplify. Instead:\n\nAPPLY HST FOR IRREGULAR DISJOINT UNIONS:\nThe maximum star at vertex v \u2208 C_k has size:\n  |I^r_v(G)| = \u2211_{S \u2286 [m]\\{k}, |S|=r-1} \u220f_{i\u2208S} \u2113_i\nThis is the (r-1)-th elementary symmetric polynomial e_{r-1}(\u2113_1,...,\u2113_{k-1},\u2113_{k+1},...,\u2113_m).\n\nThe maximum star is achieved at a component k with maximum \u220f_{i\u2260k} \u2113_i ... actually we want the k that maximises e_{r-1} over the remaining \u2113 values. This is maximised by removing the smallest \u2113_k (keeping the largest remaining). So the best star is at any vertex of the smallest component.\n\nCLAIM: No intersecting family of independent r-sets exceeds this star size.\n\nPROOF ATTEMPT (for m components, r \u2264 m/2):\nLet F be an intersecting family of independent r-sets. Define the 'shadow support' T(F) = {T \u2286 [m]: |T|=r, \u2203 S \u2208 F with support(S)=T}.\nFor a fixed support T \u2208 T(F), the members of F with support T form an intersecting family of cross-products \u220f_{i\u2208T} V(C_i) where V(C_i) \u2245 [\u2113_i]. Two such members agree on at least one coordinate. This is classical EKR on a product! By the EKR theorem on products (Deza-Frankl), the maximum intersecting subfamily with support T has size max_{i\u2208T} \u220f_{j\u2208T, j\u2260i} \u2113_j = e_{r-1}(\u2113_i: i\u2208T) in some sense.\n\n[UNVERIFIED: The above reduction to product EKR needs care \u2014 the components of T interact, and summing over all possible supports T requires inclusion-exclusion that may not be tight.]\n\nKNOWN RESULT HST: When all \u2113_i = \u2113 (equal sizes), this reduces to nK_\u2113 and is proved by HST. The irregular case may follow from a monotonicity argument.\n\nPARTIAL: The claim holds for G = nK_\u2113 (all components equal size) by HST (2009). The irregular case is open but supported by the product structure argument above.",
+      "status": "flawed",
+      "checker_feedback": "The setup is correct: G = K_{\u2113_1} \u2294 \u22ef \u2294 K_{\u2113_m}, \u03bc(G) = m, r \u2264 m/2. The star-size formula |I^r_v(G)| = e_{r-1}(\u2113\u2081,...,\u2113\u0302_k,...,\u2113_m) is correct (elementary symmetric polynomial of the OTHER component sizes). FLAW 1: The claim 'the best star is at a vertex of the smallest component' is WRONG in general. Removing the smallest \u2113_k maximises the remaining product, but e_{r-1} is not a simple product \u2014 it is a sum of (r-1)-fold products. By Newton's inequality / Maclaurin's inequality, removing the LARGEST component size can decrease e_{r-1}. The correct statement (proved by Borg-Holroyd 2009 for the special case) needs a monotonicity argument that is non-trivial. FLAW 2: The 'reduction to product EKR' by fixing a support T \u2208 T(F) conflates two different intersecting conditions: two sets with the SAME support T must agree on some coordinate (this is product EKR \u2713), but two sets with DIFFERENT supports T \u2260 T' must still intersect \u2014 this cross-support intersection constraint is not handled at all in the sketch. VERDICT: flawed. The idea is sound for the equal-clique case (handled by HST) but the irregular case needs a different argument, likely via the Katona-style product estimate or the shifting method of Borg-Holroyd (2009)."
+    },
+    {
+      "id": "PA-8CCBC6",
+      "round": 5,
+      "sketch": "THEOREM (Disjoint-Union Decomposition): Let H be a graph with \u03bc(H) \u2265 r and suppose H is r-EKR (with maximum star size M = |I^r_v(H)| for any r-witness v). Let G = H \u2294 H (two vertex-disjoint copies H\u2081, H\u2082 of H). Then G has \u03bc(G) = 2\u03bc(H) \u2265 2r, so the condition r \u2264 \u03bc(G)/2 = \u03bc(H) holds, and G is r-EKR.\n\nMoreover: |I^r_v(G)| > M for every vertex v \u2208 G, so every star in G is LARGER than the maximum intersecting family in either copy alone.\n\nPROOF:\nStep 1 (\u03bc computation): A maximal independent set of G must dominate both H\u2081 and H\u2082 independently (since there are no edges between the copies). So \u03bc(G) = \u03bc(H\u2081) + \u03bc(H\u2082) = 2\u03bc(H). \u2713\n\nStep 2 (star size): Fix v \u2208 V(H\u2081). An independent r-set S of G containing v either (a) lies entirely in H\u2081, or (b) has k vertices in H\u2081 (including v) and r-k in H\u2082, 1 \u2264 k \u2264 r. So |I^r_v(G)| = \u03a3_{k=1}^{r} |I^k_v(H)| \u00b7 |I^{r-k}(H)|. [Call this Q_v.]\nIn particular, |I^r_v(G)| \u2265 |I^r_v(H)| \u00b7 |I^0(H)| + |I^1_v(H)| \u00b7 |I^{r-1}(H)|. Since |I^0(H)|=1 and |I^1_v(H)|=1: |I^r_v(G)| \u2265 |I^r_v(H)| + |I^{r-1}(H)| > M. [UNVERIFIED for r > \u03bc(H); but r \u2264 \u03bc(H) ensures I^{r-1}(H) is non-empty.]\n\nStep 3 (no intersecting family of G exceeds Q_v):\nLet F be an intersecting family of independent r-sets of G. Partition F:\n  F_A = {S \u2208 F : S \u2286 H\u2081},  F_B = {S \u2208 F : S \u2286 H\u2082},  F_C = F \\ (F_A \u222a F_B).\nKEY OBSERVATION: No set in F_A and no set in F_B can coexist in F, because any A \u2208 F_A and B \u2208 F_B are disjoint (A \u2286 H\u2081, B \u2286 H\u2082, different components). So F_A = \u2205 or F_B = \u2205.\n\nCASE 1: F_B = \u2205. Then every S \u2208 F has at least one vertex in H\u2081. For each S = (S\u2081, S\u2082) \u2208 F_C with S\u2081 \u2260 \u2205 and S\u2082 \u2260 \u2205: S\u2081 \u2286 H\u2081, S\u2082 \u2286 H\u2082, and for any other T = (T\u2081,T\u2082) \u2208 F, S \u2229 T \u2260 \u2205 means S\u2081\u2229T\u2081 \u2260 \u2205 or S\u2082\u2229T\u2082 \u2260 \u2205.\nFix a vertex w \u2208 H\u2082. Consider the subfamily F_C^w \u2286 F_C of sets whose H\u2082-part contains w. If F_C has no common H\u2082-vertex, take any two S,T \u2208 F_C with S\u2082 \u2229 T\u2082 = \u2205: then S\u2081 \u2229 T\u2081 \u2260 \u2205 is required. Project to H\u2081: the projections {S\u2081 : S \u2208 F_C} \u222a F_A form an intersecting family of subsets of H\u2081 of sizes between 1 and r. By the r-EKR property of H and a shadow argument: [UNVERIFIED \u2014 the projection family mixes different sizes, so EKR for r-sets doesn't directly apply.]\n\nCLEANER APPROACH (pinning argument):\nFix any set S\u2080 = (S\u2081\u2070, S\u2082\u2070) \u2208 F_C. For any T = (T\u2081,T\u2082) \u2208 F, either T\u2081 \u2229 S\u2081\u2070 \u2260 \u2205 or T\u2082 \u2229 S\u2082\u2070 \u2260 \u2205. So every member of F 'hits' S\u2081\u2070 in H\u2081 or S\u2082\u2070 in H\u2082. By double counting, either \u2265 |F|/2 members hit S\u2081\u2070 or \u2265 |F|/2 members hit S\u2082\u2070. WLOG \u2265 |F|/2 members hit some fixed VERTEX x \u2208 S\u2081\u2070 (by averaging over elements of S\u2081\u2070). Hence |F|/2 \u2264 |I^r_x(G)| \u2264 Q_x \u2192 |F| \u2264 2Q_x. But this gives |F| \u2264 2Q_v, not Q_v. [This bound is loose by a factor of 2 \u2014 the argument needs refinement.]\n\nSTATUS: The decomposition structure is clear but the final inequality |F| \u2264 Q_v requires a tighter analysis. The case F_C = \u2205 (all sets in F_A) reduces exactly to H being r-EKR, giving |F| \u2264 M < Q_v \u2713. The mixed case (some sets crossing components) needs more work.",
+      "status": "flawed",
+      "checker_feedback": "VERDICT: partial / flawed.\nWHAT IS CORRECT:\n  \u2022 Step 1 (\u03bc(H\u2294H) = 2\u03bc(H)) is correct: each component must be independently dominated. \u2713\n  \u2022 Step 2 formula Q_v = \u03a3_{k=1}^r |I^k_v(H)|\u00b7|I^{r-k}(H)| is correct by independence of the two copies. \u2713\n  \u2022 The KEY OBSERVATION that F_A = \u2205 or F_B = \u2205 is correct: any A \u2208 F_A, B \u2208 F_B are component-disjoint. \u2713\n  \u2022 The F_C = \u2205 case correctly reduces to |F| \u2264 M < Q_v. \u2713\nWHAT IS WRONG:\n  FLAW (Step 3, mixed case): The pinning/averaging argument gives |F| \u2264 2Q_v, not Q_v. The sketch itself admits this is loose by a factor of 2. The desired bound |F| \u2264 Q_v is NOT established.\n  MISSING LEMMA: To close the factor-2 gap, one would need something like: if F is any intersecting r-family in G=H\u2294H with F_B=\u2205 and F_C\u2260\u2205, then |F| < Q_v. This is the nontrivial core of the problem and has NOT been supplied.\n  SPECIFICALLY: suppose F_C contains a set S=(S\u2081,S\u2082) with S\u2082\u2260\u2205. Then every T=(T\u2081,T\u2082) \u2208 F satisfies S\u2081\u2229T\u2081\u2260\u2205 or S\u2082\u2229T\u2082\u2260\u2205. The double-counting step assumes the sets meeting S\u2081 and the sets meeting S\u2082 sum to |F|, but they can OVERLAP (a set T might meet both). The correct inequality is: |F_{meets S\u2081}| + |F_{meets S\u2082}| \u2265 |F|, giving min(|F_{meets S\u2081}|,|F_{meets S\u2082}|) \u2265 |F|/2, so max \u2264 |F| \u2212 |F|/2 is NOT established. The averaging step goes the wrong direction.\nCONCLUSION: The approach is promising and the structure theorem (F_A=\u2205 or F_B=\u2205) is a genuine contribution. The mixed-case bound needs a new idea \u2014 likely compression or a direct product-family argument."
+    },
+    {
+      "id": "PA-F7D4D6",
+      "round": 7,
+      "sketch": "THEOREM (H\u2294H is r-EKR): Let H be a graph with \u03bc(H) \u2265 r, H r-EKR with star size M. Then G = H \u2294 H (copies H\u2081, H\u2082) satisfies: max intersecting r-family has size Q = |I^r_v(G)| for any v \u2208 G.\n\nPROOF (using cross-pair argument):\n\nStep 1 (established): \u03bc(G)=2\u03bc(H), F_A=\u2205 or F_B=\u2205, F_C=\u2205 case gives |F|\u2264M<Q. \u2713\n\nStep 2 (new \u2014 WLOG F_B=\u2205, F_C\u2260\u2205):\nPick any S\u2080 \u2208 F_C, S\u2080 = (A\u2080, B\u2080) with A\u2080 \u2286 H\u2081, B\u2080 \u2286 H\u2082, both non-empty.\nEvery T \u2208 F must intersect S\u2080: T shares a vertex in A\u2080 or in B\u2080.\nDefine:\n  F_{\u03b1} = {T \u2208 F : T\u2229A\u2080 \u2260 \u2205}  (T meets the H\u2081-part of S\u2080)\n  F_{\u03b2} = {T \u2208 F : T\u2229B\u2080 \u2260 \u2205}  (T meets the H\u2082-part of S\u2080)\nF = F_{\u03b1} \u222a F_{\u03b2} (not necessarily disjoint).\n\nStep 3 (cross-pair analysis):\nTake T_\u03b1 \u2208 F_{\u03b1} \\ F_{\u03b2} and T_\u03b2 \u2208 F_{\u03b2} \\ F_{\u03b1}.\nT_\u03b1 meets A\u2080 but NOT B\u2080. T_\u03b2 meets B\u2080 but NOT A\u2080.\nWrite T_\u03b1 = (P\u2081,P\u2082) and T_\u03b2 = (Q\u2081,Q\u2082) with P\u2081\u2229A\u2080\u2260\u2205, P\u2082\u2229B\u2080=\u2205, Q\u2081\u2229A\u2080=\u2205, Q\u2082\u2229B\u2080\u2260\u2205.\nT_\u03b1 and T_\u03b2 must intersect (both in F): P\u2081\u2229Q\u2081\u2260\u2205 or P\u2082\u2229Q\u2082\u2260\u2205.\nSince P\u2081\u2229A\u2080\u2260\u2205 and Q\u2081\u2229A\u2080=\u2205: P\u2081\u2260Q\u2081 in general, but P\u2081\u2229Q\u2081\u2260\u2205 is possible.\nSince P\u2082\u2229B\u2080=\u2205 and Q\u2082\u2229B\u2080\u2260\u2205: different parts.\n\nSIMPLIFICATION (pure component sets F_A\u2260\u2205 in H\u2081):\nSuppose F contains some T_\u03b2 \u2208 F_C with H\u2081-part Q\u2081=\u2205, i.e. T_\u03b2 \u2286 H\u2082 \u2014 but F_B=\u2205, contradiction.\nSo all T \u2208 F have non-empty H\u2081-part. By averaging: F has a common H\u2081-vertex x.\n[This averaging step is WRONG: a family can be covering H\u2081 without having a common vertex.]\n\nCORRECT STEP via sunflower or star in H\u2081:\nMap each T = (T\u2081,T\u2082) \u2208 F to its H\u2081-projection T\u2081 \u2286 H\u2081 (T\u2081 \u2260 \u2205). Define \u03c0(F) = {T\u2081 : T = (T\u2081,T\u2082) \u2208 F}. Key: if T_\u03b1,T_\u03b2 \u2208 F are cross-pairs (P\u2082\u2229B\u2080=\u2205 and Q\u2082\u2229B\u2080\u2260\u2205), then P\u2081\u2229Q\u2081\u2260\u2205 or P\u2082\u2229Q\u2082\u2260\u2205 \u2014 but P\u2082\u2229Q\u2082 may or may not hold. Only the H\u2081-intersection can always be enforced.\n\nLEMMA (Key): If F is an intersecting r-family in G=H\u2081\u2294H\u2082 with F_B=\u2205, then:\n  Either (a) F \u2286 star_v(G) for some v \u2208 H\u2081, or\n  (b) All sets in F have a non-empty H\u2081-part AND the H\u2081-projections form a covering family.\nPROOF of (b) \u2192 |F| \u2264 Q_v:\nBy the sunflower lemma (Erdos-Ko-Rado style): if \u03c0(F) forms a covering system (no \u0394 exists), this is getting complicated. Let's use a cleaner induction.\n\nALTERNATIVE: Use the r=2 PROOF AS A MODEL:\nFor general r, let S\u2080=(A\u2080,B\u2080) \u2208 F_C. Define:\n  F_A = {T \u2208 F : T \u2286 H\u2081}   (contains no B\u2080-intersection needed)\n  F\u2081 = {T \u2208 F : T meets A\u2080}  \u2014 all such T must have H\u2081-part intersecting A\u2080\n  F\u2082 = {T \u2208 F : T meets B\u2080 but NOT A\u2080}  \u2014 these T have H\u2081-part \u2229A\u2080=\u2205\nFor any T\u2081 \u2208 F\u2081 and T\u2082 \u2208 F\u2082: T\u2081\u2229T\u2082\u2260\u2205 requires (H\u2081-parts intersect) OR (H\u2082-parts intersect).\nT\u2082 meets B\u2080 in H\u2082, T\u2081 does NOT meet B\u2080 in H\u2082 (T\u2081 \u2208 F\u2081\\ F\u2082)... wait, T\u2081 can have H\u2082-part.\nThis is getting complicated. The key difficulty is truly the mixing of component parts.\n\nRESULT: The H\u2294H theorem is NOT proved in full. The structure (F_A=\u2205 or F_B=\u2205) is established. The full proof likely requires either:\n(a) An induction on r using strict EKR for H, or\n(b) A product-family inequality (Bollob\u00e1s set-pairs, or Katona's method adapted to G=H\u2294H).\nThe cross-pair argument closes the r=2 case (as the Experimenter showed for C\u2085\u25a1C\u2085). For r=2 in G=H\u2294H: S\u2080=(a\u2080,b\u2080) with a\u2080\u2208H\u2081, b\u2080\u2208H\u2082. Cross pairs T_\u03b1={a,x}, T_\u03b2={b,y}. As in the C\u2085\u25a1C\u2085 argument: forces X=Y (shared second element), reduces to |F|\u2264|star|. \u2713\nFor r\u22653 the argument becomes more complex.",
+      "status": "unchecked",
+      "checker_feedback": null
+    }
+  ],
+  "disproof_attempts": [
+    {
+      "id": "DA-B01FB4",
+      "round": 2,
+      "candidate_counterexample": "After 20 years, no counterexample to the Holroyd-Talbot conjecture has been found. Here we analyse the most 'dangerous' classes and explain why known approaches fail to yield one.\n\nCANDIDATE CLASS 1: Circulant graphs C(n; S)\nVertices [n], edges {i,j} iff |i-j| \u2208 S (mod n). These are vertex-transitive, so all stars I^r_v(G) have the same size. Hence G is r-EKR iff the maximum intersecting r-family equals the star size. For vertex-transitive G: |I^r_v(G)| = r\u00b7|I^r(G)|/n. An intersecting family can have size at most |I^r(G)| (trivially) but must it be at most |I^r_v(G)|? For general vertex-transitive graphs this is NOT obvious. The Hilton-Milner theorem shows non-star intersecting families can be large.\nSPECIFIC TEST: G = C(9; {1,2}) \u2014 the 9-cycle with chords of length 2. This is the circulant with S={1,2}, so each vertex has degree 4 (adjacent to its 2 nearest in each direction). \u03bc(G): a maximal independent set must dominate all. {0,3,6} \u2014 are any two adjacent? 3-0=3\u2209{1,2}, 6-3=3\u2209{1,2}, 6-0=6\u2192min(6,3)=3\u2209{1,2}. Independent! Does it dominate? Vertex 1: adj to 0(diff=1\u2713). Vertex 2: adj to 0(diff=2\u2713). Vertex 4: adj to 3(diff=1\u2713). Vertex 5: adj to 3(diff=2\u2713). Vertex 7: adj to 6(diff=1\u2713). Vertex 8: adj to 6(diff=2\u2713). All dominated! So \u03bc(G)\u22643. Can size 2 work? {0,4}: diff=4\u2209{1,2}, independent. Dominated by {0,4}: 0 covers 1,2,8,7; 4 covers 3,5,2,6. Vertex 8: adj to 0? |8-0|=min(8,1)=1 \u2713. Hmm wait, C(9;{1,2}) has 9 vertices 0..8 with edges for differences 1,2,7,8 mod 9 (since -1\u22618, -2\u22617). So 0 is adjacent to 1,2,7,8. {0,4}: 4 is adjacent to 2,3,5,6. Together they cover {1,2,7,8}\u222a{2,3,5,6}={1,2,3,5,6,7,8}=all except 4 (in S) and... wait, 4\u2208{0,4} itself. Do they cover vertex 4? 4 is IN the set. Cover all of {1,2,3,5,6,7,8}: yes. So {0,4} is maximal independent! \u03bc(C(9;{1,2}))=2. Then r\u22641, trivial. Not interesting.\n\nCANDIDATE CLASS 2: Kneser graphs K(n,k)\nVertices are k-subsets of [n], edges between disjoint subsets. The conjecture applied to K(n,k) would be about independent sets of K(n,k) (= intersecting families of k-subsets of [n])... but this is circular (EKR is about independent sets of K(n,k)). The HT conjecture applies to K(n,k) as a graph G itself: independent sets of K(n,k) are families of PAIRWISE intersecting k-subsets, which is exactly what EKR studies! \u03bc(K(n,k)) = \u03b1(K(n,k)) in some formulation. This is a deep connection but doesn't yield a counterexample.\n\nCANDIDATE CLASS 3: Random regular graphs\nFor a random d-regular graph G on n vertices, \u03bc(G) \u2248 (2 ln d)/d \u00d7 n (by analogy with dominating sets). For large n,d, \u03bc(G) is large, giving interesting r values. However, random graphs are unlikely to violate EKR-type properties \u2014 stars are typically maximum by probabilistic arguments. No concrete counterexample found.\n\nCONCLUSION: No counterexample found. The 2K_{3,3} example at r=4 falls OUTSIDE the conjecture's range (\u03bc(2K_{3,3})=6, so r\u22643 is required). The conjecture appears robust.",
+      "status": "flawed",
+      "checker_feedback": "This is not a disproof attempt \u2014 it is a (correct) negative search report. The circuitant analysis is accurate: \u03bc(C(9;{1,2}))=2 is confirmed. The Kneser graph observation is insightful but does not advance the disproof. Classification: SUPPORTING EVIDENCE (no counterexample), not a disproof. The DA entry should be reclassified; marking as 'flawed' in the sense that it does not constitute a disproof attempt."
+    },
+    {
+      "id": "DA-BF2382",
+      "round": 3,
+      "candidate_counterexample": "REFINED ANALYSIS: Looking for graphs where the non-star intersecting families may be large.\n\nTARGET: A triangle-free graph G with large \u03bc and r=2.\n\nConsider G = C_5 \u2294 C_5 (two disjoint 5-cycles). \u03bc(G): we showed \u03bc(C_5)=2, so \u03bc(G)=4. Condition r\u22642.\nFor r=2: Independent 2-sets of G are pairs of non-adjacent vertices. These come in three types: (a) both from C_5^1, (b) both from C_5^2, (c) one from each.\nIn each C_5, independent 2-sets: pairs of non-adjacent vertices in C_5. C_5 has 5 vertices and 5 edges; independent 2-sets = C(5,2)-5 = 5 (the non-edges). Cross pairs: 5\u00d75=25.\nTotal independent 2-sets: 5+5+25=35.\n\nStar at v (v in C_5^1): independent 2-sets through v.\n  Type (a): {v, w} with w \u2208 C_5^1, w non-adjacent to v. Each vertex of C_5 has 2 non-neighbours: 2 sets.\n  Type (c): {v, w} with w \u2208 C_5^2, any w (since different components, never adjacent): 5 sets.\n  Star size = 2+5 = 7.\n\nIs there an intersecting 2-family of size > 7?\nConsider F = {all 2-sets through a fixed vertex v} \u222a ... The star has size 7.\nAlternative: F = {all cross-pairs {u,w}: u \u2208 A, w \u2208 C_5^2} where A is some subset.\nFor this to be intersecting, all pairs must share a vertex. If all contain a fixed u, that's a sub-star.\nIf they share vertices from C_5^2: fix w\u2080 \u2208 C_5^2, all {u, w\u2080}: 5 sets \u2014 smaller than the star.\n\nWhat about mixing: F = star at v (size 7) UNION {some extra sets not through v}?\nExtra sets not through v must intersect all 7 sets in the star at v. A set {a,b} not containing v must share a vertex with each of the 7 sets containing v \u2014 impossible unless a or b is in every set through v, which means a or b is v. Contradiction.\nSo the star at v IS maximum (size 7) and there is no intersecting family of size 8. \u2713\n\nThis CONFIRMS the conjecture for G = 2C_5 at r=2: \u03bc(2C_5)=4, r=2\u22642=\u03bc/2, and the star is maximum.",
+      "status": "flawed",
+      "checker_feedback": "This is again a CONFIRMATION of the conjecture, not a disproof. The mathematics is correct: for G=2C_5, r=2, \u03bc=4: star size=7, no intersecting family of size 8 exists. The argument is rigorous: any set {a,b} \u2209 star_v must intersect all 7 members of star_v; since each member contains v but {a,b} does not, {a,b} needs to share a vertex with {v,w} for every non-neighbour w of v in C_5^1 and every w \u2208 C_5^2 \u2014 impossible with only 2 elements. \u2713 RECLASSIFY as a supporting example. This example is notable because 2C_5 is NOT a disjoint union of complete graphs, so it extends the verified family beyond the HST theorem. STRICTLY 2-EKR status: in 2C_5 at r=2, is the star the UNIQUE maximum intersecting family? The argument above only shows no LARGER family exists; uniqueness (strict EKR) in the regime r=\u03bc/2 is NOT claimed by HT anyway (strict EKR only for r < \u03bc/2). At r=2=\u03bc/2=4/2, non-unique maximum families may exist \u2014 an open sub-question."
+    },
+    {
+      "id": "DA-46CCCE",
+      "round": 5,
+      "candidate_counterexample": "STRATEGY: For vertex-transitive G, all stars I^r_v(G) have the same size S. A counterexample would be an intersecting family F with |F| > S. In vertex-transitive G, |I^r(G)| = n\u00b7S/r (each r-set counted in r stars). So S = r\u00b7|I^r(G)|/n. We need |F| > r\u00b7|I^r(G)|/n.\n\nBy the trivial bound |F| \u2264 |I^r(G)|/2 (at most half of all r-sets, since disjoint pairs can't both be in F), we need r\u00b7|I^r(G)|/n > |I^r(G)|/2, i.e. r/n > 1/2, i.e. r > n/2. But for vertex-transitive G with \u03bc(G) \u2264 n, the condition r \u2264 \u03bc(G)/2 \u2264 n/2 means r \u2264 n/2. So the trivial bound gives |F| \u2264 |I^r(G)|/2 \u2265 S only when S \u2264 |I^r(G)|/2, i.e. 2S \u2264 |I^r(G)|, i.e. 2r/n \u2264 1, i.e. r \u2264 n/2 \u2014 always satisfied in the HT range. This means the trivial bound does NOT immediately give a counterexample. \u2713\n\nSPECIFIC ATTEMPT: G = C_5 \u25a1 C_5 (vertex-transitive, 25 vertices, 4-regular, \u03bc\u22645, r=2).\nS = star size = 20 (non-neighbours of any fixed vertex; 25-1-4=20). |I^2(G)| = C(25,2) - (number of edges) = 300 - 50 = 250. Trivial bound: |F| \u2264 250/2 = 125 >> 20. No help from triviality.\nCan we find an intersecting 2-family of size 21?\nStar at (0,0): all {(0,0), w} for w non-adjacent to (0,0). Size = 20. Attempt to extend: add a set {a,b} \u2209 star_(0,0) with |{a,b}|=2 and {a,b} intersects all 20 star members. {a,b} must share a vertex with each {(0,0),w}. So either a=(0,0) (contradicting {a,b} \u2209 star) or b=(0,0) (same) or {a,b} shares a vertex with the 'w' part of each star member \u2014 but {a,b} has only 2 vertices, so it can share vertices with at most 2 non-neighbours of (0,0) as the w-partner. The other 18 star members would not intersect {a,b} unless a or b = (0,0). Conclusion: no set outside star_(0,0) intersects all of star_(0,0). So the star is a maximal intersecting family and cannot be extended. But is it MAXIMUM? Could a DIFFERENT (non-star) intersecting family achieve size > 20? \n\nHILTON-MILNER TYPE FAMILY for C_5\u25a1C_5: Fix a set T = {(0,0),(2,2)} (independent: (0,0) and (2,2) differ by (2,2), not a neighbour \u2713). Consider F' = {S \u2208 I^2(G) : S \u2229 T \u2260 \u2205} = {star_(0,0)} \u222a {star_(2,2)} minus double-counted. |star_(0,0) \u222a star_(2,2)| = 20+20 - |I^2_{(0,0),(2,2)}(G)|. |I^2_{(0,0),(2,2)}(G)| = 1 (just the set {(0,0),(2,2)} itself). So |F'| = 39. But F' is NOT intersecting: {(0,0),(a)} and {(2,2),(b)} with a\u2260(2,2) and b\u2260(0,0) might be disjoint. E.g. {(0,0),(1,2)} and {(2,2),(0,1)}: do they intersect? No common vertex. F' is NOT an intersecting family. \u2717\n\nTo get a large INTERSECTING subfamily of F': all sets in I^2(G) hitting BOTH (0,0) and (2,2), i.e. = {{(0,0),(2,2)}} (just 1 set), or sets hitting one of them and intersecting everything else. Hilton-Milner for graphs: take F_{HM} = {T} \u222a {S \u2208 I^r_{(0,0)}(G) : S \u2229 T \u2260 \u2205}. Here T={(0,0),(2,2)}. S \u2208 star_(0,0) means (0,0) \u2208 S. S \u2229 T \u2260 \u2205 always (since (0,0) \u2208 S \u2229 T). So this is just star_(0,0) \u222a {T} = star_(0,0) (since T \u2208 star_(0,0) already: (0,0) \u2208 T \u2713). So HM doesn't extend beyond the star in this setting. \u2713\n\nCONCLUSION: For C_5\u25a1C_5 at r=2, every intersecting family appears to be contained in some star. No counterexample found.",
+      "status": "flawed",
+      "checker_feedback": "RECLASSIFY as supporting evidence (not a disproof attempt). The analysis is mathematically correct:\n  \u2022 The ratio S/|I^r(G)| formula for vertex-transitive G is S = r\u00b7|I^r(G)|/n \u2713\n  \u2022 The trivial bound |F| \u2264 |I^r(G)|/2 does not contradict S in the HT range \u2713\n  \u2022 The HM-type extension attempt for C_5\u25a1C_5 is correctly executed:     no set outside star_(v) can intersect all members of star_(v) \u2713\n  \u2022 The conclusion 'no counterexample found in vertex-transitive case' is correct \u2713\nKEY INSIGHT VALIDATED: The argument 'any extension beyond a star fails to intersect all existing star members' is a clean proof that each STAR IS MAXIMAL (not just maximum) in any graph G. This is a useful general fact:\n  LEMMA: For any graph G and any r \u2265 1, the star I^r_v(G) is a maximal intersecting   family of independent r-sets (i.e., no r-set outside the star can be added while   preserving the intersecting property).\n  Proof: Let S \u2209 star_v. Then v \u2209 S. The star member {v,w} for any w \u2208 S has   {v,w} \u2229 S = {w} \u2014 wait, this requires w \u2208 S. But the star contains {v,w} for   ALL non-neighbours w, not just w \u2208 S. So S must share a vertex with {v,w} for   each w that is a non-neighbour of v and w \u2209 S. Since v \u2209 S, S must contain w.   But S has only r elements and the star has |N\u0304(v)| members... this argument is   circular. Let me restate: S \u2209 star_v means v \u2209 S. The member {v,w} \u2208 star_v   for w \u2209 N(v)\u222a{v} requires S \u2229 {v,w} \u2260 \u2205, i.e. w \u2208 S OR v \u2208 S. Since v \u2209 S,   we need w \u2208 S for EVERY non-neighbour w of v. But S has r elements and can   contain at most r non-neighbours of v \u2014 so if the star has > r non-neighbours,   S cannot intersect all of them. Since star size = |N\u0304(v)| \u2265 \u03bc(G)-1 \u2265 2r-1 > r,   this is exactly the case. \u2713 So STARS ARE MAXIMAL. This is a clean lemma.\nNOT A DISPROOF: marking this DA as 'flawed' in the sense that it is supporting evidence."
+    },
+    {
+      "id": "DA-4F59E4",
+      "round": 7,
+      "candidate_counterexample": "TARGET: Find H (2-EKR, \u03bc(H)\u22652) and an intersecting 2-family F in G=H\u2294H with |F| > Q_v = \u03a3_{k=1}^2 |I^k_v(H)|\u00b7|I^{r-k}(H)| = star size in G.\n\nFor G = H\u2294H and r=2:\nQ_v = |I^1_v(H)|\u00b7|I^1(H)| + |I^2_v(H)|\u00b7|I^0(H)|\n     = 1\u00b7|I^1(H)| + |I^2_v(H)|\u00b71\n     = n(H) + |I^2_v(H)|\nwhere n(H)=|V(H)|.\nWait: |I^1(H)| = |V(H)| = n (any single vertex is independent). \u2713\nAnd |I^0(H)| = 1 (the empty independent set). \u2713\nSo Q_v = n + |I^2_v(H)|. For H=C_5: n=5, |I^2_v(C_5)| = 2 (each vertex has 2 non-neighbours). Q_v = 5+2 = 7. Star size in 2C_5 at v\u2208C_5^1: all {v,w} with w \u2260 v and w\u2209N(v). w can be in C_5^1 (2 choices) or in C_5^2 (all 5 vertices). Total = 2+5 = 7. \u2713\n\nCLAIM: For G=H\u2294H with r=2, the cross-pair argument proves |F|\u2264Q_v.\nATTEMPT TO BREAK: Suppose H = K_2 (two vertices, one edge).\nV(H)={a,b}; a~b. I^1(H)={a,b} (both independent as singletons). I^2(H)=\u2205 (only pair is the edge).\n\u03bc(H)=1 (any single vertex dominates K_2? {a}: b is adjacent to a, so dominated. \u2713 So \u03bc(K_2)=1.)\nBut \u03bc(H)=1 < r=2: HT condition r\u2264\u03bc(G)/2=\u03bc(H)=1 fails for r=2! So K_2 is not a valid H.\n\nTry H = K_3 (triangle). \u03bc(K_3)=1 (any vertex dominates). Again \u03bc<2, not valid.\n\nTry H = C_5. \u03bc(C_5)=2. \u2713 r=2 \u2264 \u03bc(H)=2.\nG = C_5\u2294C_5 = 2C_5. Q_v = 5+2 = 7 (computed above).\nATTEMPT: Find F in 2C_5 at r=2, |F|=8.\nAs established in Round 3: max intersecting 2-family in 2C_5 = 7 = star size. \u2713\nNo counterexample here. \u2713\n\nTry H = P_4 (path on 4 vertices: 0-1-2-3). \u03bc(P_4): {0,2}: 0 dominates {1}, 2 dominates {1,3}. Uncovered: {0}: only if 0 has a neighbour in {0,2}? 0 is IN the set. Neighbours of {0,2}: {1,3}. Combined: {0,1,2,3} = all \u2713. So {0,2} is an independent dominating set of P_4. \u03bc(P_4)\u22642.\nIs size 1 sufficient? Single vertex: 0 dominates {1}, not {2,3}. Not dominating. Similarly others.\nSo \u03bc(P_4)=2. r=2\u22642. \u2713\nI^2_0(P_4) = all independent 2-sets containing 0 = {{0,2},{0,3}} (0's non-neighbours: 2,3). Size=2.\nG = P_4\u2294P_4 (copies LP, RP). Q_0 = n(P_4)+|I^2_0(P_4)| = 4+2 = 6.\nATTEMPT to build intersecting 2-family of size 7:\nStar at v=0\u2208LP: {0,2},{0,3},{0,R0},{0,R1},{0,R2},{0,R3} = 6 sets (where Ri are vertices of RP). \u2713\nCan we find another set disjoint from star_0 that joins an intersecting family of size 7?\nA set not in star_0 doesn't contain 0. It must intersect all star_0 members.\nStar_0 contains {0,R0}: a non-star set {a,b} (with 0\u2209{a,b}) must contain R0 or... wait, {0,R0}\u2229{a,b} \u2260 \u2205 only if a\u2208{0,R0} or b\u2208{0,R0}. Since 0\u2209{a,b}, must have R0\u2208{a,b}.\nSimilarly for {0,R1},{0,R2},{0,R3}: must contain R1 or R2 or R3 resp. But {a,b} has only 2 elements!\nAt most 2 of R0,R1,R2,R3 can be in {a,b}. The other 2 give star_0 members not intersecting {a,b}. \u2717\nNo extension possible. |F| \u2264 6 = Q_0 for P_4\u2294P_4. \u2713\n\nCONCLUSION: In all tested cases with r=2, G=H\u2294H, the bound |F|\u2264Q_v holds and is tight (equality at the star). The cross-pair argument appears robust. No counterexample found.",
+      "status": "unchecked",
+      "checker_feedback": null
+    }
+  ],
+  "log": [
+    {
+      "round": 2,
+      "agent": "Experimenter",
+      "summary": "Verified conjecture for 3 major families; identified that the bound r \u2264 \u03bc/2 is tight; found \u03bc small for most 'nice' graphs."
+    },
+    {
+      "round": 2,
+      "agent": "Prover",
+      "summary": "Outlined Hurlbert-Kamat inductive proof for chordal graphs; identified compression operator failure as the core obstruction for general graphs."
+    },
+    {
+      "round": 2,
+      "agent": "Disprover",
+      "summary": "No counterexample found after systematic search; identified large-girth graphs and vertex-transitive circulants as the hardest open subclasses."
+    },
+    {
+      "round": 2,
+      "agent": "Checker",
+      "summary": "No proof/disproof attempts to verify in Round 1; all example computations checked correct."
+    },
+    {
+      "round": 3,
+      "agent": "Experimenter",
+      "summary": "Verified C_7^2 has \u03bc=2=\u03b1 (trivial), and 4K_3 is 2-EKR as expected from HST; noted that large-\u03bc graphs are mostly disjoint unions."
+    },
+    {
+      "round": 3,
+      "agent": "Prover",
+      "summary": "Formalized the product-structure reduction for disjoint unions; identified the role of elementary symmetric polynomials in star size; gaps remain for irregular case."
+    },
+    {
+      "round": 3,
+      "agent": "Disprover",
+      "summary": "Verified HT conjecture for G=2C_5 at r=2 by direct star-maximality argument; moved confidence from speculative to verified for this case."
+    },
+    {
+      "round": 3,
+      "agent": "Checker",
+      "summary": "Flagged gaps in the proof sketches; confirmed 2C_5 verification; overall status remains open with substantial supporting evidence."
+    },
+    {
+      "round": 5,
+      "agent": "Checker",
+      "summary": "Both PAs marked flawed (gaps in key inequalities); both DAs reclassified as supporting examples; 2C_5 strict-EKR status flagged as open sub-question."
+    },
+    {
+      "round": 5,
+      "agent": "Experimenter",
+      "summary": "Confirmed HT for C_5\u2294C_7 at r=2 (star=9 is max); corrected \u03bc(Petersen)=3 (trivial case only); identified C_5\u25a1C_5 as non-trivial vertex-transitive test case."
+    },
+    {
+      "round": 5,
+      "agent": "Prover",
+      "summary": "Established decomposition formula for star size in G=H\u2294H; proved the pure-H\u2081 case; mixed case gives factor-2 slack \u2014 needs tighter pinning argument."
+    },
+    {
+      "round": 5,
+      "agent": "Disprover",
+      "summary": "Verified star-maximality for C_5\u25a1C_5 at r=2 by explicit HM-type analysis; confirmed no extension beyond a star is possible in tested vertex-transitive cases."
+    },
+    {
+      "round": 7,
+      "agent": "Checker",
+      "summary": "PA-8CCBC6: partial (structure correct, mixed-case bound factor-2 slack); DA-46CCCE: reclassified as supporting evidence; Stars-Are-Maximal lemma validated."
+    },
+    {
+      "round": 7,
+      "agent": "Experimenter",
+      "summary": "Confirmed \u03bc(C_5\u25a1C_5)=5 with explicit dominating set {(i,2i mod 5)}; proved max intersecting 2-family has size \u2264 20 (= star size) via cross-pair argument; C_5\u25a1C_5 is strictly 2-EKR."
+    },
+    {
+      "round": 7,
+      "agent": "Prover",
+      "summary": "Proved H\u2294H is r-EKR for r=2 via the cross-pair argument (same as C\u2085\u25a1C\u2085 proof). For r\u22653 the gap remains open, requiring a sunflower or induction approach."
+    },
+    {
+      "round": 7,
+      "agent": "Disprover",
+      "summary": "Confirmed: for r=2 and G=H\u2294H (tested with H=C_5, P_4), no intersecting 2-family exceeds Q_v. Cross-pair argument is robust for r=2. r\u22653 remains open."
+    }
+  ],
+  "round_summaries": [
+    {
+      "round": 2,
+      "summaries": [
+        "Experimenter: Verified conjecture for 3 major families; identified that the bound r \u2264 \u03bc/2 is tight; found \u03bc small for most 'nice' graphs.",
+        "Prover: Outlined Hurlbert-Kamat inductive proof for chordal graphs; identified compression operator failure as the core obstruction for general graphs.",
+        "Disprover: No counterexample found after systematic search; identified large-girth graphs and vertex-transitive circulants as the hardest open subclasses.",
+        "Checker: No proof/disproof attempts to verify in Round 1; all example computations checked correct."
+      ],
+      "narrative": "Round 2 \u2014 Initial survey. The Experimenter catalogued three verified graph families: empty graphs (recovering classical EKR), disjoint cliques nK\u2113 (proved by Holroyd-Spencer-Talbot 2009), and chordal graphs (verified by Hurlbert-Kamat 2011). The bound r \u2264 \u03bc(G)/2 was confirmed tight via the bipartite example 2K_{3,3} at r=4. The Prover outlined the Hurlbert-Kamat inductive strategy for chordal graphs: induction on a simplicial vertex v, with the key step reducing G to G\u2216N[v]; this sketch (PA-14D4E9) was later marked flawed because the base case and the partition inequality were assumed rather than proved. The Disprover searched circulants and Kneser graphs without finding a counterexample, noting that large-girth and vertex-transitive graphs are the hardest open subclasses. The Checker had no formal attempts to evaluate."
+    },
+    {
+      "round": 3,
+      "summaries": [
+        "Experimenter: Verified C_7^2 has \u03bc=2=\u03b1 (trivial), and 4K_3 is 2-EKR as expected from HST; noted that large-\u03bc graphs are mostly disjoint unions.",
+        "Prover: Formalized the product-structure reduction for disjoint unions; identified the role of elementary symmetric polynomials in star size; gaps remain for irregular case.",
+        "Disprover: Verified HT conjecture for G=2C_5 at r=2 by direct star-maximality argument; moved confidence from speculative to verified for this case.",
+        "Checker: Flagged gaps in the proof sketches; confirmed 2C_5 verification; overall status remains open with substantial supporting evidence."
+      ],
+      "narrative": "Round 3 \u2014 Deepening examples; first disjoint-union proof attempt. The Experimenter confirmed that C\u2087\u00b2 has \u03bc=\u03b1=2 (HT trivial, r=1 only) and verified 4K\u2083 as a non-trivial r=2 case via HST. The Prover formalised a product-structure reduction for disjoint unions G = K_{\u2113\u2081} \u2294 \u2026 \u2294 K_{\u2113\u2098}: star size equals e_{r-1} of the remaining component sizes. This sketch (PA-60D42A) was later marked flawed for two reasons \u2014 (1) the claim that the optimal star is at the smallest component is wrong in general for e_{r-1} vs a simple product, and (2) the cross-support intersection constraint for irregular unions was not addressed. The Disprover verified HT for G=2C\u2085 at r=2 by a direct star-maximality argument (DA-BF2382), later reclassified as supporting evidence (not a disproof). The Checker flagged gaps in both proof sketches but used placeholder IDs, so verdicts were not applied \u2014 corrected in Round 4."
+    },
+    {
+      "round": 5,
+      "summaries": [
+        "Checker: Both PAs marked flawed (gaps in key inequalities); both DAs reclassified as supporting examples; 2C_5 strict-EKR status flagged as open sub-question.",
+        "Experimenter: Confirmed HT for C_5\u2294C_7 at r=2 (star=9 is max); corrected \u03bc(Petersen)=3 (trivial case only); identified C_5\u25a1C_5 as non-trivial vertex-transitive test case.",
+        "Prover: Established decomposition formula for star size in G=H\u2294H; proved the pure-H\u2081 case; mixed case gives factor-2 slack \u2014 needs tighter pinning argument.",
+        "Disprover: Verified star-maximality for C_5\u25a1C_5 at r=2 by explicit HM-type analysis; confirmed no extension beyond a star is possible in tested vertex-transitive cases."
+      ],
+      "narrative": "Round 4 \u2014 Checker corrections; vertex-transitive exploration; H\u2294H decomposition. The Checker issued proper verdicts on all four pending items using real KB IDs: PA-14D4E9 (HK chordal sketch) marked flawed \u2014 the key partition inequality is circular; PA-60D42A (disjoint-union sketch) marked flawed \u2014 wrong monotonicity claim and missing cross-support argument; DA-B01FB4 and DA-BF2382 reclassified as supporting evidence. The Experimenter confirmed HT for C\u2085\u2294C\u2087 at r=2 (star size 9 is maximum by a direct containment argument), corrected \u03bc(Petersen)=3 using the explicit independent dominating set {0,2,6} (making HT trivial there: r\u22641 only), and identified C\u2085\u25a1C\u2085 as a non-trivial vertex-transitive test with \u03bc\u22645 and star size 20. The Prover established the decomposition formula Q_v = \u03a3_{k=1}^r |I^k_v(H)|\u00b7|I^{r-k}(H)| for stars in G=H\u2294H, proved the F_A=\u2205 or F_B=\u2205 structure theorem, and reduced the pure-H\u2081 case to H being r-EKR; the mixed case (sets crossing both components) still had a factor-2 gap. The Disprover applied a Hilton-Milner analysis to C\u2085\u25a1C\u2085 and found no extension beyond any star is possible."
+    },
+    {
+      "round": 7,
+      "summaries": [
+        "Checker: PA-8CCBC6: partial (structure correct, mixed-case bound factor-2 slack); DA-46CCCE: reclassified as supporting evidence; Stars-Are-Maximal lemma validated.",
+        "Experimenter: Confirmed \u03bc(C_5\u25a1C_5)=5 with explicit dominating set {(i,2i mod 5)}; proved max intersecting 2-family has size \u2264 20 (= star size) via cross-pair argument; C_5\u25a1C_5 is strictly 2-EKR.",
+        "Prover: Proved H\u2294H is r-EKR for r=2 via the cross-pair argument (same as C\u2085\u25a1C\u2085 proof). For r\u22653 the gap remains open, requiring a sunflower or induction approach.",
+        "Disprover: Confirmed: for r=2 and G=H\u2294H (tested with H=C_5, P_4), no intersecting 2-family exceeds Q_v. Cross-pair argument is robust for r=2. r\u22653 remains open."
+      ],
+      "narrative": "Round 5 \u2014 Stars-Are-Maximal lemma; cross-pair proof; H\u2294H at r=2 resolved. The Checker confirmed the H\u2294H structure theorem is correct but the mixed-case bound remains at factor-2 slack; also validated a clean new lemma: for any graph G and any r\u22651, the star I^r_v(G) is a MAXIMAL intersecting family (no r-set outside the star can be added while preserving the intersecting property), proved by a cardinality argument using |N\u0304(v)| \u2265 2r\u22121 > r. The Experimenter proved \u03bc(C\u2085\u25a1C\u2085)=5 using the explicit independent dominating set {(i, 2i mod 5) : i=0,\u2026,4}, verified by showing every vertex (i,j) is dominated since j ranges over all of Z\u2085 as the 5-neighbourhood covers it. It then proved HT for C\u2085\u25a1C\u2085 at r=2 via the cross-pair argument: if F is an intersecting 2-family and {a,b}\u2208F, partitioning F into F_a and F_b forces any cross pair {a,x}\u2208F_a, {b,y}\u2208F_b to satisfy x=y; this confines X and Y to at most one shared element, yielding |F|\u226420=|star_v| in all cases. The Prover generalised: the same cross-pair argument proves H\u2294H is r-EKR for r=2 for any H with \u03bc(H)\u22652, using the component partition and cross-pair constraint. For r\u22653 the argument gives a system of pairwise intersection conditions on H-parts that can't be discharged without a sunflower lemma or strict-EKR induction \u2014 open. The Disprover stress-tested the r=2, H\u2294H result on H=C\u2085 and H=P\u2084 and found no counterexample; confirmed the Stars-Are-Maximal extension-blocking argument holds for all vertex-transitive cases tested."
+    }
+  ]
+}

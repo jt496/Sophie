@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sophie": {
+      "command": "/home/john/Reps/Sophie/.venv/bin/python",
+      "args": ["/home/john/Reps/Sophie/mcp_server.py"],
+      "env": {
+        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}

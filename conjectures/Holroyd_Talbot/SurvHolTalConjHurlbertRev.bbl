@@ -1,0 +1,388 @@
+\begin{thebibliography}{10}
+
+\bibitem{AhlsKhac}
+{\sc Ahlswede, R., and Khachatrian, L.~H.}
+\newblock The complete intersection theorem for systems of finite sets.
+\newblock {\em European J. Combin. 18}, 2 (1997), 125--136.
+
+\bibitem{Baber}
+{\sc Baber, R.}
+\newblock {\em Some results in extremal combinatorics}.
+\newblock PhD thesis, Department of Mathematics, University of London, London,
+  United Kingdom, 2011.
+
+\bibitem{Berge1}
+{\sc Berge, C.}
+\newblock Nombres de coloration de l'hypergraphe $h$-partie complet.
+\newblock In {\em Hypergraph Seminar, Columbus, Ohio 1972}, vol.~141 of {\em
+  Lecture Notes in Math.} Springer, Berlin, 1974, pp.~13--20.
+
+\bibitem{Berge2}
+{\sc Berge, C.}
+\newblock Nombres de coloration de l'hypergraphe $h$-partie complet.
+\newblock {\em Ann. Mat. Pura Appl. 103}, 4 (1975), 3--9.
+
+\bibitem{Bey}
+{\sc Bey, C.}
+\newblock An intersection theorem for weighted sets.
+\newblock {\em Discrete Math. 235}, 1--3 (2001), 145--150.
+
+\bibitem{BollobasBook}
+{\sc Bollob\'as, B.}
+\newblock {\em Combinatorics}.
+\newblock Cambridge University Press, Cambridge, 1986.
+\newblock Set systems, hypergraphs, families of vectors and combinatorial
+  probability.
+
+\bibitem{BollLead}
+{\sc Bollob\'{a}s, B., and I.~Leader, I.}
+\newblock An {E}rd{\H{o}}s--{K}o--{R}ado theorem for signed sets.
+\newblock {\em Comput. Math. Appl. 34}, 11 (1997), 9--13.
+
+\bibitem{BorgThesis}
+{\sc Borg, P.}
+\newblock {\em Some set intersection theorems of extremal type}.
+\newblock PhD thesis, The Open University, Milton Keynes, United Kingdom, 2007.
+
+\bibitem{BorgExt}
+{\sc Borg, P.}
+\newblock Extremal t-intersecting sub-families of hereditary families.
+\newblock {\em J. London Math. Soc. (2) 79}, 3 (2009), 167--185.
+
+\bibitem{BorgChvatal}
+{\sc Borg, P.}
+\newblock On {C}hv\'atal's conjecture and a conjecture on families of signed
+  sets.
+\newblock {\em European J. Combin. 32}, 1 (2011), 140--145.
+
+\bibitem{BorgEKRSep}
+{\sc Borg, P.}
+\newblock Erd{\H{o}}s-{K}o-{R}ado with separation conditions.
+\newblock {\em Australas. J. Combin. 59\/} (2014), 39--63.
+
+\bibitem{BorgStars}
+{\sc Borg, P.}
+\newblock Stars on trees.
+\newblock {\em Discrete Math. 340}, 5 (2017), 1046--1049.
+
+\bibitem{BorgFegh}
+{\sc Borg, P., and Feghali, C.}
+\newblock The {H}ilton-{S}pencer cycle theorems via {K}atona's shadow
+  intersection theorem.
+\newblock {\em Discuss. Math. Graph Theory 43}, 1 (2023), 277--286.
+
+\bibitem{BorgHolrSingle}
+{\sc Borg, P., and Holroyd, F.}
+\newblock The {E}rd{\H{o}}s--{K}o--{R}ado properties of various graphs
+  containing singletons.
+\newblock {\em Discrete Math. 309}, 9 (2009), 2877--2885.
+
+\bibitem{BorgHolrDouble}
+{\sc Borg, P., and Holroyd, F.}
+\newblock The {E}rdős-{K}o-{R}ado properties of set systems defined by double
+  partitions.
+\newblock {\em Discrete Math. 309}, 9 (2009), 4754--4761.
+
+\bibitem{Chvatal}
+{\sc Chv\'atal, V.}
+\newblock Intersecting families of edges in hypergraphs having the hereditary
+  property.
+\newblock In {\em Hypergraph Seminar, Columbus, Ohio 1972}, vol.~141 of {\em
+  Lecture Notes in Math.} Springer, Berlin, 1974, pp.~13--20.
+
+\bibitem{CzaHurKam}
+{\sc Czabarka, E., Hurlbert, G., and Kamat, V.}
+\newblock Chv\'atal's conjecture for downsets of small rank.
+\newblock {\em arxiv.org/abs/1703.00494\/} (2017).
+
+\bibitem{Daykin}
+{\sc Daykin, D.~E.}
+\newblock {E}rd{\H{o}}s--{K}o--{R}ado from {K}ruskal--{K}atona.
+\newblock {\em J. Combin. Theory Ser. A 17\/} (1974), 254--255.
+
+\bibitem{DeDiDuHa}
+{\sc De~Silva, J., Dionne, A.~B., Dunkelberg, A., and Harris, P.~E.}
+\newblock Very well-covered graphs with the {E}rd{\H{o}}s-{K}o-{R}ado property.
+\newblock {\em Involve 16}, 1 (2023), 35--47.
+
+\bibitem{Delsarte}
+{\sc Delsarte, P.}
+\newblock An algebraic approach to the association schemes of coding theory.
+\newblock {\em Philips Res. Rep. Suppl.}, 10 (1973), vi+97.
+
+\bibitem{DezaFran}
+{\sc Deza, M.-M., and Frankl, P.}
+\newblock {E}rd{\H{o}}s--{K}o--{R}ado theorem --- 22 years later.
+\newblock {\em SIAM J. Algebraic Discrete Methods 4}, 4 (1983), 419--431.
+
+\bibitem{DinuFrie}
+{\sc Dinur, I., and Friedgut, E.}
+\newblock Intersecting families are essentially contained in juntas.
+\newblock {\em Combin. Probab. Comput. 18}, 1-2 (2009), 107--122.
+
+\bibitem{Dirac}
+{\sc Dirac, G.~A.}
+\newblock On rigid circuit graphs.
+\newblock {\em Abh. Math. Sem. Univ. Hamburg 25\/} (1961), 71--76.
+
+\bibitem{ErdKoRad}
+{\sc Erd\H{o}s, P., Ko, C., and Rado, R.}
+\newblock Intersection theorems for systems of finite sets.
+\newblock {\em Quart. J. Math. Oxford Ser. (2) 12\/} (1961), 313--320.
+
+\bibitem{EstrPast}
+{\sc Estrugo, E., and Pastine, A.}
+\newblock On stars in caterpillars and lobsters.
+\newblock {\em Discrete Appl. Math. 298\/} (2021), 50--55.
+
+\bibitem{Feghali}
+{\sc Feghali, C.}
+\newblock Intersecting families, signed sets, and injection.
+\newblock {\em Australas. J. Combin. 76\/} (2020), 226--231.
+
+\bibitem{FegHurKam}
+{\sc Feghali, C., Hurlbert, G., and Kamat, V.}
+\newblock An {E}rd{\H{o}}s--{K}o--{R}ado theorem for unions of length 2 paths.
+\newblock {\em Discrete Math. 343}, 12 (2020), 112121, 6pp.
+
+\bibitem{FegJohTho}
+{\sc Feghali, C., Johnson, M., and Thomas, D.}
+\newblock {E}rd{\H{o}}s--{K}o--{R}ado theorems for a family of trees.
+\newblock {\em Discrete Appl. Math. 236\/} (2018), 464--471.
+
+\bibitem{FranklShifting}
+{\sc Frankl, P.}
+\newblock The shifting technique in extremal set theory.
+\newblock In {\em Surveys in combinatorics 1987 ({N}ew {C}ross, 1987)},
+  vol.~123 of {\em London Math. Soc. Lecture Note Ser.} Cambridge Univ. Press,
+  Cambridge, 1987, pp.~81--110.
+
+\bibitem{FranklDiversity}
+{\sc Frankl, P.}
+\newblock Maximum degree and diversity in intersecting hypergraphs.
+\newblock {\em J. Combin. Theory Ser. A 144\/} (2020), 81--94.
+
+\bibitem{FranFure}
+{\sc Frankl, P., and F\"uredi, Z.}
+\newblock A new, short proof of the {EKR} theorem.
+\newblock {\em J. Combin. Theory Ser. A 119}, 6 (2012), 1388--1390.
+
+\bibitem{FranHurl}
+{\sc Frankl, P., and Hurlbert, G.}
+\newblock On the {H}olroyd-{T}albot conjecture for sparse graphs.
+\newblock {\em Discrete Math. 347}, 1 (2024), Paper No. 113742, 8.
+
+\bibitem{FranKupaMatch}
+{\sc Frankl, P., and Kupavskii, A.}
+\newblock Perfect matchings in down-sets.
+\newblock {\em Discrete Math. 346}, 5 (2023), Paper No. 113323, 7.
+
+\bibitem{FuenKama}
+{\sc Fuentes, M., and Kamat, V.}
+\newblock On intersecting families of subgraphs of perfect matchings.
+\newblock {\em arxiv.org/abs/2407.12289\/} (2024).
+
+\bibitem{FurHwaWei}
+{\sc F{\"u}redi, Z., Hwang, K.-W., and Weischel, P.}
+\newblock A new proof and generalizations of the {E}rd{\H{o}}s--{K}o--{R}ado
+  theorem using the method of linearly independent polynomials.
+\newblock In {\em Topics in Discrete Mathematics}, vol.~26 of {\em Algorithms
+  Combin.} Springer, Berlin, 2006, pp.~215--224.
+
+\bibitem{GodsMeag}
+{\sc Godsil, C., and Meagher, K.}
+\newblock {\em {E}rd{\H{o}}s--{K}o--{R}ado Theorems: Algebraic Approaches},
+  vol.~149 of {\em Cambridge Studies in Advanced Mathematics}.
+\newblock Cambridge University Press, Cambridge, 2015.
+
+\bibitem{Gronau}
+{\sc Gronau, H.-D. O.~F.}
+\newblock More on the {E}rd{\H{o}}s-{K}o-{R}ado theorem for integer sequences.
+\newblock {\em J. Combin. Theory Ser. A 35}, 3 (1983), 279--288.
+
+\bibitem{HiltMiln}
+{\sc Hilton, A.~J., and Milner, E.~C.}
+\newblock Some intersection theorems for systems of finite sets.
+\newblock {\em Quart. J. Math. Oxford Ser. (2) 18\/} (1967), 369--384.
+
+\bibitem{HilHolSpe}
+{\sc Hilton, A. J.~W., Holroyd, F.~C., and Spencer, C.~L.}
+\newblock King {A}rthur and his knights with two round tables.
+\newblock {\em Q. J. Math. 62}, 3 (2011), 625--635.
+
+\bibitem{HiltSpen}
+{\sc Hilton, A. J.~W., and Spencer, C.~L.}
+\newblock A graph-theoretical generalization of {B}erge's analogue of the
+  {E}rd{\H{o}}s-{K}o-{R}ado theorem.
+\newblock In {\em Graph theory in {P}aris}, Trends Math. Birkh\"auser, Basel,
+  2007, pp.~225--242.
+
+\bibitem{HiltSpenKing}
+{\sc Hilton, A. J.~W., and Spencer, C.~L.}
+\newblock A generalization of {T}albot's theorem about {K}ing {A}rthur and his
+  {K}nights of the {R}ound {T}able.
+\newblock {\em J. Combin. Theory Ser. A 116}, 5 (2009), 1023--1033.
+
+\bibitem{Holroyd}
+{\sc Holroyd, F.~C.}
+\newblock Problem 338 ({BCC}16.25), {E}rd{\H{o}}s--{K}o--{R}ado at the court of
+  {K}ing {A}rthur.
+\newblock {\em Discrete Math. 197/198\/} (1999), 812.
+
+\bibitem{HolrJohn}
+{\sc Holroyd, F.~C., and Johnson, A.}
+\newblock Problem 25.
+\newblock In {\em Problems from the Sixteenth British Combinatorial
+  Conference\/} (1997), P.~J. Cameron, Ed.
+
+\bibitem{HolSpeTal}
+{\sc Holroyd, F.~C., Spencer, C., and Talbot, J.}
+\newblock Compression and {E}rd{\H{o}}s–{K}o–{R}ado graphs.
+\newblock {\em Discrete Math. 293}, 1--3 (2005), 155--164.
+
+\bibitem{HolrTalb}
+{\sc Holroyd, F.~C., and Talbot, J.}
+\newblock Graphs with the {E}rd{\H{o}}s–{K}o–{R}ado property.
+\newblock {\em Discrete Math. 293}, 1--3 (2005), 165--176.
+
+\bibitem{HurlKamaLadders}
+{\sc Hurlbert, G., and Kamat, V.}
+\newblock Erd{\H{o}}s-{K}o-{R}ado theorems for chordal and bipartite graphs.
+\newblock {\em arxiv.org/abs/0903.4203\/} (2009).
+
+\bibitem{HurlKamaChord}
+{\sc Hurlbert, G., and Kamat, V.}
+\newblock {E}rd{\H{o}}s–{K}o–{R}ado theorems for chordal graphs and trees.
+\newblock {\em J. Combin. Theory Ser. A 118}, 3 (2011), 829--841.
+
+\bibitem{HurlKamaInject}
+{\sc Hurlbert, G., and Kamat, V.}
+\newblock New injective proofs of the {E}rd{\H{o}}s–{K}o–{R}ado and
+  {H}ilton-{M}ilner theorems.
+\newblock {\em Discrete Math. 341}, 6 (2018), 1749--1754.
+
+\bibitem{HurlKamaTrees}
+{\sc Hurlbert, G., and Kamat, V.}
+\newblock On intersecting families of independent sets in trees.
+\newblock {\em Discrete Appl. Math. 321\/} (2022), 4--9.
+
+\bibitem{Kalai}
+{\sc Kalai, G.}
+\newblock Algebraic shifting.
+\newblock In {\em Computational commutative algebra and combinatorics ({O}saka,
+  1999)}, vol.~33 of {\em Adv. Stud. Pure Math.} Math. Soc. Japan, Tokyo, 2002,
+  pp.~121--163.
+
+\bibitem{KatonaShadInt}
+{\sc Katona, G.~{\relax O. H.}.}
+\newblock Intersection theorems for systems of finite sets.
+\newblock {\em Acta Math. Acad. Sci. Hungar. 15\/} (1964), 329--337.
+
+\bibitem{Katona}
+{\sc Katona, G.~{\relax O. H.}.}
+\newblock A simple proof of the {E}rd{\H{o}}s–{K}o–{R}ado theorem.
+\newblock {\em J. Combin. Theory (B) 13\/} (1972), 183--184.
+
+\bibitem{KleiMagn}
+{\sc Kleitman, D.~J., and Magnanti, T.~L.}
+\newblock On the number of latent subsets of intersecting collections.
+\newblock {\em J. Combinatorial Theory Ser. A 16\/} (1974), 215--220.
+
+\bibitem{LemoPalm}
+{\sc Lemons, N., and Palmer, C.}
+\newblock The unbalance of set systems.
+\newblock {\em Graphs Combin. 24}, 4 (2008), 361--365.
+
+\bibitem{LiZhang}
+{\sc Li, Y.-s., and Zhang, H.-j.}
+\newblock Erd\"os-{K}o-{R}ado theorem for ladder graphs.
+\newblock {\em Acta Math. Appl. Sin. Engl. Ser. 30}, 3 (2014), 583--588.
+
+\bibitem{Livingston}
+{\sc Livingston, M.~L.}
+\newblock An ordered version of the {E}rd{\H{o}}s-{K}o-{R}ad\'o{} theorem.
+\newblock {\em J. Combin. Theory Ser. A 26}, 2 (1979), 162--165.
+
+\bibitem{Lovasz}
+{\sc Lov{\'a}sz, L{\'a}szl{\'o}, J.}
+\newblock Kneser’s conjecture, chromatic number, and homotopy.
+\newblock {\em J. Combin. Theory, Ser. A 25\/} (1978), 319--324.
+
+\bibitem{Meyer}
+{\sc Meyer, J.-C.}
+\newblock Quelques probl\`emes concernant les cliques des hypergraphes
+  $h$-complets et $q$-parti $h$-complets.
+\newblock In {\em Hypergraph Seminar\/} (1974), Springer, pp.~127--139.
+
+\bibitem{Moon}
+{\sc Moon, A.}
+\newblock An analogue of the {E}rd{\H{o}}s-{K}o-{R}ado theorem for the
+  {H}amming schemes {$H(n,\,q)$}.
+\newblock {\em J. Combin. Theory Ser. A 32}, 3 (1982), 386--390.
+
+\bibitem{NowaWink}
+{\sc Nowakowski, R., and Winkler, P.}
+\newblock Vertex-to-vertex pursuit in a graph.
+\newblock {\em Discrete Math. 43}, 2-3 (1983), 235--239.
+
+\bibitem{OlaSanSpr}
+{\sc Olarte, J.~A., Santos, F., and Spreer, J.}
+\newblock Short proof of two cases of {C}hv\'atal's conjecture.
+\newblock {\em Discrete Math. 342}, 8 (2019), 2192--2194.
+
+\bibitem{Schonheim}
+{\sc Sch\"onheim, J.}
+\newblock Hereditary systems and {C}hv\'atal's conjecture.
+\newblock In {\em Proceedings of the {F}ifth {B}ritish {C}ombinatorial
+  {C}onference ({U}niv. {A}berdeen, {A}berdeen, 1975)\/} (1976), vol.~No. XV of
+  {\em Congress. Numer.}, Utilitas Math., Winnipeg, MB, pp.~537--539.
+
+\bibitem{Schrijver}
+{\sc Schrijver, A.}
+\newblock Vertex-critical subgraphs of kneser graphs.
+\newblock {\em Nieuw Arch. Wisk. 26}, 3 (1978), 454--461.
+
+\bibitem{Snevily}
+{\sc Snevily, H.}
+\newblock A new result on {C}hv\'atal’s conjecture.
+\newblock {\em J. Combin. Theory Ser. A 61}, 1 (1992), 137--141.
+
+\bibitem{Sperner}
+{\sc Sperner, E.}
+\newblock Ein {S}atz \"uber {U}ntermengen einer endlichen {M}enge.
+\newblock {\em Math. Z. 27}, 1 (1928), 544--548.
+
+\bibitem{Sterboul}
+{\sc Sterboul, F.}
+\newblock Sur une conjecture de {V}. {C}hv\'atal.
+\newblock In {\em Hypergraph {S}eminar ({P}roc. {F}irst {W}orking {S}em.,
+  {O}hio {S}tate {U}niv., {C}olumbus, {O}hio, 1972; dedicated to {A}rnold
+  {R}oss)}, vol.~Vol. 411 of {\em Lecture Notes in Math.} Springer, Berlin-New
+  York, 1974, pp.~152--164.
+
+\bibitem{Talbot}
+{\sc Talbot, J.}
+\newblock Intersecting families of separated sets.
+\newblock {\em J. London Math. Soc. (2) 68}, 1 (2003), 37--51.
+
+\bibitem{Wilson}
+{\sc Wilson, R.~M.}
+\newblock The exact bound in the {E}rd{\H{o}}s-{K}o-{R}ado theorem.
+\newblock {\em Combinatorica 4}, 2-3 (1984), 247--257.
+
+\bibitem{WoodroofeSimp}
+{\sc Woodroofe, R.}
+\newblock Erd{\H{o}}s-{K}o-{R}ado theorems for simplicial complexes.
+\newblock {\em J. Combin. Theory Ser. A 118}, 4 (2011), 1218--1227.
+
+\bibitem{WoodroofeAlg}
+{\sc Woodroofe, R.}
+\newblock An algebraic groups perspective on {E}rd{\H{o}}s-{K}o-{R}ado.
+\newblock {\em Linear Multilinear Algebra 70}, 22 (2022), 7825--7835.
+
+\bibitem{ZhaRanHua}
+{\sc Zhang, H., Ran, Y., and Huang, J.}
+\newblock On the star of the family of independent sets in a graph.
+\newblock {\em Discrete Appl. Math. 344\/} (2024), 170--178.
+
+\end{thebibliography}
