@@ -30,24 +30,70 @@ class SophieHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(SESSIONS_DIR), **kwargs)
 
     def log_message(self, fmt, *args):  # quieter logs
-        if self.path not in ("/set-current",):
+        if self.path not in ("/set-current", "/new-session"):
             super().log_message(fmt, *args)
 
-    def do_POST(self):
-        if self.path != "/set-current":
-            self.send_error(404)
-            return
+    # ── helpers ──────────────────────────────────────────────────────────
 
+    def _write_manifest(self, current_id: str | None = None) -> None:
+        """Rebuild manifest.json from all session files in SESSIONS_DIR."""
+        skip = {"current.json", "manifest.json"}
+        entries = []
+        for fname in sorted(os.listdir(SESSIONS_DIR), reverse=True):
+            if not fname.endswith(".json") or fname in skip:
+                continue
+            fpath = SESSIONS_DIR / fname
+            try:
+                with open(fpath) as f:
+                    fd = json.load(f)
+                sid = fd.get("session_id")
+                if not sid:
+                    continue
+                entries.append({
+                    "filename": fname,
+                    "session_id": sid,
+                    "conjecture": fd.get("conjecture", ""),
+                    "status": fd.get("status", "open"),
+                    "rounds_completed": fd.get("rounds_completed", 0),
+                    "current": sid == current_id,
+                })
+            except Exception:
+                pass
+        with open(SESSIONS_DIR / "manifest.json", "w") as f:
+            json.dump(entries, f, indent=2)
+
+    def _json_response(self, data: dict, status: int = 200) -> None:
+        resp = json.dumps(data).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(resp)))
+        self.end_headers()
+        self.wfile.write(resp)
+
+    def _read_body(self) -> dict | None:
         length = int(self.headers.get("Content-Length", 0))
         body = self.rfile.read(length)
         try:
-            data = json.loads(body)
-            filename = data.get("filename", "")
+            return json.loads(body)
         except (json.JSONDecodeError, AttributeError):
-            self.send_error(400, "Bad JSON")
-            return
+            return None
 
-        # Validate: must be a .json file that exists in the sessions dir
+    # ── POST router ──────────────────────────────────────────────────────────
+
+    def do_POST(self):
+        if self.path == "/set-current":
+            self._handle_set_current()
+        elif self.path == "/new-session":
+            self._handle_new_session()
+        else:
+            self.send_error(404)
+
+    def _handle_set_current(self):
+        data = self._read_body()
+        if data is None:
+            self.send_error(400, "Bad JSON"); return
+        filename = data.get("filename", "")
+
         target = SESSIONS_DIR / filename
         if (
             not filename
@@ -55,8 +101,7 @@ class SophieHandler(SimpleHTTPRequestHandler):
             or "/" in filename
             or not target.exists()
         ):
-            self.send_error(400, "Invalid filename")
-            return
+            self.send_error(400, "Invalid filename"); return
 
         try:
             with open(target) as f:
@@ -65,47 +110,56 @@ class SophieHandler(SimpleHTTPRequestHandler):
             if not session_id:
                 raise ValueError("No session_id in file")
 
-            # Write current.json
-            current_path = SESSIONS_DIR / "current.json"
-            with open(current_path, "w") as f:
+            with open(SESSIONS_DIR / "current.json", "w") as f:
                 json.dump({"session_id": session_id}, f)
 
-            # Regenerate manifest.json
-            skip = {"current.json", "manifest.json"}
-            entries = []
-            for fname in sorted(os.listdir(SESSIONS_DIR), reverse=True):
-                if not fname.endswith(".json") or fname in skip:
-                    continue
-                fpath = SESSIONS_DIR / fname
-                try:
-                    with open(fpath) as f:
-                        fd = json.load(f)
-                    if not fd.get("session_id"):
-                        continue
-                    entries.append({
-                        "filename": fname,
-                        "session_id": fd["session_id"],
-                        "conjecture": fd.get("conjecture", ""),
-                        "status": fd.get("status", "open"),
-                        "rounds_completed": fd.get("rounds_completed", 0),
-                        "current": fd["session_id"] == session_id,
-                    })
-                except Exception:
-                    pass
-            manifest_path = SESSIONS_DIR / "manifest.json"
-            with open(manifest_path, "w") as f:
-                json.dump(entries, f, indent=2)
-
-            resp = json.dumps({"ok": True, "session_id": session_id}).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Content-Length", str(len(resp)))
-            self.end_headers()
-            self.wfile.write(resp)
-            print(f"[Sophie] Current session → {session_id}")
-
+            self._write_manifest(session_id)
+            self._json_response({"ok": True, "session_id": session_id})
+            print(f"[Sophie] Current session \u2192 {session_id}")
         except Exception as exc:
             self.send_error(500, str(exc))
+
+    def _handle_new_session(self):
+        import re
+        from datetime import datetime
+
+        data = self._read_body()
+        if data is None:
+            self.send_error(400, "Bad JSON"); return
+        conjecture = (data.get("conjecture") or "").strip()
+        if not conjecture:
+            self._json_response({"error": "conjecture is required"}, 400); return
+
+        # Build a session_id: timestamp + slug
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        slug = re.sub(r'[^a-z0-9]+', '_', conjecture.lower())[:40].strip('_')
+        session_id = f"{ts}_{slug}" if slug else ts
+        filename = f"{session_id}.json"
+        target = SESSIONS_DIR / filename
+
+        stub = {
+            "session_id": session_id,
+            "conjecture": conjecture,
+            "status": "open",
+            "rounds_completed": 0,
+            "round_summaries": [],
+            "proof_attempts": [],
+            "disproofs": [],
+        }
+        with open(target, "w") as f:
+            json.dump(stub, f, indent=2)
+
+        # Read current session_id to preserve current flag
+        current_id = None
+        try:
+            with open(SESSIONS_DIR / "current.json") as f:
+                current_id = json.load(f).get("session_id")
+        except Exception:
+            pass
+
+        self._write_manifest(current_id)
+        self._json_response({"ok": True, "session_id": session_id, "filename": filename})
+        print(f"[Sophie] New session created: {session_id}")
 
 
 if __name__ == "__main__":

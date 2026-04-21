@@ -441,24 +441,6 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CLI helper: refresh viewer from the command line
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _cli_refresh(session_id: str | None = None) -> None:
-    """Update current.json and manifest.json.  Used by refresh_viewer.py."""
-    if session_id is None:
-        current_path = os.path.join(config.KB_DIR, "current.json")
-        if os.path.exists(current_path):
-            with open(current_path) as f:
-                session_id = json.load(f).get("session_id")
-    if session_id:
-        _set_current_session(session_id)
-        print(f"Viewer updated for session: {session_id}")
-    else:
-        print("No session found.", file=sys.stderr)
-
-
-# ─────────────────────────────────────────────────────────────────────────────
 # Entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
