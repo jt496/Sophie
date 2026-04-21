@@ -454,7 +454,7 @@
 
 <script id="session-data" type="application/json">{
   "conjecture": "Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
-  "session_id": "20260421_110323_does-4-n-1-x-1-y-1-z-have-a-positive-int",
+  "session_id": "20260421_110323_Erdos_Straus",
   "status": "open",
   "rounds_completed": 10,
   "no_progress_rounds": 0,
@@ -1271,7 +1271,8 @@
       "confidence": "complete",
       "status": "draft",
       "notes": "All three theorems close with `field_simp; ring` after establishing non-zero denominators via `positivity`. The natural number parameter k (or m) is coerced to \u211a automatically. The `erdos_straus_five_mod12` bonus theorem covers n \u2261 5 mod 12 (verified in SP-34E0FD) even though it was not part of PA-C5E101 itself. Together `erdos_straus_even`, `erdos_straus_three_mod4`, and `erdos_straus_five_mod12` cover all n \u2262 1 mod 12 except n \u2261 9 mod 12 (handled separately in PA-EF2F96).",
-      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for even n and n \u2261 3 mod 4 (plus bonus n \u2261 5 mod 12), all proved with field_simp; ring."
+      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for even n and n \u2261 3 mod 4 (plus bonus n \u2261 5 mod 12), all proved with field_simp; ring.",
+      "lean_file": "SophieFormalization/ErdosStraus/Theorems.lean"
     },
     {
       "id": "FA-A4DCFE",
@@ -1284,11 +1285,12 @@
       "confidence": "complete",
       "status": "draft",
       "notes": "The algebraic identity closes with `field_simp; ring`. The existential wrapper `erdos_straus_of_nine_mod12` extracts k from the modular hypothesis via `omega` and provides explicit witnesses. The `push_cast` bridges \u2115 coercions before applying the algebraic lemma. One potential issue: `positivity` on `(3*k+3)*(3*k+4)` and `(4*k+3)*(3*k+3)` as \u2115 requires k \u2265 0 (always true) \u2014 these are products of positive \u2115 values so `positivity` should handle them. If not, `by omega` or `Nat.mul_pos (by omega) (by omega)` is the fallback.",
-      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for n \u2261 9 mod 12, including both the algebraic identity and an existential form with explicit witnesses."
+      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for n \u2261 9 mod 12, including both the algebraic identity and an existential form with explicit witnesses.",
+      "lean_file": "SophieFormalization/ErdosStraus/Theorems.lean"
     },
     {
       "id": "FA-4064C0",
-      "source_id": "PA-C5E101",
+      "source_id": "MORDELL-1967",
       "lean_code": "/-\n  SophieFormalization.ErdosStraus.Mordell\n  Mordell's (1967) covering system for the Erd\u0151s\u2013Straus conjecture.\n\n  Main result: 4/n = 1/x + 1/y + 1/z is solvable in positive integers for\n  all n \u2265 2 with n % 840 \u2209 {1, 121, 169, 289, 361, 529}.\n\n  Source: L.J. Mordell, \"Diophantine Equations\" (1969), Chapter 14.\n-/\n\nimport Mathlib\nimport SophieFormalization.ErdosStraus.Theorems\n\nnamespace ErdosStraus\n\n/-! ## Parametric Identity Families\n\nTwo families of explicit solutions parametrised by arbitrary positive integers a, b, c, d. -/\n\n/-- **Family A** (Mordell eq. 2): if a + b\u00b7n + c\u00b7n = 4\u00b7a\u00b7b\u00b7c\u00b7d then\n    4/n = 1/(b\u00b7c\u00b7d\u00b7n) + 1/(a\u00b7c\u00b7d) + 1/(a\u00b7b\u00b7d).\n    Witness: (x, y, z) = (b\u00b7c\u00b7d\u00b7n, a\u00b7c\u00b7d, a\u00b7b\u00b7d). -/\ntheorem mordell_family_a (n a b c d : \u2115)\n    (hn : 0 < n) (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) (hd : 0 < d)\n    (h : a + b * n + c * n = 4 * a * b * c * d) :\n    (4 : \u211a) / n = 1 / (\u2191b * \u2191c * \u2191d * \u2191n) + 1 / (\u2191a * \u2191c * \u2191d) + 1 / (\u2191a * \u2191b * \u2191d) := by\n  have hn' : (n : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hn.ne'\n  have ha' : (a : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr ha.ne'\n  have hb' : (b : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hb.ne'\n  have hc' : (c : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hc.ne'\n  have hd' : (d : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hd.ne'\n  have h' : (a : \u211a) + \u2191b * \u2191n + \u2191c * \u2191n = 4 * \u2191a * \u2191b * \u2191c * \u2191d := by exact_mod_cast h\n  -- Both sides equal (a + b\u00b7n + c\u00b7n) / (a\u00b7b\u00b7c\u00b7d\u00b7n)\n  have step : (1 : \u211a) / (\u2191b * \u2191c * \u2191d * \u2191n) + 1 / (\u2191a * \u2191c * \u2191d) + 1 / (\u2191a * \u2191b * \u2191d)\n            = (\u2191a + \u2191b * \u2191n + \u2191c * \u2191n) / (\u2191a * \u2191b * \u2191c * \u2191d * \u2191n) := by\n    field_simp; ring\n  rw [step, h']\n  field_simp; ring\n\n/-- **Family B** (Mordell eq. 3): if n\u00b7a + b + c = 4\u00b7a\u00b7b\u00b7c\u00b7d then\n    4/n = 1/(b\u00b7c\u00b7d) + 1/(n\u00b7a\u00b7b\u00b7d) + 1/(n\u00b7a\u00b7c\u00b7d).\n    Witness: (x, y, z) = (b\u00b7c\u00b7d, n\u00b7a\u00b7b\u00b7d, n\u00b7a\u00b7c\u00b7d). -/\ntheorem mordell_family_b (n a b c d : \u2115)\n    (hn : 0 < n) (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) (hd : 0 < d)\n    (h : n * a + b + c = 4 * a * b * c * d) :\n    (4 : \u211a) / n = 1 / (\u2191b * \u2191c * \u2191d) + 1 / (\u2191n * \u2191a * \u2191b * \u2191d) + 1 / (\u2191n * \u2191a * \u2191c * \u2191d) := by\n  have hn' : (n : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hn.ne'\n  have ha' : (a : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr ha.ne'\n  have hb' : (b : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hb.ne'\n  have hc' : (c : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hc.ne'\n  have hd' : (d : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hd.ne'\n  have h' : (n : \u211a) * \u2191a + \u2191b + \u2191c = 4 * \u2191a * \u2191b * \u2191c * \u2191d := by exact_mod_cast h\n  -- Both sides equal (n\u00b7a + b + c) / (n\u00b7a\u00b7b\u00b7c\u00b7d)\n  have step : (1 : \u211a) / (\u2191b * \u2191c * \u2191d) + 1 / (\u2191n * \u2191a * \u2191b * \u2191d) + 1 / (\u2191n * \u2191a * \u2191c * \u2191d)\n            = (\u2191n * \u2191a + \u2191b + \u2191c) / (\u2191n * \u2191a * \u2191b * \u2191c * \u2191d) := by\n    field_simp; ring\n  rw [step, h']\n  field_simp; ring\n\n/-! ## Covering Congruence Classes\n\nExplicit solutions for each congruence class covered by Mordell's argument.\nAll proofs are direct rational identities, closed by `field_simp; ring`. -/\n\n/-- n \u2261 0 mod 4: take x = y = z = 3n/4.\n    Subsumes the even-n case for multiples of 4. -/\ntheorem erdos_straus_zero_mod4 (k : \u2115) (hk : 0 < k) :\n    (4 : \u211a) / (4 * k) = 1 / (3 * k) + 1 / (3 * k) + 1 / (3 * k) := by\n  have hk' : (k : \u211a) \u2260 0 := Nat.cast_ne_zero.mpr hk.ne'\n  field_simp; ring\n\n/-- n \u2261 2 mod 4, n = 4k+2: Family B with (a,b,c,d) = (1,1,1,k+1).\n    Condition: (4k+2)\u00b71 + 1 + 1 = 4k+4 = 4(k+1). \u2713\n    Witness: (x,y,z) = (k+1, (4k+2)(k+1), (4k+2)(k+1)). -/\ntheorem erdos_straus_two_mod4 (k : \u2115) :\n    (4 : \u211a) / (4 * k + 2) =\n      1 / ((k : \u211a) + 1) +\n      1 / ((4 * k + 2) * (k + 1)) +\n      1 / ((4 * k + 2) * (k + 1)) := by\n  have h1 : (k : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 4 * (k : \u211a) + 2 \u2260 0 := by positivity\n  field_simp; ring\n\n/-- n \u2261 5 mod 8, n = 8k+5: Family B with (a,b,c,d) = (1,1,2,k+1).\n    Condition: (8k+5)\u00b71 + 1 + 2 = 8k+8 = 8(k+1). \u2713\n    Witness: (x,y,z) = (2(k+1), (8k+5)(k+1), 2(8k+5)(k+1)). -/\ntheorem erdos_straus_five_mod8 (k : \u2115) :\n    (4 : \u211a) / (8 * k + 5) =\n      1 / (2 * ((k : \u211a) + 1)) +\n      1 / ((8 * k + 5) * (k + 1)) +\n      1 / (2 * (8 * k + 5) * (k + 1)) := by\n  have h1 : (k : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 8 * (k : \u211a) + 5 \u2260 0 := by positivity\n  field_simp; ring\n\n/-- n \u2261 2 mod 3, n = 3m+2: Family B with (a,b,c,d) = (1,1,m+1,1).\n    Condition: (3m+2)\u00b71 + 1 + (m+1) = 4m+4 = 4(m+1). \u2713\n    Witness: (x,y,z) = (m+1, (3m+2), (3m+2)(m+1)).\n    (Corresponds to Mordell's q=3 case.) -/\ntheorem erdos_straus_two_mod3 (m : \u2115) :\n    (4 : \u211a) / (3 * m + 2) =\n      1 / ((m : \u211a) + 1) +\n      1 / (3 * m + 2) +\n      1 / ((3 * m + 2) * (m + 1)) := by\n  have h1 : (m : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 3 * (m : \u211a) + 2 \u2260 0 := by positivity\n  field_simp; ring\n\n/-- n \u2261 6 mod 7, n = 7j+6: Family B with (a,b,c,d) = (1,1,j+1,j+1) \u2014 wait:\n    Condition: (7j+6)\u00b71 + 1 + (j+1) = 8j+8 = 8(j+1). And 4\u00b71\u00b71\u00b7(j+1)\u00b7d = 4(j+1)d.\n    We need 8(j+1) = 4(j+1)d, so d=2.\n    So (a,b,c,d) = (1,1,j+1,2): Condition (7j+6) + 1 + (j+1) = 8(j+1) = 4\u00b71\u00b71\u00b7(j+1)\u00b72. \u2713\n    Witness: (x,y,z) = (2(j+1), (7j+6)\u00b72, (7j+6)\u00b72(j+1)).\n    (Corresponds to Mordell's q=7, b=1, n\u2261-1 mod 7 case.) -/\ntheorem erdos_straus_six_mod7 (j : \u2115) :\n    (4 : \u211a) / (7 * j + 6) =\n      1 / (2 * ((j : \u211a) + 1)) +\n      1 / (2 * (7 * j + 6)) +\n      1 / (2 * (7 * j + 6) * (j + 1)) := by\n  have h1 : (j : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 7 * (j : \u211a) + 6 \u2260 0 := by positivity\n  field_simp; ring\n\n/-- n \u2261 5 mod 7, n = 7j+5: Family B with (a,b,c,d) = (1,2,j+1,?) ...\n    Condition: (7j+5)\u00b71 + 2 + (j+1) = 8j+8 = 8(j+1) = 4\u00b71\u00b72\u00b7(j+1)\u00b71. \u2713\n    So (a,b,c,d) = (1,2,j+1,1).\n    Witness: (x,y,z) = (2(j+1), (7j+5)\u00b72, (7j+5)\u00b72(j+1))... let me recheck:\n    (x,y,z) = (b\u00b7c\u00b7d, n\u00b7a\u00b7b\u00b7d, n\u00b7a\u00b7c\u00b7d) = (2\u00b7(j+1)\u00b71, n\u00b71\u00b72\u00b71, n\u00b71\u00b7(j+1)\u00b71)\n             = (2(j+1), 2n, n(j+1)).\n    Verify: 1/(2(j+1)) + 1/(2n) + 1/(n(j+1)) = (n + (j+1) + 2)/... \n    (Corresponds to Mordell's q=7, ab|2, n\u2261-2 mod 7 case.) -/\ntheorem erdos_straus_five_mod7 (j : \u2115) :\n    (4 : \u211a) / (7 * j + 5) =\n      1 / (2 * ((j : \u211a) + 1)) +\n      1 / (2 * (7 * j + 5)) +\n      1 / ((7 * j + 5) * (j + 1)) := by\n  have h1 : (j : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 7 * (j : \u211a) + 5 \u2260 0 := by positivity\n  field_simp; ring\n\n/-- n \u2261 3 mod 7, n = 7j+3: Family B with (a,b,c,d) = (1,4,j+1,?).\n    Condition: (7j+3)\u00b71 + 4 + (j+1) = 8j+8 = 8(j+1) = 4\u00b71\u00b74\u00b7(j+1)\u00b7(1/2)... hmm d must be \u2115.\n    Better: (a,b,c,d)=(1,1,4j+3,?) \u2013 use Family B: n + 1 + (4j+4) = 7j+3+1+4j+4 = 11j+8... \n    Actually try (a,b,c,d)=(1,4,4j+3,1): n + 4 + (4j+3) = 11j+10 \u2260 4\u00b7...\n    Correct approach: n=7j+3, try (a,b,c,d)=(1,2,2j+1,2):\n    n + 2 + (2j+1) = 9j+6 \u2260 4\u00b71\u00b72\u00b7(2j+1)\u00b72 = 8(2j+1) = 16j+8 for j=0: 6 \u2260 8.\n    Use a different approach for n\u22613 mod 7: n \u2261 -4 mod 7, so q=7, a=1, b=4:\n    n + 4 = 7c, c=(n+4)/7 = (7j+7)/7 = j+1. Then Family B with a=1, b=4, c=j+1:\n    n\u00b71 + 4 + (j+1) = 7j+3+4+j+1 = 8j+8 = 4\u00b71\u00b74\u00b7(j+1)\u00b7(1/2)... d not integer.\n    Try: n\u00b72 + 4 + (2j+2) = 2(7j+3)+4+2j+2 = 16j+12 = 4\u00b72\u00b74\u00b7(2j+2)/... messy.\n    Just verify the direct identity: -/\ntheorem erdos_straus_three_mod7 (j : \u2115) :\n    (4 : \u211a) / (7 * j + 3) =\n      1 / (2 * ((j : \u211a) + 1)) +\n      1 / (7 * j + 3) +\n      1 / (2 * (7 * j + 3) * (j + 1)) := by\n  have h1 : (j : \u211a) + 1 \u2260 0 := by positivity\n  have h2 : 7 * (j : \u211a) + 3 \u2260 0 := by positivity\n  field_simp\n  ring\n  -- This reduces to 8(j+1) = (7j+3+1+2) which fails \u2014 this identity is WRONG.\n  -- The correct witness for n\u22613 mod 7 comes from a different parametric family.\n  -- TODO: find the right (a,b,c,d) for this case.\n\n/-! ## Main Theorem -/\n\n/-- **Mordell's Covering Theorem** (1967): the Erd\u0151s\u2013Straus conjecture holds for all n \u2265 2\n    with n % 840 \u2209 {1, 121, 169, 289, 361, 529}.\n\n    The modulus 840 = 8 \u00b7 3 \u00b7 5 \u00b7 7 = lcm(8, 3, 5, 7) arises from combining:\n    - mod 8:  n \u2261 0,2,4,6 (even); n \u2261 3,7 (\u22613 mod 4); n \u2261 5 (\u22615 mod 8) all covered.\n    - mod 3:  n \u2261 0 (multiple of 3) or n \u2261 2 mod 3 covered; leaves n \u2261 1 mod 3.\n    - mod 5:  further reductions via q=15 covering n \u2261 3,2 mod 5.\n    - mod 7:  reductions via q=7 covering n \u2261 3,5,6 mod 7 and multiples of 7.\n    By CRT, only n \u2261 1,121,169,289,361,529 mod 840 may remain uncovered. -/\ntheorem mordell_covering (n : \u2115) (hn : 2 \u2264 n)\n    (h : n % 840 \u2209 ({1, 121, 169, 289, 361, 529} : Finset \u2115)) :\n    \u2203 x y z : \u2115, 0 < x \u2227 0 < y \u2227 0 < z \u2227\n      (4 : \u211a) / n = 1 / x + 1 / y + 1 / z := by\n  sorry\n  -- Strategy: case split on n % 840 (which has 840 cases).\n  -- For each of the 834 non-exceptional residues, supply explicit witnesses\n  -- using one of: erdos_straus_even, erdos_straus_three_mod4, erdos_straus_five_mod12,\n  -- erdos_straus_nine_mod12, erdos_straus_zero_mod4, erdos_straus_two_mod4,\n  -- erdos_straus_five_mod8, erdos_straus_two_mod3, or mordell_family_b directly.\n  -- The case split itself can be driven by `omega` on n % 840.\n  -- Completing this sorry is a major but routine formalization task.\n\nend ErdosStraus",
       "mathlib_imports": [
         "import Mathlib",
@@ -1301,7 +1303,8 @@
       "confidence": "partial",
       "status": "draft",
       "notes": "The two core parametric lemmas (mordell_family_a, mordell_family_b) and five specific congruence cases (mod 4, mod 8, mod 3, mod 7 partial) are complete. The erdos_straus_three_mod7 theorem has an incorrect identity in the draft \u2014 needs fixing before removing the ring/sorry. The main mordell_covering theorem has a clear sorry with an explicit completion strategy. The modulus 840 = lcm(8,3,5,7) and the 6 exceptional residues are correctly identified.",
-      "summary": "Partial Lean 4 formalization of Mordell's (1967) covering system: parametric families A and B proved, five congruence cases proved, main covering theorem stated with sorry."
+      "summary": "Partial Lean 4 formalization of Mordell's (1967) covering system: parametric families A and B proved, five congruence cases proved, main covering theorem stated with sorry.",
+      "lean_file": "SophieFormalization/ErdosStraus/Mordell.lean"
     }
   ]
 }</script>
@@ -1313,22 +1316,107 @@
     if (raw && raw !== 'null') {
       const data = JSON.parse(raw);
       if (data && data.session_id) {
-        document.addEventListener('DOMContentLoaded', () => render(data));
+        document.addEventListener('DOMContentLoaded', () => {
+          render(data);
+          tryFetchManifest(/* silent= */ true);
+        });
         return;
       }
     }
   } catch (e) { console.warn('session-data parse error:', e); }
+  // No embedded data — try manifest
+  document.addEventListener('DOMContentLoaded', () => tryFetchManifest());
 })();
+
+// ── Fetch-based session list (works when served via HTTP) ──────────────────
+async function tryFetchManifest(silent = false) {
+  try {
+    const resp = await fetch('./manifest.json', { cache: 'no-store' });
+    if (!resp.ok) return;
+    const sessions = await resp.json();
+    if (!Array.isArray(sessions) || !sessions.length) return;
+    populateFromManifest(sessions, silent);
+  } catch { /* not served via HTTP — ignore */ }
+}
+
+async function populateFromManifest(sessions, silent = false) {
+  const list = document.getElementById('session-list');
+  const wrap = document.getElementById('session-list-wrap');
+  const currentEntry = sessions.find(s => s.current);
+
+  document.getElementById('session-list-label').textContent =
+    `${sessions.length} session${sessions.length !== 1 ? 's' : ''}`;
+
+  list.innerHTML = sessions.map((s, i) => {
+    const conj = s.conjecture?.length > 100
+      ? s.conjecture.slice(0, 100) + '\u2026' : (s.conjecture || s.filename);
+    const statusClass = 'status-' + (s.status || 'open');
+    const rounds = s.rounds_completed ?? 0;
+    const ts = formatTimestamp(s.session_id);
+    const currentBadge = s.current
+      ? '<span class="card-badge" style="background:rgba(124,131,245,0.15);color:var(--accent);border:1px solid rgba(124,131,245,0.3)">current</span>' : '';
+    return `
+      <div class="session-item${s.current ? ' session-current' : ''}" data-filename="${esc(s.filename)}">
+        <div>
+          <div class="session-conjecture">${esc(conj)}</div>
+          <div class="session-meta">${esc(ts)} \u00b7 ${rounds} round${rounds !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="session-right">
+          ${currentBadge}
+          <span class="status-badge ${statusClass}">${esc(s.status || '?')}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  list.querySelectorAll('.session-item').forEach(el => {
+    el.addEventListener('click', async () => {
+      try {
+        const url = './' + el.dataset.filename;
+        const r = await fetch(url, { cache: 'no-store' });
+        _currentFetchUrl = url;
+        _currentHandle = null;
+        render(await r.json());
+        // Tell the server to update current.json + manifest.json (best-effort)
+        fetch('/set-current', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: el.dataset.filename }),
+        }).then(resp => {
+          if (resp.ok) {
+            // Update current highlight in the list without a full re-render
+            list.querySelectorAll('.session-item').forEach(item =>
+              item.classList.toggle('session-current', item === el)
+            );
+          }
+        }).catch(() => { /* serve.py not running — ignore */ });
+      } catch (e) { console.error('Failed to load session:', e); }
+    });
+  });
+
+  wrap.style.display = 'block';
+
+  // Auto-load current session (only if not already showing one)
+  if (!silent && currentEntry) {
+    try {
+      const url = './' + currentEntry.filename;
+      const r = await fetch(url, { cache: 'no-store' });
+      _currentFetchUrl = url;
+      _currentHandle = null;
+      render(await r.json());
+    } catch { /* ignore */ }
+  }
+}
 
 // ── State ──────────────────────────────────────────────────────────────────
 let _dirHandle     = null;
 let _currentHandle = null;   // FileSystemFileHandle for the open session
+let _currentFetchUrl = null; // URL for fetch-based sessions (HTTP mode)
 let _pollInterval  = null;   // auto-refresh timer
 
 function startPolling() {
   stopPolling();
   _pollInterval = setInterval(async () => {
-    if (_currentHandle) await reloadCurrentSession();
+    await reloadCurrentSession();
   }, 15000);
 }
 
@@ -1337,11 +1425,14 @@ function stopPolling() {
 }
 
 async function reloadCurrentSession() {
-  if (!_currentHandle) return;
   try {
-    const file = await _currentHandle.getFile();
-    const text = await file.text();
-    render(JSON.parse(text));
+    if (_currentHandle) {
+      const file = await _currentHandle.getFile();
+      render(JSON.parse(await file.text()));
+    } else if (_currentFetchUrl) {
+      const r = await fetch(_currentFetchUrl, { cache: 'no-store' });
+      render(await r.json());
+    }
   } catch (e) { console.warn('Auto-reload failed:', e); }
 }
 
@@ -1371,8 +1462,9 @@ btnDir.addEventListener('click', async () => {
 btnRefresh.addEventListener('click', async () => {
   // If a session is open, re-read and re-render it first
   if (_currentHandle) await reloadCurrentSession();
-  // Then also refresh the session list in the background
+  // Refresh session list — prefer dir handle, fall back to manifest
   if (_dirHandle) await populateSessionList(_dirHandle);
+  else await tryFetchManifest(/* silent= */ true);
 });
 
 async function populateSessionList(dirHandle) {
@@ -1496,9 +1588,12 @@ function loadFile(file) {
 function resetViewer() {
   stopPolling();
   _currentHandle = null;
+  _currentFetchUrl = null;
   document.getElementById('landing').style.display = 'block';
   document.getElementById('app').style.display = 'none';
   fileInput.value = '';
+  // Refresh session list from manifest (if no dir handle open)
+  if (!_dirHandle) tryFetchManifest(/* silent= */ true);
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────
@@ -1541,8 +1636,8 @@ function render(d) {
 
   document.getElementById('landing').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  // Start auto-polling if we have a persistent file handle
-  if (_currentHandle) startPolling();
+  // Start auto-polling if we have a persistent file handle or fetch URL
+  if (_currentHandle || _currentFetchUrl) startPolling();
 }
 
 function renderRounds(d) {

@@ -126,33 +126,35 @@ def _set_current_session(session_id: str) -> None:
     current_path = os.path.join(config.KB_DIR, "current.json")
     with open(current_path, "w") as f:
         json.dump({"session_id": session_id}, f)
-    _inject_viewer(session_id)
+    _write_manifest(current_id=session_id)
 
 
-def _inject_viewer(session_id: str) -> None:
-    """Embed the current session's JSON into viewer.html for instant auto-load."""
-    viewer_path = os.path.join(config.KB_DIR, "viewer.html")
-    kb_path     = os.path.join(config.KB_DIR, f"{session_id}.json")
-    if not os.path.exists(viewer_path) or not os.path.exists(kb_path):
-        return
-    try:
-        with open(kb_path) as f:
-            session_json = f.read()
-        with open(viewer_path) as f:
-            html = f.read()
-        # Replace content between the session-data script tags
-        html = re.sub(
-            r'(<script id="session-data" type="application/json">)(.*?)(</script>)',
-            lambda m: m.group(1) + session_json + m.group(3),
-            html,
-            flags=re.DOTALL,
-        )
-        with open(viewer_path, "w") as f:
-            f.write(html)
-    except Exception as exc:
-        import traceback
-        traceback.print_exc()
-        print(f"[Sophie] _inject_viewer failed: {exc}", file=sys.stderr)
+def _write_manifest(current_id: str | None = None) -> None:
+    kb_dir = config.KB_DIR
+    skip = {"current.json", "manifest.json"}
+    entries = []
+    for fname in sorted(os.listdir(kb_dir), reverse=True):
+        if not fname.endswith(".json") or fname in skip:
+            continue
+        fpath = os.path.join(kb_dir, fname)
+        try:
+            with open(fpath) as f:
+                d = json.load(f)
+            if not d.get("session_id"):
+                continue
+            entries.append({
+                "filename": fname,
+                "session_id": d["session_id"],
+                "conjecture": d.get("conjecture", ""),
+                "status": d.get("status", "open"),
+                "rounds_completed": d.get("rounds_completed", 0),
+                "current": d["session_id"] == current_id,
+            })
+        except Exception:
+            pass
+    manifest_path = os.path.join(kb_dir, "manifest.json")
+    with open(manifest_path, "w") as f:
+        json.dump(entries, f, indent=2)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -443,7 +445,7 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _cli_refresh(session_id: str | None = None) -> None:
-    """Update current.json and inject viewer.  Used by refresh_viewer.py."""
+    """Update current.json and manifest.json.  Used by refresh_viewer.py."""
     if session_id is None:
         current_path = os.path.join(config.KB_DIR, "current.json")
         if os.path.exists(current_path):
