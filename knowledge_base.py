@@ -111,6 +111,7 @@ class KnowledgeBase:
             "examples": [],
             "proof_attempts": [],
             "disproof_attempts": [],
+            "formalization_attempts": [],
             "log": [],
             "round_summaries": [],
         }
@@ -247,6 +248,41 @@ class KnowledgeBase:
                 da["status"] = status
                 da["checker_feedback"] = feedback
         self._save()
+
+    # ── Formalization attempts ───────────────────────────────────────────────
+
+    def add_formalization_attempt(
+        self,
+        source_id: str,
+        lean_code: str,
+        mathlib_imports: list,
+        sorries: list,
+        confidence: str,
+        notes: str,
+        summary: str,
+    ) -> str:
+        fid = f"FA-{uuid.uuid4().hex[:6].upper()}"
+        self._data.setdefault("formalization_attempts", []).append(
+            {
+                "id": fid,
+                "source_id": source_id,
+                "lean_code": lean_code,
+                "mathlib_imports": mathlib_imports,
+                "sorries": sorries,
+                "confidence": confidence,
+                "status": "draft",
+                "notes": notes,
+                "summary": summary,
+            }
+        )
+        self._save()
+        return fid
+
+    def formalization_attempts_for(self, source_id: str) -> list:
+        return [
+            fa for fa in self._data.get("formalization_attempts", [])
+            if fa["source_id"] == source_id
+        ]
 
     # ── Final verdict ────────────────────────────────────────────────────────
 

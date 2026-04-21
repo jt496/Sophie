@@ -121,6 +121,37 @@ def _load_kb(session_id: str) -> KnowledgeBase | None:
     return KnowledgeBase(session_id=session_id)
 
 
+def _set_current_session(session_id: str) -> None:
+    current_path = os.path.join(config.KB_DIR, "current.json")
+    with open(current_path, "w") as f:
+        json.dump({"session_id": session_id}, f)
+    _inject_viewer(session_id)
+
+
+def _inject_viewer(session_id: str) -> None:
+    """Embed the current session's JSON into viewer.html for instant auto-load."""
+    viewer_path = os.path.join(config.KB_DIR, "viewer.html")
+    kb_path     = os.path.join(config.KB_DIR, f"{session_id}.json")
+    if not os.path.exists(viewer_path) or not os.path.exists(kb_path):
+        return
+    try:
+        with open(kb_path) as f:
+            session_json = f.read()
+        with open(viewer_path) as f:
+            html = f.read()
+        # Replace content between the session-data script tags
+        html = re.sub(
+            r'(<script id="session-data" type="application/json">)(.*?)(</script>)',
+            lambda m: m.group(1) + session_json + m.group(3),
+            html,
+            flags=re.DOTALL,
+        )
+        with open(viewer_path, "w") as f:
+            f.write(html)
+    except Exception:
+        pass
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Tools
 # ─────────────────────────────────────────────────────────────────────────────
@@ -139,6 +170,7 @@ def start_session(conjecture: str) -> str:
     session_id = datetime.now().strftime("%Y%m%d_%H%M%S") + (f"_{slug}" if slug else "")
     kb = KnowledgeBase(session_id=session_id)
     kb.set_conjecture(conjecture.strip())
+    _set_current_session(kb.session_id)
     return json.dumps({
         "session_id": kb.session_id,
         "file": kb.path(),
@@ -197,6 +229,7 @@ def submit_round_results(session_id: str, round: int, results_json: str) -> str:
 
     conductor = Conductor(kb)
     outcome = conductor.process_results(round, results)
+    _set_current_session(session_id)
 
     if outcome["resolved"]:
         outcome["next_step"] = (
@@ -252,6 +285,101 @@ def list_sessions() -> str:
             sessions.append({"session_id": Path(f).stem, "error": "unreadable"})
 
     return json.dumps(sessions)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Formalization tools
+# ─────────────────────────────────────────────────────────────────────────────
+
+@mcp.tool()
+def get_formalization_task(session_id: str, source_id: str) -> str:
+    """
+    Return the Formalizer agent task for a specific proof attempt or subproblem.
+
+    Call this when the user asks to formalize a result.  source_id should be a
+    proof attempt ID (PA-XXXXXX) or subproblem ID (SP-XXXXXX) from the session.
+
+    Returns JSON with: agent, system_prompt, user_message.
+    Read the system_prompt and user_message, respond as the Formalizer agent
+    (output only the JSON block described in the system prompt), then pass the
+    response to submit_formalization.
+
+    Args:
+        session_id: The session ID.
+        source_id:  The ID of the proof attempt or subproblem to formalize.
+    """
+    from agents.formalizer import Formalizer
+
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    snap = kb.snapshot()
+
+    # Locate the source text
+    source_text = None
+    for pa in snap["proof_attempts"]:
+        if pa["id"] == source_id:
+            source_text = pa["sketch"]
+            break
+    if source_text is None:
+        for sp in snap["subproblems"]:
+            if sp["id"] == source_id:
+                source_text = sp["description"]
+                if sp.get("resolution"):
+                    source_text += f"\n\nResolution: {sp['resolution']}"
+                break
+    if source_text is None:
+        return json.dumps({"error": f"ID '{source_id}' not found in session '{session_id}'."})
+
+    formalizer = Formalizer(kb)
+    task = formalizer.get_formalization_task(source_id=source_id, source_text=source_text)
+    return json.dumps(task)
+
+
+@mcp.tool()
+def submit_formalization(session_id: str, source_id: str, response_json: str) -> str:
+    """
+    Store the Formalizer agent's Lean 4 output in the knowledge base.
+
+    response_json is the raw JSON string produced by the Formalizer agent.
+
+    Returns JSON with: formalization_id, summary, confidence, sorry_count.
+
+    Args:
+        session_id:    The session ID.
+        source_id:     The proof attempt or subproblem ID that was formalized.
+        response_json: The Formalizer's JSON response string.
+    """
+    from agents.base_agent import BaseAgent
+
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    parsed = BaseAgent._extract_json(response_json)
+    if parsed.get("parse_error"):
+        return json.dumps({"error": "Could not parse Formalizer response JSON."})
+
+    fid = kb.add_formalization_attempt(
+        source_id=source_id,
+        lean_code=parsed.get("lean_code", ""),
+        mathlib_imports=parsed.get("mathlib_imports", []),
+        sorries=parsed.get("sorries", []),
+        confidence=parsed.get("confidence", "partial"),
+        notes=parsed.get("notes", ""),
+        summary=parsed.get("summary", ""),
+    )
+    kb.log(kb.rounds_completed, "Formalizer", parsed.get("summary", ""))
+    _set_current_session(session_id)
+
+    return json.dumps({
+        "formalization_id": fid,
+        "summary": parsed.get("summary", ""),
+        "confidence": parsed.get("confidence", "partial"),
+        "sorry_count": len(parsed.get("sorries", [])),
+        "next_step": f"Use get_session_status('{session_id}') to see the full formalization.",
+    })
 
 
 # ─────────────────────────────────────────────────────────────────────────────

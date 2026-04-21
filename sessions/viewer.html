@@ -1,4 +1,457 @@
-{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>Sophie Session Viewer</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222536;
+    --border: #2e3250;
+    --accent: #7c83f5;
+    --green: #4caf7d;
+    --red: #e06c75;
+    --yellow: #e5c07b;
+    --muted: #6b7280;
+    --text: #d4d8f0;
+    --text-dim: #8890b0;
+    --font: 'Segoe UI', system-ui, sans-serif;
+    --mono: 'Cascadia Code', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Landing ── */
+  #landing {
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 24px;
+  }
+  .landing-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .landing-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; }
+
+  .action-row { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+  .btn-primary {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 7px;
+    padding: 9px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: var(--font);
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); color: var(--text-dim);
+    border: 1px solid var(--border); border-radius: 7px;
+    padding: 9px 18px; font-size: 13px;
+    cursor: pointer; font-family: var(--font);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .btn-secondary:hover { color: var(--text); border-color: var(--accent); }
+
+  /* Drop zone (fallback / drag-onto-page) */
+  #drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    gap: 10px;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 28px;
+  }
+  #drop-zone:hover, #drop-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(124, 131, 245, 0.05);
+  }
+  #drop-zone svg { opacity: 0.35; }
+  #drop-zone p { color: var(--text-dim); font-size: 14px; }
+  #drop-zone small { color: var(--muted); font-size: 12px; }
+  #file-input { display: none; }
+
+  /* Session list */
+  #session-list { display: flex; flex-direction: column; gap: 8px; }
+  #session-list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  #session-list-header span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .session-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .session-item:hover { border-color: var(--accent); background: var(--surface2); }
+  .session-current { border-color: rgba(124,131,245,0.4); }
+  .session-conjecture { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .session-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .session-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  #no-dir-support { color: var(--muted); font-size: 12px; font-style: italic; }
+
+  /* ── Main layout ── */
+  #app { display: none; max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .conjecture-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.5;
+  }
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .status-open     { background: rgba(229,192,123,0.15); color: var(--yellow); border: 1px solid rgba(229,192,123,0.3); }
+  .status-proved   { background: rgba(76,175,125,0.15);  color: var(--green);  border: 1px solid rgba(76,175,125,0.3); }
+  .status-disproved{ background: rgba(224,108,117,0.15); color: var(--red);    border: 1px solid rgba(224,108,117,0.3); }
+  .status-unknown  { background: rgba(107,114,128,0.15); color: var(--muted);  border: 1px solid rgba(107,114,128,0.3); }
+
+  .header-meta { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+  .meta-item { color: var(--text-dim); font-size: 12px; }
+  .meta-item span { color: var(--text); font-weight: 500; }
+
+  /* ── Stats row ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-number { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .stat-label  { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+  .tab-count {
+    display: inline-block;
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 11px;
+    margin-left: 5px;
+    color: var(--muted);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── Timeline ── */
+  .timeline { display: flex; flex-direction: column; gap: 16px; }
+
+  .round-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .round-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .round-title { font-weight: 600; font-size: 13px; color: var(--accent); }
+  .round-agents { display: flex; gap: 6px; }
+  .agent-pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  .agent-Experimenter { background: rgba(97,175,254,0.15); color: #61afef; }
+  .agent-Prover       { background: rgba(76,175,125,0.15); color: var(--green); }
+  .agent-Disprover    { background: rgba(224,108,117,0.15); color: var(--red); }
+  .agent-Checker      { background: rgba(229,192,123,0.15); color: var(--yellow); }
+  .agent-Searcher     { background: rgba(198,120,221,0.15); color: #c678dd; }
+  .agent-Formalizer   { background: rgba(86,182,194,0.15); color: #56b6c2; }
+
+  .chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+  .round-block.collapsed .chevron { transform: rotate(-90deg); }
+
+  .round-entries { padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .round-block.collapsed .round-entries { display: none; }
+
+  .agent-entry { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: start; }
+  .agent-name-col { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .agent-summary { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+  .agent-summary strong { color: var(--text); }
+
+  .round-narrative {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .round-narrative-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+
+  /* ── Cards (examples, attempts) ── */
+  .card-grid { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
+  }
+  .card-header:hover { background: var(--surface2); }
+  .card-id   { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .card-title { flex: 1; font-size: 13px; font-weight: 500; }
+  .card-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .badge-supports    { background: rgba(76,175,125,0.15); color: var(--green); }
+  .badge-contradicts { background: rgba(224,108,117,0.15); color: var(--red); }
+  .badge-neutral     { background: rgba(107,114,128,0.15); color: var(--muted); }
+  .badge-valid       { background: rgba(76,175,125,0.15); color: var(--green); }
+  .badge-flawed      { background: rgba(224,108,117,0.15); color: var(--red); }
+  .badge-unchecked   { background: rgba(229,192,123,0.15); color: var(--yellow); }
+  .badge-open        { background: rgba(107,114,128,0.15); color: var(--muted); }
+  .badge-partial     { background: rgba(229,192,123,0.15); color: var(--yellow); }
+  .badge-invalid     { background: rgba(224,108,117,0.15); color: var(--red); }
+  .badge-resolved    { background: rgba(76,175,125,0.15); color: var(--green); }
+
+  .card-body {
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: var(--mono);
+    font-size: 12px;
+    display: none;
+  }
+  .card.expanded .card-body { display: block; }
+
+  .checker-feedback {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .checker-feedback.valid { border-left-color: var(--green); }
+  .checker-feedback.flawed { border-left-color: var(--red); }
+
+  .round-tag { font-size: 11px; color: var(--muted); }
+
+  /* ── Subproblems ── */
+  .sp-list { display: flex; flex-direction: column; gap: 8px; }
+  .sp-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .sp-icon { font-size: 14px; margin-top: 1px; }
+  .sp-desc { font-size: 13px; color: var(--text); }
+  .sp-resolution { margin-top: 6px; font-size: 12px; color: var(--green); }
+  .sp-source { font-size: 11px; color: var(--muted); }
+
+  /* ── Empty state ── */
+  .empty { text-align: center; padding: 40px; color: var(--muted); }
+
+  /* ── Load another ── */
+  .reload-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--font);
+  }
+  .reload-btn:hover { color: var(--text); border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- Landing -->
+<div id="landing">
+  <div class="landing-title">Sophie Session Viewer</div>
+  <div class="landing-sub">Browse your conjecture exploration sessions.</div>
+
+  <div class="action-row">
+    <button class="btn-primary" id="btn-browse-dir">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+      Open sessions folder
+    </button>
+    <button class="btn-secondary" id="btn-single-file">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Open single file
+    </button>
+    <span id="no-dir-support" style="display:none;align-self:center;">Folder browsing not supported in this browser — use single file or drag &amp; drop.</span>
+  </div>
+
+  <div id="drop-zone">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="12" y1="18" x2="12" y2="12"/>
+      <polyline points="9 15 12 12 15 15"/>
+    </svg>
+    <p>Drop a session JSON file here</p>
+    <small>or use the buttons above</small>
+  </div>
+
+  <div id="session-list-wrap" style="display:none">
+    <div id="session-list-header">
+      <span id="session-list-label">Sessions</span>
+      <button class="btn-secondary" style="padding:5px 12px;font-size:12px" id="btn-refresh" title="Reload current session from disk (also auto-refreshes every 15 s)">↻ Refresh</button>
+    </div>
+    <div id="session-list"></div>
+  </div>
+
+  <input type="file" id="file-input" accept=".json">
+</div>
+
+<!-- Main app -->
+<div id="app">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+    <div style="color:var(--muted); font-size:13px;">Sophie Session Viewer</div>
+    <button class="reload-btn" onclick="resetViewer()">← Back to sessions</button>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div class="conjecture-text" id="conjecture-text"></div>
+      <div class="status-badge" id="status-badge"></div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-item">Session <span id="meta-session"></span></div>
+      <div class="meta-item">Rounds completed: <span id="meta-rounds"></span></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><div class="stat-number" id="stat-examples">0</div><div class="stat-label">Examples</div></div>
+    <div class="stat-card"><div class="stat-number" id="stat-subproblems">0</div><div class="stat-label">Subproblems</div></div>
+    <div class="stat-card"><div class="stat-number" id="stat-proofs">0</div><div class="stat-label">Proof Attempts</div></div>
+    <div class="stat-card"><div class="stat-number" id="stat-disproofs">0</div><div class="stat-label">Disproof Attempts</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('rounds')">Rounds <span class="tab-count" id="tc-rounds">0</span></button>
+    <button class="tab" onclick="showTab('examples')">Examples <span class="tab-count" id="tc-examples">0</span></button>
+    <button class="tab" onclick="showTab('subproblems')">Subproblems <span class="tab-count" id="tc-subproblems">0</span></button>
+    <button class="tab" onclick="showTab('proofs')">Proof Attempts <span class="tab-count" id="tc-proofs">0</span></button>
+    <button class="tab" onclick="showTab('disproofs')">Disproof Attempts <span class="tab-count" id="tc-disproofs">0</span></button>
+    <button class="tab" onclick="showTab('lean')">Lean <span class="tab-count" id="tc-lean">0</span></button>
+  </div>
+
+  <div id="panel-rounds" class="tab-panel active"></div>
+  <div id="panel-examples" class="tab-panel"></div>
+  <div id="panel-subproblems" class="tab-panel"></div>
+  <div id="panel-proofs" class="tab-panel"></div>
+  <div id="panel-disproofs" class="tab-panel"></div>
+  <div id="panel-lean" class="tab-panel"></div>
+</div>
+
+<script id="session-data" type="application/json">{
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815",
   "status": "open",
@@ -1336,7 +1789,7 @@
         "Prover: Verified SP-CPLNG2 coupling tight across all tested graphs (EX-TGT16B). Extended Lean DisjointUnion.lean comments with full coupling explanation.",
         "Prover: Proposed PA-SHF16A \u2014 shifting/compression proof of SP-CPLNG2: apply left-shift to F, show shifted family is still intersecting and has F_k, F_{r-k} controlled by star slices.",
         "Checker: PA-SHF16A has a gap at Step 4 (shifting may destroy the intersecting property across different split types). Recorded SP-INJ16C: need to prove shifting preserves cross-split intersections.",
-        "Formalizer: FA-DU-MAIN \u2014 H\u2294H r-EKR main theorem: Cases 1/2/3a proved in Lean 4; Cases 3b/3b' sorry-stubbed pending SP-CPLNG2."
+        "Formalizer: FA-DU-MAIN \u2014 H\u2294H r-EKR main theorem: Cases 1/2/3a proved in Lean 4; Cases 3b/3b' sorry-stubbed pending SP-CPLNG2. Updated Lean file header with coupling argument."
       ],
       "narrative": "Round 16 consolidated the coupling insight from Round 15. Computational experiments (EX-TGT16B) confirmed that the coupled bound SP-CPLNG2 is not only true but tight: the mixed part of a right-star at vertex v achieves |F_k|+|F_{r-k}| = |I^k_v|\u00b7|I^{r-k}| + |I^{r-k}_v|\u00b7|I^k| with equality for all tested graphs including non-vertex-transitive ones. The Lean 4 DisjointUnion.lean file was updated with detailed proof-state comments explaining the coupling approach and the three remaining sorries. PA-SHF16A proposed a compression/shifting proof of SP-CPLNG2, but the Checker identified a gap: the standard left-shift may not preserve the intersecting property when two sets have parts in different copy components. This gap is recorded as new subproblem SP-INJ16C. The proof of SP-CPLNG2 remains open pending resolution of SP-INJ16C."
     }
@@ -1486,4 +1939,574 @@
       "source_agent": "Formalizer"
     }
   ]
+}</script>
+<script>
+// ── Auto-load embedded session data ───────────────────────────────────────
+(function () {
+  try {
+    const raw = document.getElementById('session-data').textContent.trim();
+    if (raw && raw !== 'null') {
+      const data = JSON.parse(raw);
+      if (data && data.session_id) {
+        document.addEventListener('DOMContentLoaded', () => render(data));
+        return;
+      }
+    }
+  } catch (e) { console.warn('session-data parse error:', e); }
+})();
+
+// ── State ──────────────────────────────────────────────────────────────────
+let _dirHandle     = null;
+let _currentHandle = null;   // FileSystemFileHandle for the open session
+let _pollInterval  = null;   // auto-refresh timer
+
+function startPolling() {
+  stopPolling();
+  _pollInterval = setInterval(async () => {
+    if (_currentHandle) await reloadCurrentSession();
+  }, 15000);
 }
+
+function stopPolling() {
+  if (_pollInterval) { clearInterval(_pollInterval); _pollInterval = null; }
+}
+
+async function reloadCurrentSession() {
+  if (!_currentHandle) return;
+  try {
+    const file = await _currentHandle.getFile();
+    const text = await file.text();
+    render(JSON.parse(text));
+  } catch (e) { console.warn('Auto-reload failed:', e); }
+}
+
+// ── DOM refs ───────────────────────────────────────────────────────────────
+const dropZone   = document.getElementById('drop-zone');
+const fileInput  = document.getElementById('file-input');
+const btnDir     = document.getElementById('btn-browse-dir');
+const btnSingle  = document.getElementById('btn-single-file');
+const btnRefresh = document.getElementById('btn-refresh');
+const noDirNote  = document.getElementById('no-dir-support');
+
+// ── Dir picker (File System Access API) ───────────────────────────────────
+if (!window.showDirectoryPicker) {
+  btnDir.style.display = 'none';
+  noDirNote.style.display = 'inline';
+}
+
+btnDir.addEventListener('click', async () => {
+  try {
+    _dirHandle = await window.showDirectoryPicker({ mode: 'read' });
+    await populateSessionList(_dirHandle);
+  } catch (e) {
+    if (e.name !== 'AbortError') console.error(e);
+  }
+});
+
+btnRefresh.addEventListener('click', async () => {
+  // If a session is open, re-read and re-render it first
+  if (_currentHandle) await reloadCurrentSession();
+  // Then also refresh the session list in the background
+  if (_dirHandle) await populateSessionList(_dirHandle);
+});
+
+async function populateSessionList(dirHandle) {
+  // Read current.json to find the active session
+  let currentId = null;
+  try {
+    const curHandle = await dirHandle.getFileHandle('current.json');
+    const curFile   = await curHandle.getFile();
+    const curData   = JSON.parse(await curFile.text());
+    currentId = curData.session_id ?? null;
+  } catch { /* no current.json yet */ }
+
+  const sessions = [];
+  for await (const [name, handle] of dirHandle.entries()) {
+    if (!name.endsWith('.json') || name === 'current.json') continue;
+    try {
+      const file = await handle.getFile();
+      const text = await file.text();
+      const data = JSON.parse(text);
+      sessions.push({ name, handle, data });
+    } catch { /* skip unreadable */ }
+  }
+
+  // Sort newest first
+  sessions.sort((a, b) => b.data.session_id?.localeCompare(a.data.session_id) ?? 0);
+
+  const list = document.getElementById('session-list');
+  const wrap = document.getElementById('session-list-wrap');
+
+  if (!sessions.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:16px 0">No session files found in this folder.</div>';
+    wrap.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('session-list-label').textContent =
+    `${sessions.length} session${sessions.length !== 1 ? 's' : ''}`;
+
+  list.innerHTML = sessions.map((s, i) => {
+    const d = s.data;
+    const isCurrent = d.session_id === currentId;
+    const conj = d.conjecture?.length > 100
+      ? d.conjecture.slice(0, 100) + '…' : (d.conjecture || s.name);
+    const statusClass = 'status-' + (d.status || 'open');
+    const rounds = d.rounds_completed ?? 0;
+    const ts = formatTimestamp(d.session_id);
+    const currentBadge = isCurrent
+      ? '<span class="card-badge" style="background:rgba(124,131,245,0.15);color:var(--accent);border:1px solid rgba(124,131,245,0.3)">current</span>' : '';
+    return `
+      <div class="session-item${isCurrent ? ' session-current' : ''}" data-idx="${i}">
+        <div>
+          <div class="session-conjecture">${esc(conj)}</div>
+          <div class="session-meta">${esc(ts)} · ${rounds} round${rounds !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="session-right">
+          ${currentBadge}
+          <span class="status-badge ${statusClass}">${esc(d.status || '?')}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  list.querySelectorAll('.session-item').forEach(el => {
+    const idx = +el.dataset.idx;
+    el.addEventListener('click', async () => {
+      _currentHandle = sessions[idx].handle;
+      try {
+        const file = await _currentHandle.getFile();
+        render(JSON.parse(await file.text()));
+      } catch {
+        render(sessions[idx].data);
+      }
+    });
+  });
+
+  wrap.style.display = 'block';
+
+  // Auto-load current session
+  const currentIdx = sessions.findIndex(s => s.data.session_id === currentId);
+  if (currentIdx !== -1) {
+    _currentHandle = sessions[currentIdx].handle;
+    try {
+      const file = await _currentHandle.getFile();
+      render(JSON.parse(await file.text()));
+    } catch {
+      render(sessions[currentIdx].data);
+    }
+  }
+}
+
+function formatTimestamp(sid) {
+  if (!sid) return '';
+  const m = sid.match(/^(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
+  if (!m) return sid;
+  return `${m[1]}-${m[2]}-${m[3]} ${m[4]}:${m[5]}`;
+}
+
+// ── Single file picker ─────────────────────────────────────────────────────
+btnSingle.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+
+// ── Drag & drop ────────────────────────────────────────────────────────────
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file?.name.endsWith('.json')) loadFile(file);
+});
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try { render(JSON.parse(e.target.result)); }
+    catch { alert('Invalid JSON file.'); }
+  };
+  reader.readAsText(file);
+}
+
+function resetViewer() {
+  stopPolling();
+  _currentHandle = null;
+  document.getElementById('landing').style.display = 'block';
+  document.getElementById('app').style.display = 'none';
+  fileInput.value = '';
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+
+function esc(s) {
+  return String(s ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function render(d) {
+  // Header
+  document.getElementById('conjecture-text').textContent = d.conjecture;
+  const badge = document.getElementById('status-badge');
+  badge.textContent = d.status;
+  badge.className = 'status-badge status-' + d.status;
+  document.getElementById('meta-session').textContent = d.session_id;
+  document.getElementById('meta-rounds').textContent = d.rounds_completed;
+
+  // Stats
+  document.getElementById('stat-examples').textContent    = d.examples.length;
+  document.getElementById('stat-subproblems').textContent = d.subproblems.length;
+  document.getElementById('stat-proofs').textContent      = d.proof_attempts.length;
+  document.getElementById('stat-disproofs').textContent   = d.disproof_attempts.length;
+
+  // Tab counts
+  document.getElementById('tc-rounds').textContent      = d.rounds_completed;
+  document.getElementById('tc-examples').textContent    = d.examples.length;
+  document.getElementById('tc-subproblems').textContent = d.subproblems.length;
+  document.getElementById('tc-proofs').textContent      = d.proof_attempts.length;
+  document.getElementById('tc-disproofs').textContent   = d.disproof_attempts.length;
+  const leanCount = (d.formalization_attempts || []).length;
+  document.getElementById('tc-lean').textContent = leanCount;
+
+  renderRounds(d);
+  renderExamples(d.examples);
+  renderSubproblems(d.subproblems);
+  renderProofs(d.proof_attempts);
+  renderDisproofs(d.disproof_attempts);
+  renderLean(d.formalization_attempts || [], d);
+
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  // Start auto-polling if we have a persistent file handle
+  if (_currentHandle) startPolling();
+}
+
+function renderRounds(d) {
+  // Prefer round_summaries (grouped, authoritative) if present; fall back to log.
+  const hasSummaries = Array.isArray(d.round_summaries) && d.round_summaries.length > 0;
+
+  // Build a map: round → [{agent, summary}] from the log (for agent pills + fallback)
+  const logByRound = {};
+  for (const entry of (d.log || [])) {
+    if (!logByRound[entry.round]) logByRound[entry.round] = [];
+    logByRound[entry.round].push(entry);
+  }
+
+  // Collect round numbers from whichever source is primary
+  const roundNums = hasSummaries
+    ? [...new Set(d.round_summaries.map(r => r.round))].sort((a,b) => a-b)
+    : Object.keys(logByRound).map(Number).sort((a,b) => a-b);
+
+  let html = '<div class="timeline">';
+
+  if (!roundNums.length) {
+    html += '<div class="empty">No round log entries yet.</div>';
+  }
+
+  for (const r of roundNums) {
+    const logEntries = logByRound[r] || [];
+    const agents = [...new Set(logEntries.map(e => e.agent))];
+    const agentPills = agents.map(a =>
+      `<span class="agent-pill agent-${esc(a)}">${esc(a)}</span>`
+    ).join('');
+
+    let entriesHtml = '';
+
+    if (hasSummaries) {
+      // Use round_summaries as primary source — one summary string per agent ("Agent: text")
+      const rSummary = d.round_summaries.find(rs => rs.round === r);
+      const summaryLines = rSummary ? rSummary.summaries : [];
+
+      if (summaryLines.length) {
+        for (const line of summaryLines) {
+          // Split "AgentName: rest of text" for coloured pill + summary
+          const colon = line.indexOf(':');
+          const agentName = colon > 0 ? line.slice(0, colon).trim() : '';
+          const summaryText = colon > 0 ? line.slice(colon + 1).trim() : line;
+          const pillClass = agentName ? `agent-${esc(agentName)}` : '';
+          entriesHtml += `
+            <div class="agent-entry">
+              <div class="agent-name-col">
+                ${agentName
+                  ? `<span class="agent-pill ${pillClass}">${esc(agentName)}</span>`
+                  : ''}
+              </div>
+              <div class="agent-summary">${esc(summaryText)}</div>
+            </div>`;
+        }
+      } else {
+        // round_summaries entry exists but is empty — fall back to log
+        for (const entry of logEntries) {
+          entriesHtml += `
+            <div class="agent-entry">
+              <div class="agent-name-col">
+                <span class="agent-pill agent-${esc(entry.agent)}">${esc(entry.agent)}</span>
+              </div>
+              <div class="agent-summary">${esc(entry.summary)}</div>
+            </div>`;
+        }
+      }
+    } else {
+      // No round_summaries — use log entries directly
+      for (const entry of logEntries) {
+        entriesHtml += `
+          <div class="agent-entry">
+            <div class="agent-name-col">
+              <span class="agent-pill agent-${esc(entry.agent)}">${esc(entry.agent)}</span>
+            </div>
+            <div class="agent-summary">${esc(entry.summary)}</div>
+          </div>`;
+      }
+    }
+
+    // Narrative paragraph if stored
+    const rSumObj = (d.round_summaries || []).find(rs => rs.round === r);
+    const narrativeHtml = rSumObj?.narrative
+      ? `<div class="round-narrative"><div class="round-narrative-label">Round summary</div>${esc(rSumObj.narrative)}</div>`
+      : '';
+
+    // Collapse all rounds except the most recent one
+    const isLatest = (r === roundNums[roundNums.length - 1]);
+    const collapsedClass = isLatest ? '' : ' collapsed';
+    const chevron = isLatest ? '▾' : '▸';
+    html += `
+      <div class="round-block${collapsedClass}" id="round-${r}">
+        <div class="round-header" onclick="toggleRound(${r})">
+          <span class="round-title">Round ${r}</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="round-agents">${agentPills}</div>
+            <span class="chevron">${chevron}</span>
+          </div>
+        </div>
+        <div class="round-entries">${entriesHtml}${narrativeHtml}</div>
+      </div>`;
+  }
+
+  html += '</div>';
+  document.getElementById('panel-rounds').innerHTML = html;
+
+  // Scroll the latest round into view
+  if (roundNums.length) {
+    const latest = document.getElementById('round-' + roundNums[roundNums.length - 1]);
+    if (latest) latest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderExamples(examples) {
+  if (!examples.length) {
+    document.getElementById('panel-examples').innerHTML = '<div class="empty">No examples recorded yet.</div>';
+    return;
+  }
+  let html = '<div class="card-grid">';
+  for (const ex of examples) {
+    const supMap = {true: ['supports','badge-supports'], false: ['contradicts','badge-contradicts'], null: ['neutral','badge-neutral']};
+    const [supLabel, supClass] = supMap[ex.supports_conjecture] ?? ['?','badge-neutral'];
+    html += `
+      <div class="card expanded" id="card-${ex.id}">
+        <div class="card-header" onclick="toggleCard('${ex.id}')">
+          <span class="card-id">${esc(ex.id)}</span>
+          <span class="card-title">${esc(ex.description)}</span>
+          <span class="card-badge ${supClass}">${supLabel}</span>
+          <span class="chevron">▴</span>
+        </div>
+        <div class="card-body">${esc(ex.detail)}</div>
+      </div>`;
+  }
+  html += '</div>';
+  document.getElementById('panel-examples').innerHTML = html;
+}
+
+function renderSubproblems(sps) {
+  if (!sps.length) {
+    document.getElementById('panel-subproblems').innerHTML = '<div class="empty">No subproblems recorded yet.</div>';
+    return;
+  }
+
+  // Group: open, then partial, then resolved
+  const open     = sps.filter(s => s.status === 'open');
+  const partial  = sps.filter(s => s.status === 'partial');
+  const resolved = sps.filter(s => s.status === 'resolved');
+  const other    = sps.filter(s => !['open','partial','resolved'].includes(s.status));
+
+  let html = '<div class="sp-list">';
+
+  const renderSp = sp => {
+    const icon = sp.status === 'resolved' ? '✓' : sp.status === 'partial' ? '◑' : '○';
+    const badge = `<span class="card-badge badge-${sp.status}">${sp.status}</span>`;
+    const resolution = sp.resolution
+      ? `<div class="sp-resolution">↳ ${esc(sp.resolution)}</div>` : '';
+    html += `
+      <div class="sp-item">
+        <span class="sp-icon" style="color:${sp.status==='resolved'?'var(--green)':sp.status==='partial'?'var(--yellow)':'var(--muted)'}">${icon}</span>
+        <div>
+          <div class="sp-desc">${esc(sp.description)}</div>
+          ${resolution}
+          <div class="sp-source" style="margin-top:4px">from ${esc(sp.source_agent)} · <span class="card-id">${esc(sp.id)}</span></div>
+        </div>
+        ${badge}
+      </div>`;
+  };
+
+  open.forEach(renderSp);
+  partial.forEach(renderSp);
+  other.forEach(renderSp);
+  resolved.forEach(renderSp);
+
+  html += '</div>';
+  document.getElementById('panel-subproblems').innerHTML = html;
+}
+
+function renderProofs(proofs) {
+  if (!proofs.length) {
+    document.getElementById('panel-proofs').innerHTML = '<div class="empty">No proof attempts yet.</div>';
+    return;
+  }
+  let html = '<div class="card-grid">';
+  for (const pa of proofs) {
+    const feedback = pa.checker_feedback
+      ? `<div class="checker-feedback ${pa.status}"><strong>Checker:</strong> ${esc(pa.checker_feedback)}</div>` : '';
+    html += `
+      <div class="card" id="card-${pa.id}">
+        <div class="card-header" onclick="toggleCard('${pa.id}')">
+          <span class="card-id">${esc(pa.id)}</span>
+          <span class="card-title" style="font-family:var(--mono);font-size:12px;color:var(--text-dim)">${esc(pa.sketch.slice(0,120))}…</span>
+          <span class="round-tag">round ${pa.round}</span>
+          <span class="card-badge badge-${pa.status}">${pa.status}</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="card-body">${esc(pa.sketch)}${feedback}</div>
+      </div>`;
+  }
+  html += '</div>';
+  document.getElementById('panel-proofs').innerHTML = html;
+}
+
+function renderDisproofs(disproofs) {
+  if (!disproofs.length) {
+    document.getElementById('panel-disproofs').innerHTML = '<div class="empty">No disproof attempts yet.</div>';
+    return;
+  }
+  let html = '<div class="card-grid">';
+  for (const da of disproofs) {
+    const feedback = da.checker_feedback
+      ? `<div class="checker-feedback ${da.status}"><strong>Checker:</strong> ${esc(da.checker_feedback)}</div>` : '';
+    html += `
+      <div class="card" id="card-${da.id}">
+        <div class="card-header" onclick="toggleCard('${da.id}')">
+          <span class="card-id">${esc(da.id)}</span>
+          <span class="card-title" style="font-family:var(--mono);font-size:12px;color:var(--text-dim)">${esc(da.candidate_counterexample.slice(0,120))}…</span>
+          <span class="round-tag">round ${da.round}</span>
+          <span class="card-badge badge-${da.status}">${da.status}</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="card-body">${esc(da.candidate_counterexample)}${feedback}</div>
+      </div>`;
+  }
+  html += '</div>';
+  document.getElementById('panel-disproofs').innerHTML = html;
+}
+
+// ── Lean formalization ─────────────────────────────────────────────────────
+
+function renderLean(attempts, d) {
+  const panel = document.getElementById('panel-lean');
+
+  // Build a lookup for source previews
+  const sourceMap = {};
+  for (const pa of d.proof_attempts)  sourceMap[pa.id] = { label: 'Proof attempt', text: pa.sketch };
+  for (const sp of d.subproblems)     sourceMap[sp.id] = { label: 'Subproblem',    text: sp.description };
+
+  let html = '';
+
+  // Suggestion banner (proof attempts not yet formalized)
+  const alreadyFormalized = new Set(attempts.map(a => a.source_id));
+  const suggestions = d.proof_attempts.filter(
+    pa => !alreadyFormalized.has(pa.id) && (pa.status === 'valid' || pa.sketch?.length > 300)
+  );
+  if (suggestions.length) {
+    html += '<div style="background:rgba(124,131,245,0.08);border:1px solid rgba(124,131,245,0.25);border-radius:8px;padding:12px 16px;margin-bottom:16px;">';
+    html += '<div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:6px;">SUGGESTED FOR FORMALIZATION</div>';
+    for (const pa of suggestions) {
+      const reason = pa.status === 'valid'
+        ? 'Checker-validated proof'
+        : 'Substantial proof sketch';
+      html += `<div style="font-size:12px;color:var(--text-dim);margin-bottom:3px;">`;
+      html += `<span class="card-id">${esc(pa.id)}</span> · <span class="badge-${pa.status}" style="font-size:11px">${esc(reason)}</span>`;
+      html += ` — <em>${esc(pa.sketch.slice(0, 80))}…</em></div>`;
+    }
+    html += '<div style="font-size:11px;color:var(--muted);margin-top:8px;">Ask Sophie: "Formalize <ID>" to begin.</div>';
+    html += '</div>';
+  }
+
+  if (!attempts.length) {
+    html += '<div class="empty">No Lean formalizations yet.' +
+      (suggestions.length ? ' See suggestions above.' : '') + '</div>';
+    panel.innerHTML = html;
+    return;
+  }
+
+  html += '<div class="card-grid">';
+  for (const fa of attempts) {
+    const src = sourceMap[fa.source_id] ?? { label: 'Unknown', text: '' };
+    const confClass = fa.confidence === 'complete' ? 'badge-valid'
+                    : fa.confidence === 'partial'  ? 'badge-unchecked'
+                    : 'badge-neutral';
+    const sorryNote = fa.sorries?.length
+      ? `<span style="font-size:11px;color:var(--red);margin-left:8px">${fa.sorries.length} sorry${fa.sorries.length > 1 ? 's' : ''}</span>` : '';
+
+    html += `
+      <div class="card" id="card-${fa.id}">
+        <div class="card-header" onclick="toggleCard('${fa.id}')">
+          <span class="card-id">${esc(fa.id)}</span>
+          <span class="card-title" style="font-size:12px;color:var(--text-dim)">
+            ${esc(src.label)} <span class="card-id">${esc(fa.source_id)}</span>
+            ${sorryNote}
+          </span>
+          <span class="card-badge ${confClass}">${esc(fa.confidence)}</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="card-body">`;
+
+    if (fa.mathlib_imports?.length) {
+      html += `<div style="color:var(--muted);margin-bottom:8px">${fa.mathlib_imports.map(i => esc(i)).join('\n')}</div>`;
+    }
+
+    html += esc(fa.lean_code);
+
+    if (fa.sorries?.length) {
+      html += `\n\n<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;color:var(--red);font-size:12px"><strong>Sorries to fill:</strong>\n`;
+      fa.sorries.forEach((s, i) => { html += `${i + 1}. ${esc(s)}\n`; });
+      html += '</div>';
+    }
+
+    if (fa.notes) {
+      html += `<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;color:var(--text-dim);font-size:12px"><strong>Notes:</strong> ${esc(fa.notes)}</div>`;
+    }
+
+    html += `</div></div>`;
+  }
+  html += '</div>';
+  panel.innerHTML = html;
+}
+
+// ── Interactions ───────────────────────────────────────────────────────────
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function toggleRound(r) {
+  const el = document.getElementById('round-' + r);
+  el.classList.toggle('collapsed');
+  const chevron = el.querySelector('.chevron');
+  if (chevron) chevron.textContent = el.classList.contains('collapsed') ? '▸' : '▾';
+}
+
+function toggleCard(id) {
+  document.getElementById('card-' + id).classList.toggle('expanded');
+}
+</script>
+</body>
+</html>

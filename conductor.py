@@ -97,6 +97,7 @@ class Conductor:
             "status": self.kb.status,
             "summaries": summaries,
             "resolved": self.kb.status in ("proved", "disproved"),
+            "formalization_suggestions": self._formalization_suggestions(),
         }
 
     # ── Scheduling ───────────────────────────────────────────────────────────
@@ -125,6 +126,34 @@ class Conductor:
             agents = ["Experimenter", "Prover", "Disprover", "Searcher"]
 
         return agents
+
+    # ── Formalization suggestions ─────────────────────────────────────────────
+
+    def _formalization_suggestions(self) -> List[Dict[str, Any]]:
+        """Return proof/subproblem IDs worth formalizing, with reasons."""
+        suggestions = []
+        snap = self.kb.snapshot()
+        already = {fa["source_id"] for fa in snap.get("formalization_attempts", [])}
+
+        for pa in snap["proof_attempts"]:
+            if pa["id"] in already:
+                continue
+            if pa["status"] == "valid":
+                suggestions.append({
+                    "id": pa["id"],
+                    "type": "proof_attempt",
+                    "reason": "Checker-validated proof — strong candidate for formalization.",
+                    "preview": pa["sketch"][:120],
+                })
+            elif pa["status"] == "unchecked" and len(pa["sketch"]) > 300:
+                suggestions.append({
+                    "id": pa["id"],
+                    "type": "proof_attempt",
+                    "reason": "Substantial unchecked proof sketch — formalization could reveal gaps.",
+                    "preview": pa["sketch"][:120],
+                })
+
+        return suggestions
 
     # ── Stagnation ───────────────────────────────────────────────────────────
 
