@@ -20,7 +20,7 @@ MAX_TOKENS_RESEARCHER:   int = 8192   # web search + fetch; needs room for resul
 MAX_TOKENS_CONDUCTOR:    int = 4096
 
 # ── Conductor loop ────────────────────────────────────────────────────────────
-MAX_ROUNDS: int = 20          # hard cap on Conductor iterations
+MAX_ROUNDS: int = 200          # hard cap on Conductor iterations
 CONVERGENCE_PATIENCE: int = 3 # stop after this many rounds with no new findings
 
 # ── Persistence ───────────────────────────────────────────────────────────────

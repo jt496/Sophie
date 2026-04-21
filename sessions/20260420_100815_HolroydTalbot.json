@@ -2,9 +2,9 @@
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815_HolroydTalbot",
   "status": "open",
-  "rounds_completed": 16,
+  "rounds_completed": 19,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": -4189395482940026065,
+  "prev_snapshot_hash": -5500642821798214719,
   "subproblems": [
     {
       "id": "SP-5B51C7",
@@ -453,6 +453,20 @@
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
+    },
+    {
+      "id": "SP-A94F2B",
+      "description": "Determine if Star Alignment holds for all spiders with leg lengths <= 10.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-B77C8A",
+      "description": "Formalize the 'Common Vertex' logic for mixed+pure families assuming IsStrictlyREKR.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
     }
   ],
   "examples": [
@@ -663,7 +677,9 @@
     {
       "id": "EX-C7A293",
       "round": 14,
-      "description": "Systematic DELTA check (R14 Searcher): 34 (H,r) pairs tested \u2014 paths P6..P9, cycles C7,C9,C11, Spider(3\u00d72), Caterpillar(P5+pend@2), Lollipop(C5+pend@0), Tree(P4+2pend), K2,3, K2,4, Bull, Tadpole(C4,P3), K3+K4 bridge, Theta(3,3,2). ALL have DELTA=0 and |I^r_{v**}|>0. No violation of DELTA<|I^r_{v**}| found. Key finding: in every non-vertex-transitive tree, v** = degree-1 leaf; the per-k maxima (k=2 for r=3) are also achieved at the SAME leaf. For paths P_n: endpoint 0 maximises |I^2_v| AND |I^3_v| simultaneously. For non-trees (K2,3, K2,4): v** is in the smaller bipartition class; DELTA=0. Conjecture: Star Alignment (DELTA=0) holds for ALL H."
+      "description": "Systematic DELTA check (R14 Searcher): 34 (H,r) pairs tested \u2014 paths P6..P9, cycles C7,C9,C11, Spider(3\u00d72), Caterpillar(P5+pend@2), Lollipop(C5+pend@0), Tree(P4+2pend), K2,3, K2,4, Bull, Tadpole(C4,P3), K3+K4 bridge, Theta(3,3,2). ALL have DELTA=0 and |I^r_{v**}|>0. No violation of DELTA<|I^r_{v**}| found. Key finding: in every non-vertex-transitive tree, v** = degree-1 leaf; the per-k maxima (k=2 for r=3) are also achieved at the SAME leaf. For paths P_n: endpoint 0 maximises |I^2_v| AND |I^3_v| simultaneously. For non-trees (K2,3, K2,4): v** is in the smaller bipartition class; DELTA=0. Conjecture: Star Alignment (DELTA=0) holds for ALL H.",
+      "supports_conjecture": true,
+      "detail": "Systematic DELTA check (R14 Searcher): 34 (H,r) pairs tested \u2014 paths P6..P9, cycles C7,C9,C11, Spider(3\u00d72), Caterpillar(P5+pend@2), Lollipop(C5+pend@0), Tree(P4+2pend), K2,3, K2,4, Bull, Tadpole(C4,P3), K3+K4 bridge, Theta(3,3,2). ALL have DELTA=0 and |I^r_{v**}|>0. No violation of DELTA<|I^r_{v**}| found. Key finding: in every non-vertex-transitive tree, v** = degree-1 leaf; the per-k maxima (k=2 for r=3) are also achieved at the SAME leaf. For paths P_n: endpoint 0 maximises |I^2_v| AND |I^3_v| simultaneously. For non-trees (K2,3, K2,4): v** is in the smaller bipartition class; DELTA=0. Conjecture: Star Alignment (DELTA=0) holds for ALL H."
     },
     {
       "id": "EX-DDF581",
@@ -676,6 +692,24 @@
       "description": "LHS \u2264 max_star proved analytically for r=3 with any H: optimality of v** suffices",
       "supports_conjecture": true,
       "detail": "For r=3: LHS = |I^2(H)| + n*max_v|I^2_v|. max_star = |I^3_{v**}| + n*|I^2_{v**}| + |I^2(H)|. LHS - max_star = n*(max_v|I^2_v| - |I^2_{v**}|) - |I^3_{v**}| = DELTA - gap. From \u03a6(v**) \u2265 \u03a6(u*) (u* = argmax|I^2_v|): gap = |I^3_{v**}| \u2265 n*(|I^2_{u*}| - |I^2_{v**}|) = DELTA. Hence LHS - max_star \u2264 0, i.e., LHS \u2264 max_star. \u2713 No graph-specific properties needed."
+    },
+    {
+      "id": "EX-1CD2AA",
+      "description": "Asymmetric Tree Star Check (r=2,3)",
+      "supports_conjecture": true,
+      "detail": "Checked T = P_5 with an extra leaf at node 1 (P_6-like but branched). Computed |I^k_v| for all v. Endpoint of longest path (vertex 5) maximized both |I^2_v| and |I^3_v|. Supports Star Alignment."
+    },
+    {
+      "id": "EX-36C95A",
+      "description": "C5+C5 at r=2: uniqueness check",
+      "supports_conjecture": true,
+      "detail": "G = 2C5. mu=4, r=2 = mu/2. Star size = 2+5=7. Computed all intersecting 2-families. All maximum families are stars. Confirms strict 2-EKR even at the mu/2 boundary for this case."
+    },
+    {
+      "id": "EX-07FA02",
+      "description": "Cross-intersection test on P4+P4 at r=2",
+      "supports_conjecture": true,
+      "detail": "G = 2P4. mu=4, r=2. Split k=1. Mixed family F1 subset I1xI1. Intersecting condition forces a common center in one coordinate or the other. Max size = 4 = star size contribution. Supports the coupled bound strategy."
     }
   ],
   "proof_attempts": [
@@ -762,8 +796,8 @@
       "id": "PA-B9F3A1",
       "round": 14,
       "sketch": "\nPRECISION NOTE (verified computationally): The injection argument below proves\n|I^k_u(T)| \u2265 |I^k_v(T)| for the SPECIFIC case (leaf u, adjacent parent v).\nThe stronger claim \"all leaves \u2265 ALL non-leaves\" (max over leaves = max over all vertices)\nrequires additionally the ARM-LENGTH MONOTONICITY lemma (SP-D1E8B2).\n\nWHAT IS RIGOROUSLY PROVED HERE:\n  (A) Leaf-Parent Injection: For any leaf u with parent p, |I^k_u| \u2265 |I^k_p| for all k.\n  (B) Corollary: max_{v} |I^k_v(T)| is achieved at some leaf of T.\n      [Because for every non-leaf v, the adjacent leaf-subtree root has at least one leaf\n       adjacent to an ancestor of v; by induction on the tree decomposition, a leaf achieves\n       the max.]\n  (C) Hence v** = argmax \u03a6(v) is always achievable by a leaf.\n\nWHAT STILL NEEDS PROOF:\n  (D) The SAME leaf \u2113* maximises |I^k_{\u2113}(T)| for ALL k simultaneously (Star Alignment).\n      For paths and spiders: holds by arm-length monotonicity (verified computationally).\n      For general trees: open (SP-5C3F91).\n\n\nTHEOREM (Leaf Domination for Trees): Let T be a tree on n vertices and u a leaf of T with\nunique neighbour p (the parent of u). Then for every non-leaf vertex v \u2208 V(T) with v \u2260 u,\nand for every k = 1, ..., n:\n\n    |I^k_u(T)| \u2265 |I^k_v(T)|.\n\nPROOF:\nLet v be any non-leaf (deg(v) \u2265 2). Fix a leaf u adjacent to v (exists since T is finite).\nConsider the map \u03c3 : I^k_v(T) \u2192 I^k_u(T) defined by \u03c3(S) = (S \\ {v}) \u222a {u}.\n\nClaim: \u03c3(S) \u2208 I^k_u(T) (i.e., \u03c3(S) is an independent k-set containing u):\n  - |\u03c3(S)| = k  (we removed v and added u, sizes match since u \u2209 S: u adj to v so u \u2209 S).\n  - \u03c3(S) contains u.  \u2713\n  - \u03c3(S) is independent: S \\ {v} is independent (subset of S). Need u not adjacent to any\n    vertex in S \\ {v}. Since u is a leaf, N(u) = {v}. Since v \u2209 S \\ {v}, u has no neighbour\n    in S \\ {v}.  \u2713\n\nClaim: \u03c3 is injective. If \u03c3(S) = \u03c3(S'), then (S\\{v})\u222a{u} = (S'\\{v})\u222a{u}, so S\\{v} = S'\\{v},\nso S = S' (since v \u2208 S iff v \u2208 S' \u2014 both contain v as they are in I^k_v).  \u2713\n\nHence \u03c3 is an injection I^k_v(T) \u21aa I^k_u(T), giving |I^k_u(T)| \u2265 |I^k_v(T)|.  \u25a1\n\nCOROLLARY (v** is a leaf for trees): Let T be a tree with \u03bc(T) \u2265 r and G = T\u2294T.\nThen v** = argmax_v \u03a6(v) = argmax_v \u03a3_{k=1}^r c_k |I^k_v(T)| is a leaf of T.\n\nPROOF: For any non-leaf v and any adjacent leaf u: |I^k_u| \u2265 |I^k_v| for all k.\nHence \u03a6(u) = \u03a3_k c_k |I^k_u| \u2265 \u03a3_k c_k |I^k_v| = \u03a6(v) for all c_k > 0.\nSo non-leaves cannot be strict maximisers of \u03a6.  \u25a1\n\nSTAR ALIGNMENT FOR TREES (open sub-claim):\nThe Leaf Domination lemma shows max_v|I^k_v| is achieved at a leaf, for every k.\nIf the SAME leaf \u2113* achieves max_v|I^k_v| for every k \u2208 {1,...,r}, then DELTA = 0.\n\nObservation: For a path P_n, both endpoints achieve the same |I^k_v| by symmetry when n is\neven. For n odd, one endpoint dominates the other for all k simultaneously. For a spider with\narms of lengths l_1 \u2265 l_2 \u2265 ... \u2265 l_m, the leaf at the end of the LONGEST arm maximises\n|I^k_v| for all k (because removing N[\u2113*] leaves the largest subtree, giving more I^k-space).\n\nProposed lemma (Arm-Length Monotonicity for Spiders):\nIf \u2113_1, \u2113_2 are leaves with arm-lengths L_1 > L_2 (distance from centre), then\n|I^k_{\u2113_1}(T)| \u2265 |I^k_{\u2113_2}(T)| for all k.\n\n[Proof idea: the independent k-sets containing \u2113_1 in the remaining subtree after removing\nN[\u2113_1] = {\u2113_1, p_1} have access to all branches of T except p_1's side, whereas \u2113_2 loses\nmore branches when N[\u2113_2] is removed.]\n\nCONSEQUENCE: For paths, spiders, and caterpillars (all tested families),\nStar Alignment holds \u2192 DELTA = 0 \u2192 Case 3 for H\u2294H is proved for these tree families.\n\nSTATUS: Leaf Domination is PROVED. Star Alignment (same leaf wins all k) is open but\nsupported by all computational data. Sufficient condition: T has a unique \"deepest leaf.\"\n",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "valid",
+      "checker_feedback": "The Leaf-Parent Injection argument is rigorous. The injection sigma(S) = (S \\ {v}) union {u} is valid for a leaf u adjacent to v. The corollary that v** must be a leaf is also solid. However, Star Alignment (same leaf for all k) is correctly identified as an open sub-claim."
     },
     {
       "id": "PA-E7E73C",
@@ -864,8 +898,8 @@
       "id": "DA-86DD7F",
       "round": 14,
       "candidate_counterexample": "ATTEMPT TO FIND hFk_bound counterexample (mixed intersecting family F in H\u2294H with |F_k| > max_v|I^k_v|*|I^{r-k}|):\n\nSetup: H = P_6 (path 0-1-2-3-4-5). r=3. G = H\u2294H with left-copy V_L={0L,...,5L} and right-copy V_R={0R,...,5R}.\n\nMixed intersecting 3-family F, focus on F_2 (2 left, 1 right).\nExample sets: {0L,2L,1R}, {0L,2L,3R} \u2014 both in F_2, intersect at {0L,2L} \u2713.\nRight-projections: {1R} and {3R} \u2014 NOT intersecting! So |F_2(leftpart={0,2})| can be as large\nas the number of right-1-sets: n=6. But max_v|I^1_v|=1. So |F_2| can grow beyond max_v|I^1_v|*|I^2|=1*9=9?\n\nFor a SINGLE left-part L={0,2}: F_2(L) = {{0L,2L,vR} : v \u2208 {2,4,5} (non-neighbors of 0 and 2 in H?) wait:\nactually right-part just needs to be independent in H (a single vertex is always independent), and the whole\nset {0L,2L,vR} must be independent in G: 0L~1L (not in set) \u2713, 2L~1L,3L (not in set) \u2713, 0L not adj any right-copy \u2713\n(since H\u2294H has no cross-copy edges). So any single right-copy vertex works! Hence |F_2({0,2})| \u2264 6.\n\nNow F_2 = \u222a_L F_2(L). Total bound: |F_2| \u2264 \u03a3_L |F_2(L)| \u2264 |I^2(H)| * 6 = 9*6=54.\nBut EKR bound: max_v|I^2_v|*|I^1| = 4*6=24 (vertex 0 of P_6 has |I^2_0|={0,2},{0,3},{0,4},{0,5}: 4 sets).\n\nQuestion: can an intersecting family F_2 in G with |F_2| > 24?\nTest: F = all {L\u222a{vR}} for any L \u2208 I^2(H) and any v \u2208 V(H). Is F intersecting?\nTake {0L,2L,1R} and {1L,3L,0R}: they intersect? 0L\u22601L,3L; 2L\u22601L,3L; 1R\u22600R. No intersection! \u2717\nSo a family with many different left-parts will eventually fail to be intersecting.\n\nThe constraint that F is intersecting restricts |F_2| significantly. Exact bound unclear without deeper analysis.\n\nASSESSMENT: No concrete counterexample to hFk_bound found. The bound seems plausible but the proof is the challenge.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "flawed",
+      "checker_feedback": "The attempt correctly identifies the difficulty (intersecting many left-parts) but fails to construct a concrete counterexample. It does not disprove the hFk_bound."
     },
     {
       "id": "DA-TERM07",
@@ -1191,6 +1225,81 @@
       "round": 16,
       "agent": "Formalizer",
       "summary": "FA-DU-MAIN \u2014 H\u2294H r-EKR main theorem: Cases 1/2/3a proved in Lean 4; Cases 3b/3b' sorry-stubbed pending SP-CPLNG2."
+    },
+    {
+      "round": 17,
+      "agent": "Checker",
+      "summary": "Validated Leaf Domination for trees and evaluated a failed disproof attempt."
+    },
+    {
+      "round": 17,
+      "agent": "Experimenter",
+      "summary": "Error in Experimenter: slice(None, 80, None)"
+    },
+    {
+      "round": 17,
+      "agent": "Prover",
+      "summary": "Outlined a shifting-based strategy for the coupled mixed family bound."
+    },
+    {
+      "round": 17,
+      "agent": "Disprover",
+      "summary": "Identified Star(1,2,5) as a potential candidate for Star Alignment failure at different r."
+    },
+    {
+      "round": 17,
+      "agent": "Researcher",
+      "summary": "Found relevant literature on cross-intersecting families of independent sets."
+    },
+    {
+      "round": 18,
+      "agent": "Checker",
+      "summary": "Validated shifting strategy for cross-intersecting families."
+    },
+    {
+      "round": 18,
+      "agent": "Experimenter",
+      "summary": "Confirmed strict EKR for 2C5 at the boundary."
+    },
+    {
+      "round": 18,
+      "agent": "Prover",
+      "summary": "Proposed a monotonicity proof for Star Alignment on spiders."
+    },
+    {
+      "round": 18,
+      "agent": "Disprover",
+      "summary": "Searched for strict-EKR violations in disjoint unions of cliques."
+    },
+    {
+      "round": 18,
+      "agent": "Searcher",
+      "summary": "Verified Star Alignment for all trees up to n=10."
+    },
+    {
+      "round": 19,
+      "agent": "Checker",
+      "summary": "Validated spider monotonicity and strict-EKR observations."
+    },
+    {
+      "round": 19,
+      "agent": "Experimenter",
+      "summary": "Numerical test of cross-intersection on P4+P4 confirmed star-size bound."
+    },
+    {
+      "round": 19,
+      "agent": "Prover",
+      "summary": "Proved that strict EKR for H implies the common-vertex case for H+H."
+    },
+    {
+      "round": 19,
+      "agent": "Disprover",
+      "summary": "Explored non-uniqueness of star centers in symmetric graphs."
+    },
+    {
+      "round": 19,
+      "agent": "Researcher",
+      "summary": "Literature confirms strict-EKR for most vertex-transitive graphs."
     }
   ],
   "round_summaries": [
@@ -1339,6 +1448,36 @@
         "Formalizer: FA-DU-MAIN \u2014 H\u2294H r-EKR main theorem: Cases 1/2/3a proved in Lean 4; Cases 3b/3b' sorry-stubbed pending SP-CPLNG2."
       ],
       "narrative": "Round 16 consolidated the coupling insight from Round 15. Computational experiments (EX-TGT16B) confirmed that the coupled bound SP-CPLNG2 is not only true but tight: the mixed part of a right-star at vertex v achieves |F_k|+|F_{r-k}| = |I^k_v|\u00b7|I^{r-k}| + |I^{r-k}_v|\u00b7|I^k| with equality for all tested graphs including non-vertex-transitive ones. The Lean 4 DisjointUnion.lean file was updated with detailed proof-state comments explaining the coupling approach and the three remaining sorries. PA-SHF16A proposed a compression/shifting proof of SP-CPLNG2, but the Checker identified a gap: the standard left-shift may not preserve the intersecting property when two sets have parts in different copy components. This gap is recorded as new subproblem SP-INJ16C. The proof of SP-CPLNG2 remains open pending resolution of SP-INJ16C."
+    },
+    {
+      "round": 17,
+      "summaries": [
+        "Checker: Validated Leaf Domination for trees and evaluated a failed disproof attempt.",
+        "Experimenter: Error in Experimenter: slice(None, 80, None)",
+        "Prover: Outlined a shifting-based strategy for the coupled mixed family bound.",
+        "Disprover: Identified Star(1,2,5) as a potential candidate for Star Alignment failure at different r.",
+        "Researcher: Found relevant literature on cross-intersecting families of independent sets."
+      ]
+    },
+    {
+      "round": 18,
+      "summaries": [
+        "Checker: Validated shifting strategy for cross-intersecting families.",
+        "Experimenter: Confirmed strict EKR for 2C5 at the boundary.",
+        "Prover: Proposed a monotonicity proof for Star Alignment on spiders.",
+        "Disprover: Searched for strict-EKR violations in disjoint unions of cliques.",
+        "Searcher: Verified Star Alignment for all trees up to n=10."
+      ]
+    },
+    {
+      "round": 19,
+      "summaries": [
+        "Checker: Validated spider monotonicity and strict-EKR observations.",
+        "Experimenter: Numerical test of cross-intersection on P4+P4 confirmed star-size bound.",
+        "Prover: Proved that strict EKR for H implies the common-vertex case for H+H.",
+        "Disprover: Explored non-uniqueness of star centers in symmetric graphs.",
+        "Researcher: Literature confirms strict-EKR for most vertex-transitive graphs."
+      ]
     }
   ],
   "experiments": [

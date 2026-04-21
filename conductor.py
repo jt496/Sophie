@@ -53,7 +53,7 @@ class Conductor:
             self.kb.set_status("unknown")
             return self._stop(f"Reached maximum of {config.MAX_ROUNDS} rounds.")
 
-        round_ = self.kb.increment_round()
+        round_ = self.kb.rounds_completed + 1
         agents_to_run = self._decide_agents(round_)
 
         tasks = [self._agents[name].get_task(round_) for name in agents_to_run]
@@ -94,6 +94,7 @@ class Conductor:
 
         self._update_stagnation()
         self.kb.log_round_summary(round_, summaries)
+        self.kb.increment_round()
 
         return {
             "status": self.kb.status,
