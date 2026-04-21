@@ -145,7 +145,6 @@ endpoint so clicking any session in the list updates `current.json` on disk.
 - Rounds timeline — collapsible, colour-coded by agent (including Formalizer in teal)
 - Tabs for Examples, Subproblems, Proof Attempts, Disproof Attempts, and **Lean**
 - Expandable detail cards with Checker feedback inline
-- 15-second auto-refresh while a session is open
 - **"Open sessions folder"** button (Chrome/Edge) — alternative to the HTTP server
 - Drag & drop / single-file fallback for Firefox
 
