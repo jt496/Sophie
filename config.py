@@ -16,6 +16,7 @@ MAX_TOKENS_PROVER:       int = 8192
 MAX_TOKENS_DISPROVER:    int = 8192
 MAX_TOKENS_CHECKER:      int = 8192
 MAX_TOKENS_SEARCHER:     int = 8192   # writes + runs code; needs room for output
+MAX_TOKENS_RESEARCHER:   int = 8192   # web search + fetch; needs room for results
 MAX_TOKENS_CONDUCTOR:    int = 4096
 
 # ── Conductor loop ────────────────────────────────────────────────────────────

@@ -1,0 +1,15 @@
+{
+  "conjecture": "",
+  "session_id": "test_researcher",
+  "status": "open",
+  "rounds_completed": 0,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": null,
+  "subproblems": [],
+  "examples": [],
+  "proof_attempts": [],
+  "disproof_attempts": [],
+  "formalization_attempts": [],
+  "log": [],
+  "round_summaries": []
+}

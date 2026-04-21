@@ -53,8 +53,9 @@ mcp = FastMCP(
         "3. For each task, read system_prompt + user_message and respond as "
         "that agent (output only valid JSON matching the agent's format)\n"
         "4. submit_round_results(session_id, round, results_json) → update KB\n"
-        "5. Repeat until should_stop=true or resolved=true\n"
-        "6. Use get_session_status at any time to inspect progress."
+        "5. refresh_viewer(session_id) → ALWAYS call after submit_round_results\n"
+        "6. Repeat steps 2-5 until should_stop=true or resolved=true\n"
+        "7. Use get_session_status at any time to inspect progress."
     ),
 )
 
@@ -148,8 +149,10 @@ def _inject_viewer(session_id: str) -> None:
         )
         with open(viewer_path, "w") as f:
             f.write(html)
-    except Exception:
-        pass
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        print(f"[Sophie] _inject_viewer failed: {exc}", file=sys.stderr)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -257,6 +260,24 @@ def get_session_status(session_id: str) -> str:
     if kb is None:
         return f"Error: session '{session_id}' not found."
     return _format_snapshot(kb.snapshot())
+
+
+@mcp.tool()
+def refresh_viewer(session_id: str) -> str:
+    """
+    Refresh sessions/viewer.html and sessions/current.json for a session.
+
+    Call this after every submit_round_results to ensure the viewer is
+    up to date.  This is a lightweight call — safe to invoke every round.
+
+    Args:
+        session_id: The session ID to make current and inject into the viewer.
+    """
+    kb_path = os.path.join(config.KB_DIR, f"{session_id}.json")
+    if not os.path.exists(kb_path):
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+    _set_current_session(session_id)
+    return json.dumps({"status": "ok", "session_id": session_id})
 
 
 @mcp.tool()
@@ -380,6 +401,24 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
         "sorry_count": len(parsed.get("sorries", [])),
         "next_step": f"Use get_session_status('{session_id}') to see the full formalization.",
     })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CLI helper: refresh viewer from the command line
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _cli_refresh(session_id: str | None = None) -> None:
+    """Update current.json and inject viewer.  Used by refresh_viewer.py."""
+    if session_id is None:
+        current_path = os.path.join(config.KB_DIR, "current.json")
+        if os.path.exists(current_path):
+            with open(current_path) as f:
+                session_id = json.load(f).get("session_id")
+    if session_id:
+        _set_current_session(session_id)
+        print(f"Viewer updated for session: {session_id}")
+    else:
+        print("No session found.", file=sys.stderr)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

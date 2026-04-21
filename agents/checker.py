@@ -32,6 +32,14 @@ RULES
 • If a proof has a fixable gap, say so and suggest how to fix it.
 • Always output ONLY a single JSON block in the format below.
 
+CRITICAL RULE FOR closes_conjecture
+-------------------------------------
+Set "closes_conjecture": true ONLY if the proof covers ALL cases of the
+conjecture with no gaps, unverified steps, or missing sub-cases.  A proof
+that handles some residue classes, special cases, or a subset of inputs
+must have "closes_conjecture": false even if that partial proof is valid.
+This field is what triggers the session to be marked proved — get it right.
+
 OUTPUT FORMAT
 -------------
 ```json
@@ -40,6 +48,7 @@ OUTPUT FORMAT
     {
       "id": "<PA-XXXXXX>",
       "verdict": "valid" | "flawed",
+      "closes_conjecture": false,
       "feedback": "<detailed line-by-line commentary>"
     }
   ],
@@ -47,6 +56,7 @@ OUTPUT FORMAT
     {
       "id": "<DA-XXXXXX>",
       "verdict": "valid" | "flawed",
+      "closes_conjecture": false,
       "feedback": "<detailed commentary>"
     }
   ],
@@ -103,8 +113,8 @@ class Checker(BaseAgent):
                 status=pv["verdict"],
                 feedback=pv.get("feedback", ""),
             )
-            # If a proof is declared valid, escalate KB status
-            if pv["verdict"] == "valid":
+            # Only close the session when the proof is complete for ALL cases
+            if pv["verdict"] == "valid" and pv.get("closes_conjecture", False):
                 self.kb.set_status("proved")
 
         for dv in response.get("disproof_verdicts", []):
@@ -113,7 +123,7 @@ class Checker(BaseAgent):
                 status=dv["verdict"],
                 feedback=dv.get("feedback", ""),
             )
-            if dv["verdict"] == "valid":
+            if dv["verdict"] == "valid" and dv.get("closes_conjecture", False):
                 self.kb.set_status("disproved")
 
         return response.get("summary", "Checker reviewed submitted attempts.")

@@ -12,7 +12,7 @@ import json
 from typing import Any, Dict, List
 
 import config
-from agents import Checker, Disprover, Experimenter, Prover, Searcher
+from agents import Checker, Disprover, Experimenter, Prover, Researcher, Searcher
 from agents.base_agent import BaseAgent
 from knowledge_base import KnowledgeBase
 
@@ -26,6 +26,7 @@ class Conductor:
             "Disprover":    Disprover(kb),
             "Checker":      Checker(kb),
             "Searcher":     Searcher(kb),
+            "Researcher":   Researcher(kb),
         }
 
     # ── Public API ───────────────────────────────────────────────────────────
@@ -118,12 +119,14 @@ class Conductor:
 
         if not self.kb.valid_disproof_exists():
             agents.append("Disprover")
-            # Run the Searcher every other round alongside the Disprover
+            # Alternate Searcher and Researcher every other round
             if round_ % 2 == 0:
                 agents.append("Searcher")
+            else:
+                agents.append("Researcher")
 
         if not agents:
-            agents = ["Experimenter", "Prover", "Disprover", "Searcher"]
+            agents = ["Experimenter", "Prover", "Disprover", "Searcher", "Researcher"]
 
         return agents
 

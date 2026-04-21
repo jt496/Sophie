@@ -40,6 +40,7 @@ The MCP server handles only state management and prompt construction.
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
 | **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
 | **Searcher** | Writes and executes Python code (networkx, itertools, `lib/graph_utils`) to brute-force search for counterexamples across graph families. |
+| **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs every other round alongside the Searcher. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
 | **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Never scheduled automatically — call `get_formalization_task` explicitly. |
 
@@ -98,6 +99,7 @@ To continue:
 | `submit_round_results(session_id, round, results_json)` | Submit Claude's agent responses; updates the knowledge base and current session. |
 | `get_session_status(session_id)` | Inspect the full knowledge base snapshot. |
 | `list_sessions()` | List all saved sessions. |
+| `refresh_viewer(session_id)` | Update `sessions/viewer.html` and `current.json`. Call after every `submit_round_results`. |
 | `get_formalization_task(session_id, source_id)` | Return a Formalizer task for a proof attempt or subproblem ID. Act as the Formalizer agent and pass the response to `submit_formalization`. |
 | `submit_formalization(session_id, source_id, response_json)` | Store the Formalizer's Lean 4 output in the knowledge base. |
 
@@ -114,6 +116,8 @@ get_round_tasks(session_id)
 
 submit_round_results(session_id, round, results_json)
   → { status, summaries, resolved }
+
+refresh_viewer(session_id)          ← ALWAYS call after submit_round_results
 
 # Repeat until resolved=true or should_stop=true
 ```
