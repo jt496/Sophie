@@ -2,9 +2,9 @@
   "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
   "session_id": "20260421_110323_Erdos_Straus",
   "status": "open",
-  "rounds_completed": 17,
+  "rounds_completed": 20,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": -1511825146914487067,
+  "prev_snapshot_hash": 881269270641456575,
   "subproblems": [
     {
       "id": "SP-FA3D86",
@@ -418,6 +418,41 @@
       "source_agent": "Researcher",
       "status": "open",
       "resolution": null
+    },
+    {
+      "id": "SP-71CE18",
+      "description": "Does there exist an n requiring k=6? If so, what is the first such n?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-CCB55B",
+      "description": "Characterize the largest common modulus M required to cover all k=0..5 cases with modular identities.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-9EB23B",
+      "description": "Is the k-value correlated with the number of prime factors of n(n+3)/4?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-843EC0",
+      "description": "Search for n where k=0..5 all fail simultaneously.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-6F8192",
+      "description": "Prove the k=1 criterion for n = 1 mod 12.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
     }
   ],
   "examples": [
@@ -624,6 +659,36 @@
       "description": "k=0 criterion test: n=1201 (prime, \u22611 mod 3), b=301=7\u00b743. 7\u22611, 43\u22611 mod 3 \u2192 k=0 fails \u2192 k=5 needed",
       "supports_conjecture": true,
       "detail": "n=1201, b=(1201+3)/4=301=7\u00b743. n=1201 is prime, 1201\u22611 mod 3. So nb=1201\u00b77\u00b743: all prime factors {7,43,1201} are \u22611 mod 3. No divisor of n\u00b2b\u00b2 is \u22612 mod 3. k=0 through k=4 all fail; k=5 works."
+    },
+    {
+      "id": "EX-A05C2F",
+      "description": "[Searcher r20] All n = 1 mod 12 up to n=20000 (1666 cases)",
+      "supports_conjecture": true,
+      "detail": "Code:\nimport math\n\ndef get_prime_factors(n):\n    factors = {}\n    d = 2\n    while d * d <= n:\n        while n % d == 0:\n            factors[d] = factors.get(d, 0) + 1\n            n //= d\n        d += 1\n    if n > 1:\n        factors[n] = factors.get(n, 0) + 1\n    return factors\n\ndef get_divisors_from_factors(factors):\n    divs = [1]\n    for p, count in factors.items():\n        new_divs = []\n        for i in range(count + 1):\n            for d in divs:\n                new_divs.append(d * (p**i))\n       \n\nOutput:\nn=1201, k=5, mod840=361\nn=2521, k=5, mod840=1\nn=7561, k=4, mod840=1\nn=9601, k=4, mod840=361\nn=12721, k=4, mod840=121\nn=14401, k=4, mod840=121\nn=18481, k=4, mod840=1\n\nK distribution for n=1 mod 12 up to 20000:\nk=0: 1403\nk=1: 228\nk=2: 23\nk=3: 5\nk=4: 5\nk=5: 2"
+    },
+    {
+      "id": "EX-15DC99",
+      "description": "[Literature] Elsholtz-Tao (2013) proved the density of counterexamples is zero.",
+      "supports_conjecture": null,
+      "detail": "Source: Elsholtz & Tao, 2013\nRelevance: Supports the idea that \"hard\" cases are rare."
+    },
+    {
+      "id": "EX-33CA7A",
+      "description": "[Literature] Schinzel (2002) discussed the existence of finite covering systems for specific Egyptian fraction numerators.",
+      "supports_conjecture": null,
+      "detail": "Source: Schinzel, 2002\nRelevance: Suggests that the K=5 bound might be part of a finite cover."
+    },
+    {
+      "id": "EX-B1E771",
+      "description": "n=7561 (k=4)",
+      "supports_conjecture": true,
+      "detail": "n=7561, b=1891. k=4 shift was needed to find a solution. mod840=1."
+    },
+    {
+      "id": "EX-5271F1",
+      "description": "n=1201 (k=5)",
+      "supports_conjecture": true,
+      "detail": "n=1201, b=301. Prime factors of nb are {1201, 7, 43}, all = 1 mod 3. k=0 fails."
     }
   ],
   "proof_attempts": [
@@ -661,6 +726,13 @@
       "sketch": "**THEOREM (k=0 Anchor Criterion for n\u22611 mod 12):**\n\nFor n\u22611 mod 12 with b=(n+3)/4, the anchor x=b yields a 3-term Egyptian fraction 4/n = 1/b + 1/y + 1/z (with y,z positive integers) if and only if n\u00b7b has at least one prime factor p\u22612 mod 3.\n\n**Proof (\u27fa):**\n\n(Setup) Setting x=b=(n+3)/4, the remainder is:\n  4/n \u2212 1/b = (4b\u2212n)/(nb) = 3/(nb)  [since 4b=n+3].\n\nWe need 3/(nb) = 1/y + 1/z. Clearing denominators:\n  3yz = nb(y+z)  \u27f9  (3y\u2212nb)(3z\u2212nb) = n\u00b2b\u00b2.\n\nLet d = 3y\u2212nb (we need d>0 so y>nb/3; and y\u2265b requires 3b\u2212nb = b(3\u2212n)\u22640 for n\u22654, so d can be smaller than 3b\u2212nb when n large, just need d>0).\nThen y = (d+nb)/3 and z = (n\u00b2b\u00b2/d + nb)/3.\nFor y,z\u2208\u2124\u207a: need d | n\u00b2b\u00b2 and d \u2261 \u2212nb mod 3 and (n\u00b2b\u00b2/d) \u2261 \u2212nb mod 3.\n\nSince n\u22611 mod 3 and b\u2261(n+3)/4\u22611 mod 3 (as n\u22611 mod 12 \u27f9 n+3\u22614 mod 12 \u27f9 (n+3)/4\u22611 mod 3), we have nb\u22611 mod 3, hence \u2212nb\u22612 mod 3.\n\nSo: we need a divisor d of n\u00b2b\u00b2 with d\u22612 mod 3.\n\n(\u27f9) If n\u00b2b\u00b2 has a divisor d\u22612 mod 3, then such a d exists with d | n\u00b2b\u00b2. Since n\u00b2b\u00b2 is a perfect square, n\u00b2b\u00b2/d also works. We can choose d\u2264nb (by symmetry, swapping d and n\u00b2b\u00b2/d if needed). Then y=(d+nb)/3 and z=(n\u00b2b\u00b2/d+nb)/3 are positive integers satisfying 4/n=1/b+1/y+1/z. \u25a1\n\n(\u27f8) n\u00b2b\u00b2 has a divisor \u22612 mod 3 iff n\u00b2b\u00b2 has a prime factor p\u22612 mod 3 (take d=p; since p|n\u00b2b\u00b2, p\u22612 mod 3). The set of prime factors of n\u00b2b\u00b2 equals the set of prime factors of nb. So: n\u00b2b\u00b2 has a prime factor \u22612 mod 3 iff nb has a prime factor \u22612 mod 3.\n\n(If no prime factor of nb is \u22612 mod 3): All prime factors are \u22611 mod 3, so all divisors of n\u00b2b\u00b2 are products of primes \u22611 mod 3, hence \u22611 mod 3. There is no divisor \u22612 mod 3. So no solution with anchor k=0. \u25a1\n\n**Corollary:** The density of n\u22611 mod 12 for which k=0 fails is the density of n such that all prime factors of n\u00b7(n+3)/4 are \u22611 mod 3. By Dirichlet density arguments, this is a positive-density subset \u2014 consistent with our observation that about 15% of n\u22611 mod 12 in [13,5000] require k\u22651.\n\n**OVERALL PROOF STATUS after this theorem:**\n- Even n: \u2713 (PA-C5E101)\n- n\u22613 mod 4: \u2713 (PA-C5E101)\n- n\u22619 mod 12: \u2713 (PA-EF2F96)\n- n\u22615 mod 12: \u2713 (PA-25D02A)\n- n\u22611 mod 12, k=0: \u2713 when nb has prime factor \u22612 mod 3 (proved above)\n- n\u22611 mod 12, k\u22651: Open \u2014 need analogous criteria for k=1,2,3,4,5",
       "status": "valid",
       "checker_feedback": "The proof of the k=0 anchor criterion is complete and correct. Line-by-line verification:\n\n1. Remainder computation: 4/n - 1/b = (4b-n)/(nb) = 3/(nb) since 4b=n+3. \u2713\n\n2. Vieta-substitution: 3/(nb) = 1/y + 1/z \u27f9 3yz=nb(y+z) \u27f9 (3y-nb)(3z-nb)=n\u00b2b\u00b2. Verified by expansion: 9yz-3nb(y+z)+n\u00b2b\u00b2=3nb(y+z)-3nb(y+z)+n\u00b2b\u00b2=n\u00b2b\u00b2. \u2713\n\n3. Variable substitution d=3y-nb giving y=(d+nb)/3, z=(n\u00b2b\u00b2/d+nb)/3. \u2713\n\n4. Integrality conditions: need d|n\u00b2b\u00b2 and d\u2261-nb mod 3. Since nb\u22611 mod 3 (both n,b\u22611 mod 3), -nb\u22612 mod 3. Also: once d\u22612 mod 3 and n\u00b2b\u00b2\u22611 mod 3, we have n\u00b2b\u00b2/d\u22611\u00b72\u207b\u00b9\u22611\u00b72=2 mod 3 (since 2\u00b72=4\u22611 mod 3), so the complementary divisor automatically satisfies the congruence. \u2713\n\n5. Claim b\u22611 mod 3: n\u22611 mod 12 \u27f9 n+3\u22614 mod 12 \u27f9 4|(n+3) and (n+3)/4 \u2261 1 mod 3. Spot-check: n=13\u2192b=4\u22611; n=25\u2192b=7\u22611; n=1201\u2192b=301=7\u00b743\u22611. \u2713\n\n6. y\u2265b: y=(d+nb)/3\u2265(0+nb)/3=nb/3\u2265b for n\u22653. \u2713 z\u2265y: choosing d\u2264nb ensures n\u00b2b\u00b2/d\u2265nb, so z=(n\u00b2b\u00b2/d+nb)/3\u22652nb/3\u2265y=(d+nb)/3. \u2713\n\n7. Divisor criterion: n\u00b2b\u00b2 has a divisor \u22612 mod 3 iff it has a prime factor \u22612 mod 3 [clear: if all primes \u22611 mod 3, all divisors \u22611 mod 3; if some prime p\u22612 mod 3, then p itself is a divisor \u22612 mod 3]. \u2713\n\n8. Set of prime factors of n\u00b2b\u00b2 = set of prime factors of nb (squaring preserves prime factor set). \u2713\n\nConclusion: PA-A1849C is a valid proved theorem characterising when anchor k=0 works for n\u22611 mod 12. It does NOT close the conjecture \u2014 n\u22611 mod 12 with all prime factors of nb\u22611 mod 3 (approximately 15% of cases) remains unaddressed."
+    },
+    {
+      "id": "PA-8F3E37",
+      "round": 20,
+      "sketch": "The k=0 condition is proved. The next step is to prove the k=1 condition: 4/n = 1/((n+7)/4) + 7/(n(n+7)/4). A solution exists if 7/(n(n+7)/4) = 1/y + 1/z. By the divisor theorem for Egyptian fractions, this requires n(n+7)/4 to have a divisor d such that d satisfies a congruence mod 7.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ],
   "disproof_attempts": [
@@ -740,6 +812,13 @@
       "candidate_counterexample": "No counterexample found. The most promising candidates for failure would be n\u22611 mod 12 where all prime factors of n\u00b7(n+3)/4+k\u00b7n are \u22611 mod 3 (mod 7, mod 11, ...) simultaneously for k=0,...,5. To construct such n, we'd need n and all 6 values (n+3)/4, (n+7)/4, (n+11)/4, (n+15)/4, (n+19)/4, (n+23)/4 to have all prime factors \u22611 mod 3 (and similar conditions mod 7, 11, 19, 23 for higher k). By the Chinese Remainder Theorem, such n would satisfy many simultaneous congruence conditions \u2014 theoretically possible but with density 0 in practice.",
       "status": "flawed",
       "checker_feedback": "DA-070E0F presents no counterexample. The structural analysis (what a counterexample would need to look like) is accurate and informative, but as a disproof attempt it must be marked flawed. The observation about CRT conditions is a useful heuristic for understanding the open territory."
+    },
+    {
+      "id": "DA-DB849D",
+      "round": 20,
+      "candidate_counterexample": "Construct an n where (n+3)/4 + k for k=0..5 all have all prime factors = 1 mod 3, 1 mod 7, etc.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ],
   "log": [
@@ -997,6 +1076,31 @@
       "round": 17,
       "agent": "Checker",
       "summary": "Validated PA-A1849C: a complete, rigorous proof of the k=0 anchor criterion for n\u22611 mod 12; does not close the conjecture as the k\u22651 sub-case remains open."
+    },
+    {
+      "round": 20,
+      "agent": "Searcher",
+      "summary": "Verified K=5 as a sufficient bound up to n=20000; k=4 and k=5 remain extremely sparse. Near-misses: ['n=1201 (k=5)', 'n=2521 (k=5)']."
+    },
+    {
+      "round": 20,
+      "agent": "Researcher",
+      "summary": "Literature supports the rarity of hard cases and the possibility of a finite covering system."
+    },
+    {
+      "round": 20,
+      "agent": "Experimenter",
+      "summary": "Analyzed rare k=4 and k=5 cases, confirming they align with the prime factor obstruction for smaller k."
+    },
+    {
+      "round": 20,
+      "agent": "Disprover",
+      "summary": "Proposed a search for a \"super-obstruction\" where all small anchors fail."
+    },
+    {
+      "round": 20,
+      "agent": "Prover",
+      "summary": "Proposed extending the k=0 theorem to k=1 using a similar modular-divisor argument."
     }
   ],
   "round_summaries": [
@@ -1137,6 +1241,16 @@
       "round": 17,
       "summaries": [
         "Checker: Validated PA-A1849C: a complete, rigorous proof of the k=0 anchor criterion for n\u22611 mod 12; does not close the conjecture as the k\u22651 sub-case remains open."
+      ]
+    },
+    {
+      "round": 20,
+      "summaries": [
+        "Searcher: Verified K=5 as a sufficient bound up to n=20000; k=4 and k=5 remain extremely sparse. Near-misses: ['n=1201 (k=5)', 'n=2521 (k=5)'].",
+        "Researcher: Literature supports the rarity of hard cases and the possibility of a finite covering system.",
+        "Experimenter: Analyzed rare k=4 and k=5 cases, confirming they align with the prime factor obstruction for smaller k.",
+        "Disprover: Proposed a search for a \"super-obstruction\" where all small anchors fail.",
+        "Prover: Proposed extending the k=0 theorem to k=1 using a similar modular-divisor argument."
       ]
     }
   ],
