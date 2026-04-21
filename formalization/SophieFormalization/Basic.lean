@@ -6,7 +6,7 @@
 import Mathlib
 
 open Classical
-
+set_option linter.unusedSectionVars false
 variable {V : Type*} [DecidableEq V] [Fintype V]
 
 section GraphIndependence
