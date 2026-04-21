@@ -361,17 +361,22 @@ def get_formalization_task(session_id: str, source_id: str) -> str:
 @mcp.tool()
 def submit_formalization(session_id: str, source_id: str, response_json: str) -> str:
     """
-    Store the Formalizer agent's Lean 4 output in the knowledge base.
+    Store the Formalizer agent's Lean 4 output in the knowledge base AND write
+    it to the Lean repository under formalization/.
 
-    response_json is the raw JSON string produced by the Formalizer agent.
+    The Formalizer's response must include a "lean_file" field (path relative to
+    formalization/) telling us which file to write to.  If the file already
+    exists the new code is appended; if not it is created and the root module
+    SophieFormalization.lean is updated with the new import.
 
-    Returns JSON with: formalization_id, summary, confidence, sorry_count.
+    Returns JSON with: formalization_id, lean_file, summary, confidence, sorry_count.
 
     Args:
         session_id:    The session ID.
         source_id:     The proof attempt or subproblem ID that was formalized.
         response_json: The Formalizer's JSON response string.
     """
+    from pathlib import Path
     from agents.base_agent import BaseAgent
 
     kb = _load_kb(session_id)
@@ -382,9 +387,38 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
     if parsed.get("parse_error"):
         return json.dumps({"error": "Could not parse Formalizer response JSON."})
 
+    lean_code: str = parsed.get("lean_code", "")
+    lean_file: str = parsed.get("lean_file", "")
+
+    # ── Write to the Lean repo ────────────────────────────────────────────────
+    lean_root = Path(__file__).parent / "formalization"
+    file_written: str | None = None
+    if lean_file and lean_code:
+        target = lean_root / lean_file
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            # Append, separated by a blank line
+            existing = target.read_text(encoding="utf-8")
+            target.write_text(existing.rstrip() + "\n\n" + lean_code + "\n",
+                              encoding="utf-8")
+        else:
+            target.write_text(lean_code + "\n", encoding="utf-8")
+            # Add import to root module if not already present
+            root_module = lean_root / "SophieFormalization.lean"
+            if root_module.exists():
+                module_name = lean_file.replace("/", ".").removesuffix(".lean")
+                import_line = f"import {module_name}"
+                content = root_module.read_text(encoding="utf-8")
+                if import_line not in content:
+                    root_module.write_text(content.rstrip() + f"\nimport {module_name}\n",
+                                          encoding="utf-8")
+        file_written = lean_file
+
+    # ── Store in knowledge base ───────────────────────────────────────────────
     fid = kb.add_formalization_attempt(
         source_id=source_id,
-        lean_code=parsed.get("lean_code", ""),
+        lean_code=lean_code,
+        lean_file=lean_file or "",
         mathlib_imports=parsed.get("mathlib_imports", []),
         sorries=parsed.get("sorries", []),
         confidence=parsed.get("confidence", "partial"),
@@ -396,6 +430,7 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
 
     return json.dumps({
         "formalization_id": fid,
+        "lean_file": file_written,
         "summary": parsed.get("summary", ""),
         "confidence": parsed.get("confidence", "partial"),
         "sorry_count": len(parsed.get("sorries", [])),

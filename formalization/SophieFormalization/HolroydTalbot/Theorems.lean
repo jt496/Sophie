@@ -1,5 +1,5 @@
 /-
-  SophieFormalization.HolroydTalbot
+  SophieFormalization.HolroydTalbot.Theorems
   Statement of the Holroyd-Talbot conjecture and proved special cases.
 
   Holroyd-Talbot Conjecture (2005):
@@ -9,7 +9,7 @@
     Moreover G is strictly r-EKR when 1 < r < μ(G)/2.
 -/
 
-import SophieFormalization.Basic
+import SophieFormalization.HolroydTalbot.Basic
 
 open Classical
 

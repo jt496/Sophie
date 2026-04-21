@@ -1,5 +1,5 @@
 /-
-  SophieFormalization.DisjointUnion
+  SophieFormalization.HolroydTalbot.DisjointUnion
   Formalizes Sophie's proof of the H ⊔ H r-EKR theorem (Rounds 9–14).
 
   The main result: if H is r-EKR and μ(H) ≥ r, then H ⊔ H is r-EKR.
@@ -60,8 +60,8 @@
     • case3_mixed  (proof strategy FLAWED — hFk_bound is FALSE, see R15)   ✗/sorry
 -/
 
-import SophieFormalization.Basic
-import SophieFormalization.HolroydTalbot
+import SophieFormalization.HolroydTalbot.Basic
+import SophieFormalization.HolroydTalbot.Theorems
 
 open Classical
 set_option linter.unusedSectionVars false

@@ -13,6 +13,7 @@ from typing import Any, Dict, List
 
 import config
 from agents import Checker, Disprover, Experimenter, Prover, Researcher, Searcher
+from agents.formalizer import _conjecture_slug
 from agents.base_agent import BaseAgent
 from knowledge_base import KnowledgeBase
 
@@ -137,6 +138,8 @@ class Conductor:
         suggestions = []
         snap = self.kb.snapshot()
         already = {fa["source_id"] for fa in snap.get("formalization_attempts", [])}
+        slug = _conjecture_slug(snap.get("conjecture", ""))
+        lean_file = f"SophieFormalization/{slug}/Theorems.lean"
 
         for pa in snap["proof_attempts"]:
             if pa["id"] in already:
@@ -146,6 +149,7 @@ class Conductor:
                     "id": pa["id"],
                     "type": "proof_attempt",
                     "reason": "Checker-validated proof — strong candidate for formalization.",
+                    "lean_file": lean_file,
                     "preview": pa["sketch"][:120],
                 })
             elif pa["status"] == "unchecked" and len(pa["sketch"]) > 300:
@@ -153,6 +157,7 @@ class Conductor:
                     "id": pa["id"],
                     "type": "proof_attempt",
                     "reason": "Substantial unchecked proof sketch — formalization could reveal gaps.",
+                    "lean_file": lean_file,
                     "preview": pa["sketch"][:120],
                 })
 

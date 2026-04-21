@@ -2,9 +2,9 @@
   "conjecture": "Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
   "session_id": "20260421_110323_does-4-n-1-x-1-y-1-z-have-a-positive-int",
   "status": "open",
-  "rounds_completed": 4,
+  "rounds_completed": 10,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": 4138149979599006291,
+  "prev_snapshot_hash": -7568763142257496639,
   "subproblems": [
     {
       "id": "SP-FA3D86",
@@ -25,25 +25,25 @@
       "description": "Case analysis: does the residue of n mod 4 determine which identity to use?",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Partially resolved: even n and n\u22613 mod 4 have complete uniform identities; n\u22611 mod 4 remains open."
+      "resolution": "Partially resolved: even n and n≡3 mod 4 have complete uniform identities; n≡1 mod 4 remains open."
     },
     {
       "id": "SP-441C0D",
       "description": "Is the conjecture verified computationally for all n up to some large bound?",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Computationally verified: no failures for 2\u2264n\u2264200 including all primes to 200."
+      "resolution": "Literature confirms verification to n≤10^17, far exceeding our computational checks to n=1000."
     },
     {
       "id": "SP-7697E7",
-      "description": "For n\u22613 mod 4: verify whether 4/n=1/((n+1)/4)+1/((n+1)/4)+1/(n(n+1)/4-... needs careful computation.",
+      "description": "For n≡3 mod 4: verify whether 4/n=1/((n+1)/4)+1/((n+1)/4)+1/(n(n+1)/4-... needs careful computation.",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Verified: identity 4/n=1/(a+1)+1/(a(a+1))+1/(na) with a=(n+1)/4 holds for ALL n\u22613 mod 4 up to 200."
+      "resolution": "Verified: identity 4/n=1/(a+1)+1/(a(a+1))+1/(na) with a=(n+1)/4 holds for ALL n≡3 mod 4 up to 200."
     },
     {
       "id": "SP-E01E75",
-      "description": "For n\u22611 mod 4: try 4/n=1/((n+3)/4)+remainder identity.",
+      "description": "For n≡1 mod 4: try 4/n=1/((n+3)/4)+remainder identity.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
@@ -60,81 +60,249 @@
       "description": "Does 4/n=1/n+1/y+1/z always have a solution for odd n (anchored form)?",
       "source_agent": "Disprover",
       "status": "resolved",
-      "resolution": "Partially resolved: for n\u22615 mod 12, the anchored form 4/n=1/n+1/y+1/z works with y=(n+1)/3, z=yn."
+      "resolution": "Partially resolved: for n≡5 mod 12, the anchored form 4/n=1/n+1/y+1/z works with y=(n+1)/3, z=yn."
     },
     {
       "id": "SP-44F74B",
-      "description": "For n\u22613 mod 4, verify the general identity 4/n=1/((n+5)/4)+1/(((n+1)/4)\u00b7((n+5)/4))+1/(n(n+1)/4) and prove it in general.",
+      "description": "For n≡3 mod 4, verify the general identity 4/n=1/((n+5)/4)+1/(((n+1)/4)·((n+5)/4))+1/(n(n+1)/4) and prove it in general.",
       "source_agent": "Experimenter",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-F27F70",
-      "description": "For n\u22611 mod 4, find a uniform 3-term identity analogous to the n\u22613 case.",
+      "description": "For n≡1 mod 4, find a uniform 3-term identity analogous to the n≡3 case.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Substantially resolved: n\u22619 mod 12 has identity via j=n/3 split; n\u22615 mod 12 has identity 4/n=1/n+1/((n-2)/3+1)+1/(((n-2)/3+1)\u00b7n); only n\u22611 mod 12 remains."
+      "resolution": "Substantially resolved: n≡9 mod 12 has identity via j=n/3 split; n≡5 mod 12 has identity 4/n=1/n+1/((n-2)/3+1)+1/(((n-2)/3+1)·n); only n≡1 mod 12 remains."
     },
     {
       "id": "SP-D36A10",
-      "description": "For n\u22611 mod 4: prove 12/(n(n+3)) always has a 2-term Egyptian fraction representation.",
+      "description": "For n≡1 mod 4: prove 12/(n(n+3)) always has a 2-term Egyptian fraction representation.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-CA5F82",
-      "description": "For n\u22611 mod 4 with 3|n (n\u22619 mod 12): 12/(n(n+3))=4/(n/3\u00b7(n+3)/4), investigate this specialised form.",
+      "description": "For n≡1 mod 4 with 3|n (n≡9 mod 12): 12/(n(n+3))=4/(n/3·(n+3)/4), investigate this specialised form.",
       "source_agent": "Disprover",
       "status": "resolved",
       "resolution": "Both PA-EF2F96 identities verified computationally correct."
     },
     {
       "id": "SP-2C4092",
-      "description": "For n\u22611 mod 4: solutions (x,y,z) with x=(n+3)/4 follow no obvious closed form \u2014 is there a uniform identity?",
+      "description": "For n≡1 mod 4: solutions (x,y,z) with x=(n+3)/4 follow no obvious closed form — is there a uniform identity?",
       "source_agent": "Searcher",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-8143BC",
-      "description": "For n\u22611 mod 24 where nb=(n(n+3)/4) has all divisors \u22611 mod 3: x=(n+3)/4 may not lead to a clean split \u2014 try x=n/... or other anchors.",
+      "description": "For n≡1 mod 24 where nb=(n(n+3)/4) has all divisors ≡1 mod 3: x=(n+3)/4 may not lead to a clean split — try x=n/... or other anchors.",
       "source_agent": "Experimenter",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "For the 9 cases in [13,499] where (n+3)/4 fails, the anchor x=(n+3)/4+1 (diff=1 in 8 of 9 cases, diff=2 for n=49) always succeeds."
     },
     {
       "id": "SP-95A21E",
-      "description": "n\u22611 mod 12: find a 3-term identity for 4/n. Note n\u22611 mod 3 so 3/n needs to be written as a 2-term EF for x=n anchor approach, but 3\u2224n complicates things.",
+      "description": "n≡1 mod 12: find a 3-term identity for 4/n. Note n≡1 mod 3 so 3/n needs to be written as a 2-term EF for x=n anchor approach, but 3∤n complicates things.",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Computationally confirmed: 83 cases of n\u22611 mod 12 up to 1000 and 21 primes \u22611 mod 12 up to 500, zero failures."
+      "resolution": "Computationally confirmed: 83 cases of n≡1 mod 12 up to 1000 and 21 primes ≡1 mod 12 up to 500, zero failures."
     },
     {
       "id": "SP-F0B3D3",
-      "description": "For n\u22611 mod 12: does the identity 4/n=1/((n+3)/4)+3/(n(n+3)/4) always reduce to a solvable 2-term EF problem? What density argument guarantees a solution?",
+      "description": "For n≡1 mod 12: does the identity 4/n=1/((n+3)/4)+3/(n(n+3)/4) always reduce to a solvable 2-term EF problem? What density argument guarantees a solution?",
       "source_agent": "Disprover",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "REFUTED: 3/(n*(n+3)/4) is not always a solvable 2-term EF. 31 failures in n≡1 mod 12 up to 2000, all with solutions via other anchors."
     },
     {
       "id": "SP-E1CD57",
-      "description": "For n\u22611 mod 12 prime p: show at least one of p+k (k=1..11) is divisible by a useful factor.",
+      "description": "For n≡1 mod 12 prime p: show at least one of p+k (k=1..11) is divisible by a useful factor.",
       "source_agent": "Disprover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-794102",
-      "description": "Is there a St\u00f8rmer-type theorem for n\u22611 mod 12?",
+      "description": "Is there a Størmer-type theorem for n≡1 mod 12?",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Elsholtz–Tao (2013) density-zero result is the analytic analogue of a Størmer-type theorem: potential counterexamples have zero natural density, meaning they cannot arise in any arithmetic progression."
+    },
+    {
+      "id": "SP-CDB19F",
+      "description": "For n≡1 mod 12: catalogue which anchor x works for each sub-residue mod 60.",
+      "source_agent": "Searcher",
+      "status": "resolved",
+      "resolution": "Catalogued by mod 60: n≡25,37 mod 60 always use anchor (n+3)/4; n≡49,13,1 mod 60 sometimes require (n+3)/4+1; n≡1 mod 12 has zero failures up to 1000."
+    },
+    {
+      "id": "SP-CB07E4",
+      "description": "For n≡1 mod 12 where anchor x=(n+3)/4 fails (concentrated in n≡49,13,1 mod 60): prove that x=(n+3)/4+1 always works as a fallback anchor.",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "REFUTED: x=(n+3)/4+1 is not a universal fallback. Fails for n=1201 (mod840=361), n=1129 (mod840=289), n=1369 (mod840=529), n=1849 (mod840=169), n=2521 (mod840=1). Solutions exist via other anchors."
+    },
+    {
+      "id": "SP-3BE05C",
+      "description": "Characterise exactly which n≡1 mod 12 require anchor x=(n+3)/4+1 vs x=(n+3)/4 — is it determined by n mod 60 or finer residue?",
       "source_agent": "Disprover",
       "status": "open",
       "resolution": null
     },
     {
-      "id": "SP-CDB19F",
-      "description": "For n\u22611 mod 12: catalogue which anchor x works for each sub-residue mod 60.",
+      "id": "SP-0C0839",
+      "description": "For n≡1 mod 12 concentrated in n≡49,13,1 mod 60: the anchor x=(n+3)/4 fails but x=(n+3)/4+1 always works in tested range — prove this holds in general.",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-EDCC56",
+      "description": "Characterise precisely which n≡1 mod 12 require anchor x=(n+3)/4+1: is it determined by a congruence condition on n mod 60, or by a divisibility condition on n+3?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-25BE62",
+      "description": "For n≡1 mod 12: investigate why anchor x=(n+3)/4 fails precisely when n+3 ≡ 0 mod 4 but 3∤(n+3)/4 — is there a clean divisibility condition?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-1299C7",
+      "description": "For n≡1,13,49 mod 60: verify anchor x=(n+3)/4+1 holds beyond n=1000 (e.g. up to n=10000) to test if it is universal in these sub-residues.",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Anchor x=(n+3)/4+1 is NOT universal for n≡1,13,49 mod 60: double-fails found at n=1201 (mod840=361), 2521 (mod840=1), 1129 (mod840=289), 1369 (mod840=529), 1849 (mod840=169). All solutions still exist via other anchors."
+    },
+    {
+      "id": "SP-B5C01E",
+      "description": "Study arXiv:2511.07465 Method ED2 (identity (4b−1)(4c−1)=4Pδ+1 and affine lattice geometry): can the Prover apply this to prove the n≡1 mod 12 case in our session?",
+      "source_agent": "Researcher",
+      "status": "resolved",
+      "resolution": "The paper's ED2/Type I-II approach is computationally verified incomplete: 8 of 70 primes p≡1 mod 12 up to 2000 are not covered. The approach is a promising direction but requires additional cases or a different argument to close the gaps."
+    },
+    {
+      "id": "SP-AFC675",
+      "description": "Investigate the n≡1 mod 9240 exceptional class (Webb): does our computational anchor-fallback analysis find any special behaviour at n≡1 mod 9240 values?",
+      "source_agent": "Researcher",
+      "status": "resolved",
+      "resolution": "All 6 tested values of n≡1 mod 9240 up to 55441 have solutions (all have mod840=1, requiring anchor k≤5). No anomalous obstruction found for Webb's exceptional class."
+    },
+    {
+      "id": "SP-2DBEEA",
+      "description": "The hard residues mod 840 are {1,121,169,289,361,529}: verify our session's anchor analysis covers all six of these sub-classes.",
+      "source_agent": "Researcher",
+      "status": "resolved",
+      "resolution": "All six hard Mordell mod-840 residues {1,121,169,289,361,529} verified with zero failures up to 3000. The hard classes are hard for anchor formulas, not for the conjecture itself."
+    },
+    {
+      "id": "SP-F51E85",
+      "description": "For n≡1 mod 12 in the Mordell hard residues mod 840 (n≡1,121,169,289,361,529 mod 840): what is the minimum number of anchor candidates needed to cover all cases? Is there a finite set of anchor formulas covering all six hard residue classes?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-1E0DC8",
+      "description": "The five double-anchor-failures found (n=1201,2521,1129,1369,1849) are all perfect squares or have mod840 in the hard set — is this a coincidence or structural?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-ACB0A7",
+      "description": "For n≡1 mod 12 in Mordell hard residues mod 840: characterise which anchor x=(n+3)/4+k (k≥0) works for each of the six sub-classes — is there a finite cover using at most 6 anchor formulas (one per Mordell class)?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-78024C",
+      "description": "The double-anchor-failures (both (n+3)/4 and (n+3)/4+1 fail) all have n mod 840 in Mordell's hard set {1,121,169,289,361,529} — confirm this holds for all double-failures up to 10000.",
+      "source_agent": "Searcher",
+      "status": "resolved",
+      "resolution": "All 8 paper-uncovered primes have mod840 values {241,409,481,649,769,361} — NOT all in Mordell's hard set {1,121,169,289,361,529}. Only p=1201 (mod840=361) is in the Mordell hard set. The double-anchor-failure / Mordell-hard correlation is partial, not absolute."
+    },
+    {
+      "id": "SP-AB345D",
+      "description": "For the 8 uncovered primes (241,409,769,...): what is the algebraic structure distinguishing them from the covered primes? Is there an ℓ=6 or higher-k formula that covers them?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-856B23",
+      "description": "Does extending the paper's approach to k=1 (x=(p+7)/4, or x=(3p+1) with k=1 multiplier) cover the gaps?",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "REFUTED: extending the paper's approach to k=1,2,3 (scaling 3p+1 or p+3 by powers of 2) does NOT cover any of the 8 uncovered primes. The gaps cannot be closed by simple scaling."
+    },
+    {
+      "id": "SP-4079CA",
+      "description": "For the 8 primes uncovered by arXiv:2602.11774 (p=241,409,...): do they share a residue condition that would be covered by a Type I/II formula with k=1 (i.e., x=(p+7)/4 or x=(3p+1)·2/(12-ℓ))?",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-D4FF6D",
+      "description": "Is there a complete covering system using Type I and II formulas over all k≥0 and ℓ=1..5? What is the minimum modulus needed?",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-4744DC",
+      "description": "For the 8 uncovered primes (mod840 residues 241,409,481,649,769,361): does a Type I or II formula with k=1 (i.e., x=(p+7)/4 or denominator 3p+1 scaled by factor 2) cover them?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-847DA6",
+      "description": "What is the smallest complete covering system for 4/p with p≡1 mod 12 prime, using formulas of Type I/II form?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-B3ACFA",
+      "description": "For n≡5 mod 12: formalise the identity 4/n=1/n+1/((n+1)/3)+1/(n(n+1)/3) and submit a proper proof attempt — currently mentioned but never formally proved.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-96B1D6",
+      "description": "Is there a uniform bound K such that anchor x=(n+3)/4+k with k≤K always works for all n≡1 mod 12? Computational evidence shows K≥5 for n≤5000; does K grow unboundedly?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-EEE9BD",
+      "description": "For n≡1 mod 9240 (Webb's class): does the minimum anchor k required grow anomalously large, suggesting a structural difference from other mod-840=1 cases?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-2DBAE9",
+      "description": "SP-KAP001: Extended Type I/II formulas with k=1,2,3 cover NONE of the 8 uncovered primes — the algebraic structure that makes those primes uncoverable by the paper's framework is not fixed by naive scaling. What is the intrinsic obstruction?",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-CDAAB4",
+      "description": "SP-KAP002: Mordell hard class mod840=1 requires anchor k up to 5 for n≤5000. Is this k uniformly bounded across all mod840=1 cases, and if so what is the bound?",
       "source_agent": "Searcher",
       "status": "open",
       "resolution": null
@@ -145,124 +313,243 @@
       "id": "EX-FE6F47",
       "description": "n=2: 4/2=1/1+1/2+1/2",
       "supports_conjecture": true,
-      "detail": "x=1,y=2,z=2: 1+1/2+1/2=2=4/2 \u2713"
+      "detail": "x=1,y=2,z=2: 1+1/2+1/2=2=4/2 ✓"
     },
     {
       "id": "EX-BE0761",
       "description": "n=3: 4/3=1/1+1/4+1/12",
       "supports_conjecture": true,
-      "detail": "1+1/4+1/12=12/12+3/12+1/12=16/12=4/3 \u2713"
+      "detail": "1+1/4+1/12=12/12+3/12+1/12=16/12=4/3 ✓"
     },
     {
       "id": "EX-D45CB9",
       "description": "n=4: 4/4=1/2+1/3+1/6",
       "supports_conjecture": true,
-      "detail": "3/6+2/6+1/6=6/6=1 \u2713"
+      "detail": "3/6+2/6+1/6=6/6=1 ✓"
     },
     {
       "id": "EX-35F2F8",
       "description": "n=5: 4/5=1/2+1/4+1/20",
       "supports_conjecture": true,
-      "detail": "10/20+5/20+1/20=16/20=4/5 \u2713"
+      "detail": "10/20+5/20+1/20=16/20=4/5 ✓"
     },
     {
       "id": "EX-53B62E",
-      "description": "n=7 (prime, \u22613 mod 4): 4/7=1/3+1/6+1/14",
+      "description": "n=7 (prime, ≡3 mod 4): 4/7=1/3+1/6+1/14",
       "supports_conjecture": true,
-      "detail": "a=(7+1)/4=2. 1/(a+1)+1/(a(a+1))+1/(na)=1/3+1/6+1/14. Check: 14/42+7/42+3/42=24/42=4/7. \u2713"
+      "detail": "a=(7+1)/4=2. 1/(a+1)+1/(a(a+1))+1/(na)=1/3+1/6+1/14. Check: 14/42+7/42+3/42=24/42=4/7. ✓"
     },
     {
       "id": "EX-18A798",
-      "description": "n=9 (\u22611 mod 4): 4/9=1/3+1/10+1/90",
+      "description": "n=9 (≡1 mod 4): 4/9=1/3+1/10+1/90",
       "supports_conjecture": true,
-      "detail": "x=3: 4/9-1/3=1/9. Split 1/9=1/10+1/90. Check: 30/90+9/90+1/90=40/90=4/9. \u2713"
+      "detail": "x=3: 4/9-1/3=1/9. Split 1/9=1/10+1/90. Check: 30/90+9/90+1/90=40/90=4/9. ✓"
     },
     {
       "id": "EX-1A7D19",
-      "description": "n=11 (prime, \u22613 mod 4): 4/11=1/4+1/12+1/33",
+      "description": "n=11 (prime, ≡3 mod 4): 4/11=1/4+1/12+1/33",
       "supports_conjecture": true,
-      "detail": "a=3. 1/4+1/12+1/33=33/132+11/132+4/132=48/132=4/11. \u2713"
+      "detail": "a=3. 1/4+1/12+1/33=33/132+11/132+4/132=48/132=4/11. ✓"
     },
     {
       "id": "EX-19D7A2",
-      "description": "n=13 (prime, \u22611 mod 4): 4/13=1/4+1/18+1/468",
+      "description": "n=13 (prime, ≡1 mod 4): 4/13=1/4+1/18+1/468",
       "supports_conjecture": true,
-      "detail": "x=4: 4/13-1/4=3/52. y=18: 3/52-1/18=1/468. Check: 117/468+26/468+1/468=144/468=4/13. \u2713"
+      "detail": "x=4: 4/13-1/4=3/52. y=18: 3/52-1/18=1/468. Check: 117/468+26/468+1/468=144/468=4/13. ✓"
     },
     {
       "id": "EX-AE9215",
-      "description": "n=21 (\u22611 mod 4, 3|n): 4/21=1/7+1/42+1/42",
+      "description": "n=21 (≡1 mod 4, 3|n): 4/21=1/7+1/42+1/42",
       "supports_conjecture": true,
-      "detail": "b=6, j=7. 1/(b+1)+1/(b(b+1))+1/(jb)=1/7+1/42+1/42=6/42+1/42+1/42=8/42=4/21 \u2713"
+      "detail": "b=6, j=7. 1/(b+1)+1/(b(b+1))+1/(jb)=1/7+1/42+1/42=6/42+1/42+1/42=8/42=4/21 ✓"
     },
     {
       "id": "EX-3AE5AF",
-      "description": "n=25 (\u22611 mod 4): 4/25=1/7+1/60+1/2100",
+      "description": "n=25 (≡1 mod 4): 4/25=1/7+1/60+1/2100",
       "supports_conjecture": true,
-      "detail": "x=7: 4/25-1/7=3/175. y=60: 3/175-1/60=1/2100. Check: 300/2100+35/2100+1/2100=336/2100=4/25 \u2713"
+      "detail": "x=7: 4/25-1/7=3/175. y=60: 3/175-1/60=1/2100. Check: 300/2100+35/2100+1/2100=336/2100=4/25 ✓"
     },
     {
       "id": "EX-540322",
-      "description": "n=29 (prime, \u22611 mod 4): 4/29=1/8+1/78+1/9048",
+      "description": "n=29 (prime, ≡1 mod 4): 4/29=1/8+1/78+1/9048",
       "supports_conjecture": true,
-      "detail": "x=8: 4/29-1/8=3/232. y=78: 3/232-1/78=1/9048. Check: 1131/9048+116/9048+1/9048=1248/9048=4/29 \u2713"
+      "detail": "x=8: 4/29-1/8=3/232. y=78: 3/232-1/78=1/9048. Check: 1131/9048+116/9048+1/9048=1248/9048=4/29 ✓"
     },
     {
       "id": "EX-7F805C",
-      "description": "n=49 (\u22611 mod 24): 4/49=1/15+1/98+1/210? Recheck: 1/14+1/98+... Actually 4/49=1/15+1/98+1/210 \u2014 verify",
+      "description": "n=49 (≡1 mod 24): 4/49=1/15+1/98+1/210? Recheck: 1/14+1/98+... Actually 4/49=1/15+1/98+1/210 — verify",
       "supports_conjecture": true,
-      "detail": "x=14: 4/49-1/14=1/98. Split 1/14=1/15+1/210. Check: 1/15+1/98+1/210. LCM(15,98,210): 2940. 196/2940+30/2940+14/2940=240/2940=4/49 \u2713"
+      "detail": "x=14: 4/49-1/14=1/98. Split 1/14=1/15+1/210. Check: 1/15+1/98+1/210. LCM(15,98,210): 2940. 196/2940+30/2940+14/2940=240/2940=4/49 ✓"
+    },
+    {
+      "id": "EX-63B699",
+      "description": "[Searcher r6] All 83 values of n≡1 mod 12 in [13,1000]; also verified known examples n=2,3,13,49.",
+      "supports_conjecture": true,
+      "detail": "Code:\nfrom fractions import Fraction\nfrom collections import defaultdict\n\ndef find_solution(n):\n    target = Fraction(4, n)\n    x_min = max(1, (n + 3) // 4)\n    for x in range(x_min, n + 1):\n        rem = target - Fraction(1, x)\n        if rem <= 0:\n            break\n        p, q = rem.numerator, rem.denominator\n        y_min = (q + p - 1) // p\n        y_max = 2 * q // p + 1\n        for y in range(y_min, y_max + 1):\n            rem2 = rem - Fraction(1, y)\n            if rem2 <= 0:\n                brea\n\nOutput:\nTested: 83, Solutions found: 83, Failures: 0\nn≡ 1 mod 60: [(61,16),(121,31),(181,46),(241,62),(301,76)], anchor=(n+3)/4 works: [True,True,True,False,True]\nn≡13 mod 60: [(13,4),(73,20),(133,34),(193,50),(253,64)], anchor=(n+3)/4 works: [True,False,True,False,True]\nn≡25 mod 60: [(25,7),(85,22),(145,37),(205,52),(265,67)], anchor=(n+3)/4 works: [True,True,True,True,True]\nn≡37 mod 60: [(37,10),(97,25),(157,40),(217,55),(277,70)], anchor=(n+3)/4 works: [True,True,True,True,True]\nn≡49 mod 60: [(49,15)"
+    },
+    {
+      "id": "EX-8C4CE1",
+      "description": "[Literature] The conjecture has been computationally verified for all n ≤ 10^17 (as of 2026 Wikipedia).",
+      "supports_conjecture": null,
+      "detail": "Source: Wikipedia — Erdős–Straus conjecture\nRelevance: Strongly rules out small counterexamples; the n≡1 mod 12 case is verified to enormous bounds."
+    },
+    {
+      "id": "EX-DE9E4B",
+      "description": "[Literature] Mordell (1967): Modular identities prove the conjecture for all n except possibly n≡1, 121, 169, 289, 361, or 529 mod 84",
+      "supports_conjecture": null,
+      "detail": "Source: Wikipedia — Erdős–Straus conjecture (citing Mordell 1967)\nRelevance: Directly relevant: n≡1 mod 12 intersects with n≡1 mod 840 (the hardest sub-case); our open SP-E01E75, SP-F0B3D3 etc. are exactly this hard core."
+    },
+    {
+      "id": "EX-B96E52",
+      "description": "[Literature] Elsholtz and Tao (2013): The natural density of potential counterexamples is zero — the set of n for which no solution e",
+      "supports_conjecture": null,
+      "detail": "Source: Wikipedia — Erdős–Straus conjecture (citing Elsholtz–Tao 2013)\nRelevance: Explains why computational searches find no failures: counterexamples (if they exist) are extraordinarily rare."
+    },
+    {
+      "id": "EX-C8F691",
+      "description": "[Literature] Webb (and collaborators): For every prime n, a solution exists except possibly for primes n≡1 mod 9240 — the exceptional",
+      "supports_conjecture": null,
+      "detail": "Source: Wikipedia — Erdős–Straus conjecture\nRelevance: The n≡1 mod 9240 class is the last theoretical refuge for a prime counterexample; refines our n≡1 mod 12 open case."
+    },
+    {
+      "id": "EX-98F060",
+      "description": "[Literature] arXiv:2511.07465 (2025): Constructive proof that 4/P = 1/A + 1/(bP) + 1/(cP) for all primes P≡1 mod 4, using Method ED2 ",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2511.07465\nRelevance: CRITICAL: if verified, this paper proves the conjecture for all primes P≡1 mod 4 (including P≡1 mod 12), closing our main open case for primes. The method (ED2 lattice approach) should be studied by the Prover."
+    },
+    {
+      "id": "EX-5E9FC5",
+      "description": "[Literature] arXiv:2602.11774 (2026): Claimed complete solution to the Erdős–Straus conjecture for all primes. Method not detailed in",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2602.11774\nRelevance: If valid, this closes the entire conjecture. However, claimed elementary proofs of famous open problems often contain gaps — treat with caution until peer-reviewed."
+    },
+    {
+      "id": "EX-E820A3",
+      "description": "[Literature] The greedy algorithm produces a 4-term expansion for n≡1 mod 4, not 3-term — this is why n≡1 mod 4 is the hard case: sta",
+      "supports_conjecture": null,
+      "detail": "Source: Wikipedia — Erdős–Straus conjecture\nRelevance: Explains structurally why n≡1 mod 12 is the residual hard case in our session."
+    },
+    {
+      "id": "EX-324C64",
+      "description": "[Searcher r8] SP-1299C7: n≡1,13,49 mod 60 up to 3000 (anchor fallback); SP-2DBEEA: hard mod-840 residues up to 3000; SP-F0B3D3: 3/(nb)",
+      "supports_conjecture": true,
+      "detail": "Code:\nfrom fractions import Fraction\nimport math\n\ndef find_sol(n):\n    t = Fraction(4, n)\n    for x in range(max(1,(n+3)//4), n+1):\n        rem = t - Fraction(1, x)\n        if rem <= 0: break\n        p,q = rem.numerator, rem.denominator\n        for y in range((q+p-1)//p, 2*q//p+2):\n            r2 = rem - Fraction(1,y)\n            if r2 <= 0: break\n            if r2.numerator == 1: return (x,y,r2.denominator)\n    return None\n\n# SP-1299C7: anchor fallback for n≡1,13,49 mod 60 up to 3000\nfor rmod in [1,1\n\nOutput:\nmod60=1: pf=14, double-fails=[1201, 2521]\nmod60=13: pf=17, double-fails=[]\nmod60=49: pf=16, double-fails=[1129, 1369, 1849]\nmod840=1: failures=[]\nmod840=121: failures=[]\nmod840=169: failures=[]\nmod840=289: failures=[]\nmod840=361: failures=[]\nmod840=529: failures=[]\nF0B3D3 unsolvable: 31 cases in [13,2000]\nn=1201 mod840=361 in_hard=True sol=(306, 15980, 172727820)\nn=2521 mod840=1 in_hard=True sol=(636, 69748, 131876031)\nn=1129 mod840=289 in_hard=True sol=(285, 29260, 99103620)\nn=1369 mod840=529 i"
+    },
+    {
+      "id": "EX-E31587",
+      "description": "[Literature] arXiv:2602.11774 Type I formula (k=0): 4/p = 1/((3p+1)/(12-ℓ)) + 1/((3p+1)/ℓ) + 1/(p(3p+1)/4), valid when (12-ℓ)|(3p+1) ",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2602.11774\nRelevance: Concrete algebraic identity; computationally verified correct when applicable."
+    },
+    {
+      "id": "EX-28F66C",
+      "description": "[Literature] arXiv:2602.11774 Type II formula (k=0): 4/p = 1/((p+3)/4) + 1/(p(p+3)/(12-ℓ)) + 1/(p(p+3)/ℓ), valid when 4|(p+3), (12-ℓ)",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2602.11774\nRelevance: Second algebraic identity family; covers many but not all primes p≡1 mod 12."
+    },
+    {
+      "id": "EX-A51262",
+      "description": "[Literature] [VERIFIED COMPUTATIONALLY] The paper's covering system (Type I and II with ℓ=1..5) covers 62 of 70 primes p≡1 mod 12 up ",
+      "supports_conjecture": null,
+      "detail": "Source: Searcher computational verification, round 9\nRelevance: Confirms user's suspicion that arXiv:2602.11774 is flawed: incomplete covering system with no mechanism to handle ~11% of primes p≡1 mod 12."
+    },
+    {
+      "id": "EX-56F90D",
+      "description": "[Searcher r9] 70 primes p≡1 mod 12 up to 2000; Type I and Type II formulas from arXiv:2602.11774 with ℓ=1..5 tested for each.",
+      "supports_conjecture": true,
+      "detail": "Code:\nfrom fractions import Fraction\n\ndef type1(p, ell):\n    d = 3*p + 1\n    if d % 4 != 0 or d % (12-ell) != 0 or d % ell != 0: return None\n    x, y, z = d//(12-ell), d//ell, p*d//4\n    return (x,y,z) if Fraction(1,x)+Fraction(1,y)+Fraction(1,z)==Fraction(4,p) else None\n\ndef type2(p, ell):\n    d = p + 3\n    if d % 4 != 0: return None\n    pd = p * d\n    if pd % (12-ell) != 0 or pd % ell != 0: return None\n    x, y, z = d//4, pd//(12-ell), pd//ell\n    return (x,y,z) if Fraction(1,x)+Fraction(1,y)+Fracti\n\nOutput:\nPrimes p≡1 mod 12 in [13,2000]: 70\nCovered by paper formulas: 62, NOT covered: 8\nUncovered primes: [241, 409, 769, 1201, 1249, 1321, 1489, 1609]\n  p=241 mod840=241: sol via other anchor=(62, 2139, 1030998)\n  p=409 mod840=409: sol via other anchor=(104, 6084, 4976712)\n  p=769 mod840=769: sol via other anchor=(194, 21340, 16410460)\n  p=1201 mod840=361: sol via other anchor=(306, 15980, 172727820)\n  p=1249 mod840=409: sol via other anchor=(314, 56049, 140010402)\n  p=1321 mod840=481: sol via other a"
+    },
+    {
+      "id": "EX-91D2AD",
+      "description": "[Searcher r10] (1) Extended Type I/II formulas with k=1,2,3 and ell=1..5 tested on 8 uncovered primes. (2) Minimum anchor k for all n i",
+      "supports_conjecture": true,
+      "detail": "Code:\nfrom fractions import Fraction\n\ndef find_solution(n):\n    target = Fraction(4, n)\n    x_min = max(1, (n + 3) // 4)\n    for x in range(x_min, 2*n + 1):\n        rem = target - Fraction(1, x)\n        if rem <= 0: break\n        p2, q = rem.numerator, rem.denominator\n        y_min = (q + p2 - 1) // p2\n        y_max = 2 * q // p2 + 1\n        for y in range(y_min, y_max + 1):\n            rem2 = rem - Fraction(1, y)\n            if rem2 <= 0: break\n            if rem2.numerator == 1:\n                retu\n\nOutput:\n  p=241 mod840=241: extended=NONE, sol=(62, 2139, 1030998)\n  p=409 mod840=409: extended=NONE, sol=(104, 6084, 4976712)\n  p=769 mod840=769: extended=NONE, sol=(194, 21340, 16410460)\n  p=1201 mod840=361: extended=NONE, sol=(306, 15980, 172727820)\n  p=1249 mod840=409: extended=NONE, sol=(314, 56049, 140010402)\n  p=1321 mod840=481: extended=NONE, sol=(332, 62665, 331121860)\n  p=1489 mod840=649: extended=NONE, sol=(374, 79560, 1303113240)\n  p=1609 mod840=769: extended=NONE, sol=(404, 92920, 149508280"
     }
   ],
   "proof_attempts": [
     {
       "id": "PA-E9E976",
       "round": 1,
-      "sketch": "Even case: for n=2m, 4/n=2/m=1/m+1/(2m)+1/(2m). Verify: 1/m+1/(2m)+1/(2m)=1/m+1/m=2/m \u2713. This is a complete proof for all even n\u22652.\n\nOdd n\u22613 mod 4: (n+1) is divisible by 4, so let m=(n+1)/4 (positive integer). Then 1/m=4/(n+1). Compute 4/n-1/m=4/n-4/(n+1)=4/(n(n+1)). So 4/n=1/m+4/(n(n+1))=1/((n+1)/4)+4/(n(n+1)). Now 4/(n(n+1))=1/(n(n+1)/4) since 4|(n+1). So 4/n=1/((n+1)/4)+1/(n(n+1)/4). Still only 2 terms. Split first term: 1/((n+1)/4)=1/((n+1)/4+1)+1/(((n+1)/4)((n+1)/4+1))=[COMPLEX]. Alternatively: 4/n=1/n+3/n. For n\u22613 mod 4, 3/n=3/n. Take y=(n+1)/4: 1/y=4/(n+1), and 3/n-4/(n+1)=(3n+3-4n)/(n(n+1))=(3-n)/(n(n+1))<0 for n>3. So y must be larger. Try y=n: 3/n-1/n=2/n. Now 2/n with n odd: 2/n=1/((n+1)/2)+1/(n(n+1)/2). So 4/n=1/n+1/((n+1)/2)+1/(n(n+1)/2) for odd n. Verify n=3: 1/3+1/2+1/6=2/6+3/6+1/6=6/6=1=4/... wait 4/3\u22601. Error: 1/3+1/2+1/6=2/6+3/6+1/6=1\u22604/3. The formula gives 4/n=1/n+2/n=3/n\u22604/n. [FLAWED]\n\nCorrect attempt for n odd: 4/n=2/n+2/n. Use 2/n=1/((n+1)/2)+1/(n(n+1)/2) (valid for odd n since (n+1)/2 is integer). So 4/n=1/((n+1)/2)+1/(n(n+1)/2)+2/n. But 2/n remains. This is circular.\n\nCorrect even case proof stands. Odd case remains open \u2014 strategy only.",
+      "sketch": "Even case: for n=2m, 4/n=2/m=1/m+1/(2m)+1/(2m). Verify: 1/m+1/(2m)+1/(2m)=1/m+1/m=2/m ✓. This is a complete proof for all even n≥2.\n\nOdd n≡3 mod 4: (n+1) is divisible by 4, so let m=(n+1)/4 (positive integer). Then 1/m=4/(n+1). Compute 4/n-1/m=4/n-4/(n+1)=4/(n(n+1)). So 4/n=1/m+4/(n(n+1))=1/((n+1)/4)+4/(n(n+1)). Now 4/(n(n+1))=1/(n(n+1)/4) since 4|(n+1). So 4/n=1/((n+1)/4)+1/(n(n+1)/4). Still only 2 terms. Split first term: 1/((n+1)/4)=1/((n+1)/4+1)+1/(((n+1)/4)((n+1)/4+1))=[COMPLEX]. Alternatively: 4/n=1/n+3/n. For n≡3 mod 4, 3/n=3/n. Take y=(n+1)/4: 1/y=4/(n+1), and 3/n-4/(n+1)=(3n+3-4n)/(n(n+1))=(3-n)/(n(n+1))<0 for n>3. So y must be larger. Try y=n: 3/n-1/n=2/n. Now 2/n with n odd: 2/n=1/((n+1)/2)+1/(n(n+1)/2). So 4/n=1/n+1/((n+1)/2)+1/(n(n+1)/2) for odd n. Verify n=3: 1/3+1/2+1/6=2/6+3/6+1/6=6/6=1=4/... wait 4/3≠1. Error: 1/3+1/2+1/6=2/6+3/6+1/6=1≠4/3. The formula gives 4/n=1/n+2/n=3/n≠4/n. [FLAWED]\n\nCorrect attempt for n odd: 4/n=2/n+2/n. Use 2/n=1/((n+1)/2)+1/(n(n+1)/2) (valid for odd n since (n+1)/2 is integer). So 4/n=1/((n+1)/2)+1/(n(n+1)/2)+2/n. But 2/n remains. This is circular.\n\nCorrect even case proof stands. Odd case remains open — strategy only.",
       "status": "flawed",
-      "checker_feedback": "Even-case sub-proof VALID: 1/m+1/(2m)+1/(2m)=2/m=4/(2m) \u2713. Odd n\u22613 mod 4 sub-proof FLAWED: the identity 4/n=1/n+1/((n+1)/2)+1/(n(n+1)/2) sums to 3/n not 4/n. The 2-term identity 4/n=1/((n+1)/4)+1/(n(n+1)/4) is arithmetically correct but gives only 2 terms. Recommendation: extract even-case as standalone valid proof; use split 1/a=1/(a+1)+1/(a(a+1)) on the 2-term identity to get 3 terms for n\u22613 mod 4."
+      "checker_feedback": "Even-case sub-proof VALID: 1/m+1/(2m)+1/(2m)=2/m=4/(2m) ✓. Odd n≡3 mod 4 sub-proof FLAWED: the identity 4/n=1/n+1/((n+1)/2)+1/(n(n+1)/2) sums to 3/n not 4/n. The 2-term identity 4/n=1/((n+1)/4)+1/(n(n+1)/4) is arithmetically correct but gives only 2 terms. Recommendation: extract even-case as standalone valid proof; use split 1/a=1/(a+1)+1/(a(a+1)) on the 2-term identity to get 3 terms for n≡3 mod 4."
     },
     {
       "id": "PA-C5E101",
       "round": 2,
-      "sketch": "COMPLETE PROOFS:\n\n**Even n (n=2m):** 4/n=1/m+1/(2m)+1/(2m)=2/m=4/n. \u2713 Complete.\n\n**n\u22613 mod 4 (n=4k+3, k\u22650):** Let a=(n+1)/4=k+1 (positive integer).\nClaim: 4/n=1/(a+1)+1/(a(a+1))+1/(na).\nProof: RHS=a/(a(a+1))+1/(a(a+1))+1/(na)=(a+1)/(a(a+1))+1/(na)=1/a+1/(na)=(n+1)/(na)=(n+1)/(n(n+1)/4)=4/n. \u2713\nAll denominators a+1, a(a+1), na are positive integers since a=(n+1)/4\u2208\u2124\u208a. COMPLETE.\n\nVerified: n=3(a=1): 1/2+1/2+1/3=4/3 \u2713; n=7(a=2): 1/3+1/6+1/14=4/7 \u2713; n=11(a=3): 1/4+1/12+1/33=4/11 \u2713.\n\n**n\u22611 mod 4:** Reduction: with x=(n+3)/4=k+1, we get 4/n=1/(k+1)+12/(n(n+3)). Need 12/(n(n+3))=1/y+1/z. Computationally verified to hold for all n\u2264200 but no uniform algebraic identity found.",
+      "sketch": "COMPLETE PROOFS:\n\n**Even n (n=2m):** 4/n=1/m+1/(2m)+1/(2m)=2/m=4/n. ✓ Complete.\n\n**n≡3 mod 4 (n=4k+3, k≥0):** Let a=(n+1)/4=k+1 (positive integer).\nClaim: 4/n=1/(a+1)+1/(a(a+1))+1/(na).\nProof: RHS=a/(a(a+1))+1/(a(a+1))+1/(na)=(a+1)/(a(a+1))+1/(na)=1/a+1/(na)=(n+1)/(na)=(n+1)/(n(n+1)/4)=4/n. ✓\nAll denominators a+1, a(a+1), na are positive integers since a=(n+1)/4∈ℤ₊. COMPLETE.\n\nVerified: n=3(a=1): 1/2+1/2+1/3=4/3 ✓; n=7(a=2): 1/3+1/6+1/14=4/7 ✓; n=11(a=3): 1/4+1/12+1/33=4/11 ✓.\n\n**n≡1 mod 4:** Reduction: with x=(n+3)/4=k+1, we get 4/n=1/(k+1)+12/(n(n+3)). Need 12/(n(n+3))=1/y+1/z. Computationally verified to hold for all n≤200 but no uniform algebraic identity found.",
       "status": "valid",
-      "checker_feedback": "Even case: 1/m+1/(2m)+1/(2m)=2/m=4/(2m) \u2713. n\u22613 mod 4: Step 1: 1/(a+1)+1/(a(a+1))=1/a \u2713. Step 2: 1/a+1/(na)=(n+1)/(na) \u2713. Step 3: (n+1)/(na)=(n+1)/(n(n+1)/4)=4/n \u2713. All denominators are positive integers: a+1=(n+5)/4\u2208\u2124 since n\u22613 mod 4\u21924|n+5; a(a+1)=(n+1)(n+5)/16\u2208\u2124 since 4|n+1 and 4|n+5; na=n(n+1)/4\u2208\u2124 since 4|n+1. Verified n=3,7,11. VALID and complete for even n and n\u22613 mod 4."
+      "checker_feedback": "Even case: 1/m+1/(2m)+1/(2m)=2/m=4/(2m) ✓. n≡3 mod 4: Step 1: 1/(a+1)+1/(a(a+1))=1/a ✓. Step 2: 1/a+1/(na)=(n+1)/(na) ✓. Step 3: (n+1)/(na)=(n+1)/(n(n+1)/4)=4/n ✓. All denominators are positive integers: a+1=(n+5)/4∈ℤ since n≡3 mod 4→4|n+5; a(a+1)=(n+1)(n+5)/16∈ℤ since 4|n+1 and 4|n+5; na=n(n+1)/4∈ℤ since 4|n+1. Verified n=3,7,11. VALID and complete for even n and n≡3 mod 4."
     },
     {
       "id": "PA-EF2F96",
       "round": 3,
-      "sketch": "n\u22619 mod 12 COMPLETE: n=3j with j\u22613 mod 4. Let b=(n+3)/4. Claim: 4/n=1/(b+1)+1/(b(b+1))+1/(jb). Proof: 1/(b+1)+1/(b(b+1))=1/b. Then 1/b+1/(jb)=(j+1)/(jb)=(j+1)/(j(n+3)/4). Now n=3j so (j+1)/(3j(3j+3)/4\u00d7(1/j))... let me verify directly: 1/b+1/(jb)=(j+1)/(jb). jb=j(n+3)/4. And 4/n=4/(3j). Need (j+1)/(j(n+3)/4)=4/(3j): (j+1)\u00b74/(j(n+3))=4/(3j) iff 3(j+1)=n+3=3j+3=3(j+1) \u2713. COMPLETE.\n\nn\u22615 mod 12 COMPLETE (correcting earlier error): n\u22615 mod 12 means n\u22611 mod 4 AND n\u22612 mod 3. Then n+3\u22612 mod 3, so 3\u2224n+3, 3\u2224b. BUT: 3/(nb) with n\u22612 mod 3 and b=(n+3)/4\u2261? mod 3. n+3\u22612 mod 3, so 4b=n+3\u22612 mod 3, b\u22612\u00b74\u207b\u00b9\u22612\u00b71\u22612 mod 3 (since 4\u22611 mod 3). So nb\u22612\u00b72=4\u22611 mod 3. Need 3/(nb) as 2-term EF with nb\u22611 mod 3.\nFactorisation: (nb)\u00b2=d\u2081d\u2082, d\u2081\u2261-nb\u22612 mod 3. Take d\u2081=nb-3k for some k... Try d\u2081=nb+1 (which is \u22612 mod 3 since nb\u22611 mod 3): then d\u2082=(nb)\u00b2/(nb+1). For this to be integer, need (nb+1)|(nb)\u00b2=(nb+1-1)\u00b2=(nb+1)\u00b2-2(nb+1)+1, so (nb+1)|1. Fails. Try d\u2081=(nb-1)/... nb\u22611 mod 3, nb-1\u22610 mod 3=3t. d\u2082=(nb)\u00b2/(3t)=nb(nb+1)/... hmm need exact divisors.\n\nAlternative for n\u22615 mod 12: use anchor x=n. Then 3/n needed as 2-term EF. n\u22612 mod 3: write n=3q+2. 3/n=3/(3q+2). Use: 3/(3q+2)=1/(q+1)+1/((q+1)(3q+2)). Check: (3q+2+1)/((q+1)(3q+2))=(3q+3)/((q+1)(3q+2))=3(q+1)/((q+1)(3q+2))=3/(3q+2)=3/n. \u2713 So 4/n=1/n+1/(q+1)+1/((q+1)n) where q=(n-2)/3. All positive integers since n\u22612 mod 3 \u2192 3|n-2 \u2192 q=(n-2)/3\u2208\u2124\u208a. COMPLETE FOR n\u22615 mod 12.\nVerify n=5 (q=1): 1/5+1/2+1/10=2/10+5/10+1/10=8/10=4/5 \u2713. n=17 (q=5): 1/17+1/6+1/102=6/102+17/102+1/102=24/102=4/17 \u2713. n=29 (q=9): 1/29+1/10+1/290=10/290+29/290+1/290=40/290=4/29 \u2713. \n\nStatus: n\u22611 mod 4 now split into 3 sub-cases: n\u22619 mod 12 \u2713, n\u22615 mod 12 \u2713, n\u22611 mod 12 (OPEN). The n\u22611 mod 12 case is the last open case of the entire conjecture.",
+      "sketch": "n≡9 mod 12 COMPLETE: n=3j with j≡3 mod 4. Let b=(n+3)/4. Claim: 4/n=1/(b+1)+1/(b(b+1))+1/(jb). Proof: 1/(b+1)+1/(b(b+1))=1/b. Then 1/b+1/(jb)=(j+1)/(jb)=(j+1)/(j(n+3)/4). Now n=3j so (j+1)/(3j(3j+3)/4×(1/j))... let me verify directly: 1/b+1/(jb)=(j+1)/(jb). jb=j(n+3)/4. And 4/n=4/(3j). Need (j+1)/(j(n+3)/4)=4/(3j): (j+1)·4/(j(n+3))=4/(3j) iff 3(j+1)=n+3=3j+3=3(j+1) ✓. COMPLETE.\n\nn≡5 mod 12 COMPLETE (correcting earlier error): n≡5 mod 12 means n≡1 mod 4 AND n≡2 mod 3. Then n+3≡2 mod 3, so 3∤n+3, 3∤b. BUT: 3/(nb) with n≡2 mod 3 and b=(n+3)/4≡? mod 3. n+3≡2 mod 3, so 4b=n+3≡2 mod 3, b≡2·4⁻¹≡2·1≡2 mod 3 (since 4≡1 mod 3). So nb≡2·2=4≡1 mod 3. Need 3/(nb) as 2-term EF with nb≡1 mod 3.\nFactorisation: (nb)²=d₁d₂, d₁≡-nb≡2 mod 3. Take d₁=nb-3k for some k... Try d₁=nb+1 (which is ≡2 mod 3 since nb≡1 mod 3): then d₂=(nb)²/(nb+1). For this to be integer, need (nb+1)|(nb)²=(nb+1-1)²=(nb+1)²-2(nb+1)+1, so (nb+1)|1. Fails. Try d₁=(nb-1)/... nb≡1 mod 3, nb-1≡0 mod 3=3t. d₂=(nb)²/(3t)=nb(nb+1)/... hmm need exact divisors.\n\nAlternative for n≡5 mod 12: use anchor x=n. Then 3/n needed as 2-term EF. n≡2 mod 3: write n=3q+2. 3/n=3/(3q+2). Use: 3/(3q+2)=1/(q+1)+1/((q+1)(3q+2)). Check: (3q+2+1)/((q+1)(3q+2))=(3q+3)/((q+1)(3q+2))=3(q+1)/((q+1)(3q+2))=3/(3q+2)=3/n. ✓ So 4/n=1/n+1/(q+1)+1/((q+1)n) where q=(n-2)/3. All positive integers since n≡2 mod 3 → 3|n-2 → q=(n-2)/3∈ℤ₊. COMPLETE FOR n≡5 mod 12.\nVerify n=5 (q=1): 1/5+1/2+1/10=2/10+5/10+1/10=8/10=4/5 ✓. n=17 (q=5): 1/17+1/6+1/102=6/102+17/102+1/102=24/102=4/17 ✓. n=29 (q=9): 1/29+1/10+1/290=10/290+29/290+1/290=40/290=4/29 ✓. \n\nStatus: n≡1 mod 4 now split into 3 sub-cases: n≡9 mod 12 ✓, n≡5 mod 12 ✓, n≡1 mod 12 (OPEN). The n≡1 mod 12 case is the last open case of the entire conjecture.",
       "status": "valid",
-      "checker_feedback": "n\u22619 mod 12: 1/(b+1)+1/(b(b+1))=1/b; 1/b+1/(jb)=(j+1)/(jb); (j+1)/(jb)=4/(3j) iff 3(j+1)=n+3=3(j+1) \u2713. All denominators positive integers. n=9,21,33 all verified. VALID.\nn\u22615 mod 12: 1/(q+1)+1/((q+1)n)=(n+1)/((q+1)n)=3/n since q+1=(n+1)/3; plus 1/n gives 4/n \u2713. n=5,17,29,41 all verified. VALID.\nDoes NOT close conjecture \u2014 n\u22611 mod 12 remains open."
+      "checker_feedback": "n≡9 mod 12: 1/(b+1)+1/(b(b+1))=1/b; 1/b+1/(jb)=(j+1)/(jb); (j+1)/(jb)=4/(3j) iff 3(j+1)=n+3=3(j+1) ✓. All denominators positive integers. n=9,21,33 all verified. VALID.\nn≡5 mod 12: 1/(q+1)+1/((q+1)n)=(n+1)/((q+1)n)=3/n since q+1=(n+1)/3; plus 1/n gives 4/n ✓. n=5,17,29,41 all verified. VALID.\nDoes NOT close conjecture — n≡1 mod 12 remains open."
     }
   ],
   "disproof_attempts": [
     {
       "id": "DA-61B94B",
       "round": 1,
-      "candidate_counterexample": "No counterexample found. The conjecture has been verified computationally for all n up to 10^14. Exhaustive search for n\u22641000 confirms a solution exists for every n. No structural obstruction found for primes.",
+      "candidate_counterexample": "No counterexample found. The conjecture has been verified computationally for all n up to 10^14. Exhaustive search for n≤1000 confirms a solution exists for every n. No structural obstruction found for primes.",
       "status": "flawed",
-      "checker_feedback": "Not a disproof attempt \u2014 a negative computational result. The computational claim (verified to 10^14) is correct but this is supporting evidence, not a disproof."
+      "checker_feedback": "Not a disproof attempt — a negative computational result. The computational claim (verified to 10^14) is correct but this is supporting evidence, not a disproof."
     },
     {
       "id": "DA-91E939",
       "round": 2,
-      "candidate_counterexample": "No counterexample found. Probed n\u22611 mod 4 cases n=5,9,13,17,21,25 \u2014 all have explicit solutions. Tried to find n\u22611 mod 4 where 12/(n(n+3)) has no 2-term EF rep: n=5: 3/10=1/4+1/20 \u2713; n=13: 3/52=1/18+1/468 \u2713; n=17: 3/85=1/30+1/510 \u2713. No failure found.",
+      "candidate_counterexample": "No counterexample found. Probed n≡1 mod 4 cases n=5,9,13,17,21,25 — all have explicit solutions. Tried to find n≡1 mod 4 where 12/(n(n+3)) has no 2-term EF rep: n=5: 3/10=1/4+1/20 ✓; n=13: 3/52=1/18+1/468 ✓; n=17: 3/85=1/30+1/510 ✓. No failure found.",
       "status": "flawed",
-      "checker_feedback": "Not a disproof \u2014 supporting computational evidence only. All checks confirm the conjecture."
+      "checker_feedback": "Not a disproof — supporting computational evidence only. All checks confirm the conjecture."
     },
     {
       "id": "DA-93FB89",
       "round": 3,
-      "candidate_counterexample": "No counterexample found. Focusing on n\u22611 mod 12 (the last open case). Tested n=13,25,37,49,61,73,97: all have solutions. n=49 requires non-standard anchor x=14 (not x=13=(n+3)/4). The Prover's earlier claim '3|b when n\u22615 mod 12' was flagged as wrong \u2014 confirmed: b=2,5,8 for n=5,17,29 and 3\u22242,5,8. The corrected n\u22615 mod 12 proof using x=n anchor is algebraically correct (verified for n=5,17,29).",
+      "candidate_counterexample": "No counterexample found. Focusing on n≡1 mod 12 (the last open case). Tested n=13,25,37,49,61,73,97: all have solutions. n=49 requires non-standard anchor x=14 (not x=13=(n+3)/4). The Prover's earlier claim '3|b when n≡5 mod 12' was flagged as wrong — confirmed: b=2,5,8 for n=5,17,29 and 3∤2,5,8. The corrected n≡5 mod 12 proof using x=n anchor is algebraically correct (verified for n=5,17,29).",
       "status": "flawed",
-      "checker_feedback": "Supporting evidence only \u2014 no disproof."
+      "checker_feedback": "Supporting evidence only — no disproof."
     },
     {
       "id": "DA-0DF9AE",
       "round": 4,
-      "candidate_counterexample": "No counterexample found. Zero failures for n\u22611 mod 12 up to n=997. All primes p\u22611 mod 12 up to 500 verified. No structural obstruction found.",
+      "candidate_counterexample": "No counterexample found. Zero failures for n≡1 mod 12 up to n=997. All primes p≡1 mod 12 up to 500 verified. No structural obstruction found.",
+      "status": "flawed",
+      "checker_feedback": "DA-0DF9AE reports zero failures for n≡1 mod 12 up to n=997 and all primes p≡1 mod 12 up to 500. This is positive computational evidence for the conjecture, not a disproof. As a disproof attempt it must be marked flawed — it found no counterexample. The search coverage is nonetheless valuable: it confirms the conjecture holds in this range and strengthens confidence that no small counterexample exists in the n≡1 mod 12 case."
+    },
+    {
+      "id": "DA-D77815",
+      "round": 6,
+      "candidate_counterexample": "No counterexample found. The last open case is n≡1 mod 12. Systematic search up to n=997 (including all primes p≡1 mod 12 up to 500) yields solutions for every n. For the sub-residues of greatest interest: n≡49 mod 60 (e.g. n=49,169,409): the natural anchor x=(n+3)/4 fails, but x=(n+3)/4+1 succeeds — e.g. 4/49=1/15+1/70+1/1470. Similarly n≡13 mod 60 (e.g. n=73: 4/73=1/20+...) and n≡1 mod 60 (e.g. n=241: x=62 works instead of x=61). No structural obstruction found.",
+      "status": "flawed",
+      "checker_feedback": "DA-D77815 again reports zero failures for n≡1 mod 12 up to 997 and notes the structural observation about anchor fallbacks. This is positive evidence for the conjecture, not a disproof. As a disproof attempt it must remain flawed. The structural insight about x=(n+3)/4+1 working as a fallback is valuable for the Prover, not the Disprover. No counterexample is presented or even approximated."
+    },
+    {
+      "id": "DA-38E12B",
+      "round": 7,
+      "candidate_counterexample": "No counterexample found or plausible. The literature (Wikipedia, Elsholtz–Tao 2013) confirms the conjecture holds up to n≤10^17 with the natural density of potential counterexamples proven to be zero. For n≡1 mod 12 the new anchor-fallback structure (x=(n+3)/4 works except in n≡1,13,49 mod 60 sub-cases, where x=(n+3)/4+1 always works in tested range) has no failures up to 1000. There is no candidate counterexample.",
+      "status": "flawed",
+      "checker_feedback": "DA-38E12B reports no counterexample and cites literature confirming the conjecture to 10^17. This is strong positive evidence but not a disproof. Marked flawed as a disproof attempt. The density-zero result cited (Elsholtz–Tao) is analytically significant but does not constitute a proof either."
+    },
+    {
+      "id": "DA-B96B81",
+      "round": 8,
+      "candidate_counterexample": "No counterexample found. The Searcher found that for n≡1 mod 12 in [13,3000], every n has a solution. The two-anchor strategy (x=(n+3)/4, then x=(n+3)/4+1) fails for n in Mordell's hard residues mod 840 — but a third anchor x=(n+3)/4+k for small k≥2 always works in tested cases. No structural obstruction has been found.",
+      "status": "flawed",
+      "checker_feedback": "DA-B96B81 reports no counterexample for n≡1 mod 12 in [13,3000] and notes the multi-anchor structure. This is positive evidence for the conjecture, not a disproof. Marked flawed as a disproof attempt."
+    },
+    {
+      "id": "DA-AE3B05",
+      "round": 9,
+      "candidate_counterexample": "No counterexample found. The 8 primes p≡1 mod 12 not covered by the arXiv:2602.11774 formulas (p=241,409,769,1201,1249,1321,1489,1609) all have solutions via other anchors. The paper's covering system gap does NOT produce counterexamples — it is just an incomplete proof attempt.",
+      "status": "valid",
+      "checker_feedback": "The claim is accurate and well-supported: the 8 primes p≡1 mod 12 not covered by arXiv:2602.11774 (p=241,409,769,1201,1249,1321,1489,1609) all have verified 3-term Egyptian fraction representations, confirmed by the Searcher's direct computation in round 9. The disproof attempt correctly concludes these gaps in the covering system do not produce counterexamples — they simply confirm the paper's covering system is incomplete. No counterexample has been found, consistent with all prior computational evidence. This is a valid null result."
+    },
+    {
+      "id": "DA-983FC8",
+      "round": 10,
+      "candidate_counterexample": "No counterexample found. The conjecture appears true for all tested n. For n≡1 mod 12, every tested prime up to p=1609 has a solution, though solutions are increasingly non-uniform (z grows rapidly, e.g. for p=1609, z≈1.5×10^9). The Mordell hard residues mod 840 require up to anchor k=5 before a solution appears, but a solution always appears.",
       "status": "unchecked",
       "checker_feedback": null
     }
@@ -281,7 +568,7 @@
     {
       "round": 1,
       "agent": "Disprover",
-      "summary": "No counterexample found; conjecture is classical Erd\u0151s\u2013Straus, verified to 10^14; flagged arithmetic errors in Prover odd-n sketches."
+      "summary": "No counterexample found; conjecture is classical Erdős–Straus, verified to 10^14; flagged arithmetic errors in Prover odd-n sketches."
     },
     {
       "round": 1,
@@ -296,67 +583,147 @@
     {
       "round": 2,
       "agent": "Experimenter",
-      "summary": "Verified conjecture for n=7,9,11,13; identified candidate uniform identity for n\u22613 mod 4."
+      "summary": "Verified conjecture for n=7,9,11,13; identified candidate uniform identity for n≡3 mod 4."
     },
     {
       "round": 2,
       "agent": "Prover",
-      "summary": "Proved conjecture for all even n and all n\u22613 mod 4 with explicit uniform identities; n\u22611 mod 4 reduced to showing 12/(n(n+3)) is always a 2-term Egyptian fraction."
+      "summary": "Proved conjecture for all even n and all n≡3 mod 4 with explicit uniform identities; n≡1 mod 4 reduced to showing 12/(n(n+3)) is always a 2-term Egyptian fraction."
     },
     {
       "round": 2,
       "agent": "Disprover",
-      "summary": "No counterexample found; all n\u22611 mod 4 cases up to n=41 verified explicitly; n\u22611 mod 4 general proof remains open."
+      "summary": "No counterexample found; all n≡1 mod 4 cases up to n=41 verified explicitly; n≡1 mod 4 general proof remains open."
     },
     {
       "round": 2,
       "agent": "Searcher",
-      "summary": "Verified conjecture for all 2\u2264n\u2264200; confirmed n\u22613 mod 4 identity universally valid; n\u22611 mod 4 solutions exist but follow no obvious uniform closed form."
+      "summary": "Verified conjecture for all 2≤n≤200; confirmed n≡3 mod 4 identity universally valid; n≡1 mod 4 solutions exist but follow no obvious uniform closed form."
     },
     {
       "round": 3,
       "agent": "Checker",
-      "summary": "PA-C5E101 marked VALID \u2014 half the residue classes fully proved; n\u22611 mod 4 is the sole remaining open case."
+      "summary": "PA-C5E101 marked VALID — half the residue classes fully proved; n≡1 mod 4 is the sole remaining open case."
     },
     {
       "round": 3,
       "agent": "Experimenter",
-      "summary": "Verified n=21,25,29,49; confirmed n\u22619 mod 12 identity; found n=49 needs non-standard anchor x=14."
+      "summary": "Verified n=21,25,29,49; confirmed n≡9 mod 12 identity; found n=49 needs non-standard anchor x=14."
     },
     {
       "round": 3,
       "agent": "Prover",
-      "summary": "Proved n\u22619 mod 12 and n\u22615 mod 12 cases completely; the entire conjecture now reduces to the single remaining case n\u22611 mod 12."
+      "summary": "Proved n≡9 mod 12 and n≡5 mod 12 cases completely; the entire conjecture now reduces to the single remaining case n≡1 mod 12."
     },
     {
       "round": 3,
       "agent": "Disprover",
-      "summary": "No counterexample found; entire conjecture reduced to n\u22611 mod 12; Prover's n\u22615 mod 12 correction verified; n=49 solved via x=14."
+      "summary": "No counterexample found; entire conjecture reduced to n≡1 mod 12; Prover's n≡5 mod 12 correction verified; n=49 solved via x=14."
     },
     {
       "round": 3,
       "agent": "System",
-      "summary": "Status reset from 'proved' to 'open': PA-C5E101 is a valid partial proof (even n and n\u22613 mod 4) but does not cover n\u22611 mod 12. Checker should only close the session when a proof covers all cases."
+      "summary": "Status reset from 'proved' to 'open': PA-C5E101 is a valid partial proof (even n and n≡3 mod 4) but does not cover n≡1 mod 12. Checker should only close the session when a proof covers all cases."
     },
     {
       "round": 4,
       "agent": "Checker",
-      "summary": "PA-EF2F96 valid for n\u22619 and n\u22615 mod 12; n\u22611 mod 12 is the sole remaining open case."
+      "summary": "PA-EF2F96 valid for n≡9 and n≡5 mod 12; n≡1 mod 12 is the sole remaining open case."
     },
     {
       "round": 4,
       "agent": "Disprover",
-      "summary": "No counterexample found; all n\u22611 mod 12 up to 997 verified computationally; class remains algebraically open."
+      "summary": "No counterexample found; all n≡1 mod 12 up to 997 verified computationally; class remains algebraically open."
     },
     {
       "round": 4,
       "agent": "Searcher",
-      "summary": "Zero failures for n\u22611 mod 12 up to 1000; both new identities computationally confirmed."
+      "summary": "Zero failures for n≡1 mod 12 up to 1000; both new identities computationally confirmed."
     },
     {
       "round": 4,
       "agent": "System",
-      "summary": "Status reset to open: PA-EF2F96 explicitly has closes_conjecture=false. MCP server was running old checker.py \u2014 fix takes effect on server restart."
+      "summary": "Status reset to open: PA-EF2F96 explicitly has closes_conjecture=false. MCP server was running old checker.py — fix takes effect on server restart."
+    },
+    {
+      "round": 6,
+      "agent": "Checker",
+      "summary": "Checker marked DA-0DF9AE as flawed (it found no counterexample, making it positive evidence, not a disproof)."
+    },
+    {
+      "round": 6,
+      "agent": "Disprover",
+      "summary": "No counterexample found for n≡1 mod 12; identified that anchor x=(n+3)/4 fails for n≡49,13,1 mod 60 but x=(n+3)/4+1 rescues all tested cases."
+    },
+    {
+      "round": 6,
+      "agent": "Searcher",
+      "summary": "Searched all 83 n≡1 mod 12 up to 1000: zero failures; identified that anchor x=(n+3)/4 fails for 9 cases (in n≡49,13,1 mod 60) but x=(n+3)/4+1 rescues all of them."
+    },
+    {
+      "round": 7,
+      "agent": "Checker",
+      "summary": "Checker marked DA-D77815 as flawed — it reports no counterexample, which is positive evidence for the conjecture, not a disproof."
+    },
+    {
+      "round": 7,
+      "agent": "Disprover",
+      "summary": "No counterexample found; the conjecture is verified to n≤10^17 in the literature and the anchor-fallback structure shows no failures up to 1000."
+    },
+    {
+      "round": 7,
+      "agent": "Researcher",
+      "summary": "Literature confirms: conjecture verified to 10^17, Mordell's mod-840 identities isolate the hard residues, Elsholtz–Tao gives density-zero for counterexamples, and arXiv:2511.07465 (2025) claims a constructive proof for all primes P≡1 mod 4 via affine lattice geometry — directly relevant to our open n≡1 mod 12 case."
+    },
+    {
+      "round": 8,
+      "agent": "Checker",
+      "summary": "Checker marked DA-38E12B as flawed; no new proofs or disproofs to verify this round."
+    },
+    {
+      "round": 8,
+      "agent": "Disprover",
+      "summary": "No counterexample found; refuted two proposed subconjectures (single-anchor and fallback-anchor strategies) and identified that hard cases align precisely with Mordell's mod-840 residues."
+    },
+    {
+      "round": 8,
+      "agent": "Searcher",
+      "summary": "Extended anchor analysis to n=3000: fallback x=(n+3)/4+1 fails for 5 cases all in Mordell's hard mod-840 residues, but solutions exist via x=(n+3)/4+k for slightly larger k; all six hard mod-840 classes verified with zero conjecture failures up to 3000."
+    },
+    {
+      "round": 9,
+      "agent": "Checker",
+      "summary": "Checker marked DA-B96B81 as flawed; no new proof or disproof attempts to check beyond the paper analysis performed by Searcher."
+    },
+    {
+      "round": 9,
+      "agent": "Disprover",
+      "summary": "No counterexample found; the paper's covering system is confirmed incomplete for 8 primes p≡1 mod 12 up to 2000, but all 8 have solutions — the paper is a flawed proof attempt, not evidence against the conjecture."
+    },
+    {
+      "round": 9,
+      "agent": "Researcher",
+      "summary": "The arXiv:2602.11774 Type I/II covering system covers 89% of primes p≡1 mod 12 up to 2000 but fails for 8 primes — confirming the paper is an incomplete proof; the uncovered primes cluster in Mordell's hard mod-840 residue classes."
+    },
+    {
+      "round": 9,
+      "agent": "Searcher",
+      "summary": "The arXiv:2602.11774 Type I/II covering system (ℓ=1..5) fails for 8 of 70 primes p≡1 mod 12 up to 2000 — the paper's proof is incomplete; all 8 uncovered primes still have solutions via other anchors."
+    },
+    {
+      "round": 10,
+      "agent": "Checker",
+      "summary": "Validated DA-AE3B05: the 8 uncovered primes have solutions via other anchors, confirming no counterexample exists there."
+    },
+    {
+      "round": 10,
+      "agent": "Disprover",
+      "summary": "No counterexample found; identified the missing proof for n≡5 mod 12 and the open question of whether anchor k is uniformly bounded."
+    },
+    {
+      "round": 10,
+      "agent": "Searcher",
+      "summary": "Extended Type I/II formulas (k=1..3) cover none of the 8 uncovered primes; Mordell hard classes require anchor k up to 5; Webb's n≡1 mod 9240 class has no special obstruction up to n=55441. Near-misses: ['Mordell hard class mod840=1: requires k=5 at n=2521 (i.e. anchor x=(n+3)/4+5). Class mod840=361: also k=5 at n=1201. These are the hardest cases found.']."
     }
   ],
   "round_summaries": [
@@ -365,7 +732,7 @@
       "summaries": [
         "Experimenter: Verified conjecture for n=2,3,4,5; identified primes mod 4 case analysis as the key sub-question.",
         "Prover: Proved conjecture for all even n via 4/(2m)=1/m+1/(2m)+1/(2m); odd cases remain open with multiple flawed attempts.",
-        "Disprover: No counterexample found; conjecture is classical Erd\u0151s\u2013Straus, verified to 10^14; flagged arithmetic errors in Prover odd-n sketches.",
+        "Disprover: No counterexample found; conjecture is classical Erdős–Straus, verified to 10^14; flagged arithmetic errors in Prover odd-n sketches.",
         "Checker: No formal attempts to check in round 1; even case confirmed solved; odd cases remain the core challenge."
       ]
     },
@@ -373,28 +740,117 @@
       "round": 2,
       "summaries": [
         "Checker: PA-E9E976 flawed (even sub-proof valid, odd sub-proof wrong); DA-61B94B is inconclusive evidence not a disproof.",
-        "Experimenter: Verified conjecture for n=7,9,11,13; identified candidate uniform identity for n\u22613 mod 4.",
-        "Prover: Proved conjecture for all even n and all n\u22613 mod 4 with explicit uniform identities; n\u22611 mod 4 reduced to showing 12/(n(n+3)) is always a 2-term Egyptian fraction.",
-        "Disprover: No counterexample found; all n\u22611 mod 4 cases up to n=41 verified explicitly; n\u22611 mod 4 general proof remains open.",
-        "Searcher: Verified conjecture for all 2\u2264n\u2264200; confirmed n\u22613 mod 4 identity universally valid; n\u22611 mod 4 solutions exist but follow no obvious uniform closed form."
+        "Experimenter: Verified conjecture for n=7,9,11,13; identified candidate uniform identity for n≡3 mod 4.",
+        "Prover: Proved conjecture for all even n and all n≡3 mod 4 with explicit uniform identities; n≡1 mod 4 reduced to showing 12/(n(n+3)) is always a 2-term Egyptian fraction.",
+        "Disprover: No counterexample found; all n≡1 mod 4 cases up to n=41 verified explicitly; n≡1 mod 4 general proof remains open.",
+        "Searcher: Verified conjecture for all 2≤n≤200; confirmed n≡3 mod 4 identity universally valid; n≡1 mod 4 solutions exist but follow no obvious uniform closed form."
       ]
     },
     {
       "round": 3,
       "summaries": [
-        "Checker: PA-C5E101 marked VALID \u2014 half the residue classes fully proved; n\u22611 mod 4 is the sole remaining open case.",
-        "Experimenter: Verified n=21,25,29,49; confirmed n\u22619 mod 12 identity; found n=49 needs non-standard anchor x=14.",
-        "Prover: Proved n\u22619 mod 12 and n\u22615 mod 12 cases completely; the entire conjecture now reduces to the single remaining case n\u22611 mod 12.",
-        "Disprover: No counterexample found; entire conjecture reduced to n\u22611 mod 12; Prover's n\u22615 mod 12 correction verified; n=49 solved via x=14."
+        "Checker: PA-C5E101 marked VALID — half the residue classes fully proved; n≡1 mod 4 is the sole remaining open case.",
+        "Experimenter: Verified n=21,25,29,49; confirmed n≡9 mod 12 identity; found n=49 needs non-standard anchor x=14.",
+        "Prover: Proved n≡9 mod 12 and n≡5 mod 12 cases completely; the entire conjecture now reduces to the single remaining case n≡1 mod 12.",
+        "Disprover: No counterexample found; entire conjecture reduced to n≡1 mod 12; Prover's n≡5 mod 12 correction verified; n=49 solved via x=14."
       ]
     },
     {
       "round": 4,
       "summaries": [
-        "Checker: PA-EF2F96 valid for n\u22619 and n\u22615 mod 12; n\u22611 mod 12 is the sole remaining open case.",
-        "Disprover: No counterexample found; all n\u22611 mod 12 up to 997 verified computationally; class remains algebraically open.",
-        "Searcher: Zero failures for n\u22611 mod 12 up to 1000; both new identities computationally confirmed."
+        "Checker: PA-EF2F96 valid for n≡9 and n≡5 mod 12; n≡1 mod 12 is the sole remaining open case.",
+        "Disprover: No counterexample found; all n≡1 mod 12 up to 997 verified computationally; class remains algebraically open.",
+        "Searcher: Zero failures for n≡1 mod 12 up to 1000; both new identities computationally confirmed."
       ]
+    },
+    {
+      "round": 6,
+      "summaries": [
+        "Checker: Checker marked DA-0DF9AE as flawed (it found no counterexample, making it positive evidence, not a disproof).",
+        "Disprover: No counterexample found for n≡1 mod 12; identified that anchor x=(n+3)/4 fails for n≡49,13,1 mod 60 but x=(n+3)/4+1 rescues all tested cases.",
+        "Searcher: Searched all 83 n≡1 mod 12 up to 1000: zero failures; identified that anchor x=(n+3)/4 fails for 9 cases (in n≡49,13,1 mod 60) but x=(n+3)/4+1 rescues all of them."
+      ]
+    },
+    {
+      "round": 7,
+      "summaries": [
+        "Checker: Checker marked DA-D77815 as flawed — it reports no counterexample, which is positive evidence for the conjecture, not a disproof.",
+        "Disprover: No counterexample found; the conjecture is verified to n≤10^17 in the literature and the anchor-fallback structure shows no failures up to 1000.",
+        "Researcher: Literature confirms: conjecture verified to 10^17, Mordell's mod-840 identities isolate the hard residues, Elsholtz–Tao gives density-zero for counterexamples, and arXiv:2511.07465 (2025) claims a constructive proof for all primes P≡1 mod 4 via affine lattice geometry — directly relevant to our open n≡1 mod 12 case."
+      ]
+    },
+    {
+      "round": 8,
+      "summaries": [
+        "Checker: Checker marked DA-38E12B as flawed; no new proofs or disproofs to verify this round.",
+        "Disprover: No counterexample found; refuted two proposed subconjectures (single-anchor and fallback-anchor strategies) and identified that hard cases align precisely with Mordell's mod-840 residues.",
+        "Searcher: Extended anchor analysis to n=3000: fallback x=(n+3)/4+1 fails for 5 cases all in Mordell's hard mod-840 residues, but solutions exist via x=(n+3)/4+k for slightly larger k; all six hard mod-840 classes verified with zero conjecture failures up to 3000."
+      ]
+    },
+    {
+      "round": 9,
+      "summaries": [
+        "Checker: Checker marked DA-B96B81 as flawed; no new proof or disproof attempts to check beyond the paper analysis performed by Searcher.",
+        "Disprover: No counterexample found; the paper's covering system is confirmed incomplete for 8 primes p≡1 mod 12 up to 2000, but all 8 have solutions — the paper is a flawed proof attempt, not evidence against the conjecture.",
+        "Researcher: The arXiv:2602.11774 Type I/II covering system covers 89% of primes p≡1 mod 12 up to 2000 but fails for 8 primes — confirming the paper is an incomplete proof; the uncovered primes cluster in Mordell's hard mod-840 residue classes.",
+        "Searcher: The arXiv:2602.11774 Type I/II covering system (ℓ=1..5) fails for 8 of 70 primes p≡1 mod 12 up to 2000 — the paper's proof is incomplete; all 8 uncovered primes still have solutions via other anchors."
+      ]
+    },
+    {
+      "round": 10,
+      "summaries": [
+        "Checker: Validated DA-AE3B05: the 8 uncovered primes have solutions via other anchors, confirming no counterexample exists there.",
+        "Disprover: No counterexample found; identified the missing proof for n≡5 mod 12 and the open question of whether anchor k is uniformly bounded.",
+        "Searcher: Extended Type I/II formulas (k=1..3) cover none of the 8 uncovered primes; Mordell hard classes require anchor k up to 5; Webb's n≡1 mod 9240 class has no special obstruction up to n=55441. Near-misses: ['Mordell hard class mod840=1: requires k=5 at n=2521 (i.e. anchor x=(n+3)/4+5). Class mod840=361: also k=5 at n=1201. These are the hardest cases found.']."
+      ]
+    }
+  ],
+  "formalization_attempts": [
+    {
+      "id": "FA-6AA92B",
+      "source_id": "PA-C5E101",
+      "lean_code": "import Mathlib\n\n/-!\n# Erdős–Straus Conjecture: Even n and n ≡ 3 mod 4\n\nWe prove 4/n = 1/x + 1/y + 1/z has a positive integer solution for\ntwo infinite families covering all even n ≥ 2 and all odd n ≡ 3 mod 4.\n-/\n\n/-- For even n = 2m (m ≥ 1): 4/(2m) = 1/m + 1/(2m) + 1/(2m).\n    The three denominators m, 2m, 2m are all positive integers. -/\ntheorem erdos_straus_even (m : ℕ) (hm : 0 < m) :\n    (4 : ℚ) / (2 * m) = 1 / m + 1 / (2 * m) + 1 / (2 * m) := by\n  have hm' : (m : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.pos_iff_ne_zero.mp hm)\n  field_simp\n  ring\n\n/-- For n ≡ 3 mod 4: write n = 4k + 3 and set a = k + 1. Then\n    4/n = 1/(a+1) + 1/(a·(a+1)) + 1/(n·a).\n    Key steps: 1/(a+1) + 1/(a(a+1)) = 1/a (telescoping),\n    then 1/a + 1/(na) = (n+1)/(na) = 4(k+1)/((4k+3)(k+1)) = 4/n. -/\ntheorem erdos_straus_three_mod4 (k : ℕ) :\n    (4 : ℚ) / (4 * k + 3) =\n      1 / ((k : ℚ) + 2) +\n      1 / (((k : ℚ) + 1) * ((k : ℚ) + 2)) +\n      1 / ((4 * (k : ℚ) + 3) * ((k : ℚ) + 1)) := by\n  have h1 : (k : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : (k : ℚ) + 2 ≠ 0 := by positivity\n  have h3 : 4 * (k : ℚ) + 3 ≠ 0 := by positivity\n  field_simp\n  ring\n\n/-- Bonus: For n ≡ 5 mod 12, write n = 12k + 5. Then\n    4/n = 1/n + 1/((4k+2)) + 1/((4k+2)·n).\n    Key step: 1/(4k+2) + 1/((4k+2)(12k+5)) = (12k+6)/((4k+2)(12k+5))\n            = 6(2k+1)/(2(2k+1)(12k+5)) = 3/(12k+5),\n    so 1/n + 3/n = 4/n. -/\ntheorem erdos_straus_five_mod12 (k : ℕ) :\n    (4 : ℚ) / (12 * k + 5) =\n      1 / (12 * (k : ℚ) + 5) +\n      1 / (4 * (k : ℚ) + 2) +\n      1 / ((4 * (k : ℚ) + 2) * (12 * (k : ℚ) + 5)) := by\n  have h1 : (4 : ℚ) * k + 2 ≠ 0 := by positivity\n  have h2 : (12 : ℚ) * k + 5 ≠ 0 := by positivity\n  field_simp\n  ring",
+      "mathlib_imports": [
+        "import Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "complete",
+      "status": "draft",
+      "notes": "All three theorems close with `field_simp; ring` after establishing non-zero denominators via `positivity`. The natural number parameter k (or m) is coerced to ℚ automatically. The `erdos_straus_five_mod12` bonus theorem covers n ≡ 5 mod 12 (verified in SP-34E0FD) even though it was not part of PA-C5E101 itself. Together `erdos_straus_even`, `erdos_straus_three_mod4`, and `erdos_straus_five_mod12` cover all n ≢ 1 mod 12 except n ≡ 9 mod 12 (handled separately in PA-EF2F96).",
+      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for even n and n ≡ 3 mod 4 (plus bonus n ≡ 5 mod 12), all proved with field_simp; ring.",
+      "lean_file": "SophieFormalization/ErdosStraus/Theorems.lean"
+    },
+    {
+      "id": "FA-A4DCFE",
+      "source_id": "PA-EF2F96",
+      "lean_code": "import Mathlib\n\n/-!\n# Erdős–Straus Conjecture: n ≡ 9 mod 12\n\nWe prove 4/n = 1/x + 1/y + 1/z has a positive integer solution for all\nn ≡ 9 mod 12. Write n = 12k + 9 = 3·(4k+3) with j = 4k+3 ≡ 3 mod 4\nand anchor b = (n+3)/4 = 3k+3.\n-/\n\n/-- For n ≡ 9 mod 12: write n = 12k + 9, j = 4k + 3, b = 3k + 3. Then\n    4/n = 1/(b+1) + 1/(b·(b+1)) + 1/(j·b).\n\n    Proof: 1/(b+1) + 1/(b(b+1)) = 1/b by telescoping.\n    Then 1/b + 1/(jb) = (j+1)/(jb) = (4k+4)/(3(k+1)(4k+3))\n                      = 4(k+1)/(3(k+1)(4k+3)) = 4/(3(4k+3)) = 4/(12k+9). -/\ntheorem erdos_straus_nine_mod12 (k : ℕ) :\n    (4 : ℚ) / (12 * k + 9) =\n      1 / (3 * (k : ℚ) + 4) +\n      1 / ((3 * (k : ℚ) + 3) * (3 * (k : ℚ) + 4)) +\n      1 / ((4 * (k : ℚ) + 3) * (3 * (k : ℚ) + 3)) := by\n  have h1 : (3 : ℚ) * k + 3 ≠ 0 := by positivity\n  have h2 : (3 : ℚ) * k + 4 ≠ 0 := by positivity\n  have h3 : (4 : ℚ) * k + 3 ≠ 0 := by positivity\n  have h4 : (12 : ℚ) * k + 9 ≠ 0 := by positivity\n  field_simp\n  ring\n\n/-- Combined: the conjecture holds for all n ≡ 1 mod 4 with 3 | n,\n    i.e., n ≡ 9 mod 12. This wraps `erdos_straus_nine_mod12` with\n    the explicit modular hypothesis. -/\ntheorem erdos_straus_of_nine_mod12 (n : ℕ) (hn : n % 12 = 9) :\n    ∃ x y z : ℕ, 0 < x ∧ 0 < y ∧ 0 < z ∧\n      (4 : ℚ) / n = 1 / x + 1 / y + 1 / z := by\n  obtain ⟨k, hk⟩ : ∃ k, n = 12 * k + 9 := by\n    exact ⟨n / 12, by omega⟩\n  subst hk\n  refine ⟨3 * k + 4, (3 * k + 3) * (3 * k + 4), (4 * k + 3) * (3 * k + 3),\n          by omega, by positivity, by positivity, ?_⟩\n  push_cast\n  exact erdos_straus_nine_mod12 k",
+      "mathlib_imports": [
+        "import Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "complete",
+      "status": "draft",
+      "notes": "The algebraic identity closes with `field_simp; ring`. The existential wrapper `erdos_straus_of_nine_mod12` extracts k from the modular hypothesis via `omega` and provides explicit witnesses. The `push_cast` bridges ℕ coercions before applying the algebraic lemma. One potential issue: `positivity` on `(3*k+3)*(3*k+4)` and `(4*k+3)*(3*k+3)` as ℕ requires k ≥ 0 (always true) — these are products of positive ℕ values so `positivity` should handle them. If not, `by omega` or `Nat.mul_pos (by omega) (by omega)` is the fallback.",
+      "summary": "Complete Lean 4 / Mathlib formalization of 4/n = 1/x+1/y+1/z for n ≡ 9 mod 12, including both the algebraic identity and an existential form with explicit witnesses.",
+      "lean_file": "SophieFormalization/ErdosStraus/Theorems.lean"
+    },
+    {
+      "id": "FA-4064C0",
+      "source_id": "MORDELL-1967",
+      "lean_code": "/-\n  SophieFormalization.ErdosStraus.Mordell\n  Mordell's (1967) covering system for the Erdős–Straus conjecture.\n\n  Main result: 4/n = 1/x + 1/y + 1/z is solvable in positive integers for\n  all n ≥ 2 with n % 840 ∉ {1, 121, 169, 289, 361, 529}.\n\n  Source: L.J. Mordell, \"Diophantine Equations\" (1969), Chapter 14.\n-/\n\nimport Mathlib\nimport SophieFormalization.ErdosStraus.Theorems\n\nnamespace ErdosStraus\n\n/-! ## Parametric Identity Families\n\nTwo families of explicit solutions parametrised by arbitrary positive integers a, b, c, d. -/\n\n/-- **Family A** (Mordell eq. 2): if a + b·n + c·n = 4·a·b·c·d then\n    4/n = 1/(b·c·d·n) + 1/(a·c·d) + 1/(a·b·d).\n    Witness: (x, y, z) = (b·c·d·n, a·c·d, a·b·d). -/\ntheorem mordell_family_a (n a b c d : ℕ)\n    (hn : 0 < n) (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) (hd : 0 < d)\n    (h : a + b * n + c * n = 4 * a * b * c * d) :\n    (4 : ℚ) / n = 1 / (↑b * ↑c * ↑d * ↑n) + 1 / (↑a * ↑c * ↑d) + 1 / (↑a * ↑b * ↑d) := by\n  have hn' : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hn.ne'\n  have ha' : (a : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr ha.ne'\n  have hb' : (b : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hb.ne'\n  have hc' : (c : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hc.ne'\n  have hd' : (d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hd.ne'\n  have h' : (a : ℚ) + ↑b * ↑n + ↑c * ↑n = 4 * ↑a * ↑b * ↑c * ↑d := by exact_mod_cast h\n  -- Both sides equal (a + b·n + c·n) / (a·b·c·d·n)\n  have step : (1 : ℚ) / (↑b * ↑c * ↑d * ↑n) + 1 / (↑a * ↑c * ↑d) + 1 / (↑a * ↑b * ↑d)\n            = (↑a + ↑b * ↑n + ↑c * ↑n) / (↑a * ↑b * ↑c * ↑d * ↑n) := by\n    field_simp; ring\n  rw [step, h']\n  field_simp; ring\n\n/-- **Family B** (Mordell eq. 3): if n·a + b + c = 4·a·b·c·d then\n    4/n = 1/(b·c·d) + 1/(n·a·b·d) + 1/(n·a·c·d).\n    Witness: (x, y, z) = (b·c·d, n·a·b·d, n·a·c·d). -/\ntheorem mordell_family_b (n a b c d : ℕ)\n    (hn : 0 < n) (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) (hd : 0 < d)\n    (h : n * a + b + c = 4 * a * b * c * d) :\n    (4 : ℚ) / n = 1 / (↑b * ↑c * ↑d) + 1 / (↑n * ↑a * ↑b * ↑d) + 1 / (↑n * ↑a * ↑c * ↑d) := by\n  have hn' : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hn.ne'\n  have ha' : (a : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr ha.ne'\n  have hb' : (b : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hb.ne'\n  have hc' : (c : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hc.ne'\n  have hd' : (d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hd.ne'\n  have h' : (n : ℚ) * ↑a + ↑b + ↑c = 4 * ↑a * ↑b * ↑c * ↑d := by exact_mod_cast h\n  -- Both sides equal (n·a + b + c) / (n·a·b·c·d)\n  have step : (1 : ℚ) / (↑b * ↑c * ↑d) + 1 / (↑n * ↑a * ↑b * ↑d) + 1 / (↑n * ↑a * ↑c * ↑d)\n            = (↑n * ↑a + ↑b + ↑c) / (↑n * ↑a * ↑b * ↑c * ↑d) := by\n    field_simp; ring\n  rw [step, h']\n  field_simp; ring\n\n/-! ## Covering Congruence Classes\n\nExplicit solutions for each congruence class covered by Mordell's argument.\nAll proofs are direct rational identities, closed by `field_simp; ring`. -/\n\n/-- n ≡ 0 mod 4: take x = y = z = 3n/4.\n    Subsumes the even-n case for multiples of 4. -/\ntheorem erdos_straus_zero_mod4 (k : ℕ) (hk : 0 < k) :\n    (4 : ℚ) / (4 * k) = 1 / (3 * k) + 1 / (3 * k) + 1 / (3 * k) := by\n  have hk' : (k : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hk.ne'\n  field_simp; ring\n\n/-- n ≡ 2 mod 4, n = 4k+2: Family B with (a,b,c,d) = (1,1,1,k+1).\n    Condition: (4k+2)·1 + 1 + 1 = 4k+4 = 4(k+1). ✓\n    Witness: (x,y,z) = (k+1, (4k+2)(k+1), (4k+2)(k+1)). -/\ntheorem erdos_straus_two_mod4 (k : ℕ) :\n    (4 : ℚ) / (4 * k + 2) =\n      1 / ((k : ℚ) + 1) +\n      1 / ((4 * k + 2) * (k + 1)) +\n      1 / ((4 * k + 2) * (k + 1)) := by\n  have h1 : (k : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 4 * (k : ℚ) + 2 ≠ 0 := by positivity\n  field_simp; ring\n\n/-- n ≡ 5 mod 8, n = 8k+5: Family B with (a,b,c,d) = (1,1,2,k+1).\n    Condition: (8k+5)·1 + 1 + 2 = 8k+8 = 8(k+1). ✓\n    Witness: (x,y,z) = (2(k+1), (8k+5)(k+1), 2(8k+5)(k+1)). -/\ntheorem erdos_straus_five_mod8 (k : ℕ) :\n    (4 : ℚ) / (8 * k + 5) =\n      1 / (2 * ((k : ℚ) + 1)) +\n      1 / ((8 * k + 5) * (k + 1)) +\n      1 / (2 * (8 * k + 5) * (k + 1)) := by\n  have h1 : (k : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 8 * (k : ℚ) + 5 ≠ 0 := by positivity\n  field_simp; ring\n\n/-- n ≡ 2 mod 3, n = 3m+2: Family B with (a,b,c,d) = (1,1,m+1,1).\n    Condition: (3m+2)·1 + 1 + (m+1) = 4m+4 = 4(m+1). ✓\n    Witness: (x,y,z) = (m+1, (3m+2), (3m+2)(m+1)).\n    (Corresponds to Mordell's q=3 case.) -/\ntheorem erdos_straus_two_mod3 (m : ℕ) :\n    (4 : ℚ) / (3 * m + 2) =\n      1 / ((m : ℚ) + 1) +\n      1 / (3 * m + 2) +\n      1 / ((3 * m + 2) * (m + 1)) := by\n  have h1 : (m : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 3 * (m : ℚ) + 2 ≠ 0 := by positivity\n  field_simp; ring\n\n/-- n ≡ 6 mod 7, n = 7j+6: Family B with (a,b,c,d) = (1,1,j+1,j+1) — wait:\n    Condition: (7j+6)·1 + 1 + (j+1) = 8j+8 = 8(j+1). And 4·1·1·(j+1)·d = 4(j+1)d.\n    We need 8(j+1) = 4(j+1)d, so d=2.\n    So (a,b,c,d) = (1,1,j+1,2): Condition (7j+6) + 1 + (j+1) = 8(j+1) = 4·1·1·(j+1)·2. ✓\n    Witness: (x,y,z) = (2(j+1), (7j+6)·2, (7j+6)·2(j+1)).\n    (Corresponds to Mordell's q=7, b=1, n≡-1 mod 7 case.) -/\ntheorem erdos_straus_six_mod7 (j : ℕ) :\n    (4 : ℚ) / (7 * j + 6) =\n      1 / (2 * ((j : ℚ) + 1)) +\n      1 / (2 * (7 * j + 6)) +\n      1 / (2 * (7 * j + 6) * (j + 1)) := by\n  have h1 : (j : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 7 * (j : ℚ) + 6 ≠ 0 := by positivity\n  field_simp; ring\n\n/-- n ≡ 5 mod 7, n = 7j+5: Family B with (a,b,c,d) = (1,2,j+1,?) ...\n    Condition: (7j+5)·1 + 2 + (j+1) = 8j+8 = 8(j+1) = 4·1·2·(j+1)·1. ✓\n    So (a,b,c,d) = (1,2,j+1,1).\n    Witness: (x,y,z) = (2(j+1), (7j+5)·2, (7j+5)·2(j+1))... let me recheck:\n    (x,y,z) = (b·c·d, n·a·b·d, n·a·c·d) = (2·(j+1)·1, n·1·2·1, n·1·(j+1)·1)\n             = (2(j+1), 2n, n(j+1)).\n    Verify: 1/(2(j+1)) + 1/(2n) + 1/(n(j+1)) = (n + (j+1) + 2)/... \n    (Corresponds to Mordell's q=7, ab|2, n≡-2 mod 7 case.) -/\ntheorem erdos_straus_five_mod7 (j : ℕ) :\n    (4 : ℚ) / (7 * j + 5) =\n      1 / (2 * ((j : ℚ) + 1)) +\n      1 / (2 * (7 * j + 5)) +\n      1 / ((7 * j + 5) * (j + 1)) := by\n  have h1 : (j : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 7 * (j : ℚ) + 5 ≠ 0 := by positivity\n  field_simp; ring\n\n/-- n ≡ 3 mod 7, n = 7j+3: Family B with (a,b,c,d) = (1,4,j+1,?).\n    Condition: (7j+3)·1 + 4 + (j+1) = 8j+8 = 8(j+1) = 4·1·4·(j+1)·(1/2)... hmm d must be ℕ.\n    Better: (a,b,c,d)=(1,1,4j+3,?) – use Family B: n + 1 + (4j+4) = 7j+3+1+4j+4 = 11j+8... \n    Actually try (a,b,c,d)=(1,4,4j+3,1): n + 4 + (4j+3) = 11j+10 ≠ 4·...\n    Correct approach: n=7j+3, try (a,b,c,d)=(1,2,2j+1,2):\n    n + 2 + (2j+1) = 9j+6 ≠ 4·1·2·(2j+1)·2 = 8(2j+1) = 16j+8 for j=0: 6 ≠ 8.\n    Use a different approach for n≡3 mod 7: n ≡ -4 mod 7, so q=7, a=1, b=4:\n    n + 4 = 7c, c=(n+4)/7 = (7j+7)/7 = j+1. Then Family B with a=1, b=4, c=j+1:\n    n·1 + 4 + (j+1) = 7j+3+4+j+1 = 8j+8 = 4·1·4·(j+1)·(1/2)... d not integer.\n    Try: n·2 + 4 + (2j+2) = 2(7j+3)+4+2j+2 = 16j+12 = 4·2·4·(2j+2)/... messy.\n    Just verify the direct identity: -/\ntheorem erdos_straus_three_mod7 (j : ℕ) :\n    (4 : ℚ) / (7 * j + 3) =\n      1 / (2 * ((j : ℚ) + 1)) +\n      1 / (7 * j + 3) +\n      1 / (2 * (7 * j + 3) * (j + 1)) := by\n  have h1 : (j : ℚ) + 1 ≠ 0 := by positivity\n  have h2 : 7 * (j : ℚ) + 3 ≠ 0 := by positivity\n  field_simp\n  ring\n  -- This reduces to 8(j+1) = (7j+3+1+2) which fails — this identity is WRONG.\n  -- The correct witness for n≡3 mod 7 comes from a different parametric family.\n  -- TODO: find the right (a,b,c,d) for this case.\n\n/-! ## Main Theorem -/\n\n/-- **Mordell's Covering Theorem** (1967): the Erdős–Straus conjecture holds for all n ≥ 2\n    with n % 840 ∉ {1, 121, 169, 289, 361, 529}.\n\n    The modulus 840 = 8 · 3 · 5 · 7 = lcm(8, 3, 5, 7) arises from combining:\n    - mod 8:  n ≡ 0,2,4,6 (even); n ≡ 3,7 (≡3 mod 4); n ≡ 5 (≡5 mod 8) all covered.\n    - mod 3:  n ≡ 0 (multiple of 3) or n ≡ 2 mod 3 covered; leaves n ≡ 1 mod 3.\n    - mod 5:  further reductions via q=15 covering n ≡ 3,2 mod 5.\n    - mod 7:  reductions via q=7 covering n ≡ 3,5,6 mod 7 and multiples of 7.\n    By CRT, only n ≡ 1,121,169,289,361,529 mod 840 may remain uncovered. -/\ntheorem mordell_covering (n : ℕ) (hn : 2 ≤ n)\n    (h : n % 840 ∉ ({1, 121, 169, 289, 361, 529} : Finset ℕ)) :\n    ∃ x y z : ℕ, 0 < x ∧ 0 < y ∧ 0 < z ∧\n      (4 : ℚ) / n = 1 / x + 1 / y + 1 / z := by\n  sorry\n  -- Strategy: case split on n % 840 (which has 840 cases).\n  -- For each of the 834 non-exceptional residues, supply explicit witnesses\n  -- using one of: erdos_straus_even, erdos_straus_three_mod4, erdos_straus_five_mod12,\n  -- erdos_straus_nine_mod12, erdos_straus_zero_mod4, erdos_straus_two_mod4,\n  -- erdos_straus_five_mod8, erdos_straus_two_mod3, or mordell_family_b directly.\n  -- The case split itself can be driven by `omega` on n % 840.\n  -- Completing this sorry is a major but routine formalization task.\n\nend ErdosStraus",
+      "mathlib_imports": [
+        "import Mathlib",
+        "import SophieFormalization.ErdosStraus.Theorems"
+      ],
+      "sorries": [
+        "mordell_covering: The full mod-840 case split. Strategy: for each of the 834 non-exceptional residues, apply one of the proved parametric lemmas with explicit witnesses. The tactic `omega` can drive the case split; each branch needs explicit (a,b,c,d) supplied to mordell_family_a or mordell_family_b.",
+        "erdos_straus_three_mod7: The identity stated is incorrect — the right (a,b,c,d) for n≡3 mod 7 needs to be found. One correct approach: use Family A with the divisibility condition from Mordell's q=7, n≡-4 mod 7 argument."
+      ],
+      "confidence": "partial",
+      "status": "draft",
+      "notes": "The two core parametric lemmas (mordell_family_a, mordell_family_b) and five specific congruence cases (mod 4, mod 8, mod 3, mod 7 partial) are complete. The erdos_straus_three_mod7 theorem has an incorrect identity in the draft — needs fixing before removing the ring/sorry. The main mordell_covering theorem has a clear sorry with an explicit completion strategy. The modulus 840 = lcm(8,3,5,7) and the 6 exceptional residues are correctly identified.",
+      "summary": "Partial Lean 4 formalization of Mordell's (1967) covering system: parametric families A and B proved, five congruence cases proved, main covering theorem stated with sorry.",
+      "lean_file": "SophieFormalization/ErdosStraus/Mordell.lean"
     }
   ]
 }

@@ -1,5 +1,5 @@
 /-
-  SophieFormalization.Basic
+  SophieFormalization.HolroydTalbot.Basic
   Basic definitions for the Holroyd-Talbot conjecture formalization.
 -/
 

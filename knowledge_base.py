@@ -260,12 +260,14 @@ class KnowledgeBase:
         confidence: str,
         notes: str,
         summary: str,
+        lean_file: str = "",
     ) -> str:
         fid = f"FA-{uuid.uuid4().hex[:6].upper()}"
         self._data.setdefault("formalization_attempts", []).append(
             {
                 "id": fid,
                 "source_id": source_id,
+                "lean_file": lean_file,
                 "lean_code": lean_code,
                 "mathlib_imports": mathlib_imports,
                 "sorries": sorries,
