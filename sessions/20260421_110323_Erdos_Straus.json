@@ -2,9 +2,9 @@
   "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
   "session_id": "20260421_110323_Erdos_Straus",
   "status": "open",
-  "rounds_completed": 10,
-  "no_progress_rounds": 0,
-  "prev_snapshot_hash": -7568763142257496639,
+  "rounds_completed": 12,
+  "no_progress_rounds": 1,
+  "prev_snapshot_hash": -3710999750603692480,
   "subproblems": [
     {
       "id": "SP-FA3D86",
@@ -724,6 +724,26 @@
       "round": 10,
       "agent": "Searcher",
       "summary": "Extended Type I/II formulas (k=1..3) cover none of the 8 uncovered primes; Mordell hard classes require anchor k up to 5; Webb's n\u22611 mod 9240 class has no special obstruction up to n=55441. Near-misses: ['Mordell hard class mod840=1: requires k=5 at n=2521 (i.e. anchor x=(n+3)/4+5). Class mod840=361: also k=5 at n=1201. These are the hardest cases found.']."
+    },
+    {
+      "round": 11,
+      "agent": "Checker",
+      "summary": "Checker reviewed submitted attempts."
+    },
+    {
+      "round": 12,
+      "agent": "Prover",
+      "summary": "Prover produced a ? attempt."
+    },
+    {
+      "round": 11,
+      "agent": "Checker",
+      "summary": "Checker reviewed submitted attempts."
+    },
+    {
+      "round": 12,
+      "agent": "Prover",
+      "summary": "Prover produced a ? attempt."
     }
   ],
   "round_summaries": [
@@ -803,6 +823,30 @@
         "Disprover: No counterexample found; identified the missing proof for n\u22615 mod 12 and the open question of whether anchor k is uniformly bounded.",
         "Searcher: Extended Type I/II formulas (k=1..3) cover none of the 8 uncovered primes; Mordell hard classes require anchor k up to 5; Webb's n\u22611 mod 9240 class has no special obstruction up to n=55441. Near-misses: ['Mordell hard class mod840=1: requires k=5 at n=2521 (i.e. anchor x=(n+3)/4+5). Class mod840=361: also k=5 at n=1201. These are the hardest cases found.']."
       ]
+    },
+    {
+      "round": 11,
+      "summaries": [
+        "Checker: Checker reviewed submitted attempts."
+      ]
+    },
+    {
+      "round": 12,
+      "summaries": [
+        "Prover: Prover produced a ? attempt."
+      ]
+    },
+    {
+      "round": 11,
+      "summaries": [
+        "Checker: Checker reviewed submitted attempts."
+      ]
+    },
+    {
+      "round": 12,
+      "summaries": [
+        "Prover: Prover produced a ? attempt."
+      ]
     }
   ],
   "formalization_attempts": [
@@ -851,6 +895,34 @@
       "notes": "The two core parametric lemmas (mordell_family_a, mordell_family_b) and five specific congruence cases (mod 4, mod 8, mod 3, mod 7 partial) are complete. The erdos_straus_three_mod7 theorem has an incorrect identity in the draft \u2014 needs fixing before removing the ring/sorry. The main mordell_covering theorem has a clear sorry with an explicit completion strategy. The modulus 840 = lcm(8,3,5,7) and the 6 exceptional residues are correctly identified.",
       "summary": "Partial Lean 4 formalization of Mordell's (1967) covering system: parametric families A and B proved, five congruence cases proved, main covering theorem stated with sorry.",
       "lean_file": "SophieFormalization/ErdosStraus/Mordell.lean"
+    },
+    {
+      "id": "FA-940286",
+      "source_id": "PA-C5E101",
+      "lean_file": "",
+      "lean_code": "\n/-- n \u2261 3 mod 7, n = 7j+3: direct closed-form witness via Mordell Family B.\n    (a=2, b=1, c=2j+1, d=1): condition (7j+3)\u00b72 + 1 + (2j+1) = 16j+8 = 4\u00b72\u00b71\u00b7(2j+1)\u00b71 \u2713\n    Witnesses: x = 2j+1, y = 2(7j+3), z = 2(7j+3)(2j+1).\n    Previously had `sorry`; now fully proved. -/\ntheorem erdos_straus_three_mod7 (j : \u2115) :\n    \u2203 x y z : \u2115, 0 < x \u2227 0 < y \u2227 0 < z \u2227\n      (4 : \u211a) / (7 * j + 3) = 1 / x + 1 / y + 1 / z := by\n  refine \u27e82*j+1, 2*(7*j+3), 2*(7*j+3)*(2*j+1),\n          by omega, by omega, by positivity, ?_\u27e9\n  have h1 : (2*(j:\u211a)+1) \u2260 0 := by positivity\n  have h2 : 7*(j:\u211a)+3 \u2260 0 := by positivity\n  push_cast; field_simp; ring\n",
+      "mathlib_imports": [
+        "Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "proved",
+      "status": "draft",
+      "notes": "Remaining sorry: mordell_covering (the full 840-case split). Strategy: interval_cases on n%840 (840 goals), then apply the appropriate parametric lemma for each of the 834 non-exceptional residues. This is mechanical but large; a norm_num extension may automate it.",
+      "summary": "Closed the sorry in erdos_straus_three_mod7: for n=7j+3, the explicit witness x=2j+1, y=2(7j+3), z=2(7j+3)(2j+1) is a valid 3-term Egyptian fraction decomposition of 4/n for all j \u2265 0. Derived via Mordell Family B with a=2, b=1, c=2j+1, d=1. The condition (7j+3)\u00b72+1+(2j+1)=8(2j+1)=4\u00b72\u00b71\u00b7(2j+1)\u00b71 holds for all j, so the identity closes by field_simp; ring."
+    },
+    {
+      "id": "FA-A3230C",
+      "source_id": "PA-C5E101",
+      "lean_file": "",
+      "lean_code": "\n/-- n \u2261 3 mod 7, n = 7j+3: direct closed-form witness via Mordell Family B.\n    (a=2, b=1, c=2j+1, d=1): condition (7j+3)\u00b72 + 1 + (2j+1) = 16j+8 = 4\u00b72\u00b71\u00b7(2j+1)\u00b71 \u2713\n    Witnesses: x = 2j+1, y = 2(7j+3), z = 2(7j+3)(2j+1).\n    Previously had `sorry`; now fully proved. -/\ntheorem erdos_straus_three_mod7 (j : \u2115) :\n    \u2203 x y z : \u2115, 0 < x \u2227 0 < y \u2227 0 < z \u2227\n      (4 : \u211a) / (7 * j + 3) = 1 / x + 1 / y + 1 / z := by\n  refine \u27e82*j+1, 2*(7*j+3), 2*(7*j+3)*(2*j+1),\n          by omega, by omega, by positivity, ?_\u27e9\n  have h1 : (2*(j:\u211a)+1) \u2260 0 := by positivity\n  have h2 : 7*(j:\u211a)+3 \u2260 0 := by positivity\n  push_cast; field_simp; ring\n",
+      "mathlib_imports": [
+        "Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "proved",
+      "status": "draft",
+      "notes": "Remaining sorry: mordell_covering (the full 840-case split). Strategy: interval_cases on n%840 (840 goals), then apply the appropriate parametric lemma for each of the 834 non-exceptional residues. This is mechanical but large; a norm_num extension may automate it.",
+      "summary": "Closed the sorry in erdos_straus_three_mod7: for n=7j+3, the explicit witness x=2j+1, y=2(7j+3), z=2(7j+3)(2j+1) is a valid 3-term Egyptian fraction decomposition of 4/n for all j \u2265 0. Derived via Mordell Family B with a=2, b=1, c=2j+1, d=1. The condition (7j+3)\u00b72+1+(2j+1)=8(2j+1)=4\u00b72\u00b71\u00b7(2j+1)\u00b71 holds for all j, so the identity closes by field_simp; ring."
     }
   ]
 }
