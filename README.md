@@ -39,7 +39,7 @@ The MCP server handles only state management and prompt construction.
 | **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. |
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
 | **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
-| **Searcher** | Writes and executes Python code (networkx, itertools, `lib/graph_utils`) to brute-force search for counterexamples across graph families. |
+| **Searcher** | Writes and executes Python code (networkx, itertools, conjecture-specific helpers in `lib/<Conjecture_Name>/graph_utils.py`) to brute-force search for counterexamples across graph families. |
 | **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs every other round alongside the Searcher. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
 | **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Never scheduled automatically — call `get_formalization_task` explicitly. |
@@ -215,25 +215,18 @@ formalization attempts with sorry counts, confidence badges, and full code.
 
 ## Reusable algorithm library (`lib/`)
 
-Algorithms discovered or used by the Searcher are saved in `lib/graph_utils.py`
-so subsequent rounds can import them without re-deriving them.
+Algorithm code in `lib/` is organised by conjecture/session family.
+Place conjecture-specific Searcher helpers in:
+`lib/<Conjecture_Name>/graph_utils.py`
 
-| Function | Description |
-| --- | --- |
-| `mu(G)` | Minimum maximal independent set size (brute force) |
-| `mu_witness(G)` | Same, also returns the witness set |
-| `independent_sets_of_size(G, r)` | All independent r-subsets of G |
-| `star_size(v, indep_sets)` | Number of r-sets containing vertex v |
-| `max_star_size(G, indep_sets)` | Largest star size and its centre |
-| `max_intersecting_family_size(indep_sets)` | Exact maximum intersecting family (Bron–Kerbosch) |
-| `verify_ht(G, r)` | Check HT conjecture for (G, r); returns a result dict |
-| `verify_ht_all_r(G)` | Run `verify_ht` for all valid r ≤ μ(G)//2 |
+Each conjecture module can expose whatever helpers are appropriate for that
+problem domain (enumerators, invariants, search utilities, validators, etc.).
 
 In Searcher scripts, import with:
 
 ```python
 import sys; sys.path.insert(0, '.')
-from lib.graph_utils import mu, independent_sets_of_size, verify_ht
+from lib.MyConjecture.graph_utils import helper_a, helper_b
 ```
 
 ---

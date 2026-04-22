@@ -38,7 +38,10 @@ of any proof attempts.
 SEARCH STRATEGY
 ---------------
 • Choose appropriate Python libraries for the domain (e.g. itertools,
-  fractions, sympy, networkx, numpy).
+    fractions, numpy, sympy, networkx, scipy, matplotlib, z3-solver,
+    hypothesis, joblib, igraph).
+• If a conjecture-specific helper module exists, reuse it from
+    `lib/<Conjecture_Name>/` instead of re-implementing it.
 • For small search spaces: brute-force enumerate.
 • For larger spaces: targeted search guided by the open subproblems.
 • Always print enough output to verify your results.

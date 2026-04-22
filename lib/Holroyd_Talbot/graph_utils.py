@@ -1,9 +1,14 @@
 """
-lib/graph_utils.py – reusable graph-theoretic helpers for Sophie's Searcher.
+lib/Holroyd_Talbot/graph_utils.py – HT-specific graph helpers for Searcher.
 
-Import in any Searcher script with:
+Import in a Holroyd-Talbot Searcher script with:
     import sys; sys.path.insert(0, '.')
-    from lib.graph_utils import mu, independent_sets_of_size, max_intersecting_family_size, star_size
+    from lib.Holroyd_Talbot.graph_utils import (
+        mu,
+        independent_sets_of_size,
+        max_intersecting_family_size,
+        star_size,
+    )
 
 All functions work on networkx Graph objects.
 """
