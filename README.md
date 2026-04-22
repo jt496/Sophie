@@ -39,7 +39,7 @@ The MCP server handles only state management and prompt construction.
 | **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. |
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
 | **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
-| **Searcher** | Writes and executes Python code (networkx, itertools, conjecture-specific helpers in `lib/<Conjecture_Name>/graph_utils.py`) to brute-force search for counterexamples across graph families. |
+| **Searcher** | Writes and executes Python code (networkx, itertools, conjecture-specific helpers in `lib/<Conjecture_Name>/`) to brute-force search for counterexamples. |
 | **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs every other round alongside the Searcher. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
 | **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Never scheduled automatically — call `get_formalization_task` explicitly. |
@@ -217,7 +217,7 @@ formalization attempts with sorry counts, confidence badges, and full code.
 
 Algorithm code in `lib/` is organised by conjecture/session family.
 Place conjecture-specific Searcher helpers in:
-`lib/<Conjecture_Name>/graph_utils.py`
+`lib/<Conjecture_Name>/`
 
 Each conjecture module can expose whatever helpers are appropriate for that
 problem domain (enumerators, invariants, search utilities, validators, etc.).
@@ -226,7 +226,7 @@ In Searcher scripts, import with:
 
 ```python
 import sys; sys.path.insert(0, '.')
-from lib.MyConjecture.graph_utils import helper_a, helper_b
+from lib.MyConjecture.helpers import helper_a, helper_b
 ```
 
 ---
