@@ -115,6 +115,18 @@ def _slugify(text: str, max_len: int = 40) -> str:
     return text[:max_len].rstrip('-')
 
 
+def _resolve_session_id(session_id: str) -> str:
+    """Return session_id as-is, or read it from current.json if empty."""
+    if session_id:
+        return session_id
+    current_path = os.path.join(config.KB_DIR, "current.json")
+    try:
+        with open(current_path) as f:
+            return json.load(f)["session_id"]
+    except Exception:
+        return ""
+
+
 def _load_kb(session_id: str) -> KnowledgeBase | None:
     kb_path = os.path.join(config.KB_DIR, f"{session_id}.json")
     if not os.path.exists(kb_path):
@@ -184,7 +196,7 @@ def start_session(conjecture: str) -> str:
 
 
 @mcp.tool()
-def get_round_tasks(session_id: str) -> str:
+def get_round_tasks(session_id: str = "") -> str:
     """
     Advance to the next round and return the agent tasks for Claude to execute.
 
@@ -197,8 +209,11 @@ def get_round_tasks(session_id: str) -> str:
     Each task: {agent, system_prompt, user_message}.
 
     Args:
-        session_id: The session ID returned by start_session.
+        session_id: The session ID returned by start_session. Defaults to the current session.
     """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
     kb = _load_kb(session_id)
     if kb is None:
         return json.dumps({"error": f"Session '{session_id}' not found."})
@@ -209,7 +224,7 @@ def get_round_tasks(session_id: str) -> str:
 
 
 @mcp.tool()
-def submit_round_results(session_id: str, round: int, results_json: str) -> str:
+def submit_round_results(round: int, results_json: str, session_id: str = "") -> str:
     """
     Submit the agent responses for a completed round.
 
@@ -219,10 +234,13 @@ def submit_round_results(session_id: str, round: int, results_json: str) -> str:
     Returns JSON with: status, summaries, resolved, next_step.
 
     Args:
-        session_id:   The session ID.
+        session_id:   The session ID. Defaults to the current session.
         round:        The round number (as returned by get_round_tasks).
         results_json: JSON-encoded array of agent results.
     """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
     kb = _load_kb(session_id)
     if kb is None:
         return json.dumps({"error": f"Session '{session_id}' not found."})
@@ -251,13 +269,16 @@ def submit_round_results(session_id: str, round: int, results_json: str) -> str:
 
 
 @mcp.tool()
-def get_session_status(session_id: str) -> str:
+def get_session_status(session_id: str = "") -> str:
     """
     Return a detailed snapshot of a session's knowledge base.
 
     Args:
-        session_id: The session ID to inspect.
+        session_id: The session ID to inspect. Defaults to the current session.
     """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return "Error: No session_id provided and no current session found."
     kb = _load_kb(session_id)
     if kb is None:
         return f"Error: session '{session_id}' not found."
@@ -265,7 +286,7 @@ def get_session_status(session_id: str) -> str:
 
 
 @mcp.tool()
-def refresh_viewer(session_id: str) -> str:
+def refresh_viewer(session_id: str = "") -> str:
     """
     Refresh sessions/viewer.html and sessions/current.json for a session.
 
@@ -273,8 +294,11 @@ def refresh_viewer(session_id: str) -> str:
     up to date.  This is a lightweight call — safe to invoke every round.
 
     Args:
-        session_id: The session ID to make current and inject into the viewer.
+        session_id: The session ID to make current and inject into the viewer. Defaults to the current session.
     """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
     kb_path = os.path.join(config.KB_DIR, f"{session_id}.json")
     if not os.path.exists(kb_path):
         return json.dumps({"error": f"Session '{session_id}' not found."})
@@ -315,7 +339,7 @@ def list_sessions() -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 
 @mcp.tool()
-def get_formalization_task(session_id: str, source_id: str) -> str:
+def get_formalization_task(source_id: str, session_id: str = "") -> str:
     """
     Return the Formalizer agent task for a specific proof attempt or subproblem.
 
@@ -328,11 +352,14 @@ def get_formalization_task(session_id: str, source_id: str) -> str:
     response to submit_formalization.
 
     Args:
-        session_id: The session ID.
         source_id:  The ID of the proof attempt or subproblem to formalize.
+        session_id: The session ID. Defaults to the current session.
     """
     from agents.formalizer import Formalizer
 
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
     kb = _load_kb(session_id)
     if kb is None:
         return json.dumps({"error": f"Session '{session_id}' not found."})
@@ -361,7 +388,7 @@ def get_formalization_task(session_id: str, source_id: str) -> str:
 
 
 @mcp.tool()
-def submit_formalization(session_id: str, source_id: str, response_json: str) -> str:
+def submit_formalization(source_id: str, response_json: str, session_id: str = "") -> str:
     """
     Store the Formalizer agent's Lean 4 output in the knowledge base AND write
     it to the Lean repository under formalization/.
@@ -374,13 +401,16 @@ def submit_formalization(session_id: str, source_id: str, response_json: str) ->
     Returns JSON with: formalization_id, lean_file, summary, confidence, sorry_count.
 
     Args:
-        session_id:    The session ID.
         source_id:     The proof attempt or subproblem ID that was formalized.
         response_json: The Formalizer's JSON response string.
+        session_id:    The session ID. Defaults to the current session.
     """
     from pathlib import Path
     from agents.base_agent import BaseAgent
 
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
     kb = _load_kb(session_id)
     if kb is None:
         return json.dumps({"error": f"Session '{session_id}' not found."})

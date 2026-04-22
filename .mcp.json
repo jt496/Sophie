@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "sophie": {
-      "command": "/home/john/Reps/Sophie/.venv/bin/python",
+      "command": "/home/talbot/Reps/Sophie/.venv/bin/python",
       "args": [
-        "/home/john/Reps/Sophie/mcp_server.py"
+        "/home/talbot/Reps/Sophie/mcp_server.py"
       ]
     }
   }
