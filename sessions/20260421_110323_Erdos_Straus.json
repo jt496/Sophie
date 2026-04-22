@@ -2,9 +2,9 @@
   "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
   "session_id": "20260421_110323_Erdos_Straus",
   "status": "open",
-  "rounds_completed": 29,
+  "rounds_completed": 31,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": 4392081572243503194,
+  "prev_snapshot_hash": -2356412163876550823,
   "subproblems": [
     {
       "id": "SP-FA3D86",
@@ -593,6 +593,34 @@
       "source_agent": "Researcher",
       "status": "open",
       "resolution": null
+    },
+    {
+      "id": "SP-AE9BC3",
+      "description": "For n\u22611 mod 12 prime, prove that for some k with p_k prime, D_k^2 = (n*b_k)^2 always has a divisor u\u2261-D_k mod p_k. This is weaker than requiring D_k itself to have such a divisor.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-29CAC0",
+      "description": "Study the distribution of min-k across all primes\u22611 mod 12: does max(min-k) grow slowly (logarithmically) with n, consistent with the density argument?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-80396A",
+      "description": "For n prime \u22611 mod 12: does D_k^2 always have a divisor \u2261-D_k mod p_k for SOME k with p_k prime? This is equivalent to the conjecture for this class, and may be approachable via character sum methods (Polya-Vinogradov or Burgess bounds).",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-3ECD8B",
+      "description": "Is there a connection between the anchor framework D_k^2 divisor condition and the Yamamoto (1965) conditions on prime factors of n? Specifically, when n has a prime factor \u22612 mod 3, does this guarantee a D_0^2 divisor in the required class mod 3?",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
     }
   ],
   "examples": [
@@ -925,6 +953,60 @@
       "description": "[Literature] The connection between Artin's primitive root conjecture and the Erd\u0151s-Straus conjecture (via the key identity b_k\u2261n\u00b74^{",
       "supports_conjecture": null,
       "detail": "Source: [Derived in this session, round 29]\nRelevance: This gives the first conditional proof of Erd\u0151s-Straus for n\u22611 mod 12 under GRH. A careful write-up and literature search for prior work is warranted before claiming novelty."
+    },
+    {
+      "id": "EX-4CE8E4",
+      "description": "n=2521 (prime\u22611 mod 12, mod 840=1): anchor k=5 succeeds via D_k^2 divisor",
+      "supports_conjecture": true,
+      "detail": "For n=2521, b_0=631. Anchor k=5: b_5=636, p_5=23, D_5=n*b_5=1603356. The factorization identity is (p_k*y - D_k)(p_k*z - D_k) = D_k^2. Setting u=848, v=3031545357: u*v = 848*3031545357 = 2570750462736 = 1603356^2 = D_5^2. Check: u mod 23=20, (-D_5) mod 23=20. \u2713 Then y=(848+1603356)/23=69748, z=(3031545357+1603356)/23=131876031. Verify: 1/636+1/69748+1/131876031=4/2521. \u2713 Critical note: 848 does NOT divide D_5=1603356 (1603356/848=1890.75), but 848 DOES divide D_5^2. Previous anchor analysis code was WRONG because it only checked divisors of D_k, not D_k^2."
+    },
+    {
+      "id": "EX-A96D9A",
+      "description": "Anchor k distribution for primes\u22611 mod 12 up to 5000 (corrected)",
+      "supports_conjecture": true,
+      "detail": "Running the corrected anchor search (factoring D_k^2) over primes p\u22611 mod 12 up to 5000: k=0: 113 primes, k=1: 33 primes, k=2: 8 primes, k=3: 1 prime, k=4: 1 prime, k=5: 2 primes. No prime required k>5. Previous report of 'n=2521 not found within k=200' was due to the implementation bug."
+    },
+    {
+      "id": "EX-6E44A9",
+      "description": "No counterexample to Erd\u0151s-Straus in [2, 5000]",
+      "supports_conjecture": true,
+      "detail": "Exhaustive brute-force check: for all n in [2,5000], 4/n=1/x+1/y+1/z has a solution with 1<=x<=y<=z<=... Confirmed zero failures. All 417 values n\u22611 mod 12 in [13,5000] have solutions."
+    },
+    {
+      "id": "EX-E6BB58",
+      "description": "Algebraic identity governing anchor mechanism: factorization of D_k^2",
+      "supports_conjecture": true,
+      "detail": "The anchor x=b_k gives 4/n=1/b_k + p_k/D_k where p_k=3+4k and D_k=n*b_k. To split p_k/D_k=1/y+1/z: multiply both sides by p_k*D_k*y*z to get p_k*(y+z)*D_k=p_k^2*y*z, i.e., (p_k*y-D_k)(p_k*z-D_k)=D_k^2. So anchor k succeeds iff D_k^2 has a divisor u with u\u2261-D_k mod p_k; then y=(u+D_k)/p_k, z=(D_k^2/u+D_k)/p_k. This is strictly more powerful than requiring D_k to have such a divisor."
+    },
+    {
+      "id": "EX-5F6053",
+      "description": "[Literature] The key algebraic framework: 4/n=1/b+p/D where b=(n+3)/4, p=3, D=n*b (for n\u22611 mod 12). The equation p/D=1/y+1/z reduces ",
+      "supports_conjecture": null,
+      "detail": "Source: Standard Egyptian fraction theory\nRelevance: This is the missing identity from PA-3C072F. Once stated, it shows the correct condition is existence of a divisor of D^2 in the required residue class, not a divisor of D."
+    },
+    {
+      "id": "EX-24C44D",
+      "description": "[Literature] Schinzel (1956) proved that the Erd\u0151s-Straus conjecture holds if a related congruence condition is satisfied, and showed",
+      "supports_conjecture": null,
+      "detail": "Source: Schinzel (1956), also recorded as FT-F60773 in KB\nRelevance: These are exactly the hard cases the session is investigating."
+    },
+    {
+      "id": "EX-E1A661",
+      "description": "[Literature] Yamamoto (1965) showed the Erd\u0151s-Straus conjecture holds for all n where n has a prime factor \u22612 or 3 (mod 5), or \u22612 or ",
+      "supports_conjecture": null,
+      "detail": "Source: Yamamoto (1965) - On the Diophantine Equation 4/n=1/x+1/y+1/z\nRelevance: Directly relevant to SP-E01E75: explains why the k=0 anchor works when n has a prime factor \u22612 mod 3 \u2014 that factor falls in Yamamoto's covered classes."
+    },
+    {
+      "id": "EX-5A40FE",
+      "description": "[Literature] Rosati (1954) proved identities covering n\u22611,5,7,11 mod 12 partially. The anchor framework with b_k=(n+3)/4+k and the fa",
+      "supports_conjecture": null,
+      "detail": "Source: Rosati (1954) [UNVERIFIED]\nRelevance: Historical precursor to the anchor framework being developed in this session."
+    },
+    {
+      "id": "EX-E00B8E",
+      "description": "[Literature] Browning-Elsholtz (2011) proved that the number of n\u2264N for which the conjecture fails (if any) is O(N * exp(-c*sqrt(log ",
+      "supports_conjecture": null,
+      "detail": "Source: Browning-Elsholtz (2011) - The number of representations of rationals as sums of unit fractions\nRelevance: Supports the density argument: almost all n\u22611 mod 840 have many solutions."
     }
   ],
   "proof_attempts": [
@@ -988,8 +1070,8 @@
       "id": "PA-3C072F",
       "round": 29,
       "sketch": "**CONDITIONAL PROOF OF ERD\u0150S-STRAUS FOR n\u22611 mod 12 (via Artin's Primitive Root Conjecture)**\n\n**Setup:** For n\u22611 mod 12 and k\u22650, define b_k=(n+3)/4+k, p_k=3+4k, D_k=n\u00b7b_k. Anchor k works iff (\u2212D_k mod p_k)\u2208H_k where H_k\u2286(Z/p_k Z)* is the subgroup generated by {q mod p_k : q prime, q|D_k, gcd(q,p_k)=1}.\n\n**Key algebraic observation:** b_k \u2261 n\u00b74^{\u22121} (mod p_k).\nProof: k=(p_k\u22123)/4, so b_k=(n+3)/4+(p_k\u22123)/4=(n+p_k)/4\u2261n\u00b74^{-1} (mod p_k). \u25a1\n\n**Primitive root criterion:** Anchor k succeeds if some prime factor q of D_k satisfies ord(q mod p_k)=p_k\u22121 (i.e., q is a primitive root mod p_k). Then H_k=(Z/p_k Z)* and any target residue is reachable.\n\n**Conditional proof under GRH:** Let q be any prime factor of n. Then q|n|D_k for all k\u22650.\n\nBy Hooley's theorem (1967, conditional on GRH): since q is prime and not a perfect square, q is a primitive root mod p for a positive proportion of primes p (with density equal to Artin's constant times a correction factor). Among primes p\u22613 (mod 4) (i.e., p=3+4k), by Dirichlet's theorem, a positive sub-density has q as a primitive root.\n\nLet k* be any such index. Then:\n\u2022 q|D_{k*} (since q|n)\n\u2022 q mod p_{k*} is a primitive root mod p_{k*}\n\u2022 H_{k*}=(Z/p_{k*} Z)* \u2287 {all residues mod p_{k*}}\n\u2022 Anchor k* succeeds: 4/n=1/b_{k*}+1/y+1/z for positive integers y,z. \u25a1\n\n**Unconditional partial result (Heath-Brown 1986):** If n has \u22653 multiplicatively independent prime factors q1,q2,q3 (not \u00b11 or perfect squares), then at least one is a primitive root mod p_k for infinitely many k \u2014 giving an unconditional proof for all composite n\u22611 mod 12 with \u22653 distinct prime factors.\n\n**Computational verification:** n=118801 (prime): at k=14, p_14=59, 283\u226147 (mod 59) has order 58 (verified computationally) \u2014 confirming the primitive root criterion.\n\n**What remains:** Full unconditional proof requires eliminating GRH for the prime case (n prime, single prime factor q=n). Combined with the already-proved cases (even n, n\u22613,5,9 mod 12), a GRH-conditional proof of the full Erd\u0151s-Straus conjecture is now in hand.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "flawed",
+      "checker_feedback": "The argument has several significant gaps that prevent accepting it as valid:\n\n1. **Unexplained 'anchor' mechanism**: The proof defines 'anchor k works iff (\u2212D_k mod p_k) \u2208 H_k' but never explains how this condition yields the actual decomposition 4/n = 1/b_k + 1/y + 1/z. The connection between the subgroup membership condition and the existence of positive integers y, z solving the equation is entirely missing. This is the critical logical step and it is not established.\n\n2. **H_k generation claim is unjustified**: The claim that H_k \u2286 (Z/p_k Z)* is the subgroup generated by prime factors of D_k (mod p_k) is stated but not derived from any identity relating 4/n to expressions involving D_k and p_k. What Diophantine identity is being used?\n\n3. **b_k calculation has an error**: The calculation states k = (p_k \u2212 3)/4, so b_k = (n+3)/4 + (p_k\u22123)/4 = (n+p_k)/4. For b_k to be a positive integer, we need 4 | (n + p_k). Since n \u2261 1 mod 4 and p_k = 3 + 4k \u2261 3 mod 4, we have n + p_k \u2261 0 mod 4 \u2014 this is fine. But the proof claims b_k \u2261 n\u00b74^{\u22121} (mod p_k): since b_k = (n+p_k)/4, we have 4b_k = n + p_k \u2261 n (mod p_k), so b_k \u2261 n\u00b74^{\u22121} (mod p_k). This step is actually correct.\n\n4. **Hooley/GRH application is imprecise**: Hooley's theorem (1967) states that, conditional on GRH for Dedekind zeta functions of certain number fields, the set of primes for which a given non-square integer a is a primitive root has positive density. However, the proof needs q to be a primitive root mod p_k for p_k \u2261 3 (mod 4) specifically. Restricting to an arithmetic progression cuts density by ~1/2 but does not eliminate the set, so the density argument survives. This part is acceptable conditionally.\n\n5. **Heath-Brown 1986 citation is misapplied**: Heath-Brown (1986) proved unconditionally that there are at most two primes that fail to be primitive roots for infinitely many primes. This means at least one of any three primes IS a primitive root for infinitely many primes. The claim in the proof is consistent with Heath-Brown, but the proof does not explain why having \u22653 multiplicatively independent prime factors of n implies at least one of them satisfies the anchor condition for some k. The logical path from Heath-Brown to the Erd\u0151s-Straus decomposition is missing.\n\n6. **Computational check is insufficient**: Verifying one case (n=118801, k=14) is not a verification of the general mechanism; it is an illustration.\n\n7. **Scope**: Even if all arguments were valid, this only covers n \u2261 1 mod 12. The claim that 'all other cases are fully proved' relies on work from previous rounds that has not been re-verified here. The summary claim that a 'GRH-conditional proof of the full conjecture is now in hand' is premature without establishing those previously claimed proofs are themselves valid.\n\nSummary: The central mechanism linking the subgroup condition to the actual fraction decomposition is the load-bearing step of the proof, and it is absent. Until that is supplied and verified, the proof cannot be accepted."
     }
   ],
   "disproof_attempts": [
@@ -1095,8 +1177,8 @@
       "id": "DA-6E2971",
       "round": 29,
       "candidate_counterexample": "No counterexample found. Under the conditional proof (GRH+Artin via Hooley), no counterexample to Erd\u0151s-Straus can exist for n\u22611 mod 12. All other cases are fully proved. No counterexample exists for any n.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "flawed",
+      "checker_feedback": "This is not a disproof attempt; it is simply a negative statement asserting no counterexample exists, justified solely by appeal to the conditional proof PA-3C072F. Since PA-3C072F has been found flawed, this claim is unsupported. Even if PA-3C072F were valid, it is conditional on GRH, so one could only say no counterexample exists *if GRH holds* \u2014 which is not known. This entry has no independent value."
     }
   ],
   "log": [
@@ -1489,6 +1571,36 @@
       "round": 29,
       "agent": "Researcher",
       "summary": "Identified Hooley (1967) and Heath-Brown (1986) as the key literature: Hooley's conditional result (GRH) gives a full conditional proof of Erd\u0151s-Straus for n\u22611 mod 12; Heath-Brown gives an unconditional proof for all composite n with \u22653 distinct prime factors."
+    },
+    {
+      "round": 30,
+      "agent": "Checker",
+      "summary": "Checked PA-3C072F (conditional proof for n\u22611 mod 12 via GRH/Artin): found flawed due to missing anchor mechanism; DA-6E2971 is an unsupported negative assertion."
+    },
+    {
+      "round": 31,
+      "agent": "Experimenter",
+      "summary": "Found the algebraic identity governing the anchor mechanism (D_k^2 factorization), fixed a bug in anchor analysis code, and verified no counterexample in [2,5000]."
+    },
+    {
+      "round": 31,
+      "agent": "Prover",
+      "summary": "Provided corrected anchor criterion using D_k^2 factorization identity, fixing the gap identified in PA-3C072F; verified explicitly for n=2521."
+    },
+    {
+      "round": 31,
+      "agent": "Disprover",
+      "summary": "No counterexample found up to n=5000; corrected anchor criterion eliminates all previous 'hard cases'; remaining weakness is the GRH-to-divisor existence gap in the proof."
+    },
+    {
+      "round": 31,
+      "agent": "Searcher",
+      "summary": "Confirmed no counterexample in [2,5000]; verified corrected anchor criterion for n=2521 using D_k^2 factorization."
+    },
+    {
+      "round": 31,
+      "agent": "Researcher",
+      "summary": "Found that the D_k^2 factorization identity is the standard tool in this area (implicit in Rosati/Yamamoto traditions), and that Yamamoto's 1965 result directly explains the k=0 criterion; the missing link in PA-3C072F is a classical identity in Egyptian fraction theory."
     }
   ],
   "round_summaries": [
@@ -1696,6 +1808,22 @@
         "Disprover: No counterexample found; GRH+Artin makes a counterexample impossible for n\u22611 mod 12, and all other residue classes are fully proved.",
         "Searcher: Computationally verified primitive root criterion for n=118801 k=14 (283 and 118801 are primitive roots mod 59), confirmed n=118801 is isolated within mod840=361, extended search to n=200000 with max k=7 and zero failures. Near-misses: ['n=163249 (prime, mod840=289) requires k=7.'].",
         "Researcher: Identified Hooley (1967) and Heath-Brown (1986) as the key literature: Hooley's conditional result (GRH) gives a full conditional proof of Erd\u0151s-Straus for n\u22611 mod 12; Heath-Brown gives an unconditional proof for all composite n with \u22653 distinct prime factors."
+      ]
+    },
+    {
+      "round": 30,
+      "summaries": [
+        "Checker: Checked PA-3C072F (conditional proof for n\u22611 mod 12 via GRH/Artin): found flawed due to missing anchor mechanism; DA-6E2971 is an unsupported negative assertion."
+      ]
+    },
+    {
+      "round": 31,
+      "summaries": [
+        "Experimenter: Found the algebraic identity governing the anchor mechanism (D_k^2 factorization), fixed a bug in anchor analysis code, and verified no counterexample in [2,5000].",
+        "Prover: Provided corrected anchor criterion using D_k^2 factorization identity, fixing the gap identified in PA-3C072F; verified explicitly for n=2521.",
+        "Disprover: No counterexample found up to n=5000; corrected anchor criterion eliminates all previous 'hard cases'; remaining weakness is the GRH-to-divisor existence gap in the proof.",
+        "Searcher: Confirmed no counterexample in [2,5000]; verified corrected anchor criterion for n=2521 using D_k^2 factorization.",
+        "Researcher: Found that the D_k^2 factorization identity is the standard tool in this area (implicit in Rosati/Yamamoto traditions), and that Yamamoto's 1965 result directly explains the k=0 criterion; the missing link in PA-3C072F is a classical identity in Egyptian fraction theory."
       ]
     }
   ],
