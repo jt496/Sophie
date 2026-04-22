@@ -86,9 +86,15 @@ class BaseAgent(ABC):
         lines = [
             f"CONJECTURE: {snapshot['conjecture']}",
             f"STATUS: {snapshot['status']}",
-            "",
-            "── SUBPROBLEMS ──",
         ]
+
+        facts = snapshot.get("facts", [])
+        if facts:
+            lines += ["", "── ESTABLISHED FACTS (treat as ground truth) ──"]
+            for f in facts:
+                lines.append(f"  [{f['id']}] {f['text']}")
+
+        lines += ["", "── SUBPROBLEMS ──"]
         for sp in snapshot["subproblems"]:
             flag = "✓" if sp["status"] == "resolved" else "○"
             lines.append(f"  [{flag}] {sp['id']}: {sp['description']}")

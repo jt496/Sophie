@@ -88,9 +88,12 @@ class KnowledgeBase:
         if os.path.exists(self._path):
             with open(self._path, "r") as f:
                 self._data: Dict[str, Any] = json.load(f)
-            # Migrate older sessions that lack round_summaries
+            # Migrate older sessions
             if "round_summaries" not in self._data:
                 self._data["round_summaries"] = []
+                self._save()
+            if "facts" not in self._data:
+                self._data["facts"] = []
                 self._save()
         else:
             self._data = self._empty(session_id)
@@ -107,6 +110,7 @@ class KnowledgeBase:
             "rounds_completed": 0,
             "no_progress_rounds": 0,
             "prev_snapshot_hash": None,
+            "facts": [],
             "subproblems": [],
             "examples": [],
             "proof_attempts": [],
@@ -119,6 +123,30 @@ class KnowledgeBase:
     def set_conjecture(self, text: str) -> None:
         self._data["conjecture"] = text
         self._save()
+
+    # ── Facts ────────────────────────────────────────────────────────────────
+
+    def add_fact(self, text: str) -> str:
+        prefix = text[:120].lower()
+        for f in self._data["facts"]:
+            if f["text"][:120].lower() == prefix:
+                return f["id"]
+        fid = f"FT-{uuid.uuid4().hex[:6].upper()}"
+        self._data["facts"].append({
+            "id": fid,
+            "text": text,
+            "added_round": self._data["rounds_completed"],
+        })
+        self._save()
+        return fid
+
+    def remove_fact(self, fact_id: str) -> bool:
+        before = len(self._data["facts"])
+        self._data["facts"] = [f for f in self._data["facts"] if f["id"] != fact_id]
+        changed = len(self._data["facts"]) < before
+        if changed:
+            self._save()
+        return changed
 
     # ── Generic accessors ────────────────────────────────────────────────────
 

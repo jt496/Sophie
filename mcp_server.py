@@ -70,9 +70,15 @@ def _format_snapshot(snap: dict) -> str:
         f"STATUS:     {snap['status'].upper()}",
         f"ROUNDS:     {snap['rounds_completed']}",
         f"SESSION ID: {snap['session_id']}",
-        "",
-        "── SUBPROBLEMS ──────────────────────────────────────────",
     ]
+
+    facts = snap.get("facts", [])
+    if facts:
+        lines += ["", "── ESTABLISHED FACTS ────────────────────────────────────"]
+        for f in facts:
+            lines.append(f"  [{f['id']}] {f['text']}")
+
+    lines += ["", "── SUBPROBLEMS ──────────────────────────────────────────"]
     for sp in snap["subproblems"]:
         flag = "✓" if sp["status"] == "resolved" else "○"
         lines.append(f"  [{flag}] {sp['id']}: {sp['description']}")
@@ -332,6 +338,59 @@ def list_sessions() -> str:
             sessions.append({"session_id": Path(f).stem, "error": "unreadable"})
 
     return json.dumps(sessions)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fact tools
+# ─────────────────────────────────────────────────────────────────────────────
+
+@mcp.tool()
+def add_fact(text: str, session_id: str = "") -> str:
+    """
+    Add a user-supplied fact to the session knowledge base.
+
+    Facts are displayed to every agent at the top of every round as
+    established ground truth.  Use this to inject verified theorems,
+    literature results, or computational findings that all agents should
+    treat as given.
+
+    Returns JSON with: fact_id, text, session_id.
+
+    Args:
+        text:       The fact to record (a single, self-contained statement).
+        session_id: The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+    fid = kb.add_fact(text)
+    _set_current_session(session_id)
+    return json.dumps({"fact_id": fid, "text": text, "session_id": session_id})
+
+
+@mcp.tool()
+def remove_fact(fact_id: str, session_id: str = "") -> str:
+    """
+    Remove a fact from the session knowledge base by its ID.
+
+    Args:
+        fact_id:    The fact ID to remove (e.g. FT-A1B2C3).
+        session_id: The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+    removed = kb.remove_fact(fact_id)
+    _set_current_session(session_id)
+    if removed:
+        return json.dumps({"status": "removed", "fact_id": fact_id})
+    return json.dumps({"status": "not_found", "fact_id": fact_id})
 
 
 # ─────────────────────────────────────────────────────────────────────────────

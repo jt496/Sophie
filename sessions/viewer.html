@@ -145,7 +145,7 @@
   /* ── Stats row ── */
   .stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
   }
@@ -401,11 +401,13 @@
     <div class="stat-card"><div class="stat-number" id="stat-subproblems">0</div><div class="stat-label">Subproblems</div></div>
     <div class="stat-card"><div class="stat-number" id="stat-proofs">0</div><div class="stat-label">Proof Attempts</div></div>
     <div class="stat-card"><div class="stat-number" id="stat-disproofs">0</div><div class="stat-label">Disproof Attempts</div></div>
+    <div class="stat-card"><div class="stat-number" id="stat-facts">0</div><div class="stat-label">Facts</div></div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
     <button class="tab active" onclick="showTab('rounds')">Rounds <span class="tab-count" id="tc-rounds">0</span></button>
+    <button class="tab" onclick="showTab('facts')">Facts <span class="tab-count" id="tc-facts">0</span></button>
     <button class="tab" onclick="showTab('examples')">Examples <span class="tab-count" id="tc-examples">0</span></button>
     <button class="tab" onclick="showTab('subproblems')">Subproblems <span class="tab-count" id="tc-subproblems">0</span></button>
     <button class="tab" onclick="showTab('proofs')">Proof Attempts <span class="tab-count" id="tc-proofs">0</span></button>
@@ -414,6 +416,7 @@
   </div>
 
   <div id="panel-rounds" class="tab-panel active"></div>
+  <div id="panel-facts" class="tab-panel"></div>
   <div id="panel-examples" class="tab-panel"></div>
   <div id="panel-subproblems" class="tab-panel"></div>
   <div id="panel-proofs" class="tab-panel"></div>
@@ -582,6 +585,7 @@ function render(d) {
   d.formalization_attempts = d.formalization_attempts || [];
   d.round_summaries        = d.round_summaries        || [];
   d.log                    = d.log                    || [];
+  d.facts                  = d.facts                  || [];
 
   // Header
   document.getElementById('conjecture-text').textContent = d.conjecture;
@@ -596,9 +600,11 @@ function render(d) {
   document.getElementById('stat-subproblems').textContent = d.subproblems.length;
   document.getElementById('stat-proofs').textContent      = d.proof_attempts.length;
   document.getElementById('stat-disproofs').textContent   = d.disproof_attempts.length;
+  document.getElementById('stat-facts').textContent       = d.facts.length;
 
   // Tab counts
   document.getElementById('tc-rounds').textContent      = d.rounds_completed;
+  document.getElementById('tc-facts').textContent       = d.facts.length;
   document.getElementById('tc-examples').textContent    = d.examples.length;
   document.getElementById('tc-subproblems').textContent = d.subproblems.length;
   document.getElementById('tc-proofs').textContent      = d.proof_attempts.length;
@@ -607,6 +613,7 @@ function render(d) {
   document.getElementById('tc-lean').textContent = leanCount;
 
   renderRounds(d);
+  renderFacts(d.facts);
   renderExamples(d.examples);
   renderSubproblems(d.subproblems);
   renderProofs(d.proof_attempts);
@@ -728,6 +735,28 @@ function renderRounds(d) {
     const latest = document.getElementById('round-' + roundNums[roundNums.length - 1]);
     if (latest) latest.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
+
+function renderFacts(facts) {
+  const panel = document.getElementById('panel-facts');
+  if (!facts.length) {
+    panel.innerHTML = '<div class="empty">No facts recorded yet. Use <code>add_fact</code> to add established results.</div>';
+    return;
+  }
+  let html = '<div class="sp-list">';
+  for (const f of facts) {
+    html += `
+      <div class="sp-item">
+        <span class="sp-icon" style="color:var(--accent)">★</span>
+        <div>
+          <div class="sp-desc">${esc(f.text)}</div>
+          <div class="sp-source" style="margin-top:4px"><span class="card-id">${esc(f.id)}</span> · added round ${f.added_round ?? '?'}</div>
+        </div>
+        <span class="card-badge badge-valid">fact</span>
+      </div>`;
+  }
+  html += '</div>';
+  panel.innerHTML = html;
 }
 
 function renderExamples(examples) {
