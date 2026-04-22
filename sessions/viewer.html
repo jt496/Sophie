@@ -75,6 +75,17 @@
     margin-bottom: 8px;
   }
   #session-list-header span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .refresh-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .last-refreshed {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
   .session-item {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -352,7 +363,10 @@
   <div id="session-list-wrap">
     <div id="session-list-header">
       <span id="session-list-label">Sessions</span>
-      <button class="btn-secondary" id="btn-refresh" style="padding:5px 12px;font-size:12px" title="Refresh session list">↻ Refresh</button>
+      <div class="refresh-tools">
+        <span class="last-refreshed" id="last-refreshed">Last refreshed: never</span>
+        <button class="btn-secondary" id="btn-refresh" style="padding:5px 12px;font-size:12px" title="Refresh session list">Refresh</button>
+      </div>
     </div>
     <div id="session-list"><div style="color:var(--muted);font-size:13px;padding:16px 0">Loading sessions…</div></div>
   </div>
@@ -363,7 +377,10 @@
 <div id="app">
   <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
     <div style="color:var(--muted); font-size:13px;">Sophie Session Viewer</div>
-    <button class="reload-btn" onclick="resetViewer()">← Back to sessions</button>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="reload-btn" id="btn-refresh-app" title="Refresh current session">Refresh</button>
+      <button class="reload-btn" onclick="resetViewer()"><- Back to sessions</button>
+    </div>
   </div>
 
   <!-- Header -->
@@ -425,6 +442,7 @@ async function tryFetchManifest(silent = false) {
     const sessions = await resp.json();
     if (!Array.isArray(sessions) || !sessions.length) return;
     populateFromManifest(sessions, silent);
+    updateLastRefreshed();
   } catch { /* not served via HTTP — ignore */ }
 }
 
@@ -499,18 +517,6 @@ async function populateFromManifest(sessions, silent = false) {
 // ── State ──────────────────────────────────────────────────────────────────
 let _currentHandle = null;   // FileSystemFileHandle for the open session
 let _currentFetchUrl = null; // URL for fetch-based sessions (HTTP mode)
-let _pollInterval  = null;   // auto-refresh timer
-
-function startPolling() {
-  stopPolling();
-  _pollInterval = setInterval(async () => {
-    await reloadCurrentSession();
-  }, 15000);
-}
-
-function stopPolling() {
-  if (_pollInterval) { clearInterval(_pollInterval); _pollInterval = null; }
-}
 
 async function reloadCurrentSession() {
   try {
@@ -521,16 +527,29 @@ async function reloadCurrentSession() {
       const r = await fetch(_currentFetchUrl, { cache: 'no-store' });
       render(await r.json());
     }
-  } catch (e) { console.warn('Auto-reload failed:', e); }
+  } catch (e) { console.warn('Manual reload failed:', e); }
 }
 
 // ── DOM refs ────────────────────────────────────────────────────────────
 const btnRefresh = document.getElementById('btn-refresh');
+const btnRefreshApp = document.getElementById('btn-refresh-app');
+const lastRefreshed = document.getElementById('last-refreshed');
 
-btnRefresh.addEventListener('click', async () => {
-  if (_currentHandle) await reloadCurrentSession();
+function updateLastRefreshed() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  lastRefreshed.textContent = `Last refreshed: ${hh}:${mm}:${ss}`;
+}
+
+async function handleRefreshClick() {
+  if (_currentHandle || _currentFetchUrl) await reloadCurrentSession();
   await tryFetchManifest(/* silent= */ true);
-});
+}
+
+btnRefresh.addEventListener('click', handleRefreshClick);
+btnRefreshApp.addEventListener('click', handleRefreshClick);
 
 function formatTimestamp(sid) {
   if (!sid) return '';
@@ -540,7 +559,6 @@ function formatTimestamp(sid) {
 }
 
 function resetViewer() {
-  stopPolling();
   _currentHandle = null;
   _currentFetchUrl = null;
   document.getElementById('landing').style.display = 'block';
@@ -597,8 +615,6 @@ function render(d) {
 
   document.getElementById('landing').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  // Start auto-polling if we have a persistent file handle or fetch URL
-  if (_currentHandle || _currentFetchUrl) startPolling();
 }
 
 function renderRounds(d) {

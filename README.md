@@ -176,6 +176,21 @@ Sophie can optionally formalize results in Lean 4 / Mathlib. The Formalizer
 agent is never scheduled automatically — it is invoked on-demand when you want
 to harden a proof sketch into verified code.
 
+### Install Lean and fetch Mathlib cache
+
+1. Install Lean using the official instructions:
+  https://lean-lang.org/install/
+2. From this repo, enter the formalization project directory and fetch cached
+  build artifacts:
+
+```bash
+cd formalization
+lake exe cache get
+```
+
+This avoids rebuilding all of Mathlib locally and makes first-time checks much
+faster.
+
 ### Workflow
 
 ```
