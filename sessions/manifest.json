@@ -5,14 +5,14 @@
     "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
     "status": "open",
     "rounds_completed": 31,
-    "current": true
+    "current": false
   },
   {
     "filename": "20260420_100815_HolroydTalbot.json",
     "session_id": "20260420_100815_HolroydTalbot",
     "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
     "status": "open",
-    "rounds_completed": 19,
-    "current": false
+    "rounds_completed": 20,
+    "current": true
   }
 ]

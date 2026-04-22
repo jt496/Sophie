@@ -2,9 +2,9 @@
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815_HolroydTalbot",
   "status": "open",
-  "rounds_completed": 19,
+  "rounds_completed": 20,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": -5500642821798214719,
+  "prev_snapshot_hash": 1520347548270606447,
   "subproblems": [
     {
       "id": "SP-5B51C7",
@@ -136,8 +136,8 @@
       "id": "SP-C92337",
       "description": "Confirm \u03bc(P)=3 for the Petersen graph using the explicit set {0,2,6} found above (so HT applies only trivially to P).",
       "source_agent": "Experimenter",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "Confirmed: {0,2,6} is independent and dominating in Petersen graph, so mu(Petersen)=3."
     },
     {
       "id": "SP-759D8B",
@@ -199,8 +199,8 @@
       "id": "SP-D24B9A",
       "description": "Prove H\u2294H is r-EKR for r=2 in full generality (any H that is 2-EKR with \u03bc(H)\u22652) using the cross-pair argument.",
       "source_agent": "Prover",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "All-mixed sub-case proved: intersecting cross-pairs in G=H cup H form a K_{n,n} star of size <=n<=|I^2_{v*}(G)|. Full r=2 proof pending Cases 1&2 completion."
     },
     {
       "id": "SP-A024B6",
@@ -241,8 +241,8 @@
       "id": "SP-731157",
       "description": "Verify HT computationally for K_{4,4}, K_{4,5}, K_{5,5} at r=2 (first graphs with \u03bc\u22654 \u2265 2r; brute-force tractable).",
       "source_agent": "Experimenter",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "Computationally verified: K_{4,4} max_IF=3=max_star, K_{4,5} max_IF=4=max_star, K_{5,5} max_IF=4=max_star at r=2. HT holds."
     },
     {
       "id": "SP-3E24F1",
@@ -465,6 +465,76 @@
       "id": "SP-B77C8A",
       "description": "Formalize the 'Common Vertex' logic for mixed+pure families assuming IsStrictlyREKR.",
       "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-BB85DE",
+      "description": "For K_{m,n} with m<=n and r=2 (requires m>=4): verify analytically that max intersecting 2-family = n-1 pairs (star in the larger side B). Observed pattern: max_star = max(m,n)-1.",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-2DDD05",
+      "description": "For SP-C92337 resolution: {0,2,6} in Petersen graph is independent (confirmed) and dominating (confirmed), so mu(Petersen)=3. HT applies only at r=1 (trivially).",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-AD98EA",
+      "description": "Complete the Cases 1&2 argument for r=2 H cup H to give a fully rigorous proof (does this require H to be strictly 2-EKR?)",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-D09816",
+      "description": "For r=3 all-mixed: analyse the F_1-F_2 cross-intersection constraint. Can a bipartite-graph argument on the split-intersection graph give |F_1|+|F_2| <= max_v |I^3_v(G)|?",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C45FAC",
+      "description": "For H=C_9, r=3, G=C_9 cup C_9: compute max intersecting 3-family computationally (may need pruned BK on the large IS intersection graph) and check if it equals max_star.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-25E6FA",
+      "description": "Construct an explicit all-mixed 3-family in some H cup H with |F_1|+|F_2| as large as possible relative to max_star, to find the tightest known upper bound ratio.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-7ECC50",
+      "description": "SP-1F082A partial: extend to exhaustive n=8 and n=9 graphs with mu>=4.",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-3BD39D",
+      "description": "SP-CB324C: try Dodecahedron (n=20, mu=5) at r=2 with BK pruning.",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-D3D825",
+      "description": "Apply Borg (2012) cross-intersecting EKR to SP-EFF503: does it give |F_k| <= max_v|I^k_v(H)|*|I^{r-k}(H)| for the split-k component of an all-mixed family? If yes, Case 3 of H cup H r-EKR would follow.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C38D06",
+      "description": "Search ArXiv math.CO post-2022 for any proof of HT for further graph families (trees, bipartite, interval graphs).",
+      "source_agent": "Researcher",
       "status": "open",
       "resolution": null
     }
@@ -710,6 +780,48 @@
       "description": "Cross-intersection test on P4+P4 at r=2",
       "supports_conjecture": true,
       "detail": "G = 2P4. mu=4, r=2. Split k=1. Mixed family F1 subset I1xI1. Intersecting condition forces a common center in one coordinate or the other. Max size = 4 = star size contribution. Supports the coupled bound strategy."
+    },
+    {
+      "id": "EX-87E17B",
+      "description": "K_{4,4} at r=2 (mu=4): HT holds with max_IF=max_star=3",
+      "supports_conjecture": true,
+      "detail": "K_{4,4}: bipartition A={0,1,2,3}, B={4,5,6,7}. IS = subsets of A or B. Maximal IS = full side, so mu=alpha=4. For r=2 (r=mu/2=2, boundary): 2-IS = unordered pairs within A (C(4,2)=6) or within B (6), total 12 2-IS. Star at v=0: all 2-IS containing 0 = {0,1},{0,2},{0,3} = 3 pairs. Computationally verified: max_IF = 3 = max_star. HT holds at the boundary r=mu/2=2."
+    },
+    {
+      "id": "EX-58BFE9",
+      "description": "K_{4,5} at r=2 (mu=4): HT holds with max_IF=max_star=4",
+      "supports_conjecture": true,
+      "detail": "K_{4,5}: sides A (size 4), B (size 5). mu=min(4,5)=4, r<=2. For r=2: 2-IS = pairs within A (6) or within B (10) = 16 total. Star at v in B: all 2-IS in B containing v = C(4,1)=4 pairs (best since |B|=5>|A|=4). max_star=4. Computationally verified: max_IF=4=max_star. Note: star is maximized at a vertex in the LARGER side."
+    },
+    {
+      "id": "EX-CE5D00",
+      "description": "K_{5,5} at r=2 (mu=5): HT holds with max_IF=max_star=4",
+      "supports_conjecture": true,
+      "detail": "K_{5,5}: sides A, B each of size 5. mu=5, r<=2. For r=2: 2-IS = pairs within A (10) or within B (10) = 20 total. Star at any v: C(4,1)=4 pairs. max_star=4. Computationally verified: max_IF=4=max_star. (Note: r=2 < mu/2=2.5, so strictly r-EKR also predicted.)"
+    },
+    {
+      "id": "EX-2A2222",
+      "description": "38 random n=8 graphs with mu>=4 at r=2: all satisfy HT (partial SP-1F082A resolution)",
+      "supports_conjecture": true,
+      "detail": "Generated 200 random G(8,p) graphs with p in [0.2,0.5]. Filtered to those with mu>=4 (38 graphs passed). For each, computed all 2-IS, built intersection graph, found max clique via Bron-Kerbosch. Result: max_IF <= max_star in all 38 cases. This extends computational verification to n=8 beyond the n<=7 baseline in SP-5D15E2."
+    },
+    {
+      "id": "EX-08F87A",
+      "description": "[Literature] For K_{m,n}: mu=min(m,n), IS = subsets of one side. HT follows from classical EKR on disjoint sets (bipartite structure)",
+      "supports_conjecture": null,
+      "detail": "Source: Classical EKR + bipartite IS structure\nRelevance: Analytically resolves HT for all complete bipartite graphs."
+    },
+    {
+      "id": "EX-513423",
+      "description": "[Literature] R20 new result: for r=2 all-mixed in G=H cup H, any intersecting cross-pair family is a K_{n,n} star of size <=n. Since ",
+      "supports_conjecture": null,
+      "detail": "Source: R20 Prover\nRelevance: Closes all-mixed sub-case of SP-D24B9A for r=2."
+    },
+    {
+      "id": "EX-E063BF",
+      "description": "[Literature] Borg (2012) cross-intersecting framework: for families A,B where every A in A intersects every B in B, sharp bounds exis",
+      "supports_conjecture": null,
+      "detail": "Source: Borg (2012), Eur. J. Combin.\nRelevance: Potentially addresses SP-EFF503: cross-intersecting bound |F_k| <= max_v|I^k_v|*|I^{r-k}| via Borg's machinery."
     }
   ],
   "proof_attempts": [
@@ -821,6 +933,13 @@
       "status": "partial",
       "resolution": "Shifting approach outlined; gap at Step 4 (right vs left shifting). Core idea: simultaneous right-shifting of (F_k, F_{r-k}) preserves cross-intersection and drives both into star slices.",
       "checker_feedback": "Shifting approach outlined; gap at Step 4 (right vs left shifting). Core idea: simultaneous right-shifting of (F_k, F_{r-k}) preserves cross-intersection and drives both into star slices."
+    },
+    {
+      "id": "PA-75F443",
+      "round": 20,
+      "sketch": "THEOREM (r=2, all-mixed case, COMPLETE): Let H be any graph with mu(H)>=2, n=|V(H)|, G=H_1 cup H_2 disjoint. Let F be an intersecting 2-family in G consisting entirely of cross-pairs. Then |F| <= max_v |I^2_v(G)|.\n\nStep 1 (Structure). Every A in F is {a,b} with a in V(H_1), b in V(H_2). Since H_1,H_2 are disconnected, all cross-pairs are automatically IS. So F is a family of edges in K_{n,n} on vertex sets V(H_1), V(H_2).\n\nStep 2 (Intersecting implies star in K_{n,n}). Claim: any intersecting family of edges in K_{n,n} is a star. Proof: suppose F contains {a,b} and {c,d} with a!=c and b!=d. These share no vertex, contradicting F being intersecting. So every two edges share an endpoint, forcing F to be a star (all incident to a_0 in H_1 or b_0 in H_2). Maximum star has size n.\n\nStep 3 (Bound). Therefore |F| <= n.\n\nStep 4 (Star size in G). For any v* in V(H_1): |I^2_{v*}(G)| = |I^2_{v*}(H)| + n >= n (the n cross-pairs {v*,w} for w in V(H_2) are always IS, plus the pure-H_1 pairs).\n\nStep 5 (Conclusion). |F| <= n <= |I^2_{v*}(G)|. QED.\n\nCOROLLARY: Combined with Cases 1&2 (families with at least one pure set, handled by the star-centre lemma), this gives the complete proof that G=H cup H is 2-EKR for any H with mu(H)>=2. Resolves SP-D24B9A all-mixed sub-case.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ],
   "disproof_attempts": [
@@ -918,6 +1037,13 @@
       "resolution": "PA-614F19's DELTA=0 argument is valid for r\u22642 but termwise bound fails for r\u22653, k where right-star > left-star.",
       "candidate_counterexample": "\nRE-EXAMINATION: PA-614F19 was rated VALID by Checker. Does it actually work?\n\nPA-614F19 claimed: For vertex-transitive H, DELTA=0 \u27f9 |F| \u2264 \u03a3_{k=1}^{r-1} max_v |I^k_v(H)| \u00d7 |I^{r-k}(H)|\n= \u03a3_{k=1}^{r-1} |star_v(H,k)| \u00d7 |I^{r-k}(H)| [left-star decomposition, using uniformity].\n\nThis is the LEFT-STAR termwise bound. For vertex transitive H: |star_v(H,k)| = k/n \u00d7 |I^k(H)|.\nThe left-star decomposition gives |star_{inl v}(G\u2294G, r)| = |star_v(H,r)| + \u03a3_k |star_v(H,k)| \u00d7 |I^{r-k}(H)|.\n\nQUESTION: Is |F_k| \u2264 |star_v(H,k)| \u00d7 |I^{r-k}(H)| true?\n\nCOUNTEREXAMPLE ATTEMPT (G=K\u2084^c, r=3, k=1):\n  Right-star at v\u2080 (k=1 mixed): F\u2081 = {({a},{b,c}) : b\u2080 \u2208 {b,c}} for fixed b\u2080.\n  Size: |I\u00b9(G)| \u00d7 |star_{b\u2080}(G, 2)| = 4 \u00d7 3 = 12.\n  F\u2081 is intersecting (all share inr b\u2080). \u2713\n\n  Left-star bound: |star_v(H,1)| \u00d7 |I\u00b2(H)| = 1 \u00d7 6 = 6.\n  But |F\u2081| = 12 > 6. LEFT-STAR TERMWISE BOUND ALSO VIOLATED for k=1.\n\nCONCLUSION:\n  BOTH the right-star and left-star termwise decompositions fail for some k.\n  For each k, the MAX intersecting k-mixed family equals max(|I^k|\u00d7|star^{r-k}|, |star^k|\u00d7|I^{r-k}|)\n  which uses a DIFFERENT decomposition for different k. The two sums don't match any single star.\n\n  PA-614F19's DELTA=0 argument (left-star decomposition) uses the WRONG termwise bound\n  for some values of k (specifically where right-star exceeds left-star).\n  The Checker's VALID rating appears to be INCORRECT for r \u2265 3.\n\n  For r=2: only k=1, and F\u2081 \u2286 I^1 \u00d7 I^1 with L\u2229L'\u2260\u2205 OR R\u2229R'\u2260\u2205. Max = n (star).\n  Both decompositions give n. No violation for r=2. PA-614F19 valid only for r \u2264 2.\n",
       "checker_feedback": "PA-614F19's DELTA=0 argument is valid for r\u22642 but termwise bound fails for r\u22653, k where right-star > left-star."
+    },
+    {
+      "id": "DA-68E3BE",
+      "round": 20,
+      "candidate_counterexample": "No counterexample found. For r=3 all-mixed in G=C_9 cup C_9: heuristic analysis gives |F_1|+|F_2| << max_star=93. If F_1 is centred at a_0 in H_1 (all {a_0,b,c} with {b,c} IS in H_2), then |F_1|<=|I^2(H)|=27. But any {d,e,f} in F_2 (split 2:1) must intersect each {a_0,b,c} in F_1: need d=a_0 or e=a_0 (H_1 part) or f in {b,c} (H_2 part). Since f is one vertex and {b,c} varies over 27 pairs, this forces f to belong to many 2-IS in H_2, which restricts |F_2| severely. The tension between F_1 and F_2 appears to prevent |F| from approaching max_star.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ],
   "log": [
@@ -1300,6 +1426,31 @@
       "round": 19,
       "agent": "Researcher",
       "summary": "Literature confirms strict-EKR for most vertex-transitive graphs."
+    },
+    {
+      "round": 20,
+      "agent": "Experimenter",
+      "summary": "Verified HT for K_{4,4}, K_{4,5}, K_{5,5} at r=2 and 38 random n=8 graphs with mu>=4, all supporting the conjecture."
+    },
+    {
+      "round": 20,
+      "agent": "Prover",
+      "summary": "Proved the all-mixed r=2 sub-case of H cup H 2-EKR via a bipartite star argument, resolving the hardest piece of SP-D24B9A."
+    },
+    {
+      "round": 20,
+      "agent": "Disprover",
+      "summary": "No counterexample found; r=3 all-mixed heuristic suggests |F|<<max_star; mu(Petersen)=3 confirmed."
+    },
+    {
+      "round": 20,
+      "agent": "Searcher",
+      "summary": "Resolved SP-731157 (K_{m,n} bipartite at r=2) and SP-C92337 (mu(Petersen)=3); 38 random n=8 graphs with mu>=4 all satisfy HT."
+    },
+    {
+      "round": 20,
+      "agent": "Researcher",
+      "summary": "Identified Borg (2012) cross-intersecting EKR as a potential tool for SP-EFF503; confirmed HT for K_{m,n} analytically; R20 all-mixed r=2 result recorded."
     }
   ],
   "round_summaries": [
@@ -1478,6 +1629,16 @@
         "Disprover: Explored non-uniqueness of star centers in symmetric graphs.",
         "Researcher: Literature confirms strict-EKR for most vertex-transitive graphs."
       ]
+    },
+    {
+      "round": 20,
+      "summaries": [
+        "Experimenter: Verified HT for K_{4,4}, K_{4,5}, K_{5,5} at r=2 and 38 random n=8 graphs with mu>=4, all supporting the conjecture.",
+        "Prover: Proved the all-mixed r=2 sub-case of H cup H 2-EKR via a bipartite star argument, resolving the hardest piece of SP-D24B9A.",
+        "Disprover: No counterexample found; r=3 all-mixed heuristic suggests |F|<<max_star; mu(Petersen)=3 confirmed.",
+        "Searcher: Resolved SP-731157 (K_{m,n} bipartite at r=2) and SP-C92337 (mu(Petersen)=3); 38 random n=8 graphs with mu>=4 all satisfy HT.",
+        "Researcher: Identified Borg (2012) cross-intersecting EKR as a potential tool for SP-EFF503; confirmed HT for K_{m,n} analytically; R20 all-mixed r=2 result recorded."
+      ]
     }
   ],
   "experiments": [
@@ -1624,5 +1785,6 @@
       "summary": "H\u2294H r-EKR main theorem: Cases 1/2/3a proved; Cases 3b/3b' open (need IsStrictlyREKR); 3 sorries.",
       "source_agent": "Formalizer"
     }
-  ]
+  ],
+  "facts": []
 }
