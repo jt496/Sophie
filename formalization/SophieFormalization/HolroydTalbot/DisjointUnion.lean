@@ -953,3 +953,148 @@ theorem disjointUnion_rEKR (G : SimpleGraph V) (r : ℕ)
     (hEKR : IsREKR G r) :
     IsREKR (disjointUnionSelf G) r := by
   sorry
+
+/-! ## r=2 All-Mixed Case: Complete Proof (Sophie Round 20, PA-75F443)
+
+  The key theorem: if F ⊆ I²(G⊔G) is intersecting and all-mixed (no pure-left
+  or pure-right sets), then F is contained in some vertex star of G⊔G.
+
+  Proof: pick any S₀ = {inl a₀, inr b₀} ∈ F.
+  • Case A: every T ∈ F contains inl a₀ → F ⊆ star_{inl a₀}.
+  • Case B: some T ∈ F doesn't contain inl a₀ → S₀ ∩ T ≠ ∅ forces d = b₀
+    (inr b₀ ∈ T). Then for any U ∈ F: S₀∩U and T∩U together force inr b₀ ∈ U.
+    So F ⊆ star_{inr b₀}.
+  In either case F is a sub-star, giving |F| ≤ max star size.
+-/
+
+
+section AllMixedR2
+
+variable (G : SimpleGraph V)
+
+/-- For a mixed 2-IS S (not pure-left, not pure-right), the left and right preimages
+    each have cardinality 1. -/
+lemma mixed_2is_preimage_card (S : Finset (V ⊕ V))
+    (hS : S ∈ indepRSets (disjointUnionSelf G) 2)
+    (hnotL : ∀ t : Finset V, S ≠ leftCopy t)
+    (hnotR : ∀ t : Finset V, S ≠ rightCopy t) :
+    (leftPreimage S).card = 1 ∧ (rightPreimage S).card = 1 := by
+  rw [mem_indepRSets_iff] at hS
+  obtain ⟨hcard, _⟩ := hS
+  have hlr : (leftPreimage S).card + (rightPreimage S).card = 2 := by
+    have := card_eq_left_plus_right S; omega
+  have hLpos : 0 < (leftPreimage S).card := by
+    rcases Nat.eq_zero_or_pos (leftPreimage S).card with h | h
+    · exfalso
+      have hd := leftCopy_leftPreimage_union_rightCopy_rightPreimage S
+      rw [Finset.card_eq_zero.mp h] at hd; simp [leftCopy] at hd
+      exact hnotR _ hd
+    · exact h
+  have hRpos : 0 < (rightPreimage S).card := by
+    rcases Nat.eq_zero_or_pos (rightPreimage S).card with h | h
+    · exfalso
+      have hd := leftCopy_leftPreimage_union_rightCopy_rightPreimage S
+      rw [Finset.card_eq_zero.mp h] at hd; simp [rightCopy] at hd
+      exact hnotL _ hd
+    · exact h
+  exact ⟨by omega, by omega⟩
+
+/-- Each mixed 2-IS is a cross-pair {inl a, inr b}. -/
+lemma mixed_2is_as_crossPair (S : Finset (V ⊕ V))
+    (hS : S ∈ indepRSets (disjointUnionSelf G) 2)
+    (hnotL : ∀ t : Finset V, S ≠ leftCopy t)
+    (hnotR : ∀ t : Finset V, S ≠ rightCopy t) :
+    ∃ a b : V, S = {Sum.inl a, Sum.inr b} := by
+  obtain ⟨hL1, hR1⟩ := mixed_2is_preimage_card G S hS hnotL hnotR
+  obtain ⟨a, hLa⟩ := Finset.card_eq_one.mp hL1
+  obtain ⟨b, hRb⟩ := Finset.card_eq_one.mp hR1
+  refine ⟨a, b, ?_⟩
+  have hd := leftCopy_leftPreimage_union_rightCopy_rightPreimage S
+  rw [hLa, hRb] at hd
+  simp only [leftCopy, rightCopy, Finset.image_singleton] at hd
+  rw [hd, ← Finset.insert_eq]
+
+/-- When two cross-pairs intersect, they share a left or a right vertex. -/
+private lemma crossPair_inter_eq (a b c d : V)
+    (h : ({Sum.inl a, Sum.inr b} : Finset (V ⊕ V)) ∩ {Sum.inl c, Sum.inr d} |>.Nonempty) :
+    a = c ∨ b = d := by
+  obtain ⟨x, hx⟩ := h
+  simp only [Finset.mem_inter, Finset.mem_insert, Finset.mem_singleton] at hx
+  obtain ⟨h1 | h1, h2 | h2⟩ := hx
+  · left;  exact Sum.inl_injective (h1.symm.trans h2)
+  · exact absurd (h1.symm.trans h2) Sum.inl_ne_inr
+  · exact absurd (h1.symm.trans h2) (Ne.symm Sum.inl_ne_inr)
+  · right; exact Sum.inr_injective (h1.symm.trans h2)
+
+/-- **r=2 All-Mixed Sub-star Theorem** (PA-75F443, Sophie Round 20):
+    Any intersecting all-mixed 2-family in G⊔G is contained in some vertex star.
+
+    Proof: Pick S₀ = {inl a₀, inr b₀} ∈ F.
+    Case A: every T ∈ F contains inl a₀ → F ⊆ star_{inl a₀}.
+    Case B: some T ∈ F has inl a₀ ∉ T → T = {inl c, inr b₀} (forced).
+      For any U = {inl e, inr f}: if f ≠ b₀ then S₀∩U forces e=a₀; T∩U forces c=e=a₀,
+      contradicting c≠a₀. Hence f=b₀ and F ⊆ star_{inr b₀}. -/
+theorem allMixed_r2_sub_star [Nonempty V]
+    (F : Finset (Finset (V ⊕ V)))
+    (hF : F ⊆ indepRSets (disjointUnionSelf G) 2)
+    (hInt : IsIntersecting F)
+    (hMixed : ∀ s ∈ F,
+      (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t)) :
+    ∃ w : V ⊕ V, F ⊆ vertexStar (disjointUnionSelf G) w 2 := by
+  rcases Finset.eq_empty_or_nonempty F with rfl | ⟨S₀, hS₀F⟩
+  · exact ⟨Sum.inl (Classical.choice inferInstance), Finset.empty_subset _⟩
+  obtain ⟨a₀, b₀, hS₀eq⟩ :=
+    mixed_2is_as_crossPair G S₀ (hF hS₀F) (hMixed S₀ hS₀F).1 (hMixed S₀ hS₀F).2
+  by_cases hCaseA : ∀ T ∈ F, Sum.inl a₀ ∈ T
+  · -- Case A: F ⊆ star_{inl a₀}
+    exact ⟨Sum.inl a₀, fun T hTF => by
+      rw [mem_vertexStar_iff]; exact ⟨hF hTF, hCaseA T hTF⟩⟩
+  · -- Case B: some T ∈ F has inl a₀ ∉ T
+    push_neg at hCaseA
+    obtain ⟨T, hTF, hTnotA⟩ := hCaseA
+    obtain ⟨c, d, hTeq⟩ :=
+      mixed_2is_as_crossPair G T (hF hTF) (hMixed T hTF).1 (hMixed T hTF).2
+    have hcne : c ≠ a₀ := by
+      intro h; apply hTnotA; rw [hTeq, h]; simp
+    -- S₀ ∩ T ≠ ∅ forces d = b₀
+    have hdB : d = b₀ := by
+      have hST := hInt S₀ hS₀F T hTF
+      rw [hS₀eq, hTeq] at hST
+      rcases crossPair_inter_eq a₀ b₀ c d hST with h | h
+      · exact absurd h.symm hcne
+      · exact h.symm
+    -- Every U ∈ F must contain inr b₀
+    have hAllB : ∀ U ∈ F, Sum.inr b₀ ∈ U := by
+      intro U hUF
+      obtain ⟨e, f, hUeq⟩ :=
+        mixed_2is_as_crossPair G U (hF hUF) (hMixed U hUF).1 (hMixed U hUF).2
+      suffices hfb : f = b₀ by rw [hUeq]; simp [hfb]
+      have hSU := hInt S₀ hS₀F U hUF
+      rw [hS₀eq, hUeq] at hSU
+      rcases crossPair_inter_eq a₀ b₀ e f hSU with haeq | hbeq
+      · -- e = a₀; now use T ∩ U
+        have hTU := hInt T hTF U hUF
+        rw [hTeq, hUeq] at hTU
+        rcases crossPair_inter_eq c d e f hTU with hceq | hdeq
+        · -- c = e = a₀, contradicts c ≠ a₀
+          exact absurd (hceq.trans haeq.symm) hcne
+        · -- d = f, and d = b₀, so f = b₀
+          exact hdeq.symm.trans hdB
+      · exact hbeq.symm
+    exact ⟨Sum.inr b₀, fun U hUF => by
+      rw [mem_vertexStar_iff]; exact ⟨hF hUF, hAllB U hUF⟩⟩
+
+/-- **r=2 All-Mixed Bound** (PA-75F443):
+    An intersecting all-mixed 2-family in G⊔G satisfies |F| ≤ |star_w| for some w.
+    This fully proves the all-mixed sub-case without any sorry. -/
+theorem allMixed_r2_bound [Nonempty V]
+    (F : Finset (Finset (V ⊕ V)))
+    (hF : F ⊆ indepRSets (disjointUnionSelf G) 2)
+    (hInt : IsIntersecting F)
+    (hMixed : ∀ s ∈ F,
+      (∀ t : Finset V, s ≠ leftCopy t) ∧ (∀ t : Finset V, s ≠ rightCopy t)) :
+    ∃ w : V ⊕ V, F.card ≤ (vertexStar (disjointUnionSelf G) w 2).card := by
+  obtain ⟨w, hw⟩ := allMixed_r2_sub_star G F hF hInt hMixed
+  exact ⟨w, Finset.card_le_card hw⟩
+
+end AllMixedR2
