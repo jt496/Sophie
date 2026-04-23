@@ -9,7 +9,7 @@ import re
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from knowledge_base import KnowledgeBase
+from ..knowledge_base import KnowledgeBase
 
 
 class BaseAgent(ABC):

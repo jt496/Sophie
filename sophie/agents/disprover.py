@@ -6,8 +6,8 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
-import config
-from agents.base_agent import BaseAgent
+from .. import config
+from .base_agent import BaseAgent
 
 
 _SYSTEM = """\

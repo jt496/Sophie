@@ -12,10 +12,10 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
-from agents.base_agent import BaseAgent
+from .base_agent import BaseAgent
 
 # Root of the Lean project relative to the Sophie repo root.
-LEAN_ROOT = Path(__file__).parent.parent / "formalization" / "SophieFormalization"
+LEAN_ROOT = Path(__file__).parent.parent.parent / "formalization" / "SophieFormalization"
 LEAN_MODULE_ROOT = "SophieFormalization"
 
 

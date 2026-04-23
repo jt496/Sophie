@@ -11,11 +11,11 @@ from __future__ import annotations
 import json
 from typing import Any, Dict, List
 
-import config
-from agents import Checker, Disprover, Experimenter, Prover, Researcher, Searcher
-from agents.formalizer import _conjecture_slug
-from agents.base_agent import BaseAgent
-from knowledge_base import KnowledgeBase
+from . import config
+from .agents import Checker, Disprover, Experimenter, Prover, Researcher, Searcher
+from .agents.formalizer import _conjecture_slug
+from .agents.base_agent import BaseAgent
+from .knowledge_base import KnowledgeBase
 
 
 class Conductor:

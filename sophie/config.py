@@ -24,4 +24,4 @@ MAX_ROUNDS: int = 200          # hard cap on Conductor iterations
 CONVERGENCE_PATIENCE: int = 3 # stop after this many rounds with no new findings
 
 # ── Persistence ───────────────────────────────────────────────────────────────
-KB_DIR: str = os.path.join(os.path.dirname(__file__), "sessions")
+KB_DIR: str = os.path.join(os.path.dirname(os.path.dirname(__file__)), "sessions")
