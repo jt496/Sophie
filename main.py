@@ -25,9 +25,9 @@ import sys
 from rich.console import Console
 from rich.prompt import Prompt
 
-import config
-from conductor import Conductor
-from knowledge_base import KnowledgeBase
+from sophie import config
+from sophie.conductor import Conductor
+from sophie.knowledge_base import KnowledgeBase
 
 console = Console()
 

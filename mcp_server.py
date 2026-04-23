@@ -30,17 +30,14 @@ import glob
 import json
 import os
 import re
-import sys
 from datetime import datetime
 from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
 
-sys.path.insert(0, str(Path(__file__).parent))
-
-import config
-from conductor import Conductor
-from knowledge_base import KnowledgeBase
+from sophie import config
+from sophie.conductor import Conductor
+from sophie.knowledge_base import KnowledgeBase
 
 mcp = FastMCP(
     name="Sophie",

@@ -18,8 +18,7 @@ import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
-import config
+from sophie import config
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
 SESSIONS_DIR = Path(config.KB_DIR).resolve()
