@@ -411,7 +411,7 @@ def get_formalization_task(source_id: str, session_id: str = "") -> str:
         source_id:  The ID of the proof attempt or subproblem to formalize.
         session_id: The session ID. Defaults to the current session.
     """
-    from agents.formalizer import Formalizer
+    from sophie.agents.formalizer import Formalizer
 
     session_id = _resolve_session_id(session_id)
     if not session_id:
@@ -462,7 +462,7 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
         session_id:    The session ID. Defaults to the current session.
     """
     from pathlib import Path
-    from agents.base_agent import BaseAgent
+    from sophie.agents.base_agent import BaseAgent
 
     session_id = _resolve_session_id(session_id)
     if not session_id:

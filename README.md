@@ -129,7 +129,7 @@ refresh_viewer(session_id)          ← ALWAYS call after submit_round_results
 Serve the `sessions/` directory over HTTP and open `viewer.html` in any browser:
 
 ```bash
-python serve.py        # default port 8765
+python sophie/serve.py        # default port 8765
 # then open http://localhost:8765/viewer.html
 ```
 
