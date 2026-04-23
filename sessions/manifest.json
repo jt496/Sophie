@@ -1,5 +1,13 @@
 [
   {
+    "filename": "20260423_151851_carmichael-s-totient-function-conjecture.json",
+    "session_id": "20260423_151851_carmichael-s-totient-function-conjecture",
+    "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
+    "status": "open",
+    "rounds_completed": 2,
+    "current": true
+  },
+  {
     "filename": "20260421_110323_Erdos_Straus.json",
     "session_id": "20260421_110323_Erdos_Straus",
     "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
@@ -13,6 +21,6 @@
     "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
     "status": "open",
     "rounds_completed": 21,
-    "current": true
+    "current": false
   }
 ]
