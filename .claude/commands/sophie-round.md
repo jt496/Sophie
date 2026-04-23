@@ -1,6 +1,6 @@
 Run the next round of the current Sophie session.
 
-1. Call `list_sessions` to find the most recent active session, or ask the user for a session_id if unclear
+1. Call `get_round_tasks` with no arguments — the server reads `sessions/current.json` to resolve the session automatically. Only call `list_sessions` if `get_round_tasks` returns an error (no current session found), then ask the user which session to use.
 2. Call `get_round_tasks` to get the tasks for the current round
 3. If `should_stop=true` or `resolved=true`, report the final status and stop
 4. For each task in the round, read its `system_prompt` and `user_message`, then respond AS that agent — output only valid JSON matching the agent's required format

@@ -2,9 +2,9 @@
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if 1 \u2264 r \u2264 \u03bc(G)/2, then G is r-EKR (there exists a vertex v such that the star I^r_v(G) is a maximum intersecting family of independent r-sets), and strictly r-EKR (every maximum intersecting family is a star) when 1 < r < \u03bc(G)/2. Here \u03bc(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815_HolroydTalbot",
   "status": "open",
-  "rounds_completed": 20,
+  "rounds_completed": 21,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": 1520347548270606447,
+  "prev_snapshot_hash": -5201340025499860315,
   "subproblems": [
     {
       "id": "SP-5B51C7",
@@ -938,8 +938,8 @@
       "id": "PA-75F443",
       "round": 20,
       "sketch": "THEOREM (r=2, all-mixed case, COMPLETE): Let H be any graph with mu(H)>=2, n=|V(H)|, G=H_1 cup H_2 disjoint. Let F be an intersecting 2-family in G consisting entirely of cross-pairs. Then |F| <= max_v |I^2_v(G)|.\n\nStep 1 (Structure). Every A in F is {a,b} with a in V(H_1), b in V(H_2). Since H_1,H_2 are disconnected, all cross-pairs are automatically IS. So F is a family of edges in K_{n,n} on vertex sets V(H_1), V(H_2).\n\nStep 2 (Intersecting implies star in K_{n,n}). Claim: any intersecting family of edges in K_{n,n} is a star. Proof: suppose F contains {a,b} and {c,d} with a!=c and b!=d. These share no vertex, contradicting F being intersecting. So every two edges share an endpoint, forcing F to be a star (all incident to a_0 in H_1 or b_0 in H_2). Maximum star has size n.\n\nStep 3 (Bound). Therefore |F| <= n.\n\nStep 4 (Star size in G). For any v* in V(H_1): |I^2_{v*}(G)| = |I^2_{v*}(H)| + n >= n (the n cross-pairs {v*,w} for w in V(H_2) are always IS, plus the pure-H_1 pairs).\n\nStep 5 (Conclusion). |F| <= n <= |I^2_{v*}(G)|. QED.\n\nCOROLLARY: Combined with Cases 1&2 (families with at least one pure set, handled by the star-centre lemma), this gives the complete proof that G=H cup H is 2-EKR for any H with mu(H)>=2. Resolves SP-D24B9A all-mixed sub-case.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "valid",
+      "checker_feedback": "Step 1 is correct: any cross-pair {a,b} with a in V(H_1), b in V(H_2) is automatically an independent set since there are no edges between H_1 and H_2 in the disjoint union G. Step 2 is the key structural claim and is valid. The argument is clean: if F contains two edges {a,b} and {c,d} of K_{n,n} with a\u2260c and b\u2260d, they share no vertex, so they don't intersect \u2014 contradicting the assumption. Hence every two members of F share a vertex, which (in K_{n,n}) forces F to be a star centred at some a_0 in V(H_1) or b_0 in V(H_2); the maximum star has size n. Step 3 follows immediately. Step 4 is correct: for any v* in V(H_1), the star I^2_{v*}(G) contains all pairs {v*,w} with w in V(H_2) (n cross-pairs, all independent) plus all pairs {v*,u} with u in V(H_1) and {v*,u} independent in H_1. So |I^2_{v*}(G)| >= n. Step 5 combines Steps 3 and 4 correctly. One minor clarification: in Step 2, a star in K_{n,n} is indeed intersecting, confirming it is the extremal structure. This is immediate and does not constitute a gap. The corollary is correct given that Cases 1 & 2 have been handled in prior rounds. The all-mixed sub-case for r=2 in G=H cup H is complete."
     }
   ],
   "disproof_attempts": [
@@ -1042,8 +1042,8 @@
       "id": "DA-68E3BE",
       "round": 20,
       "candidate_counterexample": "No counterexample found. For r=3 all-mixed in G=C_9 cup C_9: heuristic analysis gives |F_1|+|F_2| << max_star=93. If F_1 is centred at a_0 in H_1 (all {a_0,b,c} with {b,c} IS in H_2), then |F_1|<=|I^2(H)|=27. But any {d,e,f} in F_2 (split 2:1) must intersect each {a_0,b,c} in F_1: need d=a_0 or e=a_0 (H_1 part) or f in {b,c} (H_2 part). Since f is one vertex and {b,c} varies over 27 pairs, this forces f to belong to many 2-IS in H_2, which restricts |F_2| severely. The tension between F_1 and F_2 appears to prevent |F| from approaching max_star.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "valid",
+      "checker_feedback": "This is a heuristic non-example report rather than a counterexample. The analysis for r=3, G=C_9 cup C_9 is plausible: |I^2(C_9)|=27, and the tension argument is qualitatively correct. However, the report does not provide an exact bound on |F_2|, so the claim |F_1|+|F_2|<<max_star=93 is not rigorously proved; it is a heuristic. This is fine as a null-result report, but does not constitute a proof that no counterexample exists in this family."
     }
   ],
   "log": [
@@ -1451,6 +1451,11 @@
       "round": 20,
       "agent": "Researcher",
       "summary": "Identified Borg (2012) cross-intersecting EKR as a potential tool for SP-EFF503; confirmed HT for K_{m,n} analytically; R20 all-mixed r=2 result recorded."
+    },
+    {
+      "round": 21,
+      "agent": "Checker",
+      "summary": "Verified PA-75F443 (r=2 all-mixed case for H cup H) as valid and complete for its sub-case; noted DA-68E3BE as a valid heuristic null-result for r=3 in C_9 cup C_9."
     }
   ],
   "round_summaries": [
@@ -1638,6 +1643,12 @@
         "Disprover: No counterexample found; r=3 all-mixed heuristic suggests |F|<<max_star; mu(Petersen)=3 confirmed.",
         "Searcher: Resolved SP-731157 (K_{m,n} bipartite at r=2) and SP-C92337 (mu(Petersen)=3); 38 random n=8 graphs with mu>=4 all satisfy HT.",
         "Researcher: Identified Borg (2012) cross-intersecting EKR as a potential tool for SP-EFF503; confirmed HT for K_{m,n} analytically; R20 all-mixed r=2 result recorded."
+      ]
+    },
+    {
+      "round": 21,
+      "summaries": [
+        "Checker: Verified PA-75F443 (r=2 all-mixed case for H cup H) as valid and complete for its sub-case; noted DA-68E3BE as a valid heuristic null-result for r=3 in C_9 cup C_9."
       ]
     }
   ],
