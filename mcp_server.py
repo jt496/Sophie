@@ -577,13 +577,18 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
         notes=parsed.get("notes", ""),
         summary=parsed.get("summary", ""),
     )
-    kb.log(kb.rounds_completed, "Formalizer", parsed.get("summary", ""))
+    summary = parsed.get("summary", "")
+    fml_round = kb.rounds_completed + 1
+    kb.log(fml_round, "Formalizer", summary)
+    kb.log_round_summary(fml_round, [f"Formalizer: {summary}"])
+    kb.increment_round()
     _set_current_session(session_id)
 
     return json.dumps({
         "formalization_id": fid,
+        "round": fml_round,
         "lean_file": file_written,
-        "summary": parsed.get("summary", ""),
+        "summary": summary,
         "confidence": parsed.get("confidence", "partial"),
         "sorry_count": len(parsed.get("sorries", [])),
         "next_step": f"Use get_session_status('{session_id}') to see the full formalization.",

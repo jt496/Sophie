@@ -110,25 +110,40 @@ class Conductor:
             return ["Experimenter", "Prover", "Disprover", "Checker"]
 
         agents: List[str] = []
+        no_proof = not self.kb.valid_proof_exists()
+        no_disproof = not self.kb.valid_disproof_exists()
+        stagnating = self.kb.no_progress_rounds > 0
 
+        # Checker: always if there is unverified work
         if self.kb.unchecked_proofs() or self.kb.unchecked_disproofs():
             agents.append("Checker")
 
-        if not self.kb.valid_proof_exists():
-            if "Experimenter" not in agents:
-                agents.append("Experimenter")
+        if no_proof:
             agents.append("Prover")
 
-        if not self.kb.valid_disproof_exists():
+        if no_disproof:
             agents.append("Disprover")
-            # Alternate Searcher and Researcher every other round
-            if round_ % 2 == 0:
-                agents.append("Searcher")
-            else:
-                agents.append("Researcher")
+
+        # Experimenter: exploration phase (rounds 2–4), then every 4th round,
+        # or when stagnating (fresh examples can unblock a stuck session)
+        if (no_proof or no_disproof) and (round_ <= 4 or round_ % 4 == 0 or stagnating):
+            agents.append("Experimenter")
+
+        # Searcher: every even round — cheap computational search pairs well with Prover
+        if (no_proof or no_disproof) and round_ % 2 == 0:
+            agents.append("Searcher")
+
+        # Researcher: round 3 for initial literature survey, then every 6th round,
+        # or when the session has made no progress for 2+ consecutive rounds
+        if (no_proof or no_disproof) and (
+            round_ == 3
+            or (round_ > 3 and (round_ - 3) % 6 == 0)
+            or self.kb.no_progress_rounds >= 2
+        ):
+            agents.append("Researcher")
 
         if not agents:
-            agents = ["Experimenter", "Prover", "Disprover", "Searcher", "Researcher"]
+            agents = ["Prover", "Disprover", "Checker", "Researcher"]
 
         return agents
 

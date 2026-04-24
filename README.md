@@ -40,9 +40,9 @@ The MCP server handles only state management and prompt construction.
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
 | **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
 | **Searcher** | Writes and executes Python code (networkx, sympy, itertools, etc.) to brute-force search for counterexamples. |
-| **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Alternates with the Searcher from round 2 onward (Researcher on odd rounds, Searcher on even rounds). |
+| **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
-| **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Never scheduled automatically — call `get_formalization_task` explicitly. |
+| **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Each formalization is recorded as its own round in the session timeline. Never scheduled automatically — call `get_formalization_task` explicitly. |
 
 ### Knowledge Base
 
