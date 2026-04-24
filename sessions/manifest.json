@@ -4,7 +4,7 @@
     "session_id": "20260423_151851_carmichael-s-totient-function-conjecture",
     "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
     "status": "open",
-    "rounds_completed": 6,
+    "rounds_completed": 8,
     "current": true
   },
   {
