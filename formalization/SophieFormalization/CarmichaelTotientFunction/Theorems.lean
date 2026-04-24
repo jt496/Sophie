@@ -7,10 +7,15 @@
   and φ(m) = φ(n).  Equivalently, no totient value is achieved exactly once.
 
   Proved here (sorry-free):
-    Case 1 — n odd            : partner m = 2 * n
-    Case 2 — n ≡ 2 (mod 4)   : partner m = n / 2
-    Case 3 — n = 2^a, a ≥ 2  : partner m = 3 * 2^(a-1)
+    Case 1 — n odd                            : partner m = 2 * n
+    Case 2 — n ≡ 2 (mod 4)                   : partner m = n / 2
+    Case 3 — n = 2^a, a ≥ 2                  : partner m = 3 * 2^(a-1)
     Case 4a— n = 2^a * q, a ≥ 2, q odd, 3 ∤ q : partner m = 3 * 2^(a-1) * q
+    Case 4b— n = 2^a * 3 * r, a ≥ 1, gcd(r,6)=1 : partner m = 2^(a+1) * r
+    Case 5 — n = 2^a * 3^b * s, a,b ≥ 2, 7 ∤ s : partner m = 7 * 2^(a-1) * 3^(b-1) * s
+    Case 6 — n = 2^a * 3^b * 7 * s            : partner m = 2^(a+1) * 3^(b+1) * s
+    Case 7 — n = 2^a * 3^b * 7^2 * s, 43 ∤ s  : partner m = 43 * 2^a * 3^b * s
+    Case Gen— n = 2^a * 3^b * 7^c * s, 43 ∤ s : partner m = 43 * 2^(a-1) * 3^(b-1) * 7^(c-1) * s
 -/
 
 import Mathlib
@@ -157,7 +162,7 @@ theorem carmichael_case_4b (a r : ℕ) (ha : 1 ≤ a) (hr_coprime : Nat.gcd r 6 
   have hcop_2a1_r : Nat.Coprime (2^(a+1)) r := Nat.Coprime.pow_left (a+1) hcop2_symm
   have hcop_2a3_r : Nat.Coprime (2^a * 3) r := Nat.Coprime.mul_left (Nat.Coprime.pow_left a hcop2_symm) hcop3_symm
   have hcop_2a_3 : Nat.Coprime (2^a) 3 := Nat.Coprime.pow_left a (by decide : Nat.Coprime 2 3)
-  
+
   constructor
   · have h1 : totient m = 2^a * totient r := by
       dsimp [m]
@@ -178,6 +183,78 @@ theorem carmichael_case_4b (a r : ℕ) (ha : 1 ≤ a) (hr_coprime : Nat.gcd r 6 
     have h_cancel : 2 = 3 := Nat.eq_of_mul_eq_mul_right (by positivity) h_eq2
     contradiction
 
+theorem carmichael_case_5 (a b s : ℕ) (ha : 2 ≤ a) (hb : 2 ≤ b) (hs_coprime : Nat.gcd s 42 = 1) :
+  let n := 2^a * 3^b * s
+  let m := 7 * 2^(a-1) * 3^(b-1) * s
+  totient m = totient n ∧ m ≠ n := by
+  intro n m
+  have h_pos_s : s > 0 := by
+    by_contra h; have h0 : s = 0 := by omega;
+    subst h0; simp at hs_coprime
+  have hcop42 : Nat.Coprime s 42 := hs_coprime
+  have hcop2 : Nat.Coprime s 2 := hcop42.coprime_dvd_right (by decide)
+  have hcop3 : Nat.Coprime s 3 := hcop42.coprime_dvd_right (by decide)
+  have hcop7 : Nat.Coprime s 7 := hcop42.coprime_dvd_right (by decide)
+
+  have h_phi_n : φ n = 2^a * 3^(b-1) * φ s := by
+    dsimp [n]
+    have h1 : Nat.Coprime (2^a * 3^b) s := by
+      apply Nat.Coprime.mul_left
+      · exact (hcop2.pow_right a).symm
+      · exact (hcop3.pow_right b).symm
+    have h2 : Nat.Coprime (2^a) (3^b) := (Nat.Coprime.pow_left a (Nat.Coprime.pow_right b (by decide)))
+    simp only [Nat.totient_mul h1, Nat.totient_mul h2, totient_two_pow a (by omega), totient_three_pow b (by omega)]
+    simp_rw [← mul_assoc]
+    congr
+    rw [← pow_succ]; congr; omega
+
+  have h_phi_m : φ m = 2^a * 3^(b-1) * φ s := by
+    dsimp [m]
+    have h1 : Nat.Coprime (7 * 2^(a-1) * 3^(b-1)) s := by
+      apply Nat.Coprime.mul_left
+      · apply Nat.Coprime.mul_left
+        · exact hcop7.symm
+        · exact (hcop2.pow_right _).symm
+      · exact (hcop3.pow_right _).symm
+    have h2 : Nat.Coprime 7 (2^(a-1) * 3^(b-1)) := by
+      apply Nat.Coprime.mul_right
+      · apply Nat.Coprime.pow_right; decide
+      · apply Nat.Coprime.pow_right; decide
+    have h3 : Nat.Coprime (2^(a-1)) (3^(b-1)) := by
+      apply Nat.Coprime.pow_left; apply Nat.Coprime.pow_right; decide
+    rw [Nat.totient_mul h1]
+    rw [show 7 * 2^(a-1) * 3^(b-1) = 7 * (2^(a-1) * 3^(b-1)) by ring]
+    rw [Nat.totient_mul h2, Nat.totient_mul h3]
+    rw [Nat.totient_prime (by decide : Nat.Prime 7), show (7 - 1) = 6 by rfl]
+    rw [totient_two_pow (a-1) (by omega), totient_three_pow (b-1) (by omega)]
+    have ha11 : a - 1 - 1 = a - 2 := by omega
+    have hb11 : b - 1 - 1 = b - 2 := by omega
+    rw [ha11, hb11]
+    have ha_val : 2^a = 2^(a-2) * 4 := by
+      calc 2^a = 2^((a-2)+2) := by congr; omega
+        _ = 2^(a-2) * 2^2 := by rw [pow_add]
+        _ = 2^(a-2) * 4 := rfl
+    have hb_val : 3^(b-1) = 3^(b-2) * 3 := by
+      calc 3^(b-1) = 3^((b-2)+1) := by congr; omega
+        _ = 3^(b-2) * 3^1 := by rw [pow_add]
+        _ = 3^(b-2) * 3 := rfl
+    rw [ha_val, hb_val]
+    ring
+
+  constructor
+  · rw [h_phi_n, h_phi_m]
+  · intro heq
+    have h_prod_pos : 2^(a-1) * 3^(b-1) * s > 0 := by positivity
+    have h67 : 6 = 7 := Nat.eq_of_mul_eq_mul_right h_prod_pos (by
+      calc 6 * (2^(a-1) * 3^(b-1) * s) = 2 * 3 * 2^(a-1) * 3^(b-1) * s := by ring
+        _ = (2 * 2^(a-1)) * (3 * 3^(b-1)) * s := by ring
+        _ = 2^(a-1+1) * 3^(b-1+1) * s := by ring
+        _ = n := by dsimp [n]; congr <;> omega
+        _ = m := heq.symm
+        _ = 7 * (2^(a-1) * 3^(b-1) * s) := by ring
+    )
+    contradiction
+
 theorem carmichael_case_6 (a b s : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b) (hs_coprime : Nat.gcd s 42 = 1) :
   let n := 2^a * 3^b * 7 * s
   let m := 2^(a+1) * 3^(b+1) * s
@@ -195,7 +272,7 @@ theorem carmichael_case_6 (a b s : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b) (hs_coprim
   have hcop2_symm : Nat.Coprime 2 s := hcop2.symm
   have hcop3_symm : Nat.Coprime 3 s := hcop3.symm
   have hcop7_symm : Nat.Coprime 7 s := hcop7.symm
-  
+
   have hcop2_3 : Nat.Coprime 2 3 := by decide
   have hcop2_7 : Nat.Coprime 2 7 := by decide
   have hcop3_7 : Nat.Coprime 3 7 := by decide
@@ -204,7 +281,7 @@ theorem carmichael_case_6 (a b s : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b) (hs_coprim
   have hcop2a3b_7 : Nat.Coprime (2^a * 3^b) 7 := Nat.Coprime.mul_left (Nat.Coprime.pow_left a hcop2_7) (Nat.Coprime.pow_left b hcop3_7)
   have hcop2a13b1_s : Nat.Coprime (2^(a+1) * 3^(b+1)) s := Nat.Coprime.mul_left (Nat.Coprime.pow_left _ hcop2_symm) (Nat.Coprime.pow_left _ hcop3_symm)
   have hcop2a3b7_s : Nat.Coprime (2^a * 3^b * 7) s := Nat.Coprime.mul_left (Nat.Coprime.mul_left (Nat.Coprime.pow_left _ hcop2_symm) (Nat.Coprime.pow_left _ hcop3_symm)) hcop7_symm
-  
+
   constructor
   · have h1 : totient m = 2^a * (2 * 3^b) * totient s := by
       dsimp [m]
@@ -230,7 +307,7 @@ theorem carmichael_case_6 (a b s : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b) (hs_coprim
     have h_cancel : 6 = 7 := Nat.eq_of_mul_eq_mul_right (by positivity) h_eq2
     contradiction
 
-theorem carmichael_case_7 (a b s : ℕ) (ha : 1 ≤ a) (hs_coprime : Nat.gcd s 42 = 1) (hs43 : ¬ 43 ∣ s) :
+theorem carmichael_case_7 (a b s : ℕ) (hs_coprime : Nat.gcd s 42 = 1) (hs43 : ¬ 43 ∣ s) :
   let n := 2^a * 3^b * 7^2 * s
   let m := 43 * 2^a * 3^b * s
   totient m = totient n ∧ m ≠ n := by
@@ -247,7 +324,7 @@ theorem carmichael_case_7 (a b s : ℕ) (ha : 1 ≤ a) (hs_coprime : Nat.gcd s 4
   have hcop2_symm : Nat.Coprime 2 s := hcop2.symm
   have hcop3_symm : Nat.Coprime 3 s := hcop3.symm
   have hcop7_symm : Nat.Coprime 7 s := hcop7.symm
-  
+
   have hcop2_3 : Nat.Coprime 2 3 := by decide
   have hcop43_2 : Nat.Coprime 43 2 := by decide
   have hcop43_3 : Nat.Coprime 43 3 := by decide
@@ -257,21 +334,21 @@ theorem carmichael_case_7 (a b s : ℕ) (ha : 1 ≤ a) (hs_coprime : Nat.gcd s 4
   have hcop43_s : Nat.Coprime 43 s := (Nat.Prime.coprime_iff_not_dvd (by decide)).mpr hs43
   have hcops_43 : Nat.Coprime s 43 := hcop43_s.symm
   have hcop2a_3b : Nat.Coprime (2^a) (3^b) := Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ hcop2_3)
-  
+
   have hcop432a_3b : Nat.Coprime (43 * 2^a) (3^b) := Nat.Coprime.mul_left hcop43_3b hcop2a_3b
   have hcop432a3b_s : Nat.Coprime (43 * 2^a * 3^b) s := Nat.Coprime.mul_left (Nat.Coprime.mul_left hcop43_s (Nat.Coprime.pow_left _ hcop2_symm)) (Nat.Coprime.pow_left _ hcop3_symm)
-  
+
   have hcop2a3b_72 : Nat.Coprime (2^a * 3^b) (7^2) := by
     have h1 : Nat.Coprime 2 7 := by decide
     have h2 : Nat.Coprime 3 7 := by decide
     exact Nat.Coprime.mul_left (Nat.Coprime.pow_left a (Nat.Coprime.pow_right 2 h1)) (Nat.Coprime.pow_left b (Nat.Coprime.pow_right 2 h2))
-    
+
   have hcop2a3b72_s : Nat.Coprime (2^a * 3^b * 7^2) s := by
     have h1 : Nat.Coprime (2^a) s := Nat.Coprime.pow_left a hcop2_symm
     have h2 : Nat.Coprime (3^b) s := Nat.Coprime.pow_left b hcop3_symm
     have h3 : Nat.Coprime (7^2) s := Nat.Coprime.pow_left 2 hcop7_symm
     exact Nat.Coprime.mul_left (Nat.Coprime.mul_left h1 h2) h3
-    
+
   constructor
   · have h1 : totient m = 42 * totient (2^a) * totient (3^b) * totient s := by
       calc totient m = totient (43 * 2^a * 3^b * s) := rfl
@@ -321,7 +398,7 @@ theorem carmichael_case_general (a b c s : ℕ) (ha : 2 ≤ a) (hb : 2 ≤ b) (h
   have hcop2_symm : Nat.Coprime 2 s := hcop2.symm
   have hcop3_symm : Nat.Coprime 3 s := hcop3.symm
   have hcop7_symm : Nat.Coprime 7 s := hcop7.symm
-  
+
   have hcop2_3 : Nat.Coprime 2 3 := by decide
   have hcop43_2 : Nat.Coprime 43 2 := by decide
   have hcop43_3 : Nat.Coprime 43 3 := by decide
@@ -330,14 +407,14 @@ theorem carmichael_case_general (a b c s : ℕ) (ha : 2 ≤ a) (hb : 2 ≤ b) (h
   have hcop43_3b1 : Nat.Coprime 43 (3^(b-1)) := Nat.Coprime.pow_right _ hcop43_3
   have hcop43_7c1 : Nat.Coprime 43 (7^(c-1)) := Nat.Coprime.pow_right _ hcop43_7
   have hcop43_s : Nat.Coprime 43 s := (Nat.Prime.coprime_iff_not_dvd (by decide)).mpr hs43
-  
+
   have hcop_m_parts_1 : Nat.Coprime (43 * 2^(a-1)) (3^(b-1)) := Nat.Coprime.mul_left hcop43_3b1 (Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ hcop2_3))
   have hcop_m_parts_2 : Nat.Coprime (43 * 2^(a-1) * 3^(b-1)) (7^(c-1)) := by
     have h1 : Nat.Coprime 43 (7^(c-1)) := hcop43_7c1
     have h2 : Nat.Coprime (2^(a-1)) (7^(c-1)) := Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ (by decide : Nat.Coprime 2 7))
     have h3 : Nat.Coprime (3^(b-1)) (7^(c-1)) := Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ (by decide : Nat.Coprime 3 7))
     exact Nat.Coprime.mul_left (Nat.Coprime.mul_left h1 h2) h3
-    
+
   have hcop_m_s : Nat.Coprime (43 * 2^(a-1) * 3^(b-1) * 7^(c-1)) s := by
     have h1 : Nat.Coprime 43 s := hcop43_s
     have h2 : Nat.Coprime (2^(a-1)) s := Nat.Coprime.pow_left _ hcop2_symm
@@ -350,7 +427,7 @@ theorem carmichael_case_general (a b c s : ℕ) (ha : 2 ≤ a) (hb : 2 ≤ b) (h
     have h2 : Nat.Coprime (2^a) (7^c) := Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ (by decide : Nat.Coprime 2 7))
     have h3 : Nat.Coprime (3^b) (7^c) := Nat.Coprime.pow_left _ (Nat.Coprime.pow_right _ (by decide : Nat.Coprime 3 7))
     exact Nat.Coprime.mul_left h2 h3
-    
+
   have hcop_n_s : Nat.Coprime (2^a * 3^b * 7^c) s := by
     have h2 : Nat.Coprime (2^a) s := Nat.Coprime.pow_left _ hcop2_symm
     have h3 : Nat.Coprime (3^b) s := Nat.Coprime.pow_left _ hcop3_symm
