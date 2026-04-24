@@ -2,9 +2,9 @@
   "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of Euler's totient function is achieved exactly once.",
   "session_id": "20260424_074341_carmichael-s-totient-function-conjecture",
   "status": "open",
-  "rounds_completed": 2,
+  "rounds_completed": 3,
   "no_progress_rounds": 0,
-  "prev_snapshot_hash": -3171998674735123737,
+  "prev_snapshot_hash": -9111881355692302560,
   "facts": [],
   "subproblems": [
     {
@@ -202,8 +202,8 @@
       "id": "PA-2793CB",
       "round": 2,
       "sketch": "Building on Round 1 (Cases 1, 2, 3 proven), we now prove the conjecture for nearly all n=2^a\u00b7m (a\u22652, m odd, m>1).\n\n**Key Lemma**: For any odd k with 3\u2224k: \u03c6(3k)=\u03c6(4k).\nProof: \u03c6(3k)=\u03c6(3)\u03c6(k)=2\u03c6(k) (gcd(3,k)=1); \u03c6(4k)=\u03c6(4)\u03c6(k)=2\u03c6(k) (k odd). \u2713\n\n**General Case A (a\u22652, v_3(k)=0)**: n=2^a\u00b7k, k odd, 3\u2224k. Set n'=3\u00b72^(a-1)\u00b7k. Then \u03c6(n')=2\u00b72^(a-2)\u00b7\u03c6(k)=2^(a-1)\u03c6(k)=\u03c6(n). And 3\u00b72^(a-1)\u22602^a (since 3\u22602). \u2713\n\n**Case B (a\u22652, v_3(k)=1)**: k=3j, j odd, 3\u2224j. \u03c6(k)=2\u03c6(j). Set n'=2^(a+1)\u00b7j. \u03c6(n')=2^a\u00b7\u03c6(j)=2^(a-1)\u00b72\u03c6(j)=\u03c6(n). And 2^(a+1)\u00b7j\u22602^a\u00b73j (would require 2j=3j, i.e., j=0). \u2713\n\n**Case C (a\u22652, v_3(k)=2)**: k=9j, j odd, 3\u2224j. \u03c6(k)=6\u03c6(j). Use the identity \u03c6(7)=\u03c6(9)=6. If 7\u2224j: set n'=2^a\u00b77j. \u03c6(n')=2^(a-1)\u00b76\u00b7\u03c6(j)=\u03c6(n). \u2713 If 7|j: [UNVERIFIED sub-case; need a prime q\u22607 with \u03c6(q)=6; but \u03c6(q)=6 for prime q requires q-1=6, q=7. No other prime. Fallback: use \u03c6(14)=6 or try composite \u2014 but this case requires more work.]\n\n**Theorem SP-5BC5F6 (proved)**: For every odd prime p, \u03c6(4p)=2(p-1) has a second preimage.\nProof: If p\u22603: Case A with k=p gives n'=3p, \u03c6(3p)=2(p-1)=\u03c6(4p), 3p\u22604p. \u2713 If p=3: \u03c6(12)=4=\u03c6(5), n'=5. \u2713\n\n**SP-744B81 (mostly proved)**: For distinct odd primes p<q: if neither is 3, \u03c6(3pq)=2(p-1)(q-1)=\u03c6(4pq), 3pq\u22604pq. \u2713 If p=3, q\u22605: \u03c6(5q)=4(q-1)=\u03c6(12q). \u2713 If p=3, q=5: \u03c6(60)=16=\u03c6(32). \u2713\n\n**Summary**: Conjecture now proven for all n with v_2(n)\u22641, all pure powers of 2, all n=2^a\u00b7k (a\u22652, 3\u2224k), all n=2^a\u00b73k (a\u22652, 3\u2224k), and all n=4p (p prime) and n=4pq (distinct odd primes). Remaining open: n=2^a\u00b79j with 7|j, and n=2^a\u00b73^s\u00b7j with s\u22653.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "valid",
+      "checker_feedback": "The proof is largely valid with well-structured cases, but contains one admitted gap.\n\n**Key Lemma** (\u03c6(3k)=\u03c6(4k) for odd k, 3\u2224k): Valid. Both sides equal 2\u03c6(k): \u03c6(3k)=\u03c6(3)\u03c6(k)=2\u03c6(k) since gcd(3,k)=1; \u03c6(4k)=\u03c6(4)\u03c6(k)=2\u03c6(k) since k odd implies gcd(4,k)=1. \u2713\n\n**Case A** (a\u22652, v\u2083(k)=0): Valid. n\u2032=3\u00b72^(a\u22121)\u00b7k. The three factors are pairwise coprime: k is odd so gcd(2^(a\u22121),k)=1; 3\u2224k and 3\u22242 so gcd(3,2^(a\u22121)k)=1. \u03c6(n\u2032)=2\u00b72^(a\u22122)\u00b7\u03c6(k)=2^(a\u22121)\u03c6(k)=\u03c6(n). n\u2032\u2260n since 3\u22602. \u2713\n\n**Case B** (a\u22652, v\u2083(k)=1, k=3j): Valid. n\u2032=2^(a+1)\u00b7j. \u03c6(n)=2^(a\u22121)\u00b7\u03c6(3)\u00b7\u03c6(j)=2^a\u00b7\u03c6(j)=\u03c6(n\u2032). Distinctness: 2^a\u00b73j=2^(a+1)\u00b7j would require 3j=2j hence j=0, but j\u22651 since m=3j>1. \u2713\n\n**Case C (7\u2224j)** (v\u2083(k)=2, k=9j, 3\u2224j, 7\u2224j): Valid. n\u2032=2^a\u00b77j. Since 7\u2224j, \u03c6(7j)=6\u03c6(j). \u03c6(n\u2032)=2^(a\u22121)\u00b76\u03c6(j)=\u03c6(n). n\u2032\u2260n since 7\u22609. \u2713\n\n**Case C (7|j)** (v\u2083(k)=2, k=9j, 3\u2224j, 7|j): UNVERIFIED \u2014 admitted gap. The prover correctly notes no prime q\u22607 satisfies \u03c6(q)=6, since \u03c6(q)=q\u22121=6 implies q=7 uniquely. No valid fallback is provided. This sub-case remains open.\n\n**SP-5BC5F6**: Valid. p=2: \u03c6(8)=4=\u03c6(5) \u2713; p=3: \u03c6(12)=4=\u03c6(5) \u2713; p\u22655 odd prime \u22603: Key Lemma applies with k=p (p odd, 3\u2224p), giving \u03c6(3p)=\u03c6(4p) with 3p\u22604p. \u2713\n\n**SP-744B81**: Valid for all three sub-cases. (i) p,q\u22603: gcd(3,pq)=1 so \u03c6(3pq)=2(p\u22121)(q\u22121)=\u03c6(4pq). (ii) p=3, q\u22605: \u03c6(5q)=4(q\u22121)=\u03c6(12q), gcd(5,q)=1 since q\u22605. (iii) p=3, q=5: \u03c6(60)=16=\u03c6(32) verified directly. \u2713\n\n**Coverage summary**: Conjecture now proven for all n with v\u2082(n)\u22641, all n=2^a (pure powers of 2), all n=2^a\u00b7k (a\u22652, 3\u2224k), all n=2^a\u00b73k (a\u22652, 3\u2224k), all n=4p (prime p), all n=4pq (distinct odd primes). Remaining open: n=2^a\u00b79j with j odd, 3\u2224j, 7|j; and n=2^a\u00b73^s\u00b7j with s\u22653."
     }
   ],
   "disproof_attempts": [
@@ -218,8 +218,8 @@
       "id": "DA-25A9F5",
       "round": 2,
       "candidate_counterexample": "No counterexample found. The Prover's Key Lemma (\u03c6(3k)=\u03c6(4k) for 3\u2224k) eliminates almost all hard cases. Computational search to n=100000 found zero unique-\u03c6 cases among 24985 hard-case n.\n\nBest remaining candidate territory: n=2^a\u00b79\u00b77l where 7|j in the v_3(k)=2 sub-case, and n=2^a\u00b781\u00b7j for s=4. Example tested: n=4\u00b79\u00b77=252: \u03c6(252)=\u03c6(4\u00b79\u00b77)=2\u00b76\u00b76=72. \u03c6(73)=72 (73 prime). \u2713 Second preimage exists. n=4\u00b781\u00b77=2268: \u03c6(2268)=2\u00b754\u00b76=648. Computation shows preimage_count[648] has multiple elements. \u2713 Not a counterexample.",
-      "status": "unchecked",
-      "checker_feedback": null
+      "status": "valid",
+      "checker_feedback": "The computational negative result is correctly reported. Specific computations verified: \u03c6(252)=\u03c6(4)\u00b7\u03c6(9)\u00b7\u03c6(7)=2\u00b76\u00b76=72=\u03c6(73) \u2713 (73 is prime); \u03c6(2268)=\u03c6(4)\u00b7\u03c6(81)\u00b7\u03c6(7)=2\u00b754\u00b76=648 has multiple preimages \u2713. The identification of open territory (7|j sub-case) is consistent with PA-2793CB's admitted gap. The zero-counterexample result across 24,985 hard-case n up to 100,000 strongly supports the conjecture but does not prove it."
     }
   ],
   "formalization_attempts": [
@@ -285,6 +285,11 @@
       "round": 2,
       "agent": "Searcher",
       "summary": "Searched 100000 cases with 24985 hard-case n=2^a\u00b7m (a\u22652, m odd>1): zero counterexamples; SP-5BC5F6, SP-EF38A0, and SP-744B81 all pass computational verification. Near-misses: ['Totient values with exactly 1 odd preimage (e.g., \u03c6=10: only odd preimage is 11) are structurally interesting but not counterexamples \u2014 even preimages (22, etc.) exist.']."
+    },
+    {
+      "round": 3,
+      "agent": "Checker",
+      "summary": "Verified PA-2793CB as valid (Cases A, B, C with 7\u2224j, SP-5BC5F6, SP-744B81 all correct) with one admitted gap in Case C when 7|j; DA-25A9F5 correctly reports no counterexample up to 100,000."
     }
   ],
   "round_summaries": [
@@ -305,6 +310,12 @@
         "Prover: Key Lemma \u03c6(3k)=\u03c6(4k) for 3\u2224k proves the conjecture for all n=2^a\u00b7k (a\u22652, v_3(k)=0), Case B handles v_3(k)=1, and SP-5BC5F6 is completely proved; remaining open core is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions.",
         "Disprover: No counterexample candidate; the open core after Round 2 is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions, particularly s=2 with 7|j and s=4 where the prime-substitution strategy fails.",
         "Searcher: Searched 100000 cases with 24985 hard-case n=2^a\u00b7m (a\u22652, m odd>1): zero counterexamples; SP-5BC5F6, SP-EF38A0, and SP-744B81 all pass computational verification. Near-misses: ['Totient values with exactly 1 odd preimage (e.g., \u03c6=10: only odd preimage is 11) are structurally interesting but not counterexamples \u2014 even preimages (22, etc.) exist.']."
+      ]
+    },
+    {
+      "round": 3,
+      "summaries": [
+        "Checker: Verified PA-2793CB as valid (Cases A, B, C with 7\u2224j, SP-5BC5F6, SP-744B81 all correct) with one admitted gap in Case C when 7|j; DA-25A9F5 correctly reports no counterexample up to 100,000."
       ]
     }
   ]
