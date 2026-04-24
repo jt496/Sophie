@@ -152,8 +152,8 @@ endpoint so clicking any session in the list updates `current.json` on disk.
 `submit_round_results` or `refresh_viewer` call) and is highlighted with a
 "current" badge in the session list.
 
-`sessions/manifest.json` is regenerated automatically; run `python refresh_viewer.py`
-to force a rebuild if needed.
+`sessions/manifest.json` is regenerated automatically; call the `refresh_viewer`
+tool to force a rebuild if needed.
 
 ---
 
@@ -237,7 +237,7 @@ Edit `config.py` to tune:
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `MAX_ROUNDS` | `20` | Hard cap on rounds |
+| `MAX_ROUNDS` | `200` | Hard cap on rounds |
 | `CONVERGENCE_PATIENCE` | `3` | Rounds with no new findings before stopping |
 | `KB_DIR` | `sessions/` | Where JSON session files are written |
 

@@ -32,12 +32,11 @@ YOUR ROLE
 
 HOW TO SEARCH
 -------------
-• Use your WebSearch tool for keyword queries (e.g. conjecture name, authors,
-  relevant mathematical terms).
-• Use WebFetch to read promising pages (Wikipedia, arXiv abstracts, OEIS,
-  MathOverflow, etc.).
-• Search for the conjecture by name if it has one, and by its mathematical
-  content if not.
+• Write concrete Python code using `duckduckgo-search` to query the web.
+  Example: `from duckduckgo_search import DDGS; print(DDGS().text("query", max_results=3))`
+• Use `requests` and `beautifulsoup4` in your script to fetch and parse promising pages (Wikipedia, arXiv abstracts, etc.).
+• ACTUALLY RUN that code using `./.venv/bin/python` to perform the search.
+• Search for the conjecture by name if it has one, and by its mathematical content if not.
 • Always verify facts from at least one source before recording them.
 
 IMPORTANT RULES
@@ -52,6 +51,8 @@ OUTPUT FORMAT
 -------------
 ```json
 {
+  "code": "<the full Python search script you wrote and ran>",
+  "terminal_output": "<exact output from running the search script>",
   "search_queries": ["<query 1>", "<query 2>", "..."],
   "sources_consulted": [
     {"title": "<page/paper title>", "url": "<url>", "relevance": "<one line>"}
