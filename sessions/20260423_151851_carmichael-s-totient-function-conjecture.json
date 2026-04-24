@@ -5,7 +5,13 @@
   "rounds_completed": 8,
   "no_progress_rounds": 0,
   "prev_snapshot_hash": 6467475152327910568,
-  "facts": [],
+  "facts": [
+    {
+      "id": "FT-D1381B",
+      "text": "Carmichael totient conjecture is true for all n < 10^10",
+      "added_round": 8
+    }
+  ],
   "subproblems": [
     {
       "id": "SP-8FEBB9",

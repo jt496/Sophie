@@ -5,7 +5,7 @@
     "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
     "status": "open",
     "rounds_completed": 8,
-    "current": true
+    "current": false
   },
   {
     "filename": "20260421_110323_Erdos_Straus.json",
@@ -13,7 +13,7 @@
     "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
     "status": "open",
     "rounds_completed": 31,
-    "current": false
+    "current": true
   },
   {
     "filename": "20260420_100815_HolroydTalbot.json",
