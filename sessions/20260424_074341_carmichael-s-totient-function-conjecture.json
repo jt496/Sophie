@@ -1,0 +1,311 @@
+{
+  "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of Euler's totient function is achieved exactly once.",
+  "session_id": "20260424_074341_carmichael-s-totient-function-conjecture",
+  "status": "open",
+  "rounds_completed": 2,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": -3171998674735123737,
+  "facts": [],
+  "subproblems": [
+    {
+      "id": "SP-3AA73E",
+      "description": "Prove the conjecture for all n \u2261 0 (mod 4): find a second preimage of \u03c6(n) whenever 4 | n",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-151BA9",
+      "description": "For n = 2^a \u00b7 m with a >= 2 and m > 1 odd, show \u03c6(n) always has a second preimage",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-D139C5",
+      "description": "Characterise which even totient values k have exactly how many odd preimages; does every even k have >= 2 preimages total?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-F3356B",
+      "description": "Is there a known upper bound on the minimal n such that \u03c6(n) = v for any even v that is a totient value?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-5BC5F6",
+      "description": "For n = 4p (p an odd prime), show \u03c6(4p) = 2(p\u22121) always has a second preimage",
+      "source_agent": "Prover",
+      "status": "resolved",
+      "resolution": "Computationally verified: no prime p<10000 yields unique \u03c6-preimage for \u03c6(4p). Confirms the Prover's theorem."
+    },
+    {
+      "id": "SP-744B81",
+      "description": "For n = 4pq (p < q distinct odd primes), show \u03c6(4pq) = 2(p\u22121)(q\u22121) always has a second preimage",
+      "source_agent": "Prover",
+      "status": "resolved",
+      "resolution": "Verified for p<50, q<200: no unique \u03c6-preimage for n=4pq."
+    },
+    {
+      "id": "SP-4126D9",
+      "description": "Show that for any even number k = 2^(a-1) \u00b7 \u03c6(m) (a >= 2, m odd > 1), there exist at least 2 integers with totient k",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C4313F",
+      "description": "Can we show that for any n = 4p (p prime), the value 2(p\u22121) is always achieved by some m \u2260 4p? (This would close a natural sub-family of the hard case.)",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Proved as corollary of SP-5BC5F6 proof."
+    },
+    {
+      "id": "SP-EF38A0",
+      "description": "Is there a prime p such that 2(p\u22121) has a unique preimage under \u03c6?",
+      "source_agent": "Disprover",
+      "status": "resolved",
+      "resolution": "Resolved: no prime p<10000 has 2(p-1) with unique \u03c6-preimage."
+    },
+    {
+      "id": "SP-A98589",
+      "description": "For n=4\u00b79j with 7|j (write j=7l): show \u03c6(36\u00b77l)=\u03c6(252l) has a second preimage \u2014 the 7\u21949 pairing breaks",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-4AEC9B",
+      "description": "For n=2^a\u00b73^s\u00b7j (s\u22652, a\u22652, j odd, 3\u2224j): for each s, find a prime q with \u03c6(q)=\u03c6(3^s) \u2014 s=2\u2192q=7, s=3\u2192q=19, s=4\u2192q=55 not prime (need composite or different approach)",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-4A527E",
+      "description": "Verify computationally: for all n=2^a\u00b73^s\u00b7j with s\u22653 and n\u226410^7, does \u03c6(n) always have \u22652 preimages?",
+      "source_agent": "Experimenter",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-1C1F1B",
+      "description": "For n=2^a\u00b79\u00b77l (a\u22652, l odd, 3\u2224l, 7\u2224l): show \u03c6(2^a\u00b763l) has a second preimage using a composite substitute for the 9\u21947 pairing",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-941C50",
+      "description": "For s=4: \u03c6(81)=54. Preimages of 54 are {81,162} only. Show n=2^a\u00b781j always has a second preimage despite the lack of a prime q with \u03c6(q)=54.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-AB8019",
+      "description": "For v_3(k)=2 with 7|j: can we use a composite substitute, e.g., \u03c6(14)=6? Then n=2^a\u00b79\u00b714l=2^(a+1)\u00b763l: \u03c6=2^a\u00b7\u03c6(63)\u00b7\u03c6(l)=2^a\u00b736\u00b7\u03c6(l) \u2260 2^(a-1)\u00b736\u00b7\u03c6(j) \u2014 does not match. Alternative: use \u03c6(2^3)=4\u22606. No simple fix.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-8882E7",
+      "description": "For s=4: can we show 2^a\u00b781j always pairs with 2^(a+1)\u00b781\u00b7(j/something)? The pair (81, 162) gives \u03c6(81)=\u03c6(162)=54, but 2^a\u00b781j and 2^a\u00b7162j=2^(a+1)\u00b781j have different totients (differing by factor 2).",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-A1F1CD",
+      "description": "Verify computationally all n=2^a\u00b73^s\u00b7j with s\u22653, a\u22652, j odd, 3\u2224j up to n\u226410^7",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-DC0BE1",
+      "description": "For each prime p<10000, confirm that the second preimage of 2(p-1) is always 3p (for p\u22603) \u2014 i.e., verify the Prover's Key Lemma pairing directly",
+      "source_agent": "Searcher",
+      "status": "open",
+      "resolution": null
+    }
+  ],
+  "examples": [
+    {
+      "id": "EX-199903",
+      "description": "Totient table for n = 1..20 showing every achieved value has >= 2 preimages",
+      "supports_conjecture": true,
+      "detail": "\u03c6(1)=1, \u03c6(2)=1; \u03c6(3)=2, \u03c6(4)=2, \u03c6(6)=2; \u03c6(5)=4, \u03c6(8)=4, \u03c6(10)=4, \u03c6(12)=4; \u03c6(7)=6, \u03c6(9)=6, \u03c6(14)=6, \u03c6(18)=6; \u03c6(11)=10, \u03c6(22)=10; \u03c6(15)=8, \u03c6(16)=8, \u03c6(20)=8, \u03c6(24)=8, \u03c6(30)=8. Every value in this range appears at least twice."
+    },
+    {
+      "id": "EX-72865F",
+      "description": "Odd-prime pairing: \u03c6(p) = \u03c6(2p) for every odd prime p",
+      "supports_conjecture": true,
+      "detail": "For odd prime p, \u03c6(p) = p\u22121. Since gcd(2,p)=1, \u03c6(2p) = \u03c6(2)\u00b7\u03c6(p) = 1\u00b7(p\u22121) = p\u22121. Examples: \u03c6(3)=\u03c6(6)=2, \u03c6(5)=\u03c6(10)=4, \u03c6(7)=\u03c6(14)=6, \u03c6(11)=\u03c6(22)=10, \u03c6(13)=\u03c6(26)=12, \u03c6(17)=\u03c6(34)=16, \u03c6(19)=\u03c6(38)=18."
+    },
+    {
+      "id": "EX-EBFED5",
+      "description": "Power-of-2 pairing: \u03c6(2^k) = \u03c6(3\u00b72^(k-1)) for every k >= 1",
+      "supports_conjecture": true,
+      "detail": "\u03c6(2^k) = 2^(k\u22121). And \u03c6(3\u00b72^(k\u22121)) = \u03c6(3)\u00b7\u03c6(2^(k\u22121)) = 2\u00b72^(k\u22122) = 2^(k\u22121). Examples: \u03c6(2)=1=\u03c6(1)... wait \u03c6(1)=1=\u03c6(2): pair (1,2). \u03c6(4)=2=\u03c6(6), \u03c6(8)=4=\u03c6(12), \u03c6(16)=8=\u03c6(24), \u03c6(32)=16=\u03c6(48). And 3\u00b72^(k\u22121) \u2260 2^k for all k since 3 \u2260 2."
+    },
+    {
+      "id": "EX-FBBCC8",
+      "description": "n \u2261 2 (mod 4) always pairs with n/2: \u03c6(2m) = \u03c6(m) for odd m",
+      "supports_conjecture": true,
+      "detail": "If n = 2m with m odd, gcd(2,m)=1 so \u03c6(2m) = \u03c6(2)\u00b7\u03c6(m) = \u03c6(m). Thus every n \u2261 2 (mod 4) shares its totient with the odd number n/2. Examples: \u03c6(6)=\u03c6(3)=2, \u03c6(10)=\u03c6(5)=4, \u03c6(14)=\u03c6(7)=6, \u03c6(22)=\u03c6(11)=10, \u03c6(26)=\u03c6(13)=12."
+    },
+    {
+      "id": "EX-D4CB46",
+      "description": "n=4p (p prime, p\u22603): pairing with 3p shows \u03c6(3p)=\u03c6(4p) for all such p",
+      "supports_conjecture": true,
+      "detail": "For odd prime p\u22603: \u03c6(3p)=\u03c6(3)\u03c6(p)=2(p-1) and \u03c6(4p)=\u03c6(4)\u03c6(p)=2(p-1). Equal, and 3p\u22604p. Verified: p=5: \u03c6(15)=8=\u03c6(20). p=7: \u03c6(21)=12=\u03c6(28). p=11: \u03c6(33)=20=\u03c6(44). p=13: \u03c6(39)=24=\u03c6(52). p=17: \u03c6(51)=32=\u03c6(68). For p=3: \u03c6(12)=4=\u03c6(5). Every prime p is covered."
+    },
+    {
+      "id": "EX-22966A",
+      "description": "n=12j (j odd, 3\u2224j): pairing with 8j \u2014 \u03c6(12j)=\u03c6(8j)=4\u03c6(j)",
+      "supports_conjecture": true,
+      "detail": "\u03c6(12j)=\u03c6(12)\u03c6(j)=4\u03c6(j) and \u03c6(8j)=\u03c6(8)\u03c6(j)=4\u03c6(j) when j odd and gcd(j,6)=1. Equal, and 8j\u226012j (since 8\u226012). Verified: j=1: \u03c6(12)=4=\u03c6(8). j=5: \u03c6(60)=16=\u03c6(40). j=7: \u03c6(84)=24=\u03c6(56). j=11: \u03c6(132)=40=\u03c6(88). This handles all n=4\u00b73j with 3\u2224j."
+    },
+    {
+      "id": "EX-0A5B1A",
+      "description": "n=36j (j odd, 3\u2224j, 7\u2224j): pairing with 28j using \u03c6(7)=\u03c6(9)=6",
+      "supports_conjecture": true,
+      "detail": "\u03c6(36j)=\u03c6(4)\u03c6(9)\u03c6(j)=2\u00b76\u00b7\u03c6(j)=12\u03c6(j) and \u03c6(28j)=\u03c6(4)\u03c6(7)\u03c6(j)=2\u00b76\u00b7\u03c6(j)=12\u03c6(j). Equal, 28j\u226036j. Verified: j=1: \u03c6(36)=12=\u03c6(28). j=5: \u03c6(180)=48=\u03c6(140). j=11: \u03c6(396)=120=\u03c6(308). j=13: \u03c6(468)=144=\u03c6(364). Fails only when 7|j; need different prime then."
+    },
+    {
+      "id": "EX-343845",
+      "description": "Computational search: zero hard-case counterexamples found to n=100000",
+      "supports_conjecture": true,
+      "detail": "Searched all n=2^a\u00b7m (a\u22652, m odd>1) up to 100000: 24985 such n. For each, checked whether \u03c6(n) has a unique preimage within {1..100000}. Result: 0 such n found. Also: n=4p for all primes p<10000 (1228 cases): 0 unique \u03c6-preimages. n=4pq for p<50, q<200 prime: 0 unique. The 5202 apparent 'unique preimage' cases in the full range are all boundary effects \u2014 primes p near 50000 whose partner 2p exceeds 100000."
+    },
+    {
+      "id": "EX-621BA2",
+      "description": "[Searcher r2] All n=1..100000; 24985 hard-case n=2^a\u00b7m (a\u22652, m odd>1); n=4p for 1228 primes p<10000; n=4pq for p<50, q<200 prime. The ",
+      "supports_conjecture": true,
+      "detail": "Code:\nfrom sympy import totient, isprime\nfrom collections import defaultdict\n\nlimit = 100000\nphi_values = {}\npreimage_count = defaultdict(list)\nfor n in range(1, limit + 1):\n    phi_n = totient(n)\n    phi_values[n] = phi_n\n    preimage_count[phi_n].append(n)\n\nunique_preimage = {k: v for k, v in preimage_count.items() if len(v) == 1}\nprint(f'Totient values with exactly 1 preimage (n<={limit}): {len(unique_preimage)}')\n\ndef odd_part(n):\n    while n % 2 == 0: n //= 2\n    return n\n\nhard_n = [n for n in ra\n\nOutput:\nTotient values with exactly 1 preimage (n<=100000): 5202\nHard case count: 24985, with unique preimage: []\nSP-5BC5F6: no unique phi-preimage for n=4p, p prime < 10000\nSP-EF38A0: no prime p<10000 with unique 2(p-1) preimage"
+    }
+  ],
+  "proof_attempts": [
+    {
+      "id": "PA-D3C692",
+      "round": 1,
+      "sketch": "We reduce the conjecture to a single hard residual case. Write every positive integer n uniquely as n = 2^a \u00b7 m with a >= 0 and m odd.\n\n**Case 1: a = 0 (n odd, n >= 1).**\nSince gcd(2, n) = 1, we have \u03c6(2n) = \u03c6(2)\u03c6(n) = \u03c6(n), and 2n \u2260 n. So n and 2n achieve the same totient value. \u2713\n\n**Case 2: a = 1 (n \u2261 2 mod 4, n = 2m, m odd).**\nSame multiplicativity: \u03c6(2m) = \u03c6(2)\u03c6(m) = \u03c6(m), and m \u2260 2m. \u2713\n\n**Case 3: a >= 2, m = 1 (n a power of 2, n = 2^a).**\n\u03c6(2^a) = 2^(a-1). Set n' = 3 \u00b7 2^(a-1). Then gcd(3, 2^(a-1)) = 1 so \u03c6(n') = \u03c6(3)\u03c6(2^(a-1)) = 2 \u00b7 2^(a-2) = 2^(a-1). Since n' = 3 \u00b7 2^(a-1) \u2260 2^a (as 3 \u2260 2), we have \u03c6(n') = \u03c6(n) with n' \u2260 n. \u2713\n\n**Residual case: a >= 2, m > 1 odd (n = 2^a m, m odd, m > 1).**\nHere \u03c6(n) = 2^(a-1)\u03c6(m). This is the genuinely hard case. No uniform elementary construction is known.\n\nPartial sub-result: if \u03c6(m) is achieved by two distinct odd numbers m1 \u2260 m2, then \u03c6(2^a m1) = \u03c6(2^a m2) = 2^(a-1)\u03c6(m) and these two numbers are distinct. So it suffices to show \u03c6(m) has a second odd preimage. [UNVERIFIED in general]\n\n**Summary**: The conjecture holds for all n with v_2(n) \u2264 1 and for all pure powers of 2. The open core is: for every n = 2^a m with a >= 2 and m > 1 odd, find n' \u2260 n with \u03c6(n') = 2^(a-1)\u03c6(m).",
+      "status": "valid",
+      "checker_feedback": "Case 1 (n odd): \u03c6(2n)=\u03c6(2)\u03c6(n)=\u03c6(n) by multiplicativity (gcd(2,n)=1 for odd n). 2n\u2260n trivially. \u2713 Case 2 (n\u22612 mod 4): identical argument, valid. \u2713 Case 3 (n=2^a, a\u22652): \u03c6(3\u00b72^(a-1))=\u03c6(3)\u00b7\u03c6(2^(a-1))=2\u00b72^(a-2)=2^(a-1). At a=2: \u03c6(2^1)=1=2^0=2^(a-2). The formula \u03c6(2^k)=2^(k-1) for k\u22651 covers this. 3\u00b72^(a-1)\u22602^a since that requires 3=2. \u2713 Residual sub-result: \u03c6(2^a\u00b7m_i)=\u03c6(2^a)\u00b7\u03c6(m_i)=2^(a-1)\u00b7\u03c6(m) for both i since m_i is odd (gcd(2^a,m_i)=1). \u2713 However the stated reduction 'it suffices to find a second odd preimage of \u03c6(m)' is too restrictive \u2014 any second preimage of \u03c6(n) suffices, not just odd ones. This does not invalidate the result; it merely means the sub-result handles only one sub-case of the residual. Gap correctly identified."
+    },
+    {
+      "id": "PA-2793CB",
+      "round": 2,
+      "sketch": "Building on Round 1 (Cases 1, 2, 3 proven), we now prove the conjecture for nearly all n=2^a\u00b7m (a\u22652, m odd, m>1).\n\n**Key Lemma**: For any odd k with 3\u2224k: \u03c6(3k)=\u03c6(4k).\nProof: \u03c6(3k)=\u03c6(3)\u03c6(k)=2\u03c6(k) (gcd(3,k)=1); \u03c6(4k)=\u03c6(4)\u03c6(k)=2\u03c6(k) (k odd). \u2713\n\n**General Case A (a\u22652, v_3(k)=0)**: n=2^a\u00b7k, k odd, 3\u2224k. Set n'=3\u00b72^(a-1)\u00b7k. Then \u03c6(n')=2\u00b72^(a-2)\u00b7\u03c6(k)=2^(a-1)\u03c6(k)=\u03c6(n). And 3\u00b72^(a-1)\u22602^a (since 3\u22602). \u2713\n\n**Case B (a\u22652, v_3(k)=1)**: k=3j, j odd, 3\u2224j. \u03c6(k)=2\u03c6(j). Set n'=2^(a+1)\u00b7j. \u03c6(n')=2^a\u00b7\u03c6(j)=2^(a-1)\u00b72\u03c6(j)=\u03c6(n). And 2^(a+1)\u00b7j\u22602^a\u00b73j (would require 2j=3j, i.e., j=0). \u2713\n\n**Case C (a\u22652, v_3(k)=2)**: k=9j, j odd, 3\u2224j. \u03c6(k)=6\u03c6(j). Use the identity \u03c6(7)=\u03c6(9)=6. If 7\u2224j: set n'=2^a\u00b77j. \u03c6(n')=2^(a-1)\u00b76\u00b7\u03c6(j)=\u03c6(n). \u2713 If 7|j: [UNVERIFIED sub-case; need a prime q\u22607 with \u03c6(q)=6; but \u03c6(q)=6 for prime q requires q-1=6, q=7. No other prime. Fallback: use \u03c6(14)=6 or try composite \u2014 but this case requires more work.]\n\n**Theorem SP-5BC5F6 (proved)**: For every odd prime p, \u03c6(4p)=2(p-1) has a second preimage.\nProof: If p\u22603: Case A with k=p gives n'=3p, \u03c6(3p)=2(p-1)=\u03c6(4p), 3p\u22604p. \u2713 If p=3: \u03c6(12)=4=\u03c6(5), n'=5. \u2713\n\n**SP-744B81 (mostly proved)**: For distinct odd primes p<q: if neither is 3, \u03c6(3pq)=2(p-1)(q-1)=\u03c6(4pq), 3pq\u22604pq. \u2713 If p=3, q\u22605: \u03c6(5q)=4(q-1)=\u03c6(12q). \u2713 If p=3, q=5: \u03c6(60)=16=\u03c6(32). \u2713\n\n**Summary**: Conjecture now proven for all n with v_2(n)\u22641, all pure powers of 2, all n=2^a\u00b7k (a\u22652, 3\u2224k), all n=2^a\u00b73k (a\u22652, 3\u2224k), and all n=4p (p prime) and n=4pq (distinct odd primes). Remaining open: n=2^a\u00b79j with 7|j, and n=2^a\u00b73^s\u00b7j with s\u22653.",
+      "status": "unchecked",
+      "checker_feedback": null
+    }
+  ],
+  "disproof_attempts": [
+    {
+      "id": "DA-2F2A3B",
+      "round": 1,
+      "candidate_counterexample": "No verified counterexample is known. Extensive computational search (verified up to n > 10^10) has found no n for which \u03c6(n) is achieved exactly once. If a counterexample n existed, it would need: (1) 4 | n (the Prover has covered all other cases rigorously); (2) n = 2^a \u00b7 m with a >= 2 and m > 1 odd; (3) \u03c6(n) = 2^(a\u22121) \u00b7 \u03c6(m) achieved by NO other integer. Attempt: n = 4p for prime p with p \u2212 1 = 2^k (Fermat-type). \u03c6(4p) = 2(p-1) = 2^(k+1). But \u03c6(2^(k+2)) = 2^(k+1) as well, and 2^(k+2) \u2260 4p (since p is an odd prime and 2^(k+2) = 4\u00b72^k = 4(p-1) \u2260 4p unless p-1 = p, impossible). So n = 4p is never a counterexample when p-1 is a power of 2. E.g. p=5: \u03c6(20)=8=\u03c6(16). \u2713 p=17: \u03c6(68)=32=\u03c6(64)... \u03c6(64)=32. \u2713",
+      "status": "valid",
+      "checker_feedback": "The computation 2^(k+2)=4(p-1) while 4p=4(p-1)+4, so 2^(k+2)=4p-4\u22604p. \u2713 Verified examples p=5 (\u03c6(20)=8=\u03c6(16)) and p=17 (\u03c6(68)=32=\u03c6(64)=\u03c6(2^6)=32). \u2713 Correct as a non-counterexample report; closes_conjecture=false."
+    },
+    {
+      "id": "DA-25A9F5",
+      "round": 2,
+      "candidate_counterexample": "No counterexample found. The Prover's Key Lemma (\u03c6(3k)=\u03c6(4k) for 3\u2224k) eliminates almost all hard cases. Computational search to n=100000 found zero unique-\u03c6 cases among 24985 hard-case n.\n\nBest remaining candidate territory: n=2^a\u00b79\u00b77l where 7|j in the v_3(k)=2 sub-case, and n=2^a\u00b781\u00b7j for s=4. Example tested: n=4\u00b79\u00b77=252: \u03c6(252)=\u03c6(4\u00b79\u00b77)=2\u00b76\u00b76=72. \u03c6(73)=72 (73 prime). \u2713 Second preimage exists. n=4\u00b781\u00b77=2268: \u03c6(2268)=2\u00b754\u00b76=648. Computation shows preimage_count[648] has multiple elements. \u2713 Not a counterexample.",
+      "status": "unchecked",
+      "checker_feedback": null
+    }
+  ],
+  "formalization_attempts": [
+    {
+      "id": "FA-A3FC44",
+      "source_id": "PA-D3C692",
+      "lean_file": "SophieFormalization/CarmichaelTotientFunction/Theorems.lean",
+      "lean_code": "import Mathlib\n\n/-!\n## Carmichael's Totient Conjecture \u2014 Partial Formalization\n\nCarmichael's conjecture: for every positive integer n, there exists m \u2260 n\nwith \u03c6(m) = \u03c6(n) (no value of Euler's totient function is achieved exactly once).\n\nThis file formalizes the partial results from the Sophie exploration sessions:\n- Case 1: the conjecture holds for all odd n (PA-D3C692, Round 1)\n- Case 2: the conjecture holds for all n \u2261 2 (mod 4) (PA-D3C692, Round 1)\n- Case 3: the conjecture holds for all pure powers of 2 (PA-D3C692, Round 1)\n- Key Lemma: \u03c6(3k) = \u03c6(4k) for odd k with 3 \u2224 k (PA-2793CB, Round 2)\n- SP-5BC5F6: the conjecture holds for all n = 4p, p prime (Round 2)\n-/\n\nnamespace Carmichael\n\nopen Nat\n\n/-- The full Carmichael totient conjecture (open problem). -/\ndef CarmichaelConjecture : Prop :=\n  \u2200 n : \u2115, 0 < n \u2192 \u2203 m : \u2115, m \u2260 n \u2227 m.totient = n.totient\n\n/-! ### Case 1: n is odd (PA-D3C692) -/\n\n/-- For odd n > 0, \u03c6(2n) = \u03c6(n) and 2n \u2260 n, witnessing the conjecture. -/\ntheorem carmichael_of_odd (n : \u2115) (hn : Odd n) (hn_pos : 0 < n) :\n    \u2203 m : \u2115, m \u2260 n \u2227 m.totient = n.totient :=\n  \u27e82 * n, by omega, Nat.totient_two_mul_of_odd hn\u27e9\n\n/-! ### Case 2: n \u2261 2 (mod 4) (PA-D3C692) -/\n\n/-- For n = 2m with m odd, \u03c6(2m) = \u03c6(m) and m \u2260 2m, witnessing the conjecture. -/\ntheorem carmichael_of_two_mul_odd (m : \u2115) (hm : Odd m) (hm_pos : 0 < m) :\n    \u2203 k : \u2115, k \u2260 2 * m \u2227 k.totient = (2 * m).totient :=\n  \u27e8m, by omega, (Nat.totient_two_mul_of_odd hm).symm\u27e9\n\n/-! ### Key Lemma (PA-2793CB, Round 2) -/\n\nprivate lemma totient_four_mul_of_odd {k : \u2115} (hk : Odd k) :\n    (4 * k).totient = 2 * k.totient := by\n  have heq : 4 * k = 2 * (2 * k) := by ring\n  rw [heq, Nat.totient_two_mul_of_even \u27e8k, by ring\u27e9, Nat.totient_two_mul_of_odd hk]\n\nprivate lemma totient_three_mul_of_not_dvd {k : \u2115} (hk : \u00ac 3 \u2223 k) :\n    (3 * k).totient = 2 * k.totient := by\n  have h3 : Nat.Prime 3 := by norm_num\n  rw [Nat.totient_mul_of_prime_of_not_dvd h3 hk]\n\n/-- Key Lemma: for odd k with 3 \u2224 k, \u03c6(3k) = \u03c6(4k) = 2\u00b7\u03c6(k). -/\ntheorem key_lemma (k : \u2115) (hk_odd : Odd k) (hk_3 : \u00ac 3 \u2223 k) :\n    (3 * k).totient = (4 * k).totient :=\n  (totient_three_mul_of_not_dvd hk_3).trans (totient_four_mul_of_odd hk_odd).symm\n\n/-- Corollary: if n = 4k with k odd and 3 \u2224 k, the conjecture holds for n. -/\ntheorem carmichael_of_four_mul_coprime3 (k : \u2115) (hk_odd : Odd k) (hk_3 : \u00ac 3 \u2223 k)\n    (hk_pos : 0 < k) :\n    \u2203 m : \u2115, m \u2260 4 * k \u2227 m.totient = (4 * k).totient :=\n  \u27e83 * k, by omega, key_lemma k hk_odd hk_3\u27e9\n\n/-! ### Case 3: n is a power of 2, n \u2265 4 (PA-D3C692) -/\n\n/-- For n = 2^(a+2), the pair n' = 3\u00b72^(a+1) satisfies \u03c6(n') = \u03c6(n). -/\ntheorem carmichael_of_pow_two (a : \u2115) :\n    \u2203 m : \u2115, m \u2260 2 ^ (a + 2) \u2227 m.totient = (2 ^ (a + 2)).totient := by\n  refine \u27e83 * 2 ^ (a + 1), ?_, ?_\u27e9\n  \u00b7 have hpos : 0 < 2 ^ (a + 1) := by positivity\n    have h : (2 : \u2115) ^ (a + 2) = 2 * 2 ^ (a + 1) := by ring\n    omega\n  \u00b7 have hcop : Nat.Coprime 3 (2 ^ (a + 1)) :=\n      (show Nat.Coprime 3 2 from by decide).pow_right _\n    have h2 : Nat.Prime 2 := by norm_num\n    rw [Nat.totient_mul hcop,\n        show (3 : \u2115).totient = 2 from by decide,\n        Nat.totient_prime_pow_succ h2 a,\n        Nat.totient_prime_pow_succ h2 (a + 1),\n        show (2 : \u2115) - 1 = 1 from by norm_num, mul_one]\n    ring\n\n/-! ### SP-5BC5F6 (Round 2): conjecture holds for n = 4p, p prime -/\n\n/-- For any prime p, \u03c6(4p) has a second preimage:\n    - p = 2: \u03c6(8) = 4 = \u03c6(5)\n    - p = 3: \u03c6(12) = 4 = \u03c6(5)\n    - p odd prime \u2260 3: \u03c6(3p) = \u03c6(4p) by the Key Lemma -/\ntheorem carmichael_of_four_prime (p : \u2115) (hp : Nat.Prime p) :\n    \u2203 m : \u2115, m \u2260 4 * p \u2227 m.totient = (4 * p).totient := by\n  by_cases h2 : p = 2\n  \u00b7 subst h2; exact \u27e85, by norm_num, by decide\u27e9\n  \u00b7 by_cases h3 : p = 3\n    \u00b7 subst h3; exact \u27e85, by norm_num, by decide\u27e9\n    \u00b7 have hp_odd : Odd p := (Nat.even_or_odd p).resolve_left (by\n        rintro \u27e8k, hk\u27e9\n        have hdvd : 2 \u2223 p := \u27e8k, by omega\u27e9\n        exact h2 ((hp.eq_one_or_self_of_dvd 2 hdvd).resolve_left (by norm_num)).symm)\n      have hp3 : \u00ac 3 \u2223 p := by\n        intro hdvd\n        rcases hp.eq_one_or_self_of_dvd 3 hdvd with h | h\n        \u00b7 norm_num at h\n        \u00b7 exact h3 h.symm\n      exact \u27e83 * p, by omega, key_lemma p hp_odd hp3\u27e9\n\n/-! ### Hard residual case (open) -/\n\n/-- The remaining open case: n = 2^a \u00b7 m with a \u2265 2 and m > 1 odd. -/\ntheorem carmichael_hard_case (n : \u2115) (hn_pos : 0 < n)\n    (ha : \u2203 a k : \u2115, 2 \u2264 a \u2227 1 < k \u2227 Odd k \u2227 n = 2 ^ a * k) :\n    \u2203 m : \u2115, m \u2260 n \u2227 m.totient = n.totient := by\n  sorry -- Open: the genuinely hard residual case of Carmichael's conjecture\n\nend Carmichael",
+      "mathlib_imports": [
+        "import Mathlib"
+      ],
+      "sorries": [
+        "carmichael_hard_case: the residual case n = 2^a \u00b7 m with a \u2265 2 and m > 1 odd; no uniform construction is known and this is the core of the open conjecture"
+      ],
+      "confidence": "partial",
+      "status": "draft",
+      "notes": "All cases except the hard residual are fully proved. Key Mathlib lemmas used: Nat.totient_two_mul_of_odd, Nat.totient_two_mul_of_even, Nat.totient_mul_of_prime_of_not_dvd, Nat.totient_mul, Nat.totient_prime_pow_succ. The Key Lemma (\u03c6(3k)=\u03c6(4k) for odd k with 3\u2224k) and SP-5BC5F6 (n=4p for prime p) are fully verified by Lean with zero errors.",
+      "summary": "Formalizes all proven partial cases of Carmichael's conjecture: odd n, n\u22612 mod 4, pure powers of 2, the Key Lemma \u03c6(3k)=\u03c6(4k), and the n=4p prime case; one sorry for the open hard residual."
+    }
+  ],
+  "log": [
+    {
+      "round": 1,
+      "agent": "Experimenter",
+      "summary": "Elementary pairing arguments prove the conjecture for all odd n, all n \u2261 2 (mod 4), and all pure powers of 2; the remaining open case is n divisible by 4 with odd part > 1."
+    },
+    {
+      "round": 1,
+      "agent": "Prover",
+      "summary": "The conjecture is fully proved for all n with v_2(n) \u2264 1 and for pure powers of 2 by elementary multiplicativity arguments; the residual hard case is n = 2^a \u00b7 m with a >= 2 and m > 1 odd."
+    },
+    {
+      "round": 1,
+      "agent": "Disprover",
+      "summary": "No counterexample is known or plausible; any hypothetical counterexample must be divisible by 4 with odd part > 1, but every concrete candidate examined has a second \u03c6-preimage."
+    },
+    {
+      "round": 1,
+      "agent": "Checker",
+      "summary": "No proof or disproof attempts to check this round; the session opens with solid partial results covering all n not divisible by 4."
+    },
+    {
+      "round": 2,
+      "agent": "Checker",
+      "summary": "PA-D3C692 valid (3 of 4 cases airtight, residual correctly flagged) and DA-2F2A3B valid (correct non-counterexample analysis); conjecture remains open only for n=2^a\u00b7m with a\u22652, m odd>1."
+    },
+    {
+      "round": 2,
+      "agent": "Experimenter",
+      "summary": "Concrete pairings prove the conjecture for n=4p (all primes p), n=12j (3\u2224j), and n=36j (3\u2224j, 7\u2224j); computational search to 100000 finds zero counterexamples among 24985 hard-case n."
+    },
+    {
+      "round": 2,
+      "agent": "Prover",
+      "summary": "Key Lemma \u03c6(3k)=\u03c6(4k) for 3\u2224k proves the conjecture for all n=2^a\u00b7k (a\u22652, v_3(k)=0), Case B handles v_3(k)=1, and SP-5BC5F6 is completely proved; remaining open core is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions."
+    },
+    {
+      "round": 2,
+      "agent": "Disprover",
+      "summary": "No counterexample candidate; the open core after Round 2 is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions, particularly s=2 with 7|j and s=4 where the prime-substitution strategy fails."
+    },
+    {
+      "round": 2,
+      "agent": "Searcher",
+      "summary": "Searched 100000 cases with 24985 hard-case n=2^a\u00b7m (a\u22652, m odd>1): zero counterexamples; SP-5BC5F6, SP-EF38A0, and SP-744B81 all pass computational verification. Near-misses: ['Totient values with exactly 1 odd preimage (e.g., \u03c6=10: only odd preimage is 11) are structurally interesting but not counterexamples \u2014 even preimages (22, etc.) exist.']."
+    }
+  ],
+  "round_summaries": [
+    {
+      "round": 1,
+      "summaries": [
+        "Experimenter: Elementary pairing arguments prove the conjecture for all odd n, all n \u2261 2 (mod 4), and all pure powers of 2; the remaining open case is n divisible by 4 with odd part > 1.",
+        "Prover: The conjecture is fully proved for all n with v_2(n) \u2264 1 and for pure powers of 2 by elementary multiplicativity arguments; the residual hard case is n = 2^a \u00b7 m with a >= 2 and m > 1 odd.",
+        "Disprover: No counterexample is known or plausible; any hypothetical counterexample must be divisible by 4 with odd part > 1, but every concrete candidate examined has a second \u03c6-preimage.",
+        "Checker: No proof or disproof attempts to check this round; the session opens with solid partial results covering all n not divisible by 4."
+      ]
+    },
+    {
+      "round": 2,
+      "summaries": [
+        "Checker: PA-D3C692 valid (3 of 4 cases airtight, residual correctly flagged) and DA-2F2A3B valid (correct non-counterexample analysis); conjecture remains open only for n=2^a\u00b7m with a\u22652, m odd>1.",
+        "Experimenter: Concrete pairings prove the conjecture for n=4p (all primes p), n=12j (3\u2224j), and n=36j (3\u2224j, 7\u2224j); computational search to 100000 finds zero counterexamples among 24985 hard-case n.",
+        "Prover: Key Lemma \u03c6(3k)=\u03c6(4k) for 3\u2224k proves the conjecture for all n=2^a\u00b7k (a\u22652, v_3(k)=0), Case B handles v_3(k)=1, and SP-5BC5F6 is completely proved; remaining open core is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions.",
+        "Disprover: No counterexample candidate; the open core after Round 2 is n=2^a\u00b73^s\u00b7j with s\u22652 under specific divisibility conditions, particularly s=2 with 7|j and s=4 where the prime-substitution strategy fails.",
+        "Searcher: Searched 100000 cases with 24985 hard-case n=2^a\u00b7m (a\u22652, m odd>1): zero counterexamples; SP-5BC5F6, SP-EF38A0, and SP-744B81 all pass computational verification. Near-misses: ['Totient values with exactly 1 odd preimage (e.g., \u03c6=10: only odd preimage is 11) are structurally interesting but not counterexamples \u2014 even preimages (22, etc.) exist.']."
+      ]
+    }
+  ]
+}
