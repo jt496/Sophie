@@ -391,6 +391,70 @@ def remove_fact(fact_id: str, session_id: str = "") -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Pruning tool
+# ─────────────────────────────────────────────────────────────────────────────
+
+@mcp.tool()
+def prune_session(
+    session_id: str = "",
+    max_examples: int = 50,
+    max_resolved_sps: int = 10,
+    flawed_age_limit: int = 5,
+    max_log_entries: int = 50,
+    max_round_summaries: int = 10,
+) -> str:
+    """
+    Remove low-value entries from the knowledge base to keep session size manageable.
+
+    Priority for examples (highest kept first):
+      contradicting > recent concrete > supporting > old literature
+
+    Thresholds (all optional, defaults shown):
+      max_examples=50         — cap total examples kept
+      max_resolved_sps=10     — keep only this many resolved subproblems (most recent)
+      flawed_age_limit=5      — drop flawed proof/disproof attempts older than this many rounds
+      max_log_entries=50      — trim the log to its last N entries
+      max_round_summaries=10  — trim round_summaries to its last N entries
+
+    Returns a JSON summary of how many items were removed per category.
+
+    Args:
+        session_id:          The session to prune. Defaults to the current session.
+        max_examples:        Maximum examples to retain.
+        max_resolved_sps:    Maximum resolved subproblems to retain.
+        flawed_age_limit:    Remove flawed attempts older than this many rounds.
+        max_log_entries:     Maximum log entries to retain.
+        max_round_summaries: Maximum round summaries to retain.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    stats = kb.prune(
+        max_examples=max_examples,
+        max_resolved_sps=max_resolved_sps,
+        flawed_age_limit=flawed_age_limit,
+        max_log_entries=max_log_entries,
+        max_round_summaries=max_round_summaries,
+    )
+    _set_current_session(session_id)
+
+    total_removed = sum(stats.values())
+    if total_removed == 0:
+        return json.dumps({"status": "nothing_to_prune", "session_id": session_id, "removed": {}})
+
+    return json.dumps({
+        "status": "pruned",
+        "session_id": session_id,
+        "total_removed": total_removed,
+        "removed": stats,
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Formalization tools
 # ─────────────────────────────────────────────────────────────────────────────
 

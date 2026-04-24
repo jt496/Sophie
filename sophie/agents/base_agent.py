@@ -81,8 +81,23 @@ class BaseAgent(ABC):
         return {"raw_text": text, "parse_error": True}
 
     @staticmethod
-    def _kb_context(snapshot: Dict[str, Any]) -> str:
-        """Render key KB fields as a readable section for prompts."""
+    def _kb_context(
+        snapshot: Dict[str, Any],
+        max_examples: int = 20,
+        max_resolved_sps: int = 5,
+        max_unchecked_attempts: int = 3,
+        flawed_recency: int = 2,
+    ) -> str:
+        """
+        Render key KB fields as a readable section for agent prompts.
+
+        To keep prompts compact as sessions grow, this method:
+        - Shows all open subproblems but caps resolved ones at max_resolved_sps.
+        - Prioritises examples: contradicting > recent concrete > supporting > old literature.
+        - Shows all valid proof/disproof attempts; caps unchecked at max_unchecked_attempts;
+          only shows flawed attempts from the last flawed_recency rounds.
+        """
+        current_round = snapshot.get("rounds_completed", 0)
         lines = [
             f"CONJECTURE: {snapshot['conjecture']}",
             f"STATUS: {snapshot['status']}",
@@ -94,28 +109,78 @@ class BaseAgent(ABC):
             for f in facts:
                 lines.append(f"  [{f['id']}] {f['text']}")
 
+        # Subproblems: all open, tail of resolved
         lines += ["", "── SUBPROBLEMS ──"]
-        for sp in snapshot["subproblems"]:
-            flag = "✓" if sp["status"] == "resolved" else "○"
-            lines.append(f"  [{flag}] {sp['id']}: {sp['description']}")
+        open_sps = [sp for sp in snapshot["subproblems"] if sp["status"] == "open"]
+        resolved_sps = [sp for sp in snapshot["subproblems"] if sp["status"] == "resolved"]
+        for sp in open_sps:
+            lines.append(f"  [○] {sp['id']}: {sp['description']}")
+        for sp in resolved_sps[-max_resolved_sps:]:
+            lines.append(f"  [✓] {sp['id']}: {sp['description']}")
             if sp["resolution"]:
                 lines.append(f"        Resolution: {sp['resolution']}")
+        if len(resolved_sps) > max_resolved_sps:
+            lines.append(
+                f"  ... ({len(resolved_sps) - max_resolved_sps} older resolved subproblems omitted)"
+            )
+
+        # Examples: prioritised view
+        def _ex_priority(ex: Dict[str, Any]) -> tuple:
+            is_lit = ex["description"].startswith("[Literature]")
+            sup = ex.get("supports_conjecture")
+            age = current_round - ex.get("added_round", 0)
+            if sup is False:
+                return (0, age, is_lit)   # contradicting: highest priority
+            elif not is_lit:
+                return (1, age, False)    # concrete supporting/neutral
+            else:
+                return (2, age, True)     # literature: lowest priority
+
+        all_examples = sorted(snapshot["examples"], key=_ex_priority)
+        shown_examples = all_examples[:max_examples]
+        omitted_examples = len(all_examples) - len(shown_examples)
 
         lines += ["", "── EXAMPLES ──"]
-        for ex in snapshot["examples"]:
+        for ex in shown_examples:
             sup = {True: "supports", False: "contradicts", None: "neutral"}.get(
                 ex["supports_conjecture"], "?"
             )
             lines.append(f"  {ex['id']} [{sup}]: {ex['description']}")
+        if omitted_examples:
+            lines.append(f"  ... ({omitted_examples} lower-priority examples omitted)")
+
+        # Proof attempts: all valid, recent unchecked, very-recent flawed only
+        valid_pa = [pa for pa in snapshot["proof_attempts"] if pa["status"] == "valid"]
+        unchecked_pa = [pa for pa in snapshot["proof_attempts"] if pa["status"] == "unchecked"]
+        recent_flawed_pa = [
+            pa for pa in snapshot["proof_attempts"]
+            if pa["status"] == "flawed" and current_round - pa.get("round", 0) <= flawed_recency
+        ]
+        shown_pa = valid_pa + unchecked_pa[-max_unchecked_attempts:] + recent_flawed_pa
+        omitted_pa = len(snapshot["proof_attempts"]) - len(shown_pa)
 
         lines += ["", "── PROOF ATTEMPTS ──"]
-        for pa in snapshot["proof_attempts"]:
+        for pa in shown_pa:
             lines.append(f"  {pa['id']} [{pa['status']}]: {pa['sketch'][:120]}...")
+        if omitted_pa:
+            lines.append(f"  ... ({omitted_pa} older flawed attempts omitted)")
+
+        # Disproof attempts: same logic
+        valid_da = [da for da in snapshot["disproof_attempts"] if da["status"] == "valid"]
+        unchecked_da = [da for da in snapshot["disproof_attempts"] if da["status"] == "unchecked"]
+        recent_flawed_da = [
+            da for da in snapshot["disproof_attempts"]
+            if da["status"] == "flawed" and current_round - da.get("round", 0) <= flawed_recency
+        ]
+        shown_da = valid_da + unchecked_da[-max_unchecked_attempts:] + recent_flawed_da
+        omitted_da = len(snapshot["disproof_attempts"]) - len(shown_da)
 
         lines += ["", "── DISPROOF ATTEMPTS ──"]
-        for da in snapshot["disproof_attempts"]:
+        for da in shown_da:
             lines.append(
                 f"  {da['id']} [{da['status']}]: {da['candidate_counterexample'][:120]}..."
             )
+        if omitted_da:
+            lines.append(f"  ... ({omitted_da} older flawed attempts omitted)")
 
         return "\n".join(lines)

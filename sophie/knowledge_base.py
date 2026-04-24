@@ -95,6 +95,11 @@ class KnowledgeBase:
             if "facts" not in self._data:
                 self._data["facts"] = []
                 self._save()
+            # Migrate: backfill added_round on examples that predate the field
+            if any("added_round" not in ex for ex in self._data.get("examples", [])):
+                for ex in self._data["examples"]:
+                    ex.setdefault("added_round", 0)
+                self._save()
         else:
             self._data = self._empty(session_id)
             self._save()
@@ -226,6 +231,7 @@ class KnowledgeBase:
                 "description": description,
                 "supports_conjecture": supports_conjecture,
                 "detail": detail,
+                "added_round": self._data["rounds_completed"],
             }
         )
         self._save()
@@ -313,6 +319,95 @@ class KnowledgeBase:
             fa for fa in self._data.get("formalization_attempts", [])
             if fa["source_id"] == source_id
         ]
+
+    # ── Pruning ──────────────────────────────────────────────────────────────
+
+    def prune(
+        self,
+        max_examples: int = 50,
+        max_resolved_sps: int = 10,
+        flawed_age_limit: int = 5,
+        max_log_entries: int = 50,
+        max_round_summaries: int = 10,
+    ) -> Dict[str, int]:
+        """
+        Remove low-value entries to keep the KB compact.
+
+        Priority for examples (highest first):
+          contradicting > recent non-literature > supporting > old literature
+        Flawed proof/disproof attempts older than flawed_age_limit rounds are removed.
+        Only the most recent max_resolved_sps resolved subproblems are kept.
+        Log and round_summaries are trimmed to their tail.
+
+        Returns a dict of counts removed per category.
+        """
+        current_round = self._data["rounds_completed"]
+        stats: Dict[str, int] = {}
+
+        # ── Resolved subproblems ──────────────────────────────────────────────
+        open_sps = [sp for sp in self._data["subproblems"] if sp["status"] == "open"]
+        resolved_sps = [sp for sp in self._data["subproblems"] if sp["status"] == "resolved"]
+        if len(resolved_sps) > max_resolved_sps:
+            removed = len(resolved_sps) - max_resolved_sps
+            self._data["subproblems"] = open_sps + resolved_sps[-max_resolved_sps:]
+            stats["subproblems_removed"] = removed
+
+        # ── Examples ─────────────────────────────────────────────────────────
+        if len(self._data["examples"]) > max_examples:
+            def _ex_priority(ex: Dict[str, Any]) -> tuple:
+                is_lit = ex["description"].startswith("[Literature]")
+                sup = ex.get("supports_conjecture")
+                age = current_round - ex.get("added_round", 0)
+                if sup is False:
+                    return (0, age, is_lit)   # contradicting: highest priority
+                elif not is_lit:
+                    return (1, age, False)    # concrete supporting/neutral
+                else:
+                    return (2, age, True)     # literature: lowest priority
+
+            sorted_ex = sorted(self._data["examples"], key=_ex_priority)
+            removed = len(sorted_ex) - max_examples
+            self._data["examples"] = sorted_ex[:max_examples]
+            stats["examples_removed"] = removed
+
+        # ── Old flawed proof attempts ─────────────────────────────────────────
+        old_flawed_pa = [
+            pa for pa in self._data["proof_attempts"]
+            if pa["status"] == "flawed" and current_round - pa.get("round", 0) > flawed_age_limit
+        ]
+        if old_flawed_pa:
+            drop = {pa["id"] for pa in old_flawed_pa}
+            self._data["proof_attempts"] = [
+                pa for pa in self._data["proof_attempts"] if pa["id"] not in drop
+            ]
+            stats["flawed_proofs_removed"] = len(old_flawed_pa)
+
+        # ── Old flawed disproof attempts ──────────────────────────────────────
+        old_flawed_da = [
+            da for da in self._data["disproof_attempts"]
+            if da["status"] == "flawed" and current_round - da.get("round", 0) > flawed_age_limit
+        ]
+        if old_flawed_da:
+            drop = {da["id"] for da in old_flawed_da}
+            self._data["disproof_attempts"] = [
+                da for da in self._data["disproof_attempts"] if da["id"] not in drop
+            ]
+            stats["flawed_disproofs_removed"] = len(old_flawed_da)
+
+        # ── Log ───────────────────────────────────────────────────────────────
+        if len(self._data["log"]) > max_log_entries:
+            removed = len(self._data["log"]) - max_log_entries
+            self._data["log"] = self._data["log"][-max_log_entries:]
+            stats["log_entries_removed"] = removed
+
+        # ── Round summaries ───────────────────────────────────────────────────
+        if len(self._data.get("round_summaries", [])) > max_round_summaries:
+            removed = len(self._data["round_summaries"]) - max_round_summaries
+            self._data["round_summaries"] = self._data["round_summaries"][-max_round_summaries:]
+            stats["round_summaries_removed"] = removed
+
+        self._save()
+        return stats
 
     # ── Final verdict ────────────────────────────────────────────────────────
 
