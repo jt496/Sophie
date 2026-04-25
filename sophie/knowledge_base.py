@@ -83,6 +83,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import config
+from .math_markup import mathify
 
 
 class KnowledgeBase:
@@ -159,7 +160,7 @@ class KnowledgeBase:
         fid = f"FT-{uuid.uuid4().hex[:6].upper()}"
         self._data["facts"].append({
             "id": fid,
-            "text": text,
+            "text": mathify(text),
             "added_round": self._data["rounds_completed"],
         })
         self._save()
@@ -195,7 +196,7 @@ class KnowledgeBase:
             "type": type_,
             "confidence": confidence,
             "added_round": self._data["rounds_completed"],
-            "note": note,
+            "note": mathify(note),
             "status": "unchecked",
             "checker_feedback": None,
         })
@@ -207,7 +208,7 @@ class KnowledgeBase:
         for imp in self._data.get("implications", []):
             if imp["id"] == imp_id:
                 imp["status"] = verdict          # "valid" | "flawed"
-                imp["checker_feedback"] = feedback
+                imp["checker_feedback"] = mathify(feedback)
         self._save()
 
     def unchecked_implications(self) -> List[Dict]:
@@ -283,7 +284,7 @@ class KnowledgeBase:
         self._data["subproblems"].append(
             {
                 "id": sid,
-                "description": description,
+                "description": mathify(description),
                 "source_agent": source_agent,
                 "status": "open",
                 "resolution": None,
@@ -296,7 +297,7 @@ class KnowledgeBase:
         for sp in self._data["subproblems"]:
             if sp["id"] == sp_id:
                 sp["status"] = "resolved"
-                sp["resolution"] = resolution
+                sp["resolution"] = mathify(resolution)
         self._save()
 
     # ── Examples ─────────────────────────────────────────────────────────────
@@ -317,9 +318,9 @@ class KnowledgeBase:
         self._data["examples"].append(
             {
                 "id": eid,
-                "description": description,
+                "description": mathify(description),
                 "supports_conjecture": supports_conjecture,
-                "detail": detail,
+                "detail": mathify(detail),
                 "added_round": self._data["rounds_completed"],
             }
         )
@@ -334,7 +335,7 @@ class KnowledgeBase:
             {
                 "id": pid,
                 "round": round_,
-                "sketch": sketch,
+                "sketch": mathify(sketch),
                 "status": "unchecked",
                 "checker_feedback": None,
             }
@@ -346,7 +347,7 @@ class KnowledgeBase:
         for pa in self._data["proof_attempts"]:
             if pa["id"] == pa_id:
                 pa["status"] = status
-                pa["checker_feedback"] = feedback
+                pa["checker_feedback"] = mathify(feedback)
         self._save()
 
     # ── Disproof attempts ────────────────────────────────────────────────────
@@ -357,7 +358,7 @@ class KnowledgeBase:
             {
                 "id": did,
                 "round": round_,
-                "candidate_counterexample": candidate,
+                "candidate_counterexample": mathify(candidate),
                 "status": "unchecked",
                 "checker_feedback": None,
             }
@@ -369,7 +370,7 @@ class KnowledgeBase:
         for da in self._data["disproof_attempts"]:
             if da["id"] == da_id:
                 da["status"] = status
-                da["checker_feedback"] = feedback
+                da["checker_feedback"] = mathify(feedback)
         self._save()
 
     # ── Formalization attempts ───────────────────────────────────────────────

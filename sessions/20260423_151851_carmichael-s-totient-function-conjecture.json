@@ -1,5 +1,5 @@
 {
-  "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m \u2260 n such that \u03c6(m) = \u03c6(n), where \u03c6 is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
+  "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m ≠ n such that φ(m) = φ(n), where φ is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
   "session_id": "20260423_151851_carmichael-s-totient-function-conjecture",
   "status": "open",
   "rounds_completed": 8,
@@ -8,133 +8,133 @@
   "facts": [
     {
       "id": "FT-D1381B",
-      "text": "Carmichael totient conjecture is true for all n < 10^10",
+      "text": "Carmichael totient conjecture is true for all n < $10^{10}$",
       "added_round": 8
     }
   ],
   "subproblems": [
     {
       "id": "SP-8FEBB9",
-      "description": "Prove the conjecture for all n divisible by 4 (the odd and n\u22612 mod 4 cases are handled by the odd-n pairing).",
+      "description": "Prove the conjecture for all n divisible by 4 (the odd and $n \\equiv 2 \\pmod{4}$ cases are handled by the odd-n pairing).",
       "source_agent": "Experimenter",
       "status": "resolved",
       "resolution": "Computationally resolved to N=50000: every n divisible by 4 has at least one partner within the search range; zero exceptions found."
     },
     {
       "id": "SP-568EDA",
-      "description": "For n=2^a\u00b7m with a\u22652 and m\u22653 odd, explicitly construct a distinct m' with \u03c6(m')=\u03c6(n).",
+      "description": "For n=$2^{a}$·m with $a \\geq 2$ and $m \\geq 3$ odd, explicitly construct a distinct m' with φ(m')=φ(n).",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Resolved for n=2^a\u00b7q with 3\u2224odd_part(n): partner m=3\u00b72^(a\u22121)\u00b7q explicitly constructed and verified."
+      "resolution": "Resolved for n=$2^{a}$·q with 3∤odd_part(n): partner m=3·$2^{(a}$−1)·q explicitly constructed and verified."
     },
     {
       "id": "SP-C79FFA",
       "description": "Is the set of totient values achieved exactly once known to be empty, or just never found?",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Computationally settled: all apparent singletons in n\u226410000 are boundary artifacts; none with n\u22645000 are truly unique. Extended to N=50000: all cases in the gap class have partners."
+      "resolution": "Computationally settled: all apparent singletons in $n \\leq 10000$ are boundary artifacts; none with $n \\leq 5000$ are truly unique. Extended to N=50000: all cases in the gap class have partners."
     },
     {
       "id": "SP-1CD80F",
-      "description": "For n=4p with p an odd prime, does there always exist m\u2260n with \u03c6(m)=\u03c6(4p)=2(p\u22121)?",
+      "description": "For n=4p with p an odd prime, does there always exist $m \\neq n$ with φ(m)=φ(4p)=2(p−1)?",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Resolved: for n=4p (p odd prime, p\u22603), m=3p satisfies \u03c6(3p)=2(p\u22121)=\u03c6(4p); for p=3 (n=12), partners include 5,8,10."
+      "resolution": "Resolved: for n=4p (p odd prime, $p \\neq 3)$, m=3p satisfies φ(3p)=2(p−1)=φ(4p); for p=3 (n=12), partners include 5,8,10."
     },
     {
       "id": "SP-0FD2F9",
-      "description": "Can Dirichlet's theorem be leveraged to guarantee a prime q\u22611 (mod \u03c6(n)) for any \u03c6(n)?",
+      "description": "Can Dirichlet's theorem be leveraged to guarantee a prime $q \\equiv 1 \\pmod{φ(n)}$ for any φ(n)?",
       "source_agent": "Prover",
       "status": "resolved",
       "resolution": "Resolved via literature: Dirichlet guarantees primes p equiv 1 mod phi(n) but NOT p-1=phi(n). Proving the latter requires Bunyakovsky-type results currently out of reach. Dirichlet alone does not close the conjecture via prime partners."
     },
     {
       "id": "SP-5404D1",
-      "description": "Is there a uniform algebraic construction that pairs every n\u22610 (mod 4) with a partner?",
+      "description": "Is there a uniform algebraic construction that pairs every $n \\equiv 0 \\pmod{4}$ with a partner?",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Partially resolved: m=3\u00b72^(a\u22121)\u00b7q is uniform for 3\u2224odd_part(n); open when 3|odd_part(n)."
+      "resolution": "Partially resolved: m=3·$2^{(a}$−1)·q is uniform for 3∤odd_part(n); open when $3 \\mid odd_part(n)$."
     },
     {
       "id": "SP-1333AD",
-      "description": "What is the minimum number of preimages of \u03c6(n) for n divisible by 4, as a function of the factorization of n?",
+      "description": "What is the minimum number of preimages of φ(n) for n divisible by 4, as a function of the factorization of n?",
       "source_agent": "Disprover",
       "status": "resolved",
-      "resolution": "Min preimage count for 4|n cases is 2 throughout n up to 10000 (avg 24.66), confirming every such n has at least one partner."
+      "resolution": "Min preimage count for $4 \\mid n$ cases is 2 throughout n up to 10000 (avg 24.66), confirming every such n has at least one partner."
     },
     {
       "id": "SP-10F5C2",
-      "description": "If a counterexample n exists, what constraints does \u03c6(n)=k (unique preimage) impose on the prime factorization of n?",
+      "description": "If a counterexample n exists, what constraints does φ(n)=k (unique preimage) impose on the prime factorization of n?",
       "source_agent": "Disprover",
       "status": "resolved",
-      "resolution": "Strong constraint derived: any counterexample n must have a>=2, b>=2, c>=2, and 43 must divide the coprime-to-42 residual s. Furthermore phi(n)=2^(a+1)*3^b*7^(c-1)*42*phi(t) must lack a prime partner (phi(n)+1 composite) AND lack all known composite partner constructions."
+      "resolution": "Strong constraint derived: any counterexample n must have a>=2, b>=2, c>=2, and 43 must divide the coprime-to-42 residual s. Furthermore phi(n)=$2^{(a}$+1)*$3^{b}$*$7^{(c}$-1)*42*phi(t) must lack a prime partner (phi(n)+1 composite) AND lack all known composite partner constructions."
     },
     {
       "id": "SP-4BF5A9",
-      "description": "For n=2^a\u00b73^b (pure case): \u03c6(n)=2^a\u00b73^(b\u22121). Is there always a prime q=2^a\u00b73^(b\u22121)+1? Data shows this holds for many but not all cases \u2014 but partners exist even when q is not prime.",
+      "description": "For n=$2^{a}$·$3^{b}$ (pure case): φ(n)=$2^{a}$·$3^{(b}$−1). Is there always a prime q=$2^{a}$·$3^{(b}$−1)+1? Data shows this holds for many but not all cases — but partners exist even when q is not prime.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Partners for n=2^a*3^b always exist via Cases 4b (b=1) and 5 (b>=2), independent of phi(n)+1 primality. For b=4: n=324 pairs with 378 (Case 5). For b=5: n=972 pairs with 978 (confirmed computationally)."
+      "resolution": "Partners for n=$2^{a}$*$3^{b}$ always exist via Cases 4b (b=1) and 5 (b>=2), independent of phi(n)+1 primality. For b=4: n=324 pairs with 378 (Case 5). For b=5: n=972 pairs with 978 (confirmed computationally)."
     },
     {
       "id": "SP-ABDCE2",
-      "description": "Does the partner construction generalise to n=2^a\u00b73^b\u00b7r via a 5\u00d7 or 7\u00d7 trick?",
+      "description": "Does the partner construction generalise to n=$2^{a}$·$3^{b}$·r via a 5× or 7× trick?",
       "source_agent": "Experimenter",
       "status": "resolved",
       "resolution": "Fully resolved: Case 6 handles c=1 (all b>=1, all s); Case 7 handles c=2 (43 not divide s); New General Case handles all c>=2, b>=2 (43 not divide s). The 5x and 7x tricks are subsumed."
     },
     {
       "id": "SP-4A04ED",
-      "description": "For n=2^a\u00b73^b (r=1, b\u22652): \u03c6(n)=2^a\u00b73^(b\u22121). Partner candidates: prime q=2^a\u00b73^(b\u22121)+1 (if prime) gives \u03c6(q)=2^a\u00b73^(b\u22121). Data shows this works for many (n=36\u2192q=13, n=108\u2192q=37, n=1296\u2192q=433) but not all. Need a non-prime-dependent construction.",
+      "description": "For n=$2^{a}$·$3^{b}$ (r=1, $b \\geq 2)$: φ(n)=$2^{a}$·$3^{(b}$−1). Partner candidates: prime q=$2^{a}$·$3^{(b}$−1)+1 (if prime) gives φ(q)=$2^{a}$·$3^{(b}$−1). Data shows this works for many (n=36→q=13, n=108→q=37, n=1296→q=433) but not all. Need a non-prime-dependent construction.",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Resolved: for all tested n=2^a*3^b up to N=200000, partners always exist without phi(n)+1 being prime. E.g. n=1296=2^4*3^4 has prime partner 433 (phi(433)=432), but also many composite partners."
+      "resolution": "Resolved: for all tested n=$2^{a}$*$3^{b}$ up to N=200000, partners always exist without phi(n)+1 being prime. E.g. n=1296=$2^{4}$*$3^{4}$ has prime partner 433 (phi(433)=432), but also many composite partners."
     },
     {
       "id": "SP-61F422",
-      "description": "Can we prove: for any k of the form 2^a\u00b73^(b\u22121) (a\u22651,b\u22651), there exists m with \u03c6(m)=k and m\u22602^a\u00b73^b?",
+      "description": "Can we prove: for any k of the form $2^{a}$·$3^{(b}$−1) $(a \\geq 1$,$b \\geq 1)$, there exists m with φ(m)=k and m≠$2^{a}$·$3^{b}$?",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "Constructively resolved: for k=2^a*3^(b-1)*phi(r), there always exists m=2^a*3^b*r with phi(m)=k and m != n=2^(a-1)*3^b*r via Case 4b and its relatives. The existence is constructive, not just existential."
+      "resolution": "Constructively resolved: for k=$2^{a}$*$3^{(b}$-1)*phi(r), there always exists m=$2^{a}$*$3^{b}$*r with phi(m)=k and m != n=$2^{(a}$-1)*$3^{b}$*r via Case 4b and its relatives. The existence is constructive, not just existential."
     },
     {
       "id": "SP-F34086",
-      "description": "For n=2^a\u00b73^b (b\u22652): \u03c6(n)=2^a\u00b73^(b\u22121). Note \u03c6(2^a\u00b73^b)+1=2^a\u00b73^(b\u22121)+1 is prime for (a,b)=(2,1),(2,2),(2,3),(2,4),(3,3),(4,2),(5,2),(6,2),(6,3),(7,3),(7,4)... \u2014 but not always. However partners always exist via other numbers.",
+      "description": "For n=$2^{a}$·$3^{b}$ $(b \\geq 2)$: φ(n)=$2^{a}$·$3^{(b}$−1). Note $φ(2^{a}$·$3^{b)}$+1=$2^{a}$·$3^{(b}$−1)+1 is prime for (a,b)=(2,1),(2,2),(2,3),(2,4),(3,3),(4,2),(5,2),(6,2),(6,3),(7,3),(7,4)... — but not always. However partners always exist via other numbers.",
       "source_agent": "Disprover",
       "status": "resolved",
       "resolution": "Confirmed: partners exist even when phi(n)+1 is not prime. Cases 4b, 5, 6, New General Case supply partners unconditionally for all tested cases in the relevant families."
     },
     {
       "id": "SP-16E607",
-      "description": "For n=2^a*3^b: partners exist even when phi(n)+1 is not prime \u2014 what is the algebraic source of these partners? Examining n=24 (phi=8): partners include 15=3*5 with phi(15)=8, 16=2^4 with phi(16)=8. The number 15 comes from the Round-1 Case 3 pairing (phi(2^4)=phi(15))... wait, phi(2^4)=8 and phi(15)=phi(3)phi(5)=2*4=8. This suggests a cross-family pairing.",
+      "description": "For n=$2^{a}$*$3^{b}$: partners exist even when phi(n)+1 is not prime — what is the algebraic source of these partners? Examining n=24 (phi=8): partners include 15=3*5 with phi(15)=8, 16=$2^{4}$ with phi(16)=8. The number 15 comes from the Round-1 Case 3 pairing $(phi(2^{4)}$=phi(15))... wait, $phi(2^{4)}$=8 and phi(15)=phi(3)phi(5)=2*4=8. This suggests a cross-family pairing.",
       "source_agent": "Searcher",
       "status": "resolved",
-      "resolution": "Cross-family pairings identified: {2^a*3*r, 2^(a+1)*r} via phi(3)=2; {2^a*3^b*s, 7*2^(a-1)*3^(b-1)*s} via phi(7)=6=phi(3)*3; {2^a*3^b*7*s, 2^(a+1)*3^(b+1)*s} via phi(7)=2*phi(3)=2*3/... structurally: one factor of 7 trades for one extra 2 and one extra 3."
+      "resolution": "Cross-family pairings identified: {$2^{a}$*3*r, $2^{(a}$+1)*r} via phi(3)=2; {$2^{a}$*$3^{b}$*s, 7*$2^{(a}$-1)*$3^{(b}$-1)*s} via phi(7)=6=phi(3)*3; {$2^{a}$*$3^{b}$*7*s, $2^{(a}$+1)*$3^{(b}$+1)*s} via phi(7)=2*phi(3)=2*3/... structurally: one factor of 7 trades for one extra 2 and one extra 3."
     },
     {
       "id": "SP-27F59E",
-      "description": "For n=2^a*3^b*7^c*43*t (b>=2, c>=2, gcd(t,42)=1): New General Case requires 43 not divide s but here 43|s. No analytic partner formula known; computation confirms partners exist (0 counterexamples to N=200000).",
+      "description": "For n=$2^{a}$*$3^{b}$*$7^{c}$*43*t (b>=2, c>=2, gcd(t,42)=1): New General Case requires 43 not divide s but here $43 \\mid s$. No analytic partner formula known; computation confirms partners exist (0 counterexamples to N=200000).",
       "source_agent": "Experimenter",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-8E0CC7",
-      "description": "Is 6*7^(c-1)+1 prime for infinitely many c? c=2 gives 43 (prime); c=3 gives 295=5*59 (not prime). Pattern unclear.",
+      "description": "Is 6*$7^{(c}$-1)+1 prime for infinitely many c? c=2 gives 43 (prime); c=3 gives 295=5*59 (not prime). Pattern unclear.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "6*7^(c-1)+1 is prime for c=1,2,5,10 in the tested range c=1..10 and composite for the others. The pattern is irregular (not always prime). The conjecture for this sub-question \u2014 infinite primes in this sequence \u2014 is plausible heuristically but unsettled."
+      "resolution": "6*$7^{(c}$-1)+1 is prime for c=1,2,5,10 in the tested range c=1..10 and composite for the others. The pattern is irregular (not always prime). The conjecture for this sub-question — infinite primes in this sequence — is plausible heuristically but unsettled."
     },
     {
       "id": "SP-A80F93",
-      "description": "The New General Case pair {n, m=43*2^(a-1)*3^(b-1)*7^(c-1)*s}: since 43|m's residual, the New General Case does not apply to m itself. Verify m is covered by another case (it is: Case 6 or 4b depending on c-1).",
+      "description": "The New General Case pair {n, m=43*$2^{(a}$-1)*$3^{(b}$-1)*$7^{(c}$-1)*s}: since $43 \\mid m$'s residual, the New General Case does not apply to m itself. Verify m is covered by another case (it is: Case 6 or 4b depending on c-1).",
       "source_agent": "Experimenter",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-D5C0BB",
-      "description": "For n=2^a*3^b*7^c*43*t (a,b,c>=2, gcd(t,42)=1): target phi(n)=2^(a+1)*3^b*7^(c-1)*42*phi(t). Find an explicit partner m != n.",
+      "description": "For n=$2^{a}$*$3^{b}$*$7^{c}$*43*t (a,b,c>=2, gcd(t,42)=1): target phi(n)=$2^{(a}$+1)*$3^{b}$*$7^{(c}$-1)*42*phi(t). Find an explicit partner m != n.",
       "source_agent": "Prover",
       "status": "resolved",
       "resolution": "For n=75852, m=109 * 197 is an explicit partner."
@@ -148,56 +148,56 @@
     },
     {
       "id": "SP-330E10",
-      "description": "Can the proof be completed by showing: for any even k=2^A*3^B*7^C*M (gcd(M,42)=1) with 43|M, there exists a composite m with phi(m)=k and m being a 'cross-family' number not of the same form as n?",
+      "description": "Can the proof be completed by showing: for any even k=$2^{A}$*$3^{B}$*$7^{C}$*M (gcd(M,42)=1) with $43 \\mid M$, there exists a composite m with phi(m)=k and m being a 'cross-family' number not of the same form as n?",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-4932C0",
-      "description": "For n=75852=2^2*3^2*7^2*43: what is phi^{-1}(21168) intersected with small integers? Identify partners and analyze their prime structure.",
+      "description": "For n=75852=$2^{2}$*$3^{2}$*$7^{2}$*43: what is $phi^{-1}$(21168) intersected with small integers? Identify partners and analyze their prime structure.",
       "source_agent": "Disprover",
       "status": "resolved",
-      "resolution": "phi^{-1}(21168) up to 3n includes 21169 (prime), 21473=109*197, 21953 (prime), 24703=7*3529 and many more. The partner set is large with diverse structures."
+      "resolution": "$phi^{-1}$(21168) up to 3n includes 21169 (prime), 21473=109*197, 21953 (prime), 24703=7*3529 and many more. The partner set is large with diverse structures."
     },
     {
       "id": "SP-3ED79A",
-      "description": "Does the prime 1765=5*353 being composite (1765=phi(7^2*43)+1) imply the 43|s case necessarily requires a composite partner? If so, which composite form?",
+      "description": "Does the prime 1765=5*353 being composite (1765=$phi(7^{2}$*43)+1) imply the $43 \\mid s$ case necessarily requires a composite partner? If so, which composite form?",
       "source_agent": "Disprover",
       "status": "resolved",
       "resolution": "phi(n)=21168 has composite partners (21473) even though phi(n)+1 is prime."
     },
     {
       "id": "SP-8A79D8",
-      "description": "Singletons (phi achieved once) up to N=200000: 10020 instances, all with n>100003. These are boundary artifacts where the partner lies outside [1,N]. Extending to N=10^6 would reduce this further.",
+      "description": "Singletons (phi achieved once) up to N=200000: 10020 instances, all with n>100003. These are boundary artifacts where the partner lies outside [1,N]. Extending to N=$10^{6}$ would reduce this further.",
       "source_agent": "Searcher",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-71AE36",
-      "description": "For n=75852=2^2*3^2*7^2*43 (first instance of remaining open class): phi(75852)=21168. Identify partners and their prime structure analytically.",
+      "description": "For n=75852=$2^{2}$*$3^{2}$*$7^{2}$*43 (first instance of remaining open class): phi(75852)=21168. Identify partners and their prime structure analytically.",
       "source_agent": "Searcher",
       "status": "resolved",
       "resolution": "For n=75852, partners include 21169 (prime), 21473 (composite), and 21953 (prime)."
     },
     {
       "id": "SP-2BB21D",
-      "description": "Apply Ford (1998) to the remaining open class n=2^a*3^b*7^c*43*t: does Ford theorem imply phi(n) must have many preimages, thereby proving the conjecture for this class?",
+      "description": "Apply Ford (1998) to the remaining open class n=$2^{a}$*$3^{b}$*$7^{c}$*43*t: does Ford theorem imply phi(n) must have many preimages, thereby proving the conjecture for this class?",
       "source_agent": "Researcher",
       "status": "resolved",
-      "resolution": "Ford (1998) does NOT directly prove the conjecture for the open class via the positive-proportion theorem \u2014 that theorem establishes that counterexamples would be dense if one exists, not that none exist. Ford's 10^(10^10) lower bound guarantees all n in Sophie's computational range have partners, which is consistent with all search results. The open class proof gap remains."
+      "resolution": "Ford (1998) does NOT directly prove the conjecture for the open class via the positive-proportion theorem — that theorem establishes that counterexamples would be dense if one exists, not that none exist. Ford's $10^{(10}$^10) lower bound guarantees all n in Sophie's computational range have partners, which is consistent with all search results. The open class proof gap remains."
     },
     {
       "id": "SP-782353",
-      "description": "Are there known results on primes of the form 6*7^(c-1)+1 (Mersenne-like)? c=1 gives 7, c=2 gives 43, c=3 gives 295 (composite). Is the density of c with 6*7^(c-1)+1 prime positive?",
+      "description": "Are there known results on primes of the form 6*$7^{(c}$-1)+1 (Mersenne-like)? c=1 gives 7, c=2 gives 43, c=3 gives 295 (composite). Is the density of c with 6*$7^{(c}$-1)+1 prime positive?",
       "source_agent": "Researcher",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-480A56",
-      "description": "The prime 3529=2^3\u00b73^2\u00b77^2+1 appears as a partner factor for three distinct open-class instances. Is 3529 a 'universal' partner prime? For any open-class n=2^a\u00b73^b\u00b77^c\u00b743, does there always exist a split of phi(n) involving 3529 (i.e., 3528|phi(n) and phi(n)/3528+1 prime)?",
+      "description": "The prime 3529=$2^{3}$·$3^{2}$·$7^{2}$+1 appears as a partner factor for three distinct open-class instances. Is 3529 a 'universal' partner prime? For any open-class n=$2^{a}$·$3^{b}$·$7^{c}$·43, does there always exist a split of phi(n) involving 3529 (i.e., $3528 \\mid phi(n)$ and phi(n)/3528+1 prime)?",
       "source_agent": "Experimenter",
       "status": "open",
       "resolution": null
@@ -211,42 +211,42 @@
     },
     {
       "id": "SP-8AD6EA",
-      "description": "For the split A=2^2\u00b73^(b+1), B=2^a\u00b77^c: for which (a,b,c) is q=B+1=2^a\u00b77^c+1 prime? Is this prime for infinitely many c with a=2,b=2? (Analogous to SP-8E0CC7 but for a different family.)",
+      "description": "For the split A=$2^{2}$·$3^{(b}$+1), B=$2^{a}$·$7^{c}$: for which (a,b,c) is q=B+1=$2^{a}$·$7^{c}$+1 prime? Is this prime for infinitely many c with a=2,b=2? (Analogous to SP-8E0CC7 but for a different family.)",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-04284D",
-      "description": "Is there a split of phi(n) for the c=4 open-class instance n=2^2\u00b73^2\u00b77^4\u00b743 that yields two primes? Compute phi^{-1}(1016064) to find partners.",
+      "description": "Is there a split of phi(n) for the c=4 open-class instance n=$2^{2}$·$3^{2}$·$7^{4}$·43 that yields two primes? Compute $phi^{-1}$(1016064) to find partners.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-F55387",
-      "description": "Computationally verify that n=3717108=2^2\u00b73^2\u00b77^4\u00b743 (c=4, first instance beyond N=250000 in the open class) has a partner. Compute phi^{-1}(1016064).",
+      "description": "Computationally verify that n=3717108=$2^{2}$·$3^{2}$·$7^{4}$·43 (c=4, first instance beyond N=250000 in the open class) has a partner. Compute $phi^{-1}$(1016064).",
       "source_agent": "Disprover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-87FF20",
-      "description": "The prime 3529=2^3\u00b73^2\u00b77^2+1 appears in split-phi pairs for ALL THREE tested open-class instances. Verify: for any n=2^a\u00b73^b\u00b77^c\u00b743 with a,b,c\u22652, does 3528=phi(3529) always divide phi(n)? phi(n)=2^(a+2)\u00b73^(b+1)\u00b77^c. 3528=2^3\u00b73^2\u00b77^2. This divides phi(n) iff a+2\u22653, b+1\u22652, c\u22652 i.e. a\u22651,b\u22651,c\u22652. YES \u2014 always true for the open class. So 3529 is always a valid factor for one part of a split-phi partner.",
+      "description": "The prime 3529=$2^{3}$·$3^{2}$·$7^{2}$+1 appears in split-phi pairs for ALL THREE tested open-class instances. Verify: for any n=$2^{a}$·$3^{b}$·$7^{c}$·43 with a,b,$c \\geq 2$, does 3528=phi(3529) always divide phi(n)? phi(n)=$2^{(a}$+2)·$3^{(b}$+1)·$7^{c}$. 3528=$2^{3}$·$3^{2}$·$7^{2}$. This divides phi(n) iff a+$2 \\geq 3$, b+$1 \\geq 2$, $c \\geq 2$ i.e. $a \\geq 1$,$b \\geq 1$,$c \\geq 2$. YES — always true for the open class. So 3529 is always a valid factor for one part of a split-phi partner.",
       "source_agent": "Searcher",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-9DD9EE",
-      "description": "Compute phi^{-1}(1016064) to find partners for n=3717108=2^2\u00b73^2\u00b77^4\u00b743 (c=4 case, first beyond N=250000).",
+      "description": "Compute $phi^{-1}$(1016064) to find partners for n=3717108=$2^{2}$·$3^{2}$·$7^{4}$·43 (c=4 case, first beyond N=250000).",
       "source_agent": "Searcher",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-70F9DF",
-      "description": "The 2025 Shannon et al. paper handles phi(n)=2pq using Sophie Germain primes. Sophie's open class has phi(n) with three odd prime factors (3,7, and from phi(s)). Can the Sophie Germain / Fermat prime techniques of Shannon et al. be applied to prove the conjecture for phi(n)=2^A*3^B*7^C?",
+      "description": "The 2025 Shannon et al. paper handles phi(n)=2pq using Sophie Germain primes. Sophie's open class has phi(n) with three odd prime factors (3,7, and from phi(s)). Can the Sophie Germain / Fermat prime techniques of Shannon et al. be applied to prove the conjecture for phi(n)=$2^{A}$*$3^{B}$*$7^{C}$?",
       "source_agent": "Researcher",
       "status": "open",
       "resolution": null
@@ -257,91 +257,91 @@
       "id": "EX-EE2246",
       "description": "Totient values for n=1..12",
       "supports_conjecture": true,
-      "detail": "\u03c6(1)=1, \u03c6(2)=1; \u03c6(3)=2, \u03c6(4)=2, \u03c6(6)=2; \u03c6(5)=4, \u03c6(8)=4, \u03c6(10)=4, \u03c6(12)=4; \u03c6(7)=6, \u03c6(9)=6, \u03c6(14)=6, \u03c6(18)=6; \u03c6(11)=10, \u03c6(22)=10. Every value seen so far is achieved at least twice."
+      "detail": "φ(1)=1, φ(2)=1; φ(3)=2, φ(4)=2, φ(6)=2; φ(5)=4, φ(8)=4, φ(10)=4, φ(12)=4; φ(7)=6, φ(9)=6, φ(14)=6, φ(18)=6; φ(11)=10, φ(22)=10. Every value seen so far is achieved at least twice."
     },
     {
       "id": "EX-8FD043",
-      "description": "Odd prime p pairs with 2p: \u03c6(p)=\u03c6(2p)=p\u22121",
+      "description": "Odd prime p pairs with 2p: φ(p)=φ(2p)=p−1",
       "supports_conjecture": true,
-      "detail": "For any odd prime p, \u03c6(p)=p\u22121 and \u03c6(2p)=\u03c6(2)\u03c6(p)=1\u00b7(p\u22121)=p\u22121 (using multiplicativity and gcd(2,p)=1). Examples: p=3: \u03c6(3)=\u03c6(6)=2; p=5: \u03c6(5)=\u03c6(10)=4; p=7: \u03c6(7)=\u03c6(14)=6; p=11: \u03c6(11)=\u03c6(22)=10."
+      "detail": "For any odd prime p, φ(p)=p−1 and φ(2p)=φ(2)φ(p)=1·(p−1)=p−1 (using multiplicativity and gcd(2,p)=1). Examples: p=3: φ(3)=φ(6)=2; p=5: φ(5)=φ(10)=4; p=7: φ(7)=φ(14)=6; p=11: φ(11)=φ(22)=10."
     },
     {
       "id": "EX-22E28E",
       "description": "General odd n pairs with 2n",
       "supports_conjecture": true,
-      "detail": "For ANY odd n\u22651, \u03c6(2n)=\u03c6(2)\u03c6(n)=\u03c6(n) since gcd(2,n)=1. So every odd n is paired with 2n. This covers n=1 (paired with 2), n=3 (with 6), n=9 (with 18), n=15 (with 30)."
+      "detail": "For ANY odd $n \\geq 1$, φ(2n)=φ(2)φ(n)=φ(n) since gcd(2,n)=1. So every odd n is paired with 2n. This covers n=1 (paired with 2), n=3 (with 6), n=9 (with 18), n=15 (with 30)."
     },
     {
       "id": "EX-741699",
-      "description": "Powers of 2: \u03c6(2^k)=2^(k\u22121), paired via 3\u00b72^(k\u22121)",
+      "description": "Powers of 2: $φ(2^{k)}$=$2^{(k}$−1), paired via 3·$2^{(k}$−1)",
       "supports_conjecture": true,
-      "detail": "\u03c6(2^k)=2^(k\u22121). Consider m=3\u00b72^(k\u22121): \u03c6(m)=\u03c6(3)\u03c6(2^(k\u22121))=2\u00b72^(k\u22122)=2^(k\u22121). So \u03c6(2^k)=\u03c6(3\u00b72^(k\u22121)) for all k\u22652. Check: k=2: \u03c6(4)=2=\u03c6(3)? No, \u03c6(3)=2\u2713; k=3: \u03c6(8)=4, 3\u00b74=12, \u03c6(12)=\u03c6(4)\u03c6(3)=2\u00b72=4\u2713; k=4: \u03c6(16)=8, 3\u00b78=24, \u03c6(24)=\u03c6(8)\u03c6(3)=4\u00b72=8\u2713."
+      "detail": "$φ(2^{k)}$=$2^{(k}$−1). Consider m=3·$2^{(k}$−1): φ(m)=$φ(3)φ(2^{(k}$−1))=2·$2^{(k}$−2)=$2^{(k}$−1). So $φ(2^{k)}$=φ(3·$2^{(k}$−1)) for all $k \\geq 2$. Check: k=2: φ(4)=2=φ(3)? No, φ(3)=2✓; k=3: φ(8)=4, 3·4=12, φ(12)=φ(4)φ(3)=2·2=4✓; k=4: φ(16)=8, 3·8=24, φ(24)=φ(8)φ(3)=4·2=8✓."
     },
     {
       "id": "EX-A2F7D7",
       "description": "n=4p with p=23,29: partner is always 3p",
       "supports_conjecture": true,
-      "detail": "\u03c6(4\u00b723)=\u03c6(92)=44. \u03c6(3\u00b723)=\u03c6(69)=\u03c6(3)\u03c6(23)=2\u00b722=44 \u2713. \u03c6(4\u00b729)=56. \u03c6(3\u00b729)=\u03c6(87)=2\u00b728=56 \u2713. Pattern: 3p is always a partner of 4p when p is prime and p\u22603."
+      "detail": "φ(4·23)=φ(92)=44. φ(3·23)=φ(69)=φ(3)φ(23)=2·22=44 ✓. φ(4·29)=56. φ(3·29)=φ(87)=2·28=56 ✓. Pattern: 3p is always a partner of 4p when p is prime and $p \\neq 3$."
     },
     {
       "id": "EX-C92CFE",
-      "description": "General: for n=4p (p odd prime, p\u22603), m=3p is always a partner",
+      "description": "General: for n=4p (p odd prime, $p \\neq 3)$, m=3p is always a partner",
       "supports_conjecture": true,
-      "detail": "\u03c6(4p)=\u03c6(4)\u03c6(p)=2(p\u22121). \u03c6(3p)=\u03c6(3)\u03c6(p)=2(p\u22121) since gcd(3,p)=1 for p\u22603. So 3p is always a partner. For p=3: n=12, \u03c6(12)=4=\u03c6(5). This proves SP-1CD80F."
+      "detail": "φ(4p)=φ(4)φ(p)=2(p−1). φ(3p)=φ(3)φ(p)=2(p−1) since gcd(3,p)=1 for $p \\neq 3$. So 3p is always a partner. For p=3: n=12, φ(12)=4=φ(5). This proves SP-1CD80F."
     },
     {
       "id": "EX-CABF1E",
-      "description": "Generalisation to n=2^a\u00b7q (a\u22652, 3\u2224q): partner is 3\u00b72^(a\u22121)\u00b7q",
+      "description": "Generalisation to n=$2^{a}$·q $(a \\geq 2$, 3∤q): partner is 3·$2^{(a}$−1)·q",
       "supports_conjecture": true,
-      "detail": "\u03c6(2^a\u00b7q)=2^(a\u22121)\u03c6(q). \u03c6(3\u00b72^(a\u22121)\u00b7q)=\u03c6(3)\u00b7\u03c6(2^(a\u22121))\u00b7\u03c6(q)=2\u00b72^(a\u22122)\u00b7\u03c6(q)=2^(a\u22121)\u03c6(q). Equal \u2713. 3\u00b72^(a\u22121)\u00b7q\u22602^a\u00b7q since 3\u22602. Covers all n=2^a\u00b7q with 3\u2224odd_part(n)."
+      "detail": "$φ(2^{a}$·q)=$2^{(a}$−1)φ(q). φ(3·$2^{(a}$−1)·q)=φ(3)·$φ(2^{(a}$−1))·φ(q)=2·$2^{(a}$−2)·φ(q)=$2^{(a}$−1)φ(q). Equal ✓. 3·$2^{(a}$−1)·q≠$2^{a}$·q since $3 \\neq 2$. Covers all n=$2^{a}$·q with 3∤odd_part(n)."
     },
     {
       "id": "EX-BC7AC5",
-      "description": "Boundary artifact: all 609 apparent singletons in n\u226410000 have n>5000",
+      "description": "Boundary artifact: all 609 apparent singletons in $n \\leq 10000$ have n>5000",
       "supports_conjecture": true,
-      "detail": "Computational search to N=10000: 609 totient values appear to have a unique preimage, but ALL have their sole preimage n>N/2=5000. For every n\u22645000, a partner m\u226410000 exists. This is a pure boundary effect. Extended to N=50000: zero cases of n=2^a\u00b73^b\u00b7r (a\u22652, b\u22651) without a partner within range."
+      "detail": "Computational search to N=10000: 609 totient values appear to have a unique preimage, but ALL have their sole preimage n>N/2=5000. For every $n \\leq 5000$, a partner $m \\leq 10000$ exists. This is a pure boundary effect. Extended to N=50000: zero cases of n=$2^{a}$·$3^{b}$·r $(a \\geq 2$, $b \\geq 1)$ without a partner within range."
     },
     {
       "id": "EX-DE4E69",
-      "description": "[Searcher r2] All n up to 50000; specifically all 4166 cases with n=2^a*3^b*r (a>=2, b>=1); all totient-uniqueness checks up to N=1000",
+      "description": "[Searcher r2] All n up to 50000; specifically all 4166 cases with n=$2^{a}$*$3^{b}$*r (a>=2, b>=1); all totient-uniqueness checks up to N=1000",
       "supports_conjecture": true,
-      "detail": "Code:\nfrom sympy import totient, isprime, factorint\nfrom collections import defaultdict\n\nN = 50000\npreimages = defaultdict(list)\nfor n in range(1, N+1):\n    v = totient(n)\n    preimages[v].append(n)\n\n# Check n=2^a*3^b*r gap cases\ngap_cases_no_partner = 0\ntotal_gap = 0\nfor n in range(1, N+1):\n    f = factorint(n)\n    a = f.get(2, 0); b = f.get(3, 0)\n    if a < 2 or b < 1: continue\n    total_gap += 1\n    partners = [m for m in preimages[totient(n)] if m != n]\n    if not partners: gap_cases_no_partner +=\n\nOutput:\n=== Cases n=2^a*3^b*r (a>=2, b>=1, gcd(r,6)=1) up to N=50000 ===\nTotal n=2^a*3^b*r with a>=2, b>=1 checked: 4166\nCases without partner (within N=50000): 0\n\nTotal unique totient values (n up to 10000): 609\nOf these, n > N/2 (boundary artifacts): 609\nSmall unique cases (n <= N/2 = 5000): 0\n\n=== Pure n=2^a*3^b (r=1) sample ===\n  n=12, phi=4, partners=[5,8,10]\n  n=36, phi=12, partners=[13,21,26,28,42]\n  n=108, phi=36, partners=[37,57,63,74,76]\n  n=1296, phi=432, partners=[433,481,511,...]\n\n=== phi+1"
+      "detail": "Code:\nfrom sympy import totient, isprime, factorint\nfrom collections import defaultdict\n\nN = 50000\npreimages = defaultdict(list)\nfor n in range(1, N+1):\n    v = totient(n)\n    preimages[v].append(n)\n\n# Check n=$2^{a}$*$3^{b}$*r gap cases\ngap_cases_no_partner = 0\ntotal_gap = 0\nfor n in range(1, N+1):\n    f = factorint(n)\n    a = f.get(2, 0); b = f.get(3, 0)\n    if a < 2 or b < 1: continue\n    total_gap += 1\n    partners = [m for m in preimages[totient(n)] if m != n]\n    if not partners: gap_cases_no_partner +=\n\nOutput:\n=== Cases n=$2^{a}$*$3^{b}$*r (a>=2, b>=1, gcd(r,6)=1) up to N=50000 ===\nTotal n=$2^{a}$*$3^{b}$*r with a>=2, b>=1 checked: 4166\nCases without partner (within N=50000): 0\n\nTotal unique totient values (n up to 10000): 609\nOf these, n > N/2 (boundary artifacts): 609\nSmall unique cases (n <= N/2 = 5000): 0\n\n=== Pure n=$2^{a}$*$3^{b}$ (r=1) sample ===\n  n=12, phi=4, partners=[5,8,10]\n  n=36, phi=12, partners=[13,21,26,28,42]\n  n=108, phi=36, partners=[37,57,63,74,76]\n  n=1296, phi=432, partners=[433,481,511,...]\n\n=== phi+1"
     },
     {
       "id": "EX-CC333D",
-      "description": "n=12=2^2*3 (Case 4b): m=2^3=8, no condition on r needed",
+      "description": "n=12=$2^{2}$*3 (Case 4b): m=$2^{3}$=8, no condition on r needed",
       "supports_conjecture": true,
-      "detail": "n=12, phi(12)=phi(4)*phi(3)=2*2=4. Case 4b: r=1, gcd(1,6)=1, m=2^(2+1)*1=8. phi(8)=4. m=8 != 12. Shows Case 4b requires no condition on r beyond gcd(r,6)=1."
+      "detail": "n=12, phi(12)=phi(4)*phi(3)=2*2=4. Case 4b: r=1, gcd(1,6)=1, m=$2^{(2}$+1)*1=8. phi(8)=4. m=8 != 12. Shows Case 4b requires no condition on r beyond gcd(r,6)=1."
     },
     {
       "id": "EX-2849A0",
-      "description": "n=36=2^2*3^2 (Case 5, b=2, c=0): m=7*2*3=42",
+      "description": "n=36=$2^{2}$*$3^{2}$ (Case 5, b=2, c=0): m=7*2*3=42",
       "supports_conjecture": true,
-      "detail": "n=36, phi(36)=phi(4)*phi(9)=2*6=12. Case 5: r=1, gcd(1,6)=1, 7 does not divide 1, m=7*2^(2-1)*3^(2-1)*1=42. phi(42)=phi(2*3*7)=1*2*6=12. m=42 != 36. Also prime partner m=13."
+      "detail": "n=36, phi(36)=phi(4)*phi(9)=2*6=12. Case 5: r=1, gcd(1,6)=1, 7 does not divide 1, m=7*$2^{(2}$-1)*$3^{(2}$-1)*1=42. phi(42)=phi(2*3*7)=1*2*6=12. m=42 != 36. Also prime partner m=13."
     },
     {
       "id": "EX-DAE393",
-      "description": "n=84=2^2*3*7 (Case 6, c=1, b=1): m=2^3*3^2=72",
+      "description": "n=84=$2^{2}$*3*7 (Case 6, c=1, b=1): m=$2^{3}$*$3^{2}$=72",
       "supports_conjecture": true,
-      "detail": "n=84=4*3*7, phi(84)=2*2*6=24. Case 6: s=1, gcd(1,42)=1, m=2^(2+1)*3^(1+1)*1=8*9=72. phi(72)=phi(8)*phi(9)=4*6=24. m=72 != 84. Case 6 converts one 7 into one extra factor each of 2 and 3."
+      "detail": "n=84=4*3*7, phi(84)=2*2*6=24. Case 6: s=1, gcd(1,42)=1, m=$2^{(2}$+1)*$3^{(1}$+1)*1=8*9=72. phi(72)=phi(8)*phi(9)=4*6=24. m=72 != 84. Case 6 converts one 7 into one extra factor each of 2 and 3."
     },
     {
       "id": "EX-F149C7",
-      "description": "n=1764=2^2*3^2*7^2 (Case 7 and New General Case): two distinct partners",
+      "description": "n=1764=$2^{2}$*$3^{2}$*$7^{2}$ (Case 7 and New General Case): two distinct partners",
       "supports_conjecture": true,
-      "detail": "n=1764=4*9*49, phi(1764)=2*6*42=504. Case 7: m=43*4*9=1548. phi(1548)=phi(4*9*43)=2*6*42=504. New General Case: m=43*2^1*3^1*7^1=43*42=1806. phi(1806)=phi(2*3*7*43)=1*2*6*42=504. Both partners independently verified."
+      "detail": "n=1764=4*9*49, phi(1764)=2*6*42=504. Case 7: m=43*4*9=1548. phi(1548)=phi(4*9*43)=2*6*42=504. New General Case: m=43*$2^{1}$*$3^{1}$*$7^{1}$=43*42=1806. phi(1806)=phi(2*3*7*43)=1*2*6*42=504. Both partners independently verified."
     },
     {
       "id": "EX-C6D3AA",
-      "description": "n=324=2^2*3^4 (Case 5, b=4): m=7*2*27=378",
+      "description": "n=324=$2^{2}$*$3^{4}$ (Case 5, b=4): m=7*2*27=378",
       "supports_conjecture": true,
-      "detail": "n=324=4*81, phi(324)=2*54=108. Case 5: r=1, 7 does not divide 1, m=7*2^(2-1)*3^(4-1)*1=7*2*27=378. phi(378)=phi(2*3^3*7)=1*18*6=108. m=378 != 324."
+      "detail": "n=324=4*81, phi(324)=2*54=108. Case 5: r=1, 7 does not divide 1, m=7*$2^{(2}$-1)*$3^{(4}$-1)*1=7*2*27=378. phi(378)=phi(2*$3^{3}$*7)=1*18*6=108. m=378 != 324."
     },
     {
       "id": "EX-2F74EF",
       "description": "[Searcher r4] All n up to N=200000; 1020 hard cases (c>=2, gcd(s,42)=1); Cases 4b (5556), 5 (1190), 6 (510), 7 (815) verified with 0 f",
       "supports_conjecture": true,
-      "detail": "Code:\nfrom sympy import totient, factorint\nfrom math import gcd\nfrom collections import defaultdict\nN = 200000\nphi_vals = [totient(i) for i in range(N+1)]\ninv_phi = defaultdict(list)\nfor n in range(1,N+1): inv_phi[phi_vals[n]].append(n)\n# Hard cases c>=2\nhard_cases=[]; no_partner=[]\nfor n in range(4,N+1,4):\n    f=factorint(n); v2,v3,v7=f.get(2,0),f.get(3,0),f.get(7,0)\n    if v2<2 or v7<2: continue\n    s=n//(2**v2*3**v3*7**v7)\n    if gcd(s,42)!=1: continue\n    hard_cases.append(n)\n    if len([m for m i\n\nOutput:\nComputing phi for n up to 200000...\nSingletons (phi achieved exactly once) up to N=200000: 10020\n  Min n in singleton: 100003\n  Max n in singleton: 199999\n\n--- Hard cases: c>=2 (7^2 divides odd_part(n)) ---\nHard cases tested (c>=2, n<=200000): 1020\nHard cases with NO partner found: 0\n\n--- Verifying 'replace 7^2 with 43' trick (Case 7) ---\n'Replace 7^2 with 43' verified for 815 cases, failed for 0\n\n--- Verifying Case 4b: n=2^a*3*r -> m=2^(a+1)*r ---\nCase 4b verified for 5556 cases, failed for 0\n\n"
+      "detail": "Code:\nfrom sympy import totient, factorint\nfrom math import gcd\nfrom collections import defaultdict\nN = 200000\nphi_vals = [totient(i) for i in range(N+1)]\ninv_phi = defaultdict(list)\nfor n in range(1,N+1): inv_phi[phi_vals[n]].append(n)\n# Hard cases c>=2\nhard_cases=[]; $no_{partner}$=[]\nfor n in range(4,N+1,4):\n    f=factorint(n); v2,v3,v7=f.get(2,0),f.get(3,0),f.get(7,0)\n    if v2<2 or v7<2: continue\n    s=n//(2**v2*3**v3*7**v7)\n    if gcd(s,42)!=1: continue\n    hard_cases.append(n)\n    if len([m for m i\n\nOutput:\nComputing phi for n up to 200000...\nSingletons (phi achieved exactly once) up to N=200000: 10020\n  Min n in singleton: 100003\n  Max n in singleton: 199999\n\n--- Hard cases: c>=2 $(7^{2}$ divides odd_part(n)) ---\nHard cases tested (c>=2, n<=200000): 1020\nHard cases with NO partner found: 0\n\n--- Verifying 'replace $7^{2}$ with 43' trick (Case 7) ---\n'Replace $7^{2}$ with 43' verified for 815 cases, failed for 0\n\n--- Verifying Case 4b: n=$2^{a}$*3*r -> m=$2^{(a}$+1)*r ---\nCase 4b verified for 5556 cases, failed for 0\n\n"
     },
     {
       "id": "EX-17B483",
@@ -351,7 +351,7 @@
     },
     {
       "id": "EX-FA84EA",
-      "description": "[Literature] Computational verification: conjecture verified for all n up to at least 10^10. Schlafly and Wagon (1994) showed no coun",
+      "description": "[Literature] Computational verification: conjecture verified for all n up to at least $10^{10}$. Schlafly and Wagon (1994) showed no coun",
       "supports_conjecture": null,
       "detail": "Source: Schlafly, A. and Wagon, S. (1994). Mathematics of Computation 63, 415-419.\nRelevance: Establishes computational baseline. Our construction-based proof is stronger: it covers infinite families analytically."
     },
@@ -359,7 +359,7 @@
       "id": "EX-BF7D3B",
       "description": "[Literature] Ford (1998): structural results on totient value multiplicities. Any counterexample to Carmichael conjecture would requi",
       "supports_conjecture": null,
-      "detail": "Source: Ford, Kevin (1998). Ramanujan Journal 2, 67-151.\nRelevance: Relevant to SP-10F5C2. Ford's constraints should be checked against our remaining open class (43|s, b,c>=2)."
+      "detail": "Source: Ford, Kevin (1998). Ramanujan Journal 2, 67-151.\nRelevance: Relevant to SP-10F5C2. Ford's constraints should be checked against our remaining open class ($43 \\mid s$, b,c>=2)."
     },
     {
       "id": "EX-31CA99",
@@ -381,117 +381,117 @@
     },
     {
       "id": "EX-085BC0",
-      "description": "6\u00b77^(c\u22121)+1 primality for c=1..10: prime only for c=1,2,5,10",
+      "description": "6·$7^{(c}$−1)+1 primality for c=1..10: prime only for c=1,2,5,10",
       "supports_conjecture": null,
-      "detail": "c=1:7(P), c=2:43(P), c=3:295=5\u00b759(C), c=4:2059=29\u00b771(C), c=5:14407(P), c=6:100843=31\u00b73253(C), c=7:705895=5\u00b7141179(C), c=8:4941259=43\u00b7114913(C), c=9:34588807=11\u00b753\u00b779\u00b7751(C), c=10:242121643(P). Pattern: prime at c=1,2,5,10 in range tested \u2014 sporadic, not always prime, but occurs infinitely often heuristically."
+      "detail": "c=1:7(P), c=2:43(P), c=3:295=5·59(C), c=4:2059=29·71(C), c=5:14407(P), c=6:100843=31·3253(C), c=7:705895=5·141179(C), c=8:4941259=43·114913(C), c=9:34588807=11·53·79·751(C), c=10:242121643(P). Pattern: prime at c=1,2,5,10 in range tested — sporadic, not always prime, but occurs infinitely often heuristically."
     },
     {
       "id": "EX-A5FDAB",
-      "description": "Composite partner 21473=109\u00b7197 for n=75852 (analytically verified)",
+      "description": "Composite partner 21473=109·197 for n=75852 (analytically verified)",
       "supports_conjecture": true,
-      "detail": "phi(109)=108=2^2\u00b73^3, phi(197)=196=2^2\u00b77^2. Product: 108\u00b7196=21168=phi(75852). Both 109 and 197 prime. Structure: 109=2^2\u00b73^3+1 and 197=2^2\u00b77^2+1. This 'split-phi' construction m=p\u00b7q with (p-1)(q-1)=phi(n) gives a verified partner."
+      "detail": "phi(109)=108=$2^{2}$·$3^{3}$, phi(197)=196=$2^{2}$·$7^{2}$. Product: 108·196=21168=phi(75852). Both 109 and 197 prime. Structure: 109=$2^{2}$·$3^{3}$+1 and 197=$2^{2}$·$7^{2}$+1. This 'split-phi' construction m=p·q with (p-1)(q-1)=phi(n) gives a verified partner."
     },
     {
       "id": "EX-C3FB5E",
-      "description": "n=530964=2^2\u00b73^2\u00b77^3\u00b743 (c=3, first open-class instance with 6\u00b77^(c-1)+1 composite): 85 partners found up to 600000",
+      "description": "n=530964=$2^{2}$·$3^{2}$·$7^{3}$·43 (c=3, first open-class instance with 6·$7^{(c}$-1)+1 composite): 85 partners found up to 600000",
       "supports_conjecture": true,
-      "detail": "phi(530964)=148176=2^4\u00b73^3\u00b77^3. Smallest partners: 149129=197\u00b7757 (phi(197)=196=2^2\u00b77^2, phi(757)=756=2^2\u00b73^3\u00b77, product=148176 \u2713), 149657=109\u00b71373 (phi(109)=108, phi(1373)=1372=2^2\u00b77^3, product=148176 \u2713), 151747=43\u00b73529. phi(n)+1=148177: needs primality check. The prime 197=2^2\u00b77^2+1 appears as a factor in partners for BOTH n=75852 (c=2) and n=530964 (c=3)."
+      "detail": "phi(530964)=148176=$2^{4}$·$3^{3}$·$7^{3}$. Smallest partners: 149129=197·757 (phi(197)=196=$2^{2}$·$7^{2}$, phi(757)=756=$2^{2}$·$3^{3}$·7, product=148176 ✓), 149657=109·1373 (phi(109)=108, phi(1373)=1372=$2^{2}$·$7^{3}$, product=148176 ✓), 151747=43·3529. phi(n)+1=148177: needs primality check. The prime 197=$2^{2}$·$7^{2}$+1 appears as a factor in partners for BOTH n=75852 (c=2) and n=530964 (c=3)."
     },
     {
       "id": "EX-EEE574",
       "description": "Multiple product-of-two-primes constructions for all three open-class instances up to N=250000",
       "supports_conjecture": true,
-      "detail": "n=75852: pairs (7,3529),(29,757),(109,197). n=151704=2^3\u00b73^2\u00b77^2\u00b743: pairs (3,21169),(7,7057),(13,3529),(17,2647),(43,1009). n=227556=2^2\u00b73^3\u00b77^2\u00b743: pairs (5,15877),(19,3529),(29,2269),(73,883). The prime 3529=2^3\u00b73^2\u00b77^2+1 appears for n=75852, 151704, and 227556."
+      "detail": "n=75852: pairs (7,3529),(29,757),(109,197). n=151704=$2^{3}$·$3^{2}$·$7^{2}$·43: pairs (3,21169),(7,7057),(13,3529),(17,2647),(43,1009). n=227556=$2^{2}$·$3^{3}$·$7^{2}$·43: pairs (5,15877),(19,3529),(29,2269),(73,883). The prime 3529=$2^{3}$·$3^{2}$·$7^{2}$+1 appears for n=75852, 151704, and 227556."
     },
     {
       "id": "EX-250308",
       "description": "[Searcher r7] All 3 open-class instances up to N=250000 (75852, 151704, 227556); partner search up to 3n for each. n=530964 (c=3) sear",
       "supports_conjecture": true,
-      "detail": "Code:\nfrom sympy import totient, isprime, factorint\ndef phi(n): return int(totient(n))\n\n# 1. 6*7^(c-1)+1 primality\nfor c in range(1,11):\n    val=6*7**(c-1)+1\n    print(f'c={c}: {val} -> {\"PRIME\" if isprime(val) else f\"composite: {factorint(val)}\"}')\n\n# 2. Partners for n=530964\npartners=[m for m in range(2,600000) if m!=530964 and phi(m)==phi(530964)]\nprint(f'n=530964 partners (first 5): {partners[:5]}')\nfor m in partners[:5]: print(f'  {m}={factorint(m)}')\n\n# 3. Verify 21473=109*197\nprint(f'phi(21473)\n\nOutput:\n=== 6*7^(c-1)+1 primality ===\nc=1: 7 -> PRIME\nc=2: 43 -> PRIME\nc=3: 295 -> composite: {5: 1, 59: 1}\nc=4: 2059 -> composite: {29: 1, 71: 1}\nc=5: 14407 -> PRIME\nc=6: 100843 -> composite: {31: 1, 3253: 1}\nc=7: 705895 -> composite: {5: 1, 141179: 1}\nc=8: 4941259 -> composite: {43: 1, 114913: 1}\nc=9: 34588807 -> composite: {11: 1, 53: 1, 79: 1, 751: 1}\nc=10: 242121643 -> PRIME\n\nn=530964 partners (first 5): [149129, 149657, 151747, 156427, 158369]\n  149129={197: 1, 757: 1}, phi=148176\n  149657={109: 1"
+      "detail": "Code:\nfrom sympy import totient, isprime, factorint\ndef phi(n): return int(totient(n))\n\n# 1. 6*$7^{(c}$-1)+1 primality\nfor c in range(1,11):\n    val=6*7**(c-1)+1\n    print(f'c={c}: {val} -> {\"PRIME\" if isprime(val) else f\"composite: {factorint(val)}\"}')\n\n# 2. Partners for n=530964\npartners=[m for m in range(2,600000) if m!=530964 and phi(m)==phi(530964)]\nprint(f'n=530964 partners (first 5): {partners[:5]}')\nfor m in partners[:5]: print(f'  {m}={factorint(m)}')\n\n# 3. Verify 21473=109*197\nprint(f'phi(21473)\n\nOutput:\n=== 6*$7^{(c}$-1)+1 primality ===\nc=1: 7 -> PRIME\nc=2: 43 -> PRIME\nc=3: 295 -> composite: {5: 1, 59: 1}\nc=4: 2059 -> composite: {29: 1, 71: 1}\nc=5: 14407 -> PRIME\nc=6: 100843 -> composite: {31: 1, 3253: 1}\nc=7: 705895 -> composite: {5: 1, 141179: 1}\nc=8: 4941259 -> composite: {43: 1, 114913: 1}\nc=9: 34588807 -> composite: {11: 1, 53: 1, 79: 1, 751: 1}\nc=10: 242121643 -> PRIME\n\nn=530964 partners (first 5): [149129, 149657, 151747, 156427, 158369]\n  149129={197: 1, 757: 1}, phi=148176\n  149657={109: 1"
     },
     {
       "id": "EX-2039AA",
-      "description": "[Literature] Ford (1998): If any counterexample exists, a POSITIVE PROPORTION of all totient values are counterexamples \u2014 they cannot",
+      "description": "[Literature] Ford (1998): If any counterexample exists, a POSITIVE PROPORTION of all totient values are counterexamples — they cannot",
       "supports_conjecture": null,
-      "detail": "Source: Kevin Ford, 'The Distribution of Totients', Ramanujan Journal 2 (1998). AMS ERA 1998. https://www.ams.org/journals/era/1998-04-05/S1079-6762-98-00043-2/\nRelevance: SP-2BB21D: Ford's theorem does not directly close Sophie's open class, but makes isolated counterexample impossible. The 10^(10^10) lower bound means all n in Sophie's computational range (n<10^6) must have partners."
+      "detail": "Source: Kevin Ford, 'The Distribution of Totients', Ramanujan Journal 2 (1998). AMS ERA 1998. https://www.ams.org/journals/era/1998-04-05/S1079-6762-98-00043-2/\nRelevance: SP-2BB21D: Ford's theorem does not directly close Sophie's open class, but makes isolated counterexample impossible. The $10^{(10}$^10) lower bound means all n in Sophie's computational range (n<$10^{6)}$ must have partners."
     },
     {
       "id": "EX-F10B46",
-      "description": "[Literature] Klee's structural theorem: (1) any counterexample n is divisible by the square of every prime p|phi(n); (2) 8 and Fermat",
+      "description": "[Literature] Klee's structural theorem: (1) any counterexample n is divisible by the square of every prime $p \\mid phi(n)$; (2) 8 and Fermat",
       "supports_conjecture": null,
-      "detail": "Source: Victor Klee (referenced in Wikipedia https://en.wikipedia.org/wiki/Carmichael%27s_totient_function_conjecture and MathWorld https://mathworld.wolfram.com/CarmichaelsTotientFunctionConjecture.html)\nRelevance: Klee condition (3) confirms Sophie's strategy of focusing on 4|n is not just sufficient but necessary \u2014 proving it for 4|n proves the full conjecture. Klee condition (1) is consistent with Sophie's open class n=2^a*3^b*7^c*43 having a,b,c\u22652."
+      "detail": "Source: Victor Klee (referenced in Wikipedia https://en.wikipedia.org/wiki/Carmichael%27s_totient_function_conjecture and MathWorld https://mathworld.wolfram.com/CarmichaelsTotientFunctionConjecture.html)\nRelevance: Klee condition (3) confirms Sophie's strategy of focusing on $4 \\mid n$ is not just sufficient but necessary — proving it for $4 \\mid n$ proves the full conjecture. Klee condition (1) is consistent with Sophie's open class n=$2^{a}$*$3^{b}$*$7^{c}$*43 having a,b,$c \\geq 2$."
     },
     {
       "id": "EX-4F296D",
-      "description": "[Literature] Shannon, Shiue, He, Saito (2025): Carmichael's conjecture proved for all n with phi(n) of forms 2^t, 2p^s, 4p, or 2pq. U",
+      "description": "[Literature] Shannon, Shiue, He, Saito (2025): Carmichael's conjecture proved for all n with phi(n) of forms $2^{t}$, $2p^{s}$, 4p, or 2pq. U",
       "supports_conjecture": null,
-      "detail": "Source: 'On the special cases of Carmichael's totient conjecture', NNTDM 31(3):504\u2013534 (2025). https://nntdm.net/volume-31-2025/number-3/504-534/\nRelevance: These cases (phi=2pq etc.) are simpler than Sophie's open class phi(n)=2^(a+2)*3^(b+1)*7^c*phi(s), but the algorithmic approach may extend. Sophie Germain prime usage is potentially relevant to the split-phi construction."
+      "detail": "Source: 'On the special cases of Carmichael's totient conjecture', NNTDM 31(3):504–534 (2025). https://nntdm.net/volume-31-2025/number-3/504-534/\nRelevance: These cases (phi=2pq etc.) are simpler than Sophie's open class phi(n)=$2^{(a}$+2)*$3^{(b}$+1)*$7^{c}$*phi(s), but the algorithmic approach may extend. Sophie Germain prime usage is potentially relevant to the split-phi construction."
     },
     {
       "id": "EX-E3C658",
       "description": "[Literature] [UNVERIFIED] 2024 claims of full proof using Langlands program: not peer-reviewed, not credible.",
       "supports_conjecture": null,
-      "detail": "Source: augusttudor.com (2024); Academia.edu \u2014 no journal publication as of 2026.\nRelevance: Disregard; conjecture listed as open by Wikipedia as of 2026."
+      "detail": "Source: augusttudor.com (2024); Academia.edu — no journal publication as of 2026.\nRelevance: Disregard; conjecture listed as open by Wikipedia as of 2026."
     }
   ],
   "proof_attempts": [
     {
       "id": "PA-1865AE",
       "round": 1,
-      "sketch": "We prove the conjecture for all n not divisible by 4, and give strong evidence for 4|n.\n\n**Key multiplicativity fact:** \u03c6(2n)=\u03c6(n) for all odd n, since \u03c6 is multiplicative and gcd(2,n)=1 with \u03c6(2)=1.\n\n**Case 1: n odd (n\u22651).**\nSet m=2n. Then m\u2260n (since m=2n>n\u22651) and \u03c6(m)=\u03c6(2n)=\u03c6(2)\u03c6(n)=\u03c6(n). \u2713\n\n**Case 2: n\u22612 (mod 4), i.e. n=2k with k odd.**\nSet m=k=n/2. Then m\u2260n and \u03c6(m)=\u03c6(k)=\u03c6(2k)=\u03c6(n) (by Case 1 applied to k odd). \u2713\n\n**Case 3: n=2^a with a\u22652.**\n\u03c6(2^a)=2^(a\u22121). Set m=3\u00b72^(a\u22121). Then \u03c6(m)=\u03c6(3)\u00b7\u03c6(2^(a\u22121))=2\u00b72^(a\u22122)=2^(a\u22121)=\u03c6(2^a). And m=3\u00b72^(a\u22121)\u22602^a. \u2713\n\n**Case 4: n=2^a\u00b7q with a\u22652, q\u22653 odd.** [PARTIAL/UNVERIFIED]\n\u03c6(n)=2^(a\u22121)\u00b7\u03c6(q). No uniform partner construction established. The cleanest gap: it is unknown in full generality whether a distinct m with \u03c6(m)=\u03c6(n) always exists when 4|n and the odd part is \u22653, though computational evidence strongly supports it.",
+      "sketch": "We prove the conjecture for all n not divisible by 4, and give strong evidence for $4 \\mid n$.\n\n**Key multiplicativity fact:** φ(2n)=φ(n) for all odd n, since φ is multiplicative and gcd(2,n)=1 with φ(2)=1.\n\n**Case 1: n odd $(n \\geq 1)$.**\nSet m=2n. Then $m \\neq n$ (since m=2n>$n \\geq 1)$ and φ(m)=φ(2n)=φ(2)φ(n)=φ(n). ✓\n\n**Case 2: $n \\equiv 2 \\pmod{4}$, i.e. n=2k with k odd.**\nSet m=k=n/2. Then $m \\neq n$ and φ(m)=φ(k)=φ(2k)=φ(n) (by Case 1 applied to k odd). ✓\n\n**Case 3: n=$2^{a}$ with $a \\geq 2$.**\n$φ(2^{a)}$=$2^{(a}$−1). Set m=3·$2^{(a}$−1). Then φ(m)=φ(3)·$φ(2^{(a}$−1))=2·$2^{(a}$−2)=$2^{(a}$−1)=$φ(2^{a)}$. And m=3·$2^{(a}$−1)≠$2^{a}$. ✓\n\n**Case 4: n=$2^{a}$·q with $a \\geq 2$, $q \\geq 3$ odd.** [PARTIAL/UNVERIFIED]\nφ(n)=$2^{(a}$−1)·φ(q). No uniform partner construction established. The cleanest gap: it is unknown in full generality whether a distinct m with φ(m)=φ(n) always exists when $4 \\mid n$ and the odd part $is \\geq 3$, though computational evidence strongly supports it.",
       "status": "valid",
-      "checker_feedback": "Cases 1, 2, 3 are rigorously verified. Case 1: \u03c6(2n)=\u03c6(n) for odd n follows directly from multiplicativity of \u03c6 and \u03c6(2)=1, gcd(2,n)=1; m=2n\u2260n is immediate. Case 2: reduces cleanly to Case 1 with m=n/2. Case 3: \u03c6(3\u00b72^(a\u22121))=\u03c6(3)\u00b7\u03c6(2^(a\u22121))=2\u00b72^(a\u22122)=2^(a\u22121)=\u03c6(2^a) is a correct computation; 3\u00b72^(a\u22121)\u22602^a since 3\u22602. Case 4 is correctly labelled [PARTIAL/UNVERIFIED] and remains unresolved \u2014 the proof does NOT close the conjecture. No errors found in the established cases."
+      "checker_feedback": "Cases 1, 2, 3 are rigorously verified. Case 1: φ(2n)=φ(n) for odd n follows directly from multiplicativity of φ and φ(2)=1, gcd(2,n)=1; m=$2n \\neq n$ is immediate. Case 2: reduces cleanly to Case 1 with m=n/2. Case 3: φ(3·$2^{(a}$−1))=φ(3)·$φ(2^{(a}$−1))=2·$2^{(a}$−2)=$2^{(a}$−1)=$φ(2^{a)}$ is a correct computation; 3·$2^{(a}$−1)≠$2^{a}$ since $3 \\neq 2$. Case 4 is correctly labelled [PARTIAL/UNVERIFIED] and remains unresolved — the proof does NOT close the conjecture. No errors found in the established cases."
     },
     {
       "id": "PA-6713E5",
       "round": 2,
-      "sketch": "Building on Round 1, we now close several additional cases.\n\n**Previously proved (Round 1):** Cases 1 (odd n\u21922n), 2 (n\u22612 mod 4\u2192n/2), 3 (n=2^a\u21923\u00b72^(a\u22121)).\n\n**New Case 4a: n=2^a\u00b7q with a\u22652, q\u22653 odd, 3\u2224q.**\nSet m=3\u00b72^(a\u22121)\u00b7q. Since q is odd and 3\u2224q, we have gcd(3,2^(a\u22121))=gcd(3,q)=gcd(2^(a\u22121),q)=1.\n\u03c6(m)=\u03c6(3)\u00b7\u03c6(2^(a\u22121))\u00b7\u03c6(q)=2\u00b72^(a\u22122)\u00b7\u03c6(q)=2^(a\u22121)\u00b7\u03c6(q)=\u03c6(2^a)\u00b7\u03c6(q)=\u03c6(n). \u2713\nm\u2260n: 3\u00b72^(a\u22121)\u00b7q=2^a\u00b7q iff 3=2. \u2717 \u2713\nThis covers ALL n=2^a\u00b7q with a\u22652, q odd, 3\u2224q (including q prime or composite).\n\n**Remaining gap: n=2^a\u00b73^b\u00b7r with a\u22652, b\u22651, r\u22651 odd, gcd(r,6)=1.**\n\u03c6(n)=2^(a\u22121)\u00b72\u00b73^(b\u22121)\u00b7\u03c6(r)=2^a\u00b73^(b\u22121)\u00b7\u03c6(r).\nThe 3\u00d7 trick fails (would give 3^(b+1) in m). Try 5\u00d7 trick when 5\u2224r:\nSet m=5\u00b72^(a\u22121)\u00b73^(b\u22121)\u00b7r (if 5\u2224r and gcd(5,2^(a\u22121)\u00b73^(b\u22121)\u00b7r)=1):\n\u03c6(m)=\u03c6(5)\u00b7\u03c6(2^(a\u22121))\u00b7\u03c6(3^(b\u22121))\u00b7\u03c6(r)=4\u00b72^(a\u22122)\u00b72\u00b73^(b\u22122)\u00b7\u03c6(r)...\nThis gives 4\u00b72^(a\u22122)\u00b72\u00b73^(b\u22122)\u00b7\u03c6(r)=2^a\u00b73^(b\u22122)\u00b7\u03c6(r)\u2260target (off by factor of 3 for b\u22652).\nFor b=1: target=2^a\u00b7\u03c6(r). Try m=5\u00b72^(a\u22121)\u00b7r (if 5\u2224r): \u03c6(m)=4\u00b72^(a\u22122)\u00b7\u03c6(r)=2^a\u00b7\u03c6(r)=target \u2713.\nSo Case 4b (b=1, 5\u2224r): n=2^a\u00b73\u00b7r, m=5\u00b72^(a\u22121)\u00b7r is a partner. [VERIFIED for gcd(5,r)=1]\nFor b\u22652 or 5|r: open. [UNVERIFIED]",
+      "sketch": "Building on Round 1, we now close several additional cases.\n\n**Previously proved (Round 1):** Cases 1 (odd n→2n), 2 $(n \\equiv 2 \\pmod{4}$→n/2), 3 (n=$2^{a}$→3·$2^{(a}$−1)).\n\n**New Case 4a: n=$2^{a}$·q with $a \\geq 2$, $q \\geq 3$ odd, 3∤q.**\nSet m=3·$2^{(a}$−1)·q. Since q is odd and 3∤q, we have gcd(3,$2^{(a}$−1))=gcd(3,q)=$gcd(2^{(a}$−1),q)=1.\nφ(m)=φ(3)·$φ(2^{(a}$−1))·φ(q)=2·$2^{(a}$−2)·φ(q)=$2^{(a}$−1)·φ(q)=$φ(2^{a)}$·φ(q)=φ(n). ✓\n$m \\neq n$: 3·$2^{(a}$−1)·q=$2^{a}$·q iff 3=2. ✗ ✓\nThis covers ALL n=$2^{a}$·q with $a \\geq 2$, q odd, 3∤q (including q prime or composite).\n\n**Remaining gap: n=$2^{a}$·$3^{b}$·r with $a \\geq 2$, $b \\geq 1$, $r \\geq 1$ odd, gcd(r,6)=1.**\nφ(n)=$2^{(a}$−1)·2·$3^{(b}$−1)·φ(r)=$2^{a}$·$3^{(b}$−1)·φ(r).\nThe 3× trick fails (would give $3^{(b}$+1) in m). Try 5× trick when 5∤r:\nSet m=5·$2^{(a}$−1)·$3^{(b}$−1)·r (if 5∤r and gcd(5,$2^{(a}$−1)·$3^{(b}$−1)·r)=1):\nφ(m)=φ(5)·$φ(2^{(a}$−1))·$φ(3^{(b}$−1))·φ(r)=4·$2^{(a}$−2)·2·$3^{(b}$−2)·φ(r)...\nThis gives 4·$2^{(a}$−2)·2·$3^{(b}$−2)·φ(r)=$2^{a}$·$3^{(b}$−2)·$φ(r) \\neq target$ (off by factor of 3 for $b \\geq 2)$.\nFor b=1: target=$2^{a}$·φ(r). Try m=5·$2^{(a}$−1)·r (if 5∤r): φ(m)=4·$2^{(a}$−2)·φ(r)=$2^{a}$·φ(r)=target ✓.\nSo Case 4b (b=1, 5∤r): n=$2^{a}$·3·r, m=5·$2^{(a}$−1)·r is a partner. [VERIFIED for gcd(5,r)=1]\nFor $b \\geq 2$ or $5 \\mid r$: open. [UNVERIFIED]",
       "status": "valid",
-      "checker_feedback": "Case 4a (n=2^a\u00b7q, a\u22652, q\u22653 odd, 3\u2224q): VERIFIED. The three coprimality conditions hold by hypothesis (q odd \u27f9 gcd(2^(a-1),q)=1; 3\u2224q \u27f9 gcd(3,q)=1; 3 odd \u27f9 gcd(3,2^(a-1))=1). Multiplicativity gives \u03c6(3\u00b72^(a-1)\u00b7q)=\u03c6(3)\u00b7\u03c6(2^(a-1))\u00b7\u03c6(q)=2\u00b72^(a-2)\u00b7\u03c6(q)=2^(a-1)\u00b7\u03c6(q)=\u03c6(2^a)\u00b7\u03c6(q)=\u03c6(n). Inequality m\u2260n is immediate (3\u00b72^(a-1)\u00b7q=2^a\u00b7q iff 3=2). Valid for q prime or composite. Covers ALL n=2^a\u00b7q with a\u22652, q odd, 3\u2224q: correct.\n\nCase 4b (n=2^a\u00b73\u00b7r, a\u22652, gcd(r,6)=1, 5\u2224r): VERIFIED. m=5\u00b72^(a-1)\u00b7r. Coprimality: gcd(5,2^(a-1))=1; gcd(5,r)=1 (5\u2224r by assumption); gcd(2^(a-1),r)=1 (r odd). \u03c6(m)=\u03c6(5)\u00b7\u03c6(2^(a-1))\u00b7\u03c6(r)=4\u00b72^(a-2)\u00b7\u03c6(r)=2^a\u00b7\u03c6(r). Target: \u03c6(n)=\u03c6(2^a)\u00b7\u03c6(3)\u00b7\u03c6(r)=2^(a-1)\u00b72\u00b7\u03c6(r)=2^a\u00b7\u03c6(r). Match confirmed. m\u2260n: n has factor 3 but 3\u2224m (since 3\u22245, 3\u22242^(a-1), 3\u2224r). Valid.\n\nFailed 5\u00d7 trick for b\u22652: correctly identified. Observation: for n=2^a\u00b73^2\u00b7r (b=2), trying m=7\u00b72^(a-1)\u00b73\u00b7r (when 7\u2224r) gives \u03c6(m)=\u03c6(7)\u00b7\u03c6(2^(a-1))\u00b7\u03c6(3)\u00b7\u03c6(r)=6\u00b72^(a-2)\u00b72\u00b7\u03c6(r)=6\u00b72^(a-1)\u00b7\u03c6(r)=3\u00b72^a\u00b7\u03c6(r)=\u03c6(n). This hint may open case b=2.\n\nOPEN GAPS: (i) n=2^a\u00b73^b\u00b7r with b\u22652, a\u22652, gcd(r,6)=1; (ii) n=2^a\u00b73\u00b7r with a\u22652, gcd(r,6)=1, 5|r. Proof explicitly acknowledges these with no unjustified claims. closes_conjecture must be false."
+      "checker_feedback": "Case 4a (n=$2^{a}$·q, $a \\geq 2$, $q \\geq 3$ odd, 3∤q): VERIFIED. The three coprimality conditions hold by hypothesis (q odd ⟹ $gcd(2^{(a}$-1),q)=1; 3∤q ⟹ gcd(3,q)=1; 3 odd ⟹ gcd(3,$2^{(a}$-1))=1). Multiplicativity gives φ(3·$2^{(a}$-1)·q)=φ(3)·$φ(2^{(a}$-1))·φ(q)=2·$2^{(a}$-2)·φ(q)=$2^{(a}$-1)·φ(q)=$φ(2^{a)}$·φ(q)=φ(n). Inequality $m \\neq n$ is immediate (3·$2^{(a}$-1)·q=$2^{a}$·q iff 3=2). Valid for q prime or composite. Covers ALL n=$2^{a}$·q with $a \\geq 2$, q odd, 3∤q: correct.\n\nCase 4b (n=$2^{a}$·3·r, $a \\geq 2$, gcd(r,6)=1, 5∤r): VERIFIED. m=5·$2^{(a}$-1)·r. Coprimality: gcd(5,$2^{(a}$-1))=1; gcd(5,r)=1 (5∤r by assumption); $gcd(2^{(a}$-1),r)=1 (r odd). φ(m)=φ(5)·$φ(2^{(a}$-1))·φ(r)=4·$2^{(a}$-2)·φ(r)=$2^{a}$·φ(r). Target: φ(n)=$φ(2^{a)}$·φ(3)·φ(r)=$2^{(a}$-1)·2·φ(r)=$2^{a}$·φ(r). Match confirmed. $m \\neq n$: n has factor 3 but 3∤m (since 3∤5, 3∤$2^{(a}$-1), 3∤r). Valid.\n\nFailed 5× trick for $b \\geq 2$: correctly identified. Observation: for n=$2^{a}$·$3^{2}$·r (b=2), trying m=7·$2^{(a}$-1)·3·r (when 7∤r) gives φ(m)=φ(7)·$φ(2^{(a}$-1))·φ(3)·φ(r)=6·$2^{(a}$-2)·2·φ(r)=6·$2^{(a}$-1)·φ(r)=3·$2^{a}$·φ(r)=φ(n). This hint may open case b=2.\n\nOPEN GAPS: (i) n=$2^{a}$·$3^{b}$·r with $b \\geq 2$, $a \\geq 2$, gcd(r,6)=1; (ii) n=$2^{a}$·3·r with $a \\geq 2$, gcd(r,6)=1, $5 \\mid r$. Proof explicitly acknowledges these with no unjustified claims. closes_conjecture must be false."
     },
     {
       "id": "PA-F92DD2",
       "round": 4,
-      "sketch": "This round establishes three new proved cases plus a broad New General Case.\n\n**Case 4b (completely resolved):**\nn=2^a*3*r (a>=1, r odd, gcd(r,6)=1) -> m=2^(a+1)*r.\nphi(2^(a+1)*r)=2^a*phi(r). phi(2^a*3*r)=2^(a-1)*2*phi(r)=2^a*phi(r). Equal. m != n since n has odd factor 3, m does not (gcd(r,6)=1 means 3 does not divide r). NO restriction on r beyond gcd(r,6)=1 -- supersedes the Round 3 5x trick.\n\n**Case 6 (c=1, b>=1):**\nn=2^a*3^b*7*s (a>=1, b>=1, gcd(s,42)=1) -> m=2^(a+1)*3^(b+1)*s.\nphi(m)=2^a*(2*3^b)*phi(s)=2^(a+1)*3^b*phi(s).\nphi(n)=2^(a-1)*(2*3^(b-1))*6*phi(s)=12*2^(a-1)*3^(b-1)*phi(s)=(2*3)*(2^a)*(3^(b-1))*phi(s)=2^(a+1)*3^b*phi(s). Equal. m != n: n has prime 7, m does not. Note: gcd(s,42)=1 is the ONLY condition; 43|s is allowed.\n\n**Case 7 (c=2, replace phi(43)=42=phi(7^2)):**\nn=2^a*3^b*7^2*s (a>=1, b>=0, gcd(s,42)=1, 43 does not divide s) -> m=43*2^a*3^b*s.\nphi(m)=42*phi(2^a)*phi(3^b)*phi(s)=phi(7^2)*phi(2^a)*phi(3^b)*phi(s)=phi(n). m != n: 43 divides m, not n. Covers ALL b>=0.\n\n**New General Case (c>=2, b>=2):**\nn=2^a*3^b*7^c*s (a>=2, b>=2, c>=2, gcd(s,42)=1, 43 does not divide s) -> m=43*2^(a-1)*3^(b-1)*7^(c-1)*s.\nProof: phi(m)=phi(43)*phi(2^(a-1))*phi(3^(b-1))*phi(7^(c-1))*phi(s)\n=42*2^(a-2)*(2*3^(b-2))*(6*7^(c-2))*phi(s)\n=(2*3*7)*2^(a-2)*2*3^(b-2)*2*3*7^(c-2)*phi(s)=2^3*3^2*7^(c-1)*2^(a-2)*3^(b-2)*phi(s)=2^(a+1)*3^b*7^(c-1)*phi(s).\nphi(n)=2^(a-1)*(2*3^(b-1))*(6*7^(c-1))*phi(s)=2^a*3^(b-1)*(2*3)*7^(c-1)*phi(s)=2^(a+1)*3^b*7^(c-1)*phi(s). Equal.\nm != n: 43 divides m, 43 does not divide n.\n\n**Complete coverage (n=2^a*3^b*7^c*s, gcd(s,42)=1):**\n- a=0: Case 1.\n- a=1: Case 2 (n=2*odd so m=n/2).\n- a>=2, b=0: Case 4a (m=3*2^(a-1)*7^c*s, 3 does not divide 7^c*s).\n- a>=2, b=1: Case 4b (m=2^(a+1)*7^c*s) -- ALL c>=0.\n- a>=2, b>=2, c=0: Case 5 (m=7*2^(a-1)*3^(b-1)*s, 7 does not divide s).\n- a>=2, b>=2, c=1: Case 6 (m=2^(a+1)*3^(b+1)*s) -- ALL s incl. 43|s.\n- a>=2, b>=2, c>=2, 43 does not divide s: New General Case.\nRemaining open: a>=2, b>=2, c>=2, 43|s.",
+      "sketch": "This round establishes three new proved cases plus a broad New General Case.\n\n**Case 4b (completely resolved):**\nn=$2^{a}$*3*r (a>=1, r odd, gcd(r,6)=1) -> m=$2^{(a}$+1)*r.\n$phi(2^{(a}$+1)*r)=$2^{a}$*phi(r). $phi(2^{a}$*3*r)=$2^{(a}$-1)*2*phi(r)=$2^{a}$*phi(r). Equal. m != n since n has odd factor 3, m does not (gcd(r,6)=1 means 3 does not divide r). NO restriction on r beyond gcd(r,6)=1 -- supersedes the Round 3 5x trick.\n\n**Case 6 (c=1, b>=1):**\nn=$2^{a}$*$3^{b}$*7*s (a>=1, b>=1, gcd(s,42)=1) -> m=$2^{(a}$+1)*$3^{(b}$+1)*s.\nphi(m)=$2^{a}$*(2*$3^{b)}$*phi(s)=$2^{(a}$+1)*$3^{b}$*phi(s).\nphi(n)=$2^{(a}$-1)*(2*$3^{(b}$-1))*6*phi(s)=12*$2^{(a}$-1)*$3^{(b}$-1)*phi(s)=(2*3)*$(2^{a)}$*$(3^{(b}$-1))*phi(s)=$2^{(a}$+1)*$3^{b}$*phi(s). Equal. m != n: n has prime 7, m does not. Note: gcd(s,42)=1 is the ONLY condition; $43 \\mid s$ is allowed.\n\n**Case 7 (c=2, replace phi(43)=42=$phi(7^{2))}$:**\nn=$2^{a}$*$3^{b}$*$7^{2}$*s (a>=1, b>=0, gcd(s,42)=1, 43 does not divide s) -> m=43*$2^{a}$*$3^{b}$*s.\nphi(m)=42*$phi(2^{a)}$*$phi(3^{b)}$*phi(s)=$phi(7^{2)}$*$phi(2^{a)}$*$phi(3^{b)}$*phi(s)=phi(n). m != n: 43 divides m, not n. Covers ALL b>=0.\n\n**New General Case (c>=2, b>=2):**\nn=$2^{a}$*$3^{b}$*$7^{c}$*s (a>=2, b>=2, c>=2, gcd(s,42)=1, 43 does not divide s) -> m=43*$2^{(a}$-1)*$3^{(b}$-1)*$7^{(c}$-1)*s.\nProof: phi(m)=phi(43)*$phi(2^{(a}$-1))*$phi(3^{(b}$-1))*$phi(7^{(c}$-1))*phi(s)\n=42*$2^{(a}$-2)*(2*$3^{(b}$-2))*(6*$7^{(c}$-2))*phi(s)\n=(2*3*7)*$2^{(a}$-2)*2*$3^{(b}$-2)*2*3*$7^{(c}$-2)*phi(s)=$2^{3}$*$3^{2}$*$7^{(c}$-1)*$2^{(a}$-2)*$3^{(b}$-2)*phi(s)=$2^{(a}$+1)*$3^{b}$*$7^{(c}$-1)*phi(s).\nphi(n)=$2^{(a}$-1)*(2*$3^{(b}$-1))*(6*$7^{(c}$-1))*phi(s)=$2^{a}$*$3^{(b}$-1)*(2*3)*$7^{(c}$-1)*phi(s)=$2^{(a}$+1)*$3^{b}$*$7^{(c}$-1)*phi(s). Equal.\nm != n: 43 divides m, 43 does not divide n.\n\n**Complete coverage (n=$2^{a}$*$3^{b}$*$7^{c}$*s, gcd(s,42)=1):**\n- a=0: Case 1.\n- a=1: Case 2 (n=2*odd so m=n/2).\n- a>=2, b=0: Case 4a (m=3*$2^{(a}$-1)*$7^{c}$*s, 3 does not divide $7^{c}$*s).\n- a>=2, b=1: Case 4b (m=$2^{(a}$+1)*$7^{c}$*s) -- ALL c>=0.\n- a>=2, b>=2, c=0: Case 5 (m=7*$2^{(a}$-1)*$3^{(b}$-1)*s, 7 does not divide s).\n- a>=2, b>=2, c=1: Case 6 (m=$2^{(a}$+1)*$3^{(b}$+1)*s) -- ALL s incl. $43 \\mid s$.\n- a>=2, b>=2, c>=2, 43 does not divide s: New General Case.\nRemaining open: a>=2, b>=2, c>=2, $43 \\mid s$.",
       "status": "valid",
-      "checker_feedback": "All cases (4b, 6, 7, and the New General Case) verify correctly. The manipulations of the Euler totient function properties are algebraically sound. The completeness coverage accurately summarizes what remains. Since the class (43|s) is still open, closes_conjecture is strictly false."
+      "checker_feedback": "All cases (4b, 6, 7, and the New General Case) verify correctly. The manipulations of the Euler totient function properties are algebraically sound. The completeness coverage accurately summarizes what remains. Since the class ($43 \\mid s)$ is still open, closes_conjecture is strictly false."
     },
     {
       "id": "PA-DA014D",
       "round": 7,
-      "sketch": "We consolidate and extend the partial proof, and propose a new strategy for the remaining open class.\n\n**Previously established (Rounds 1\u20136):**\n1. n odd: phi(2n)=phi(n). \u2713\n2. n\u22612 (mod 4): phi(n/2)=phi(n). \u2713\n3. n=2^a\u00b7r, gcd(r,6)=1, a\u22651: partner m=3\u00b72^(a\u22121)\u00b7r. \u2713\n4. n=2^a\u00b73^b (b\u22651): Cases 4b and 5. \u2713\n5. n=2^a\u00b73^b\u00b77^c\u00b7r, gcd(r,42)=1, 43\u2224r: New General Case m=43\u00b72^(a\u22121)\u00b73^(b\u22121)\u00b77^(c\u22121)\u00b7r. \u2713\n\n**New \u2014 Split-Phi Construction for the 43|r remaining class:**\n\nLet n=2^a\u00b73^b\u00b77^c\u00b743\u00b7s with gcd(s,42\u00b743)=1, b\u22652, c\u22652. Then:\nphi(n) = 2^(a-1)\u00b72\u00b73^(b-1)\u00b72\u00b73\u00b77^(c-1)\u00b76\u00b742\u00b7phi(s) = 2^(a+2)\u00b73^(b+1)\u00b77^c\u00b7phi(s) =: k.\n\nWe seek distinct primes p,q with (p-1)(q-1)=k so that m=p\u00b7q satisfies phi(m)=k=phi(n) and m\u2260n.\n\n*Candidate split A:* Let A=2^2\u00b73^(b+1)\u00b7phi(s) and B=2^a\u00b77^c, so A\u00b7B=k. If p=A+1 and q=B+1 are simultaneously prime then m=p\u00b7q is a partner.\n\n*Verification (n=75852, a=2,b=2,c=2,s=1):* A=4\u00b727=108, B=4\u00b749=196. p=109 \u2713 (prime), q=197 \u2713 (prime). phi(109\u00b7197)=108\u00b7196=21168=phi(75852). \u2713\n\n*Verification (n=530964, a=2,b=2,c=3,s=1):* A=4\u00b727=108, B=4\u00b7343=1372. p=109 \u2713 (prime), q=1373 \u2713 (prime, verified: no prime \u226437 divides 1373). phi(109\u00b71373)=108\u00b71372=148176=phi(530964). \u2713\n\nNote the split at A=2^2\u00b73^(b+1) is FIXED across c: the same prime p=109 provides a partner for n=75852 (c=2) and n=530964 (c=3), with only q varying. This gives a family indexed by c: q=2^2\u00b77^c+1 must be prime.\n\n*Remark on q=2^2\u00b77^c+1:* c=2 gives q=197 (prime \u2713); c=3 gives q=1373 (prime \u2713); c=4 gives q=9605=5\u00b71921 (composite \u2014 fails). So this specific split does not universally work.\n\n*Fallback (c=4 example):* For n=2^2\u00b73^2\u00b77^4\u00b743=3717108, phi(n)=2^4\u00b73^3\u00b77^4=1016064. Alternative split: A=2^3\u00b73^3=216, B=2^3\u00b77^4=19208. p=217=7\u00b731 (composite \u2014 fails). Try A=2^2\u00b73^4=324, B=2^4\u00b77^4=38416. p=325=5^2\u00b713 (fails). The 3529 split: 3528=2^3\u00b73^2\u00b77^2 divides phi(n)=2^4\u00b73^3\u00b77^4. If 3528\u00b7j=phi(n) then j=288=2\u00b73^2\u00b72^4... hmm 1016064/3528=288. q=289=17^2 (not prime). So 3529 does not always help.\n\n**Key gap:** No single split formula works universally for all (a,b,c). However, the MULTIPLICITY of possible splits grows rapidly with phi(n): for n=75852 there are 3 valid prime-pair splits; for n=530964 there are also many. Heuristically, by Bateman\u2013Horn, the probability that ALL splits fail tends to zero as phi(n) grows.\n\n**Status:** Full proof requires either (a) showing one split always works (requires prime existence guarantees), or (b) Ford's density theorem implies phi(n) for this class always has \u22652 preimages (pending precise theorem statement).",
+      "sketch": "We consolidate and extend the partial proof, and propose a new strategy for the remaining open class.\n\n**Previously established (Rounds 1–6):**\n1. n odd: phi(2n)=phi(n). ✓\n2. $n \\equiv 2 \\pmod{4}$: phi(n/2)=phi(n). ✓\n3. n=$2^{a}$·r, gcd(r,6)=1, $a \\geq 1$: partner m=3·$2^{(a}$−1)·r. ✓\n4. n=$2^{a}$·$3^{b}$ $(b \\geq 1)$: Cases 4b and 5. ✓\n5. n=$2^{a}$·$3^{b}$·$7^{c}$·r, gcd(r,42)=1, 43∤r: New General Case m=43·$2^{(a}$−1)·$3^{(b}$−1)·$7^{(c}$−1)·r. ✓\n\n**New — Split-Phi Construction for the $43 \\mid r$ remaining class:**\n\nLet n=$2^{a}$·$3^{b}$·$7^{c}$·43·s with gcd(s,42·43)=1, $b \\geq 2$, $c \\geq 2$. Then:\nphi(n) = $2^{(a}$-1)·2·$3^{(b}$-1)·2·3·$7^{(c}$-1)·6·42·phi(s) = $2^{(a}$+2)·$3^{(b}$+1)·$7^{c}$·phi(s) =: k.\n\nWe seek distinct primes p,q with (p-1)(q-1)=k so that m=p·q satisfies phi(m)=k=phi(n) and $m \\neq n$.\n\n*Candidate split A:* Let A=$2^{2}$·$3^{(b}$+1)·phi(s) and B=$2^{a}$·$7^{c}$, so A·B=k. If p=A+1 and q=B+1 are simultaneously prime then m=p·q is a partner.\n\n*Verification (n=75852, a=2,b=2,c=2,s=1):* A=4·27=108, B=4·49=196. p=109 ✓ (prime), q=197 ✓ (prime). phi(109·197)=108·196=21168=phi(75852). ✓\n\n*Verification (n=530964, a=2,b=2,c=3,s=1):* A=4·27=108, B=4·343=1372. p=109 ✓ (prime), q=1373 ✓ (prime, verified: no $prime \\leq 37$ divides 1373). phi(109·1373)=108·1372=148176=phi(530964). ✓\n\nNote the split at A=$2^{2}$·$3^{(b}$+1) is FIXED across c: the same prime p=109 provides a partner for n=75852 (c=2) and n=530964 (c=3), with only q varying. This gives a family indexed by c: q=$2^{2}$·$7^{c}$+1 must be prime.\n\n*Remark on q=$2^{2}$·$7^{c}$+1:* c=2 gives q=197 (prime ✓); c=3 gives q=1373 (prime ✓); c=4 gives q=9605=5·1921 (composite — fails). So this specific split does not universally work.\n\n*Fallback (c=4 example):* For n=$2^{2}$·$3^{2}$·$7^{4}$·43=3717108, phi(n)=$2^{4}$·$3^{3}$·$7^{4}$=1016064. Alternative split: A=$2^{3}$·$3^{3}$=216, B=$2^{3}$·$7^{4}$=19208. p=217=7·31 (composite — fails). Try A=$2^{2}$·$3^{4}$=324, B=$2^{4}$·$7^{4}$=38416. p=325=$5^{2}$·13 (fails). The 3529 split: 3528=$2^{3}$·$3^{2}$·$7^{2}$ divides phi(n)=$2^{4}$·$3^{3}$·$7^{4}$. If 3528·j=phi(n) then j=288=2·$3^{2}$·$2^{4}$... hmm 1016064/3528=288. q=289=$17^{2}$ (not prime). So 3529 does not always help.\n\n**Key gap:** No single split formula works universally for all (a,b,c). However, the MULTIPLICITY of possible splits grows rapidly with phi(n): for n=75852 there are 3 valid prime-pair splits; for n=530964 there are also many. Heuristically, by Bateman–Horn, the probability that ALL splits fail tends to zero as phi(n) grows.\n\n**Status:** Full proof requires either (a) showing one split always works (requires prime existence guarantees), or (b) Ford's density theorem implies phi(n) for this class always $has \\geq 2$ preimages (pending precise theorem statement).",
       "status": "valid",
-      "checker_feedback": "The proof correctly consolidates Cases 1-5 from prior rounds and introduces the split-phi construction. VERIFIED CORRECT: phi(n) formula (2^(a+2)*3^(b+1)*7^c*phi(s), checked computationally for 4 parameter triples); split-phi logic (phi(p*q)=(p-1)(q-1)=A*B=phi(n), m!=n since n has >=4 distinct prime factors vs m=p*q has 2); n=75852 verification (A=108,B=196,p=109 prime,q=197 prime,phi(109*197)=21168=phi(75852) all confirmed); n=530964 verification (A=108,B=1372,p=109 prime,q=1373 prime by trial division to sqrt(1373)~37.1, phi(109*1373)=148176=phi(530964) confirmed). ARITHMETIC ERROR in c=4 analysis: proof states n=2^2*3^2*7^4*43=3717108 and phi(n)=2^4*3^3*7^4=1016064 -- both wrong. Correct: n=4*9*2401*43=3716748 (3717108=2^2*3^2*79*1307, wrong factorization); phi(3716748)=1037232 (1016064=2^8*3^4*7^2, entirely different). Coincidentally the conclusion that split A=108 fails at c=4 is correct for the right n (q=9605=5*17*113 composite), and the 3529-split also fails (j=294, j+1=295=5*59 composite). HOWEVER the claim 'no splits work at c=4' is WRONG: the correct n=3716748 has SIX valid prime-pair splits including (p=757,q=1373) where 756*1372=1037232=phi(3716748). This strengthens not weakens the partial result. Bateman-Horn citation is heuristic only -- universality for all c remains an unproved gap. Valid as partial result for c=2,c=3 with explicit examples; c=4 arithmetic errors should be corrected."
+      "checker_feedback": "The proof correctly consolidates Cases 1-5 from prior rounds and introduces the split-phi construction. VERIFIED CORRECT: phi(n) formula $(2^{(a}$+2)*$3^{(b}$+1)*$7^{c}$*phi(s), checked computationally for 4 parameter triples); split-phi logic (phi(p*q)=(p-1)(q-1)=A*B=phi(n), m!=n since n has >=4 distinct prime factors vs m=p*q has 2); n=75852 verification (A=108,B=196,p=109 prime,q=197 prime,phi(109*197)=21168=phi(75852) all confirmed); n=530964 verification (A=108,B=1372,p=109 prime,q=1373 prime by trial division to sqrt(1373)~37.1, phi(109*1373)=148176=phi(530964) confirmed). ARITHMETIC ERROR in c=4 analysis: proof states n=$2^{2}$*$3^{2}$*$7^{4}$*43=3717108 and phi(n)=$2^{4}$*$3^{3}$*$7^{4}$=1016064 -- both wrong. Correct: n=4*9*2401*43=3716748 (3717108=$2^{2}$*$3^{2}$*79*1307, wrong factorization); phi(3716748)=1037232 (1016064=$2^{8}$*$3^{4}$*$7^{2}$, entirely different). Coincidentally the conclusion that split A=108 fails at c=4 is correct for the right n (q=9605=5*17*113 composite), and the 3529-split also fails (j=294, j+1=295=5*59 composite). HOWEVER the claim 'no splits work at c=4' is WRONG: the correct n=3716748 has SIX valid prime-pair splits including (p=757,q=1373) where 756*1372=1037232=phi(3716748). This strengthens not weakens the partial result. Bateman-Horn citation is heuristic only -- universality for all c remains an unproved gap. Valid as partial result for c=2,c=3 with explicit examples; c=4 arithmetic errors should be corrected."
     }
   ],
   "disproof_attempts": [
     {
       "id": "DA-4D80EA",
       "round": 1,
-      "candidate_counterexample": "No concrete counterexample found. A hypothetical counterexample must be divisible by 4. Given that \u03c6(n)=\u03c6(2n) for odd n eliminates all odd candidates, and \u03c6(2^a)=\u03c6(3\u00b72^(a\u22121)) eliminates pure powers of 2, any counterexample must have the form n=2^a\u00b7q with a\u22652 and q\u22653 odd. Computational checks confirm no counterexample exists below 10^10 (Ford, 1998).",
+      "candidate_counterexample": "No concrete counterexample found. A hypothetical counterexample must be divisible by 4. Given that φ(n)=φ(2n) for odd n eliminates all odd candidates, and $φ(2^{a)}$=φ(3·$2^{(a}$−1)) eliminates pure powers of 2, any counterexample must have the form n=$2^{a}$·q with $a \\geq 2$ and $q \\geq 3$ odd. Computational checks confirm no counterexample exists below $10^{10}$ (Ford, 1998).",
       "status": "valid",
-      "checker_feedback": "The localisation argument is correct: odd n are paired by Case 1, pure powers of 2 by Case 3, so any counterexample must have v_2(n)\u22652 and odd part \u22653. The Ford (1998) citation is accurate. No errors."
+      "checker_feedback": "The localisation argument is correct: odd n are paired by Case 1, pure powers of 2 by Case 3, so any counterexample must have $v_2(n) \\geq 2$ and odd $part \\geq 3$. The Ford (1998) citation is accurate. No errors."
     },
     {
       "id": "DA-5627AF",
       "round": 2,
-      "candidate_counterexample": "No counterexample found. Computational search to N=50000 finds zero cases of n=2^a\u00b73^b\u00b7r (a\u22652, b\u22651, gcd(r,6)=1) without a partner within range. The gap now requires n with 3|odd_part(n), and even here every such n up to 50000 has partners.",
+      "candidate_counterexample": "No counterexample found. Computational search to N=50000 finds zero cases of n=$2^{a}$·$3^{b}$·r $(a \\geq 2$, $b \\geq 1$, gcd(r,6)=1) without a partner within range. The gap now requires n with $3 \\mid odd_part(n)$, and even here every such n up to 50000 has partners.",
       "status": "flawed",
-      "checker_feedback": "No actual counterexample is presented. This is a negative computational search result: no n=2^a\u00b73^b\u00b7r (a\u22652, b\u22651, gcd(r,6)=1) up to N=50,000 was found to lack a totient partner. As a disproof attempt this fails vacuously\u2014absence of a counterexample in a finite range is not a disproof. The result is consistent with the conjecture being true and provides useful computational support, but does not close or refute the conjecture in either direction."
+      "checker_feedback": "No actual counterexample is presented. This is a negative computational search result: no n=$2^{a}$·$3^{b}$·r $(a \\geq 2$, $b \\geq 1$, gcd(r,6)=1) up to N=50,000 was found to lack a totient partner. As a disproof attempt this fails vacuously—absence of a counterexample in a finite range is not a disproof. The result is consistent with the conjecture being true and provides useful computational support, but does not close or refute the conjecture in either direction."
     },
     {
       "id": "DA-A9B776",
       "round": 4,
-      "candidate_counterexample": "No counterexample found. The smallest instance of the remaining open class (43|s, b>=2, c>=2) is n=2^2*3^2*7^2*43=75852. phi(75852)=phi(4)*phi(9)*phi(49)*phi(43)=2*6*42*42=21168. Computational search (N=200000) confirms multiple partners with phi(m)=21168 exist. No analytic construction from Cases 4b/5/6/7/New General applies to n=75852, yet partners exist computationally.",
+      "candidate_counterexample": "No counterexample found. The smallest instance of the remaining open class ($43 \\mid s$, b>=2, c>=2) is n=$2^{2}$*$3^{2}$*$7^{2}$*43=75852. phi(75852)=phi(4)*phi(9)*phi(49)*phi(43)=2*6*42*42=21168. Computational search (N=200000) confirms multiple partners with phi(m)=21168 exist. No analytic construction from Cases 4b/5/6/7/New General applies to n=75852, yet partners exist computationally.",
       "status": "valid",
       "checker_feedback": "It correctly acknowledges that a computational search found a partner for the remaining open case smallest instance, confirming it is not a counterexample."
     },
     {
       "id": "DA-F988A8",
       "round": 7,
-      "candidate_counterexample": "No verified counterexample found. All open-class instances up to N=250000 have partners. The three instances (75852, 151704, 227556) each have multiple partners (3\u20135 product-of-two-prime pairs). For n=530964 (c=3), 85 partners found up to 600000. Ford's lower bound of 10^(10^10) makes experimental disproof impossible.",
+      "candidate_counterexample": "No verified counterexample found. All open-class instances up to N=250000 have partners. The three instances (75852, 151704, 227556) each have multiple partners (3–5 product-of-two-prime pairs). For n=530964 (c=3), 85 partners found up to 600000. Ford's lower bound of $10^{(10}$^10) makes experimental disproof impossible.",
       "status": "valid",
-      "checker_feedback": "Computational non-existence claim valid: all three open-class instances up to N=250000 confirmed to have partners. For n=530964, 85 partners found. Ford 10^(10^10) lower bound makes experimental disproof impossible. Minor correction: cited 'first unverified' instance n=3717108 is the wrong number -- correct is n=3716748=2^2*3^2*7^4*43, which has 6 valid prime-pair splits confirmed computationally. Core claim (no counterexample found) is valid."
+      "checker_feedback": "Computational non-existence claim valid: all three open-class instances up to N=250000 confirmed to have partners. For n=530964, 85 partners found. Ford $10^{(10}$^10) lower bound makes experimental disproof impossible. Minor correction: cited 'first unverified' instance n=3717108 is the wrong number -- correct is n=3716748=$2^{2}$*$3^{2}$*$7^{4}$*43, which has 6 valid prime-pair splits confirmed computationally. Core claim (no counterexample found) is valid."
     }
   ],
   "formalization_attempts": [
@@ -499,7 +499,7 @@
       "id": "FA-1CBC27",
       "source_id": "PA-F92DD2",
       "lean_file": "SophieFormalization/CarmichaelTotientFunction/Theorems.lean",
-      "lean_code": "import Mathlib.Data.Nat.Totient\nimport Mathlib.Data.Nat.Basic\n\nopen Nat\n\n/-- Case 4b: n = 2^a * 3 * r (a>=1, r odd, gcd(r,6)=1) -> m = 2^(a+1) * r -/\ntheorem carmichael_case_4b (a r : \u2115) (ha : 1 \u2264 a) (hr_coprime : gcd r 6 = 1) :\n  let n := 2^a * 3 * r\n  let m := 2^(a+1) * r\n  totient m = totient n \u2227 m \u2260 n := by\n  sorry\n\n/-- Case 6: n = 2^a * 3^b * 7 * s (a>=1, b>=1, gcd(s,42)=1) -> m = 2^(a+1) * 3^(b+1) * s -/\ntheorem carmichael_case_6 (a b s : \u2115) (ha : 1 \u2264 a) (hb : 1 \u2264 b) (hs_coprime : gcd s 42 = 1) :\n  let n := 2^a * 3^b * 7 * s\n  let m := 2^(a+1) * 3^(b+1) * s\n  totient m = totient n \u2227 m \u2260 n := by\n  sorry\n\n/-- Case 7: n = 2^a * 3^b * 7^2 * s (a>=1, b>=0, gcd(s,42)=1, \u00ac 43 \u2223 s) -> m = 43 * 2^a * 3^b * s -/\ntheorem carmichael_case_7 (a b s : \u2115) (ha : 1 \u2264 a) (hs_coprime : gcd s 42 = 1) (hs43 : \u00ac 43 \u2223 s) :\n  let n := 2^a * 3^b * 7^2 * s\n  let m := 43 * 2^a * 3^b * s\n  totient m = totient n \u2227 m \u2260 n := by\n  sorry\n\n/-- New General Case: n = 2^a * 3^b * 7^c * s (a>=2, b>=2, c>=2, gcd(s,42)=1, \u00ac 43 \u2223 s) -> m = 43 * 2^(a-1) * 3^(b-1) * 7^(c-1) * s -/\ntheorem carmichael_case_general (a b c s : \u2115) (ha : 2 \u2264 a) (hb : 2 \u2264 b) (hc : 2 \u2264 c) (hs_coprime : gcd s 42 = 1) (hs43 : \u00ac 43 \u2223 s) :\n  let n := 2^a * 3^b * 7^c * s\n  let m := 43 * 2^(a-1) * 3^(b-1) * 7^(c-1) * s\n  totient m = totient n \u2227 m \u2260 n := by\n  sorry\n",
+      "lean_code": "import Mathlib.Data.Nat.Totient\nimport Mathlib.Data.Nat.Basic\n\nopen Nat\n\n/-- Case 4b: n = 2^a * 3 * r (a>=1, r odd, gcd(r,6)=1) -> m = 2^(a+1) * r -/\ntheorem carmichael_case_4b (a r : ℕ) (ha : 1 ≤ a) (hr_coprime : gcd r 6 = 1) :\n  let n := 2^a * 3 * r\n  let m := 2^(a+1) * r\n  totient m = totient n ∧ m ≠ n := by\n  sorry\n\n/-- Case 6: n = 2^a * 3^b * 7 * s (a>=1, b>=1, gcd(s,42)=1) -> m = 2^(a+1) * 3^(b+1) * s -/\ntheorem carmichael_case_6 (a b s : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b) (hs_coprime : gcd s 42 = 1) :\n  let n := 2^a * 3^b * 7 * s\n  let m := 2^(a+1) * 3^(b+1) * s\n  totient m = totient n ∧ m ≠ n := by\n  sorry\n\n/-- Case 7: n = 2^a * 3^b * 7^2 * s (a>=1, b>=0, gcd(s,42)=1, ¬ 43 ∣ s) -> m = 43 * 2^a * 3^b * s -/\ntheorem carmichael_case_7 (a b s : ℕ) (ha : 1 ≤ a) (hs_coprime : gcd s 42 = 1) (hs43 : ¬ 43 ∣ s) :\n  let n := 2^a * 3^b * 7^2 * s\n  let m := 43 * 2^a * 3^b * s\n  totient m = totient n ∧ m ≠ n := by\n  sorry\n\n/-- New General Case: n = 2^a * 3^b * 7^c * s (a>=2, b>=2, c>=2, gcd(s,42)=1, ¬ 43 ∣ s) -> m = 43 * 2^(a-1) * 3^(b-1) * 7^(c-1) * s -/\ntheorem carmichael_case_general (a b c s : ℕ) (ha : 2 ≤ a) (hb : 2 ≤ b) (hc : 2 ≤ c) (hs_coprime : gcd s 42 = 1) (hs43 : ¬ 43 ∣ s) :\n  let n := 2^a * 3^b * 7^c * s\n  let m := 43 * 2^(a-1) * 3^(b-1) * 7^(c-1) * s\n  totient m = totient n ∧ m ≠ n := by\n  sorry\n",
       "mathlib_imports": [
         "import Mathlib.Data.Nat.Totient",
         "import Mathlib.Data.Nat.Basic"
@@ -520,37 +520,37 @@
     {
       "round": 1,
       "agent": "Prover",
-      "summary": "Proved the conjecture for all odd n, all n\u22612 (mod 4), and all pure powers of 2; the remaining gap is n=2^a\u00b7q with a\u22652, q\u22653 odd."
+      "summary": "Proved the conjecture for all odd n, all n≡2 (mod 4), and all pure powers of 2; the remaining gap is n=2^a·q with a≥2, q≥3 odd."
     },
     {
       "round": 1,
       "agent": "Disprover",
-      "summary": "No counterexample found; any counterexample must be divisible by 4, computationally ruled out below 10^10, and the proof gap is isolated to n=4k with k odd and k\u22653."
+      "summary": "No counterexample found; any counterexample must be divisible by 4, computationally ruled out below 10^10, and the proof gap is isolated to n=4k with k odd and k≥3."
     },
     {
       "round": 1,
       "agent": "Checker",
-      "summary": "Verified Cases 1\u20133 of the Prover's argument as correct; confirmed Case 4 is a genuine gap; no counterexample found; the hard core of the conjecture is now isolated to n=4k with k odd and k\u22653."
+      "summary": "Verified Cases 1–3 of the Prover's argument as correct; confirmed Case 4 is a genuine gap; no counterexample found; the hard core of the conjecture is now isolated to n=4k with k odd and k≥3."
     },
     {
       "round": 2,
       "agent": "Checker",
-      "summary": "Validated Cases 1\u20133 of PA-1865AE and DA-4D80EA; Case 4 remains the only open gap."
+      "summary": "Validated Cases 1–3 of PA-1865AE and DA-4D80EA; Case 4 remains the only open gap."
     },
     {
       "round": 2,
       "agent": "Experimenter",
-      "summary": "Proved SP-1CD80F and generalised partner construction to 3\u2224odd_part case; computation confirms no counterexamples in the 3|odd_part case up to N=50000."
+      "summary": "Proved SP-1CD80F and generalised partner construction to 3∤odd_part case; computation confirms no counterexamples in the 3|odd_part case up to N=50000."
     },
     {
       "round": 2,
       "agent": "Prover",
-      "summary": "Proved conjecture for all n=2^a\u00b7q (a\u22652, q odd, 3\u2224q) via m=3\u00b72^(a\u22121)\u00b7q; remaining gap is n with 3|odd_part(n)."
+      "summary": "Proved conjecture for all n=2^a·q (a≥2, q odd, 3∤q) via m=3·2^(a−1)·q; remaining gap is n with 3|odd_part(n)."
     },
     {
       "round": 2,
       "agent": "Disprover",
-      "summary": "No counterexample up to N=50000; gap narrowed to 3|odd_part(n), b\u22652 sub-case, with no structural reason to expect a counterexample."
+      "summary": "No counterexample up to N=50000; gap narrowed to 3|odd_part(n), b≥2 sub-case, with no structural reason to expect a counterexample."
     },
     {
       "round": 2,
@@ -560,7 +560,7 @@
     {
       "round": 3,
       "agent": "Checker",
-      "summary": "Verified Cases 4a and 4b of PA-6713E5 as individually correct; closes_conjecture=false due to acknowledged open subcases (b\u22652 or 5|r). DA-5627AF presents no counterexample and fails as a disproof attempt."
+      "summary": "Verified Cases 4a and 4b of PA-6713E5 as individually correct; closes_conjecture=false due to acknowledged open subcases (b≥2 or 5|r). DA-5627AF presents no counterexample and fails as a disproof attempt."
     },
     {
       "round": 4,
@@ -620,12 +620,12 @@
     {
       "round": 7,
       "agent": "Experimenter",
-      "summary": "Confirmed product-of-two-primes partners for all three open-class instances up to N=250000; identified 3529 as a recurring universal partner prime; 6\u00b77^(c-1)+1 is prime only sporadically (c=1,2,5,10 in tested range)."
+      "summary": "Confirmed product-of-two-primes partners for all three open-class instances up to N=250000; identified 3529 as a recurring universal partner prime; 6·7^(c-1)+1 is prime only sporadically (c=1,2,5,10 in tested range)."
     },
     {
       "round": 7,
       "agent": "Prover",
-      "summary": "Split-phi construction (m=p\u00b7q with (p-1)(q-1)=phi(n)) proven for c=2 and c=3 open-class instances via explicit prime pairs; the prime p=109 is universal for a=2,b=2 across c=2,3; generalisation to all c requires prime existence results currently unavailable."
+      "summary": "Split-phi construction (m=p·q with (p-1)(q-1)=phi(n)) proven for c=2 and c=3 open-class instances via explicit prime pairs; the prime p=109 is universal for a=2,b=2 across c=2,3; generalisation to all c requires prime existence results currently unavailable."
     },
     {
       "round": 7,
@@ -653,25 +653,25 @@
       "round": 1,
       "summaries": [
         "Experimenter: Every odd n pairs with 2n, every prime p pairs with 2p, and powers of 2 pair with 3 times half the power; no totient value up to at least n=20 is achieved exactly once.",
-        "Prover: Proved the conjecture for all odd n, all n\u22612 (mod 4), and all pure powers of 2; the remaining gap is n=2^a\u00b7q with a\u22652, q\u22653 odd.",
-        "Disprover: No counterexample found; any counterexample must be divisible by 4, computationally ruled out below 10^10, and the proof gap is isolated to n=4k with k odd and k\u22653.",
-        "Checker: Verified Cases 1\u20133 of the Prover's argument as correct; confirmed Case 4 is a genuine gap; no counterexample found; the hard core of the conjecture is now isolated to n=4k with k odd and k\u22653."
+        "Prover: Proved the conjecture for all odd n, all n≡2 (mod 4), and all pure powers of 2; the remaining gap is n=2^a·q with a≥2, q≥3 odd.",
+        "Disprover: No counterexample found; any counterexample must be divisible by 4, computationally ruled out below 10^10, and the proof gap is isolated to n=4k with k odd and k≥3.",
+        "Checker: Verified Cases 1–3 of the Prover's argument as correct; confirmed Case 4 is a genuine gap; no counterexample found; the hard core of the conjecture is now isolated to n=4k with k odd and k≥3."
       ]
     },
     {
       "round": 2,
       "summaries": [
-        "Checker: Validated Cases 1\u20133 of PA-1865AE and DA-4D80EA; Case 4 remains the only open gap.",
-        "Experimenter: Proved SP-1CD80F and generalised partner construction to 3\u2224odd_part case; computation confirms no counterexamples in the 3|odd_part case up to N=50000.",
-        "Prover: Proved conjecture for all n=2^a\u00b7q (a\u22652, q odd, 3\u2224q) via m=3\u00b72^(a\u22121)\u00b7q; remaining gap is n with 3|odd_part(n).",
-        "Disprover: No counterexample up to N=50000; gap narrowed to 3|odd_part(n), b\u22652 sub-case, with no structural reason to expect a counterexample.",
+        "Checker: Validated Cases 1–3 of PA-1865AE and DA-4D80EA; Case 4 remains the only open gap.",
+        "Experimenter: Proved SP-1CD80F and generalised partner construction to 3∤odd_part case; computation confirms no counterexamples in the 3|odd_part case up to N=50000.",
+        "Prover: Proved conjecture for all n=2^a·q (a≥2, q odd, 3∤q) via m=3·2^(a−1)·q; remaining gap is n with 3|odd_part(n).",
+        "Disprover: No counterexample up to N=50000; gap narrowed to 3|odd_part(n), b≥2 sub-case, with no structural reason to expect a counterexample.",
         "Searcher: Searched all n up to 50000 in the remaining gap class (3|odd_part, 4|n) and found zero counterexamples; all apparent singletons are boundary artifacts with partners outside the search window."
       ]
     },
     {
       "round": 3,
       "summaries": [
-        "Checker: Verified Cases 4a and 4b of PA-6713E5 as individually correct; closes_conjecture=false due to acknowledged open subcases (b\u22652 or 5|r). DA-5627AF presents no counterexample and fails as a disproof attempt."
+        "Checker: Verified Cases 4a and 4b of PA-6713E5 as individually correct; closes_conjecture=false due to acknowledged open subcases (b≥2 or 5|r). DA-5627AF presents no counterexample and fails as a disproof attempt."
       ]
     },
     {
@@ -703,8 +703,8 @@
     {
       "round": 7,
       "summaries": [
-        "Experimenter: Confirmed product-of-two-primes partners for all three open-class instances up to N=250000; identified 3529 as a recurring universal partner prime; 6\u00b77^(c-1)+1 is prime only sporadically (c=1,2,5,10 in tested range).",
-        "Prover: Split-phi construction (m=p\u00b7q with (p-1)(q-1)=phi(n)) proven for c=2 and c=3 open-class instances via explicit prime pairs; the prime p=109 is universal for a=2,b=2 across c=2,3; generalisation to all c requires prime existence results currently unavailable.",
+        "Experimenter: Confirmed product-of-two-primes partners for all three open-class instances up to N=250000; identified 3529 as a recurring universal partner prime; 6·7^(c-1)+1 is prime only sporadically (c=1,2,5,10 in tested range).",
+        "Prover: Split-phi construction (m=p·q with (p-1)(q-1)=phi(n)) proven for c=2 and c=3 open-class instances via explicit prime pairs; the prime p=109 is universal for a=2,b=2 across c=2,3; generalisation to all c requires prime existence results currently unavailable.",
         "Disprover: No counterexample found; all tested open-class instances have multiple partners; the c=4 instance (n=3717108) is the first unverified case and should be checked computationally next round.",
         "Searcher: Confirmed all 3 open-class instances up to N=250000 have partners; 3529 is a universal split-phi factor for the entire open class; split-phi construction verified for c=2,3; next target is c=4 instance n=3717108.",
         "Researcher: Ford (1998): 10^(10^10) lower bound and positive-proportion theorem confirmed; Klee equivalence validates Sophie's 4|n focus; 2025 NNTDM paper covers simpler phi-value cases with algorithmic methods potentially extensible; conjecture remains open as of 2026."
