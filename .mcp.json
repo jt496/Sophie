@@ -4,7 +4,7 @@
       "command": "bash",
       "args": [
         "-c",
-        "exec $HOME/Reps/Sophie/.venv/bin/python $HOME/Reps/Sophie/mcp_server.py"
+        "exec ${workspaceFolder}/.venv/bin/python ${workspaceFolder}/mcp_server.py"
       ]
     }
   }
