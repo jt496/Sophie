@@ -1,5 +1,3 @@
 {
-  "lean4.serverEnv": {
-    "ELAN_NO_OVERRIDE_NOTICE": "1"
-  }
+    "python.defaultInterpreterPath": ".venv/bin/python"
 }
