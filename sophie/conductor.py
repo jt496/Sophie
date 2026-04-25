@@ -30,9 +30,19 @@ class Conductor:
             "Researcher":   Researcher(kb),
         }
 
+    # Agent letter codes — unique first letters, alphabetical by letter
+    AGENT_LETTERS: Dict[str, str] = {
+        "C": "Checker",
+        "D": "Disprover",
+        "E": "Experimenter",
+        "P": "Prover",
+        "R": "Researcher",
+        "S": "Searcher",
+    }
+
     # ── Public API ───────────────────────────────────────────────────────────
 
-    def get_round_tasks(self) -> Dict[str, Any]:
+    def get_round_tasks(self, agents: str = "") -> Dict[str, Any]:
         """
         Return the agent list for the current (or next) round.
 
@@ -40,6 +50,10 @@ class Conductor:
         restart), returns only the agents that have not yet reported.
         Otherwise advances to the next round, saves the planned agent list to
         the KB, and returns all agents for that round.
+
+        agents: optional string of letter codes (C/D/E/P/R/S) that overrides
+                the automatic scheduler, e.g. "CPR" runs Checker, Prover,
+                Researcher in that order.  Ignored when resuming a round.
 
         Returns a compact dict — no system prompts or user messages.
         Call get_agent_task(agent_name) for each agent in agents_pending.
@@ -71,7 +85,15 @@ class Conductor:
             return self._stop(f"Reached maximum of {config.MAX_ROUNDS} rounds.")
 
         round_ = self.kb.rounds_completed + 1
-        agents_to_run = self._decide_agents(round_)
+
+        if agents:
+            unknown = [c for c in agents.upper() if c not in self.AGENT_LETTERS]
+            if unknown:
+                return {"error": f"Unknown agent letter(s): {unknown}. Valid: {sorted(self.AGENT_LETTERS)}"}
+            agents_to_run = [self.AGENT_LETTERS[c] for c in agents.upper()]
+        else:
+            agents_to_run = self._decide_agents(round_)
+
         self.kb.start_round(round_, agents_to_run)
 
         return {

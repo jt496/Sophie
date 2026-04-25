@@ -202,13 +202,14 @@ def start_session(conjecture: str) -> str:
 
 
 @mcp.tool()
-def get_round_tasks(session_id: str = "") -> str:
+def get_round_tasks(agents: str = "", session_id: str = "") -> str:
     """
     Return the agent list for the current (or next) round — compact, no prompts.
 
     If a round is already in progress (e.g. after a token-exhaustion restart),
     returns only the agents that have not yet reported so the round can be
-    resumed without losing earlier results.
+    resumed without losing earlier results.  The agents parameter is ignored
+    when resuming.
 
     Returns JSON with: session_id, round, should_stop, stop_reason,
     agents_pending, agents_completed, resumed.
@@ -218,6 +219,11 @@ def get_round_tasks(session_id: str = "") -> str:
     submit_agent_result(agent_name, response_json).
 
     Args:
+        agents:     Optional string of letter codes controlling which agents run
+                    and in what order. Each letter maps to one agent:
+                    C=Checker, D=Disprover, E=Experimenter, P=Prover,
+                    R=Researcher, S=Searcher. Example: "CPR" runs Checker,
+                    Prover, Researcher. Omit to use the automatic scheduler.
         session_id: The session ID returned by start_session. Defaults to the current session.
     """
     session_id = _resolve_session_id(session_id)
@@ -228,7 +234,7 @@ def get_round_tasks(session_id: str = "") -> str:
         return json.dumps({"error": f"Session '{session_id}' not found."})
 
     conductor = Conductor(kb)
-    result = conductor.get_round_tasks()
+    result = conductor.get_round_tasks(agents=agents)
     return json.dumps(result)
 
 
