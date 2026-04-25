@@ -36,11 +36,11 @@ The MCP server handles only state management and prompt construction.
 | Agent | Role |
 | --- | --- |
 | **Experimenter** | Generates concrete examples, boundary cases, and numerical checks. Identifies sub-cases. |
-| **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. |
+| **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. Records implication edges between subproblems and proof attempts when it identifies logical dependencies. |
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
-| **Checker** | Verifies every proof and disproof attempt line-by-line. Issues verdicts. |
+| **Checker** | Verifies every proof and disproof attempt line-by-line. Also validates implication claims recorded by the Prover and Researcher, issuing `valid`/`flawed` verdicts with feedback. Issues verdicts. |
 | **Searcher** | Writes and executes Python code (networkx, sympy, itertools, etc.) to brute-force search for counterexamples. |
-| **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
+| **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Records implication edges grounded in the literature. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
 | **Formalizer** | Translates proof sketches and results into Lean 4 / Mathlib code. When invoked via `/sophie-round F`, it first presents all unformalized candidates and asks you to choose one before proceeding. Can also be called on-demand via `get_formalization_task` for a specific ID. |
 
@@ -54,6 +54,8 @@ restarts. The schema tracks:
 - **Examples** – concrete cases with a support/contradict/neutral label
 - **Proof attempts** – with Checker verdicts and feedback
 - **Disproof attempts** – with Checker verdicts
+- **Implications** – directed edges between KB nodes expressing logical relationships (`proves`, `supports`, `blocks`, `equivalent`), with confidence level and Checker verification status. Used by the conductor to prioritise the most leveraged open subproblems.
+- **Facts** – verified ground truths injected via `add_fact`, shown to every agent every round
 - **Formalization attempts** – Lean 4 code with sorry tracking, confidence, and mathlib imports
 - **Log** – per-round summary from every agent
 
@@ -214,7 +216,8 @@ endpoint so clicking any session in the list updates `current.json` on disk.
 - Session list — all sessions shown with conjecture, status badge, and round count;
   click any row to load it and promote it to "current" (updates `current.json` via `serve.py`)
 - Rounds timeline — collapsible, colour-coded by agent (including Formalizer in teal)
-- Tabs for Examples, Subproblems, Proof Attempts, Disproof Attempts, and **Lean**
+- Tabs for Facts, Examples, Subproblems, Proof Attempts, Disproof Attempts, **Lean**, and **Implications**
+- **Implications tab** — shows every recorded implication edge with type arrow (⟹ proves / → supports / ✗ blocks / ⟺ equivalent), the resolved descriptions of both endpoints, confidence, Checker verdict, and notes; sorted valid → unchecked → flawed
 - Expandable detail cards with Checker feedback inline
 - **"Open sessions folder"** button (Chrome/Edge) — alternative to the HTTP server
 - Drag & drop / single-file fallback for Firefox

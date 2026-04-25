@@ -42,6 +42,15 @@ OUTPUT FORMAT
   "resolved_subproblems": [
     {"id": "<SP-XXXXXX>", "resolution": "<how this attempt resolves it>"}
   ],
+  "new_implications": [
+    {
+      "from_id": "<SP-/PA-/FT- id>",
+      "to_id": "<SP-/PA- id>",
+      "type": "proves" | "supports" | "blocks" | "equivalent",
+      "confidence": "certain" | "plausible",
+      "note": "<one-line justification>"
+    }
+  ],
   "summary": "<one-sentence description of what was achieved>"
 }
 ```
@@ -78,7 +87,21 @@ class Prover(BaseAgent):
             "Attempt to prove the conjecture or make the strongest partial "
             "progress you can. Output only the JSON block."
         )
-
+    def _record_implications(self, response: Dict[str, Any]) -> int:
+        n = 0
+        for imp in response.get("new_implications", []):
+            try:
+                self.kb.add_implication(
+                    from_id=imp["from_id"],
+                    to_id=imp["to_id"],
+                    type_=imp["type"],
+                    confidence=imp.get("confidence", "plausible"),
+                    note=imp.get("note", ""),
+                )
+                n += 1
+            except (KeyError, AssertionError):
+                pass
+        return n
     def process_response(self, round_: int, response: Dict[str, Any]) -> str:
         if response.get("parse_error"):
             return f"Prover parse error: {response.get('raw_text','')[:200]}"
@@ -93,4 +116,9 @@ class Prover(BaseAgent):
         for res in response.get("resolved_subproblems", []):
             self.kb.resolve_subproblem(res["id"], res.get("resolution", ""))
 
-        return response.get("summary", f"Prover produced a {response.get('completeness','?')} attempt.")
+        n_imp = self._record_implications(response)
+
+        summary = response.get("summary", f"Prover produced a {response.get('completeness','?')} attempt.")
+        if n_imp:
+            summary += f" (+{n_imp} implication(s) recorded)"
+        return summary

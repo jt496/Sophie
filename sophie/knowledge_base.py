@@ -51,6 +51,18 @@ Schema
     }
   ],
 
+  "implications": [
+    {
+      "id": str,
+      "from_id": str,           # SP-/PA-/FT- id: "if this holds..."
+      "to_id": str,             # SP-/PA- id: "...then this follows"
+      "type": "proves" | "supports" | "blocks" | "equivalent",
+      "confidence": "certain" | "plausible",
+      "added_round": int,
+      "note": str
+    }
+  ],
+
   "log": [
     {
       "round": int,
@@ -98,6 +110,9 @@ class KnowledgeBase:
             if "current_round_state" not in self._data:
                 self._data["current_round_state"] = None
                 self._save()
+            if "implications" not in self._data:
+                self._data["implications"] = []
+                self._save()
             # Migrate: backfill added_round on examples that predate the field
             if any("added_round" not in ex for ex in self._data.get("examples", [])):
                 for ex in self._data["examples"]:
@@ -119,6 +134,7 @@ class KnowledgeBase:
             "no_progress_rounds": 0,
             "prev_snapshot_hash": None,
             "facts": [],
+            "implications": [],
             "subproblems": [],
             "examples": [],
             "proof_attempts": [],
@@ -148,6 +164,75 @@ class KnowledgeBase:
         })
         self._save()
         return fid
+
+    # ── Implications ─────────────────────────────────────────────────────────
+
+    def add_implication(
+        self,
+        from_id: str,
+        to_id: str,
+        type_: str,
+        confidence: str,
+        note: str = "",
+    ) -> str:
+        """Record a directed implication edge between two KB nodes.
+
+        type_ must be one of: 'proves', 'supports', 'blocks', 'equivalent'.
+        confidence must be one of: 'certain', 'plausible'.
+        Returns the implication id (IMP-…), or the existing id if an identical
+        edge (same from/to/type) already exists.
+        """
+        assert type_ in ("proves", "supports", "blocks", "equivalent"), f"Bad type: {type_}"
+        assert confidence in ("certain", "plausible"), f"Bad confidence: {confidence}"
+        for imp in self._data.get("implications", []):
+            if imp["from_id"] == from_id and imp["to_id"] == to_id and imp["type"] == type_:
+                return imp["id"]
+        iid = f"IMP-{uuid.uuid4().hex[:6].upper()}"
+        self._data.setdefault("implications", []).append({
+            "id": iid,
+            "from_id": from_id,
+            "to_id": to_id,
+            "type": type_,
+            "confidence": confidence,
+            "added_round": self._data["rounds_completed"],
+            "note": note,
+            "status": "unchecked",
+            "checker_feedback": None,
+        })
+        self._save()
+        return iid
+
+    def update_implication(self, imp_id: str, verdict: str, feedback: str) -> None:
+        """Record the Checker's verdict on an implication edge."""
+        for imp in self._data.get("implications", []):
+            if imp["id"] == imp_id:
+                imp["status"] = verdict          # "valid" | "flawed"
+                imp["checker_feedback"] = feedback
+        self._save()
+
+    def unchecked_implications(self) -> List[Dict]:
+        return [i for i in self._data.get("implications", []) if i.get("status", "unchecked") == "unchecked"]
+
+    def implications_from(self, node_id: str) -> List[Dict]:
+        """Return all implication edges where from_id == node_id."""
+        return [i for i in self._data.get("implications", []) if i["from_id"] == node_id]
+
+    def implications_to(self, node_id: str) -> List[Dict]:
+        """Return all implication edges where to_id == node_id."""
+        return [i for i in self._data.get("implications", []) if i["to_id"] == node_id]
+
+    def leverage_scores(self) -> List[Dict]:
+        """Return open subproblems sorted by how many other open nodes they imply (descending)."""
+        open_ids = {sp["id"] for sp in self._data["subproblems"] if sp["status"] == "open"}
+        scores = {}
+        for imp in self._data.get("implications", []):
+            if imp["from_id"] in open_ids:
+                scores[imp["from_id"]] = scores.get(imp["from_id"], 0) + 1
+        result = [
+            {"id": sid, "leverage": scores.get(sid, 0)}
+            for sid in open_ids
+        ]
+        return sorted(result, key=lambda x: -x["leverage"])
 
     def remove_fact(self, fact_id: str) -> bool:
         before = len(self._data["facts"])

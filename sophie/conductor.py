@@ -225,8 +225,8 @@ class Conductor:
         no_disproof = not self.kb.valid_disproof_exists()
         stagnating = self.kb.no_progress_rounds > 0
 
-        # Checker: always if there is unverified work
-        if self.kb.unchecked_proofs() or self.kb.unchecked_disproofs():
+        # Checker: always if there is unverified work (proofs, disproofs, or implications)
+        if self.kb.unchecked_proofs() or self.kb.unchecked_disproofs() or self.kb.unchecked_implications():
             agents.append("Checker")
 
         if no_proof:
@@ -310,6 +310,7 @@ class Conductor:
                 "subproblems":       len(snap["subproblems"]),
                 "proof_attempts":    [(p["id"], p["status"]) for p in snap["proof_attempts"]],
                 "disproof_attempts": [(d["id"], d["status"]) for d in snap["disproof_attempts"]],
+                "implications":      [(i["id"], i.get("status", "unchecked")) for i in snap.get("implications", [])],
             },
             sort_keys=True,
         )

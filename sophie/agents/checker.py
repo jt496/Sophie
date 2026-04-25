@@ -23,6 +23,9 @@ YOUR ROLE
 • For counterexamples: verify the claimed counterexample satisfies all
   conditions of the conjecture and indeed violates the conclusion.
 • Provide precise, actionable feedback so that other agents can improve.
+• Also verify implication claims: check that the stated logical relationship
+  ("proves", "supports", "blocks", "equivalent") between two KB items is
+  mathematically justified, and flag any that are unsound or overstated.
 
 RULES
 -----
@@ -30,6 +33,8 @@ RULES
 • Reference specific lines or steps when giving feedback.
 • Never declare something valid unless you are convinced.
 • If a proof has a fixable gap, say so and suggest how to fix it.
+• For implications: "valid" means the relationship genuinely holds;
+  "flawed" means it is wrong, too strong, or unsupported.
 • Always output ONLY a single JSON block in the format below.
 
 CRITICAL RULE FOR closes_conjecture
@@ -58,6 +63,13 @@ OUTPUT FORMAT
       "verdict": "valid" | "flawed",
       "closes_conjecture": false,
       "feedback": "<detailed commentary>"
+    }
+  ],
+  "implication_verdicts": [
+    {
+      "id": "<IMP-XXXXXX>",
+      "verdict": "valid" | "flawed",
+      "feedback": "<brief justification>"
     }
   ],
   "overall_assessment": "<summary of where the exploration stands>",
@@ -97,7 +109,31 @@ class Checker(BaseAgent):
             for d in unchecked_disproofs:
                 sections.append(f"\n[{d['id']}]\n{d['candidate_counterexample']}")
 
-        if not unchecked_proofs and not unchecked_disproofs:
+        unchecked_imps = [
+            i for i in snapshot.get("implications", []) if i.get("status", "unchecked") == "unchecked"
+        ]
+        if unchecked_imps:
+            # Build an id→description lookup
+            id_map: dict = {}
+            for sp in snapshot.get("subproblems", []):
+                id_map[sp["id"]] = sp["description"][:120]
+            for pa in snapshot.get("proof_attempts", []):
+                id_map[pa["id"]] = pa["sketch"][:120]
+            for f in snapshot.get("facts", []):
+                id_map[f["id"]] = f["text"][:120]
+
+            sections.append("\nIMPLICATION CLAIMS TO VERIFY:")
+            for imp in unchecked_imps:
+                from_desc = id_map.get(imp["from_id"], imp["from_id"])
+                to_desc   = id_map.get(imp["to_id"],   imp["to_id"])
+                sections.append(
+                    f"\n[{imp['id']}] ({imp['type']}, {imp['confidence']}):"
+                    f"\n  FROM {imp['from_id']}: {from_desc}"
+                    f"\n  TO   {imp['to_id']}: {to_desc}"
+                    + (f"\n  Note: {imp['note']}" if imp.get("note") else "")
+                )
+
+        if not unchecked_proofs and not unchecked_disproofs and not unchecked_imps:
             sections.append("Nothing to check this round.")
 
         sections.append("\nOutput only the JSON block.")
@@ -126,4 +162,16 @@ class Checker(BaseAgent):
             if dv["verdict"] == "valid" and dv.get("closes_conjecture", False):
                 self.kb.set_status("disproved")
 
-        return response.get("summary", "Checker reviewed submitted attempts.")
+        n_imp = 0
+        for iv in response.get("implication_verdicts", []):
+            self.kb.update_implication(
+                imp_id=iv["id"],
+                verdict=iv["verdict"],
+                feedback=iv.get("feedback", ""),
+            )
+            n_imp += 1
+
+        summary = response.get("summary", "Checker reviewed submitted attempts.")
+        if n_imp:
+            summary += f" ({n_imp} implication(s) checked)"
+        return summary

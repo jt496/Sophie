@@ -149,6 +149,23 @@ class BaseAgent(ABC):
         if omitted_examples:
             lines.append(f"  ... ({omitted_examples} lower-priority examples omitted)")
 
+        # Implication graph
+        implications = snapshot.get("implications", [])
+        if implications:
+            lines += ["", "── IMPLICATIONS ──"]
+            for imp in implications:
+                arrow = {
+                    "proves": "⟹ proves",
+                    "supports": "→ supports",
+                    "blocks": "✗ blocks",
+                    "equivalent": "⟺ equivalent",
+                }.get(imp["type"], imp["type"])
+                conf = "(certain)" if imp["confidence"] == "certain" else "(plausible)"
+                note = f" — {imp['note']}" if imp.get("note") else ""
+                lines.append(
+                    f"  {imp['id']}: {imp['from_id']} {arrow} {imp['to_id']} {conf}{note}"
+                )
+
         # Proof attempts: all valid, recent unchecked, very-recent flawed only
         valid_pa = [pa for pa in snapshot["proof_attempts"] if pa["status"] == "valid"]
         unchecked_pa = [pa for pa in snapshot["proof_attempts"] if pa["status"] == "unchecked"]

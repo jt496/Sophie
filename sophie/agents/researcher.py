@@ -68,6 +68,15 @@ OUTPUT FORMAT
   "resolved_subproblems": [
     {"id": "<SP-XXXXXX>", "resolution": "<what the literature says>"}
   ],
+  "new_implications": [
+    {
+      "from_id": "<SP-/FT- id>",
+      "to_id": "<SP- id or 'CONJECTURE'>",
+      "type": "proves" | "supports" | "blocks" | "equivalent",
+      "confidence": "certain" | "plausible",
+      "note": "<one-line justification citing the source>"
+    }
+  ],
   "summary": "<one-sentence summary of what was found>"
 }
 ```
@@ -121,7 +130,23 @@ class Researcher(BaseAgent):
         for res in response.get("resolved_subproblems", []):
             self.kb.resolve_subproblem(res["id"], res.get("resolution", ""))
 
+        n_imp = 0
+        for imp in response.get("new_implications", []):
+            try:
+                self.kb.add_implication(
+                    from_id=imp["from_id"],
+                    to_id=imp["to_id"],
+                    type_=imp["type"],
+                    confidence=imp.get("confidence", "plausible"),
+                    note=imp.get("note", ""),
+                )
+                n_imp += 1
+            except (KeyError, AssertionError):
+                pass
+
         n_results = len(response.get("known_results", []))
         n_sources = len(response.get("sources_consulted", []))
         summary = response.get("summary", f"Researcher found {n_results} results from {n_sources} sources.")
+        if n_imp:
+            summary += f" (+{n_imp} implication(s) recorded)"
         return summary
