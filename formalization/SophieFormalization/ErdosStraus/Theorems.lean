@@ -349,3 +349,73 @@ theorem erdos_straus_anchor_mechanism (n k : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 �
   grind
 
 end ErdosStraus
+
+
+-- Appended by Formalizer round 37 (PA-3F943E)
+
+namespace ErdosStraus
+
+/-! ## n ≡ 1 mod 12: closed-form identity via p | n+4 (PA-3F943E / SP-DAEE25) -/
+
+private lemma four_dvd_np_of_mod' (n p : ℕ) (hn : n % 4 = 1) (hp : p % 4 = 3) :
+    4 ∣ n + p := by omega
+
+private lemma four_dvd_qp1_of_mod' (q : ℕ) (hq : q % 4 = 3) : 4 ∣ q + 1 := by
+  omega
+
+/-- Closed-form EF identity (PA-3F943E / SP-DAEE25): for n ≡ 1 mod 12, n ≥ 13,
+    p prime with p ≡ 3 mod 4 and p ∣ n+4, q = (n+4)/p ≡ 3 mod 4:
+      4/n = 1/b + 1/(n·m) + 1/(n·m·b)
+    where b = (n+p)/4 and m = (q+1)/4. -/
+theorem erdos_straus_pn4_identity (n p : ℕ)
+    (hn12 : n % 12 = 1) (hn13 : 13 ≤ n)
+    (hp : p.Prime) (hp4 : p % 4 = 3)
+    (hpdvd : p ∣ n + 4)
+    (hq4 : ((n + 4) / p) % 4 = 3) :
+    ∃ x y z : ℕ, 0 < x ∧ 0 < y ∧ 0 < z ∧
+      (4 : ℚ) / n = 1 / x + 1 / y + 1 / z := by
+  set q  := (n + 4) / p with hq_def
+  set b  := (n + p) / 4 with hb_def
+  set m  := (q + 1) / 4 with hm_def
+  have hn4    : n % 4 = 1     := by omega
+  have hn_pos : 0 < n         := by omega
+  have hp_pos : 0 < p         := hp.pos
+  have hpq    : p * q = n + 4 := Nat.mul_div_cancel' hpdvd
+  have hq_pos : 0 < q         := by
+    rcases Nat.eq_zero_or_pos q with hpos
+    · simp at hpq; omega
+  have h4np   : 4 ∣ n + p     := four_dvd_np_of_mod' n p hn4 hp4
+  have h4b    : 4 * b = n + p := Nat.mul_div_cancel' h4np
+  have hb_pos : 0 < b         := by
+    have h : 0 < 4 * b := by linarith [h4b, hp_pos, hn13]
+    omega
+  have h4qp1  : 4 ∣ q + 1     := four_dvd_qp1_of_mod' q hq4
+  have h4m    : 4 * m = q + 1 := Nat.mul_div_cancel' h4qp1
+  have hm_pos : 0 < m         := by
+    have h : 0 < 4 * m := by linarith [h4m, hq_pos]
+    omega
+  -- b + 1 = p * m  (key algebraic step)
+  have hbp1  : b + 1 = p * m := by
+    have hpm4  : 4 * (p * m) = n + p + 4 := by nlinarith [h4m, hpq]
+    have h4bp4 : 4 * (b + 1)  = n + p + 4 := by linarith [h4b]
+    omega
+  refine ⟨b, n * m, n * m * b, hb_pos, Nat.mul_pos hn_pos hm_pos,
+          Nat.mul_pos (Nat.mul_pos hn_pos hm_pos) hb_pos, ?_⟩
+  have hn_ne : (n : ℚ) ≠ 0 := by exact_mod_cast hn_pos.ne'
+  have hb_ne : (b : ℚ) ≠ 0 := by exact_mod_cast hb_pos.ne'
+  have hm_ne : (m : ℚ) ≠ 0 := by exact_mod_cast hm_pos.ne'
+  have h4bQ  : 4 * (b : ℚ) = (n : ℚ) + (p : ℚ) := by exact_mod_cast h4b
+  have hbp1Q : (b : ℚ) + 1 = (p : ℚ) * (m : ℚ) := by exact_mod_cast hbp1
+  have hpqQ  : (p : ℚ) * (q : ℚ) = (n : ℚ) + 4  := by exact_mod_cast hpq
+  rw [Nat.cast_mul, Nat.cast_mul, Nat.cast_mul]
+  field_simp
+  nlinarith [mul_pos (show (0:ℚ) < n from by exact_mod_cast hn_pos)
+                     (show (0:ℚ) < b from by exact_mod_cast hb_pos),
+             mul_pos (show (0:ℚ) < n from by exact_mod_cast hn_pos)
+                     (show (0:ℚ) < m from by exact_mod_cast hm_pos),
+             mul_comm (p : ℚ) (m : ℚ)]
+
+#check erdos_straus_anchor_mechanism
+#check  erdos_straus_pn4_identity
+
+end ErdosStraus
