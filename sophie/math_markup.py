@@ -132,6 +132,12 @@ def _divisibility(text: str) -> str:
         lambda m: f'${m.group(1)} \\mid {m.group(2)}$',
         text,
     )
+    # Handle brace-subscript RHS like q|D_{k*} or p|b_{k}
+    text = _sub_safe(
+        r'\b([\w]+)\|([A-Za-z]\w*_\{[^}]+\})',
+        lambda m: f'${m.group(1)} \\mid {m.group(2)}$',
+        text,
+    )
     # Simple word RHS
     text = _sub_safe(
         r'\b([\w]+)\|([\w]+)',
