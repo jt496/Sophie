@@ -112,7 +112,7 @@
       "description": "Find a parameterized family covering a positive-density subset of primes $p \\equiv 1 \\pmod{12}$.",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "An explicit parameterized family has been proved for all primes p \\equiv 13 (mod 24), a positive-density subset of the primes lying inside the difficult class p \\equiv 1 (mod 12)."
+      "resolution": "An explicit parameterized family has been proved for all primes $p \\equiv 13 \\pmod{24}$, a positive-density subset of the primes lying inside the difficult class $p \\equiv 1 \\pmod{12}$."
     },
     {
       "id": "SP-CA2CE5",
@@ -130,7 +130,7 @@
     },
     {
       "id": "SP-67DDDE",
-      "description": "Prove a general three-term decomposition for every prime p \\equiv 1 (mod 24).",
+      "description": "Prove a general three-term decomposition for every prime $p \\equiv 1 \\pmod{24}$.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
@@ -158,10 +158,10 @@
     },
     {
       "id": "SP-98B70C",
-      "description": "Prove an explicit formula for primes p \u2261 73 or 193 (mod 840), equivalently $p \\equiv 1 \\pmod{24}$, $p \\equiv 3 \\pmod{5}$, and p \u2261 \u00b13 (mod 7).",
+      "description": "Prove an explicit formula for primes $p \\equiv 73 or 193 \\pmod{840}$, equivalently $p \\equiv 1 \\pmod{24}$, $p \\equiv 3 \\pmod{5}$, and $p \\equiv ±3 \\pmod{7}$.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "For primes p \u2261 73 or 193 (mod 840), setting x=(p+7)/4 and n=p(p+7)/4 gives 4/p - 1/x = 7/n, and the congruence conditions force 7/n = 1/((n+10)/7) + 1/(n(n+10)/70)."
+      "resolution": "For primes $p \\equiv 73 or 193 \\pmod{840}$, setting x=(p+7)/4 and n=p(p+7)/4 gives 4/p - 1/x = 7/n, and the congruence conditions force 7/n = 1/((n+10)/7) + 1/(n(n+10)/70)."
     },
     {
       "id": "SP-7805AC",
@@ -172,7 +172,7 @@
     },
     {
       "id": "SP-A004A1",
-      "description": "Unify the proved families $p \\equiv 13 \\pmod{24}$, $p \\equiv 97 \\pmod{120}$, and p \u2261 73 or 193 (mod 840) into a broader modular template.",
+      "description": "Unify the proved families $p \\equiv 13 \\pmod{24}$, $p \\equiv 97 \\pmod{120}$, and $p \\equiv 73 or 193 \\pmod{840}$ into a broader modular template.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
@@ -186,10 +186,10 @@
     },
     {
       "id": "SP-90C62D",
-      "description": "Prove an explicit formula for primes p \u2261 313 or 793 (mod 1680).",
+      "description": "Prove an explicit formula for primes $p \\equiv 313 or 793 \\pmod{1680}$.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "For primes p \u2261 313 or 793 (mod 1680), setting x=(p+7)/4 and n=p(p+7)/4 gives 4/p - 1/x = 7/n, while the congruence conditions force n divisible by 20 and $n \\equiv 1 \\pmod{7}$, so 7/n = 1/((n+20)/7) + 1/(n(n+20)/140)."
+      "resolution": "For primes $p \\equiv 313 or 793 \\pmod{1680}$, setting x=(p+7)/4 and n=p(p+7)/4 gives 4/p - 1/x = 7/n, while the congruence conditions force n divisible by 20 and $n \\equiv 1 \\pmod{7}$, so 7/n = 1/((n+20)/7) + 1/(n(n+20)/140)."
     },
     {
       "id": "SP-ABC80B",
@@ -224,32 +224,32 @@
       "description": "Translate the n-based umbrella conditions back into congruence classes for p to compare with the already proved CRT families.",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Translating the umbrella n-conditions back to p shows that, among prime-compatible classes modulo 840, they are equivalent exactly to p \u2261 73, 193, 313, or 793 (mod 840)."
+      "resolution": "Translating the umbrella n-conditions back to p shows that, among prime-compatible classes modulo 840, they are equivalent exactly to p ≡ 73, 193, 313, or 793 (mod 840)."
     },
     {
       "id": "SP-5CE7EA",
       "description": "Characterize exactly which congruence classes of p force the umbrella n-conditions in the unified x=(p+7)/4 theorem.",
       "source_agent": "Prover",
       "status": "resolved",
-      "resolution": "The congruence classes forcing the umbrella theorem are exactly the prime-compatible classes p \u2261 73, 193, 313, or 793 (mod 840)."
+      "resolution": "The congruence classes forcing the umbrella theorem are exactly the prime-compatible classes p ≡ 73, 193, 313, or 793 (mod 840)."
     },
     {
       "id": "SP-2320C7",
-      "description": "Search for further 7/n identities that handle the remaining residue classes of n modulo 7 beyond n \u2261 4 and n \u2261 1.",
+      "description": "Search for further 7/n identities that handle the remaining residue classes of n modulo 7 beyond n ≡ 4 and n ≡ 1.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
     },
     {
       "id": "SP-F1EA6D",
-      "description": "Prove formally that, among prime-compatible classes modulo 840, the x=(p+7)/4 umbrella conditions are equivalent to p \u2261 73, 193, 313, or 793 (mod 840).",
+      "description": "Prove formally that, among prime-compatible classes modulo 840, the x=(p+7)/4 umbrella conditions are equivalent to p ≡ 73, 193, 313, or 793 (mod 840).",
       "source_agent": "Experimenter",
       "status": "resolved",
-      "resolution": "Among prime-compatible residue classes modulo 840, the x=(p+7)/4 umbrella conditions hold if and only if p \u2261 73, 193, 313, or 793 (mod 840)."
+      "resolution": "Among prime-compatible residue classes modulo 840, the x=(p+7)/4 umbrella conditions hold if and only if p ≡ 73, 193, 313, or 793 (mod 840)."
     },
     {
       "id": "SP-65DE62",
-      "description": "Find a new ansatz for one genuinely open class such as p \u2261 241 or 433 (mod 840), since the current x=(p+7)/4 umbrella theorem provably misses them.",
+      "description": "Find a new ansatz for one genuinely open class such as $p \\equiv 241 or 433 \\pmod{840}$, since the current x=(p+7)/4 umbrella theorem provably misses them.",
       "source_agent": "Experimenter",
       "status": "open",
       "resolution": null
@@ -263,7 +263,7 @@
     },
     {
       "id": "SP-778CCD",
-      "description": "Search for further modular conditions on n that yield new two-unit-fraction identities for 7/n beyond the n \u2261 4 and n \u2261 1 branches.",
+      "description": "Search for further modular conditions on n that yield new two-unit-fraction identities for 7/n beyond the n ≡ 4 and n ≡ 1 branches.",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
@@ -407,7 +407,7 @@
       "id": "EX-A40FF7",
       "description": "Translation check on the umbrella families",
       "supports_conjecture": true,
-      "detail": "Running through all prime-compatible classes $p \\equiv 1 \\pmod{24}$ modulo 840 shows that the umbrella conditions pick out exactly p \u2261 73, 193, 313, 793 (mod 840). So the existing unified x=(p+7)/4 theorem accounts for precisely the already-certified CRT families and no others at the 840-level.",
+      "detail": "Running through all prime-compatible classes $p \\equiv 1 \\pmod{24}$ modulo 840 shows that the umbrella conditions pick out exactly p ≡ 73, 193, 313, 793 (mod 840). So the existing unified x=(p+7)/4 theorem accounts for precisely the already-certified CRT families and no others at the 840-level.",
       "added_round": 6
     },
     {
@@ -436,58 +436,58 @@
     {
       "id": "PA-E552D9",
       "round": 1,
-      "sketch": "We can prove the conjecture for every prime p except possibly those with $p \\equiv 1 \\pmod{12}$.\n\n1. The case p=2 is immediate: 4/2 = 1 + 1/2 + 1/2.\n\n2. The case p=3 is also immediate: 4/3 = 1 + 1/4 + 1/12.\n\n3. Now let p>3 be prime. Then p is odd and not divisible by 3, so p lies in one of the residue classes 1,5,7,11 modulo 12.\n\n4. If $p \\equiv 2 \\pmod{3}$, define a=(p+1)/3, which is an integer. Then\n   1/p + 1/a + 1/(pa)\n   = 1/p + (p+1)/(pa)\n   = 1/p + 3/p\n   = 4/p.\n   Hence every prime p \u2261 5 or 11 (mod 12) has a three-term Egyptian-fraction decomposition:\n   4/p = 1/p + 1/((p+1)/3) + 1/(p(p+1)/3).\n\n5. If $p \\equiv 3 \\pmod{4}$, define b=(p+1)/4, which is an integer. Then\n   1/b + 1/(2pb) + 1/(2pb)\n   = 1/b + 1/(pb)\n   = (p+1)/(pb)\n   = 4/p.\n   Hence every prime p \u2261 7 or 11 (mod 12) has a three-term decomposition:\n   4/p = 1/((p+1)/4) + 1/(p(p+1)/2) + 1/(p(p+1)/2).\n\n6. Combining the two cases: every prime p>3 with p \not\\equiv 1 (mod 12) is covered. Therefore the original conjecture for primes reduces to the remaining class $p \\equiv 1 \\pmod{12}$.\n\nThis does not prove the full conjecture, because the class $p \\equiv 1 \\pmod{12}$ is still untreated.",
+      "sketch": "We can prove the conjecture for every prime p except possibly those with $p \\equiv 1 \\pmod{12}$.\n\n1. The case p=2 is immediate: 4/2 = 1 + 1/2 + 1/2.\n\n2. The case p=3 is also immediate: 4/3 = 1 + 1/4 + 1/12.\n\n3. Now let p>3 be prime. Then p is odd and not divisible by 3, so p lies in one of the residue classes 1,5,7,11 modulo 12.\n\n4. If $p \\equiv 2 \\pmod{3}$, define a=(p+1)/3, which is an integer. Then\n   1/p + 1/a + 1/(pa)\n   = 1/p + (p+1)/(pa)\n   = 1/p + 3/p\n   = 4/p.\n   Hence every prime $p \\equiv 5 or 11 \\pmod{12}$ has a three-term Egyptian-fraction decomposition:\n   4/p = 1/p + 1/((p+1)/3) + 1/(p(p+1)/3).\n\n5. If $p \\equiv 3 \\pmod{4}$, define b=(p+1)/4, which is an integer. Then\n   1/b + 1/(2pb) + 1/(2pb)\n   = 1/b + 1/(pb)\n   = (p+1)/(pb)\n   = 4/p.\n   Hence every prime $p \\equiv 7 or 11 \\pmod{12}$ has a three-term decomposition:\n   4/p = 1/((p+1)/4) + 1/(p(p+1)/2) + 1/(p(p+1)/2).\n\n6. Combining the two cases: every prime p>3 with p \n$ot \\equiv 1 \\pmod{12}$ is covered. Therefore the original conjecture for primes reduces to the remaining class $p \\equiv 1 \\pmod{12}$.\n\nThis does not prove the full conjecture, because the class $p \\equiv 1 \\pmod{12}$ is still untreated.",
       "status": "valid",
       "checker_feedback": "Steps 1 and 2 are correct explicit decompositions for p=2 and p=3. In step 3, the residue-class statement is correct: every prime p>3 is odd and not divisible by 3, hence p mod 12 is in {1,5,7,11}. In step 4, if $p \\equiv 2 \\pmod{3}$, then a=(p+1)/3 is indeed an integer, and 1/a + 1/(pa) = (p+1)/(pa) = 3/p, so the displayed identity gives 4/p exactly. In step 5, if $p \\equiv 3 \\pmod{4}$, then b=(p+1)/4 is an integer, and 1/(2pb)+1/(2pb)=1/(pb), so 1/b + 1/(pb) = (p+1)/(pb) = 4/p; this is also correct. Step 6 is therefore justified: the argument covers primes in classes 5,7,11 modulo 12, leaving only 1 modulo 12. This is a sound partial reduction, not a complete proof of the conjecture, so closes_conjecture must remain false."
     },
     {
       "id": "PA-281CAA",
       "round": 2,
-      "sketch": "We strengthen the previous valid reduction. The conjecture holds for every prime p except possibly those with p \\equiv 1 \\pmod{24}.\n\nStart from the checked result PA-E552D9: every prime is already covered unless p \\equiv 1 \\pmod{12}. So it remains to treat primes p \\equiv 1 \\pmod{12}.\n\nNow assume p \\equiv 13 \\pmod{24}. Then p \\equiv 1 \\pmod{12}, and in particular (p+3)/4 is an integer. Set\n\n  x = (p+3)/4.\n\nThen\n\n  4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)).\n\nWrite\n\n  n = p(p+3)/4.\n\nThen the remainder is 3/n. Because p \\equiv 13 \\pmod{24}, we have p+3 \\equiv 16 \\pmod{24}, so (p+3)/4 is even; hence n = p(p+3)/4 is an even integer. Also p \\equiv 1 \\pmod{3} and (p+3)/4 \\equiv 1 \\pmod{3}, so n \\equiv 1 \\pmod{3}.\n\nFor any even integer n with n \\equiv 1 \\pmod{3}, we have the identity\n\n  3/n = 1/((n+2)/3) + 1/(n(n+2)/6).\n\nIndeed, since n is even and n \\equiv 1 \\pmod{3}, both denominators are integers, and\n\n  1/((n+2)/3) + 1/(n(n+2)/6)\n  = 3/(n+2) + 6/(n(n+2))\n  = (3n+6)/(n(n+2))\n  = 3/n.\n\nTherefore, for p \\equiv 13 \\pmod{24}, we obtain\n\n  4/p = 1/((p+3)/4) + 1/((n+2)/3) + 1/(n(n+2)/6),\n\nwhere n = p(p+3)/4. This is an explicit three-term Egyptian-fraction decomposition.\n\nSo combining with PA-E552D9, the conjecture is proved for all primes except possibly those with p \\equiv 1 \\pmod{24}.\n\nChecks: for p=13, n=52, giving (x,y,z)=(4,18,468); for p=37, n=370, giving (10,124,22940).",
+      "sketch": "We strengthen the previous valid reduction. The conjecture holds for every prime p except possibly those with $p \\equiv 1 \\pmod{24}$.\n\nStart from the checked result PA-E552D9: every prime is already covered unless $p \\equiv 1 \\pmod{12}$. So it remains to treat primes $p \\equiv 1 \\pmod{12}$.\n\nNow assume $p \\equiv 13 \\pmod{24}$. Then $p \\equiv 1 \\pmod{12}$, and in particular (p+3)/4 is an integer. Set\n\n  x = (p+3)/4.\n\nThen\n\n  4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)).\n\nWrite\n\n  n = p(p+3)/4.\n\nThen the remainder is 3/n. Because $p \\equiv 13 \\pmod{24}$, we have $p+3 \\equiv 16 \\pmod{24}$, so (p+3)/4 is even; hence n = p(p+3)/4 is an even integer. Also $p \\equiv 1 \\pmod{3}$ and $(p+3)/4 \\equiv 1 \\pmod{3}$, so $n \\equiv 1 \\pmod{3}$.\n\nFor any even integer n with $n \\equiv 1 \\pmod{3}$, we have the identity\n\n  3/n = 1/((n+2)/3) + 1/(n(n+2)/6).\n\nIndeed, since n is even and $n \\equiv 1 \\pmod{3}$, both denominators are integers, and\n\n  1/((n+2)/3) + 1/(n(n+2)/6)\n  = 3/(n+2) + 6/(n(n+2))\n  = (3n+6)/(n(n+2))\n  = 3/n.\n\nTherefore, for $p \\equiv 13 \\pmod{24}$, we obtain\n\n  4/p = 1/((p+3)/4) + 1/((n+2)/3) + 1/(n(n+2)/6),\n\nwhere n = p(p+3)/4. This is an explicit three-term Egyptian-fraction decomposition.\n\nSo combining with PA-E552D9, the conjecture is proved for all primes except possibly those with $p \\equiv 1 \\pmod{24}$.\n\nChecks: for p=13, n=52, giving (x,y,z)=(4,18,468); for p=37, n=370, giving (10,124,22940).",
       "status": "valid",
       "checker_feedback": "The opening reduction to the class $p \\equiv 1 \\pmod{12}$ is already checker-validated via PA-E552D9, so it is legitimate to start from that point. For $p \\equiv 13 \\pmod{24}$, the choice x=(p+3)/4 is valid because p+3 is divisible by 4. The computation 4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)) is correct. Setting n=p(p+3)/4 rewrites the remainder as 3/n correctly. The parity claim is justified: if $p \\equiv 13 \\pmod{24}$, then p+$3 \\equiv 16 \\pmod{24}$, so (p+3)/4 is even, hence n is even. The congruence $n \\equiv 1 \\pmod{3}$ is also correct because $p \\equiv 1 \\pmod{3}$ and (p+3)/$4 \\equiv 1 \\pmod{3}$. The identity 3/n = 1/((n+2)/3) + 1/(n(n+2)/6) is verified by direct algebra, and the integrality conditions on both denominators follow from n even and $n \\equiv 1 \\pmod{3}$. Substituting this into the remainder therefore gives a valid explicit decomposition for every prime $p \\equiv 13 \\pmod{24}$. Consequently the argument soundly sharpens the unresolved residue class from $p \\equiv 1 \\pmod{12}$ to $p \\equiv 1 \\pmod{24}$. This is a genuine partial proof, not a complete proof of the full conjecture, so closes_conjecture remains false."
     },
     {
       "id": "PA-27AA8D",
       "round": 3,
-      "sketch": "We record another explicit family inside the remaining difficult class.\n\nAssume p \\equiv 97 \\pmod{120}. Then p is prime, p \\equiv 1 \\pmod{24}, and p \\equiv 2 \\pmod{5}.\nSet\n\n  x = (p+3)/4.\n\nSince p \\equiv 1 \\pmod{24}, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)).\n\nWrite\n\n  n = p(p+3)/4.\n\nThen the remainder is 3/n. Because p \\equiv 1 \\pmod{24}, we have p \\equiv 1 \\pmod{3} and (p+3)/4 \\equiv 1 \\pmod{3}, so n \\equiv 1 \\pmod{3}. Because p \\equiv 2 \\pmod{5}, we have p+3 \\equiv 0 \\pmod{5}, hence n is divisible by 5.\n\nFor any integer n with n \\equiv 1 \\pmod{3} and 5 | n, we have the identity\n\n  3/n = 1/((n+5)/3) + 1/(n(n+5)/15).\n\nIndeed, the denominator (n+5)/3 is integral because n \\equiv 1 \\pmod{3}, and n(n+5)/15 is integral because 5 | n and 3 | (n+5). Also\n\n  1/((n+5)/3) + 1/(n(n+5)/15)\n  = 3/(n+5) + 15/(n(n+5))\n  = (3n+15)/(n(n+5))\n  = 3/n.\n\nTherefore, for every prime p \\equiv 97 \\pmod{120},\n\n  4/p = 1/((p+3)/4) + 1/((n+5)/3) + 1/(n(n+5)/15),\n\nwhere n = p(p+3)/4.\n\nChecks: p=97 gives (x,y,z)=(25,810,392850), and p=337 gives (85,9550,54711950). So the remaining class p \\equiv 1 \\pmod{24} contains at least this further explicit subfamily.",
+      "sketch": "We record another explicit family inside the remaining difficult class.\n\nAssume $p \\equiv 97 \\pmod{120}$. Then p is prime, $p \\equiv 1 \\pmod{24}$, and $p \\equiv 2 \\pmod{5}$.\nSet\n\n  x = (p+3)/4.\n\nSince $p \\equiv 1 \\pmod{24}$, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)).\n\nWrite\n\n  n = p(p+3)/4.\n\nThen the remainder is 3/n. Because $p \\equiv 1 \\pmod{24}$, we have $p \\equiv 1 \\pmod{3}$ and $(p+3)/4 \\equiv 1 \\pmod{3}$, so $n \\equiv 1 \\pmod{3}$. Because $p \\equiv 2 \\pmod{5}$, we have $p+3 \\equiv 0 \\pmod{5}$, hence n is divisible by 5.\n\nFor any integer n with $n \\equiv 1 \\pmod{3}$ and 5 | n, we have the identity\n\n  3/n = 1/((n+5)/3) + 1/(n(n+5)/15).\n\nIndeed, the denominator (n+5)/3 is integral because $n \\equiv 1 \\pmod{3}$, and n(n+5)/15 is integral because 5 | n and 3 | (n+5). Also\n\n  1/((n+5)/3) + 1/(n(n+5)/15)\n  = 3/(n+5) + 15/(n(n+5))\n  = (3n+15)/(n(n+5))\n  = 3/n.\n\nTherefore, for every prime $p \\equiv 97 \\pmod{120}$,\n\n  4/p = 1/((p+3)/4) + 1/((n+5)/3) + 1/(n(n+5)/15),\n\nwhere n = p(p+3)/4.\n\nChecks: p=97 gives (x,y,z)=(25,810,392850), and p=337 gives (85,9550,54711950). So the remaining class $p \\equiv 1 \\pmod{24}$ contains at least this further explicit subfamily.",
       "status": "valid",
       "checker_feedback": "The congruence assumptions are used correctly. From $p \\equiv 97 \\pmod{120}$, it follows that $p \\equiv 1 \\pmod{24}$, so x=(p+3)/4 is an integer. The computation 4/p - 1/x = 4/p - 4/(p+3) = 12/(p(p+3)) is correct, and with n=p(p+3)/4 this remainder is exactly 3/n. The claim $n \\equiv 1 \\pmod{3}$ is justified because $p \\equiv 1 \\pmod{3}$ and (p+3)/$4 \\equiv 1 \\pmod{3}$, so their product is 1 modulo 3. The divisibility by 5 is also correct: $p \\equiv 2 \\pmod{5}$ implies p+$3 \\equiv 0 \\pmod{5}$, hence n is a multiple of 5. The identity 3/n = 1/((n+5)/3) + 1/(n(n+5)/15) is verified by direct algebra, and the integrality checks on both denominators are sufficient. Therefore the displayed construction yields a valid three-term decomposition for every prime $p \\equiv 97 \\pmod{120}$. This is a sound new partial family, but it does not cover all primes in the unresolved class $p \\equiv 1 \\pmod{24}$, so closes_conjecture remains false."
     },
     {
       "id": "PA-E34C86",
       "round": 4,
-      "sketch": "We prove another explicit family inside the remaining class p \\equiv 1 \\pmod{24}.\n\nAssume p is a prime satisfying\n\n  p \\equiv 1 \\pmod{24},\\qquad p \\equiv 3 \\pmod{5},\\qquad p \\equiv \\pm 3 \\pmod{7}.\n\nBy the Chinese remainder theorem this is equivalent to p \\equiv 73 or 193 \\pmod{840}.\n\nSet\n\n  x = (p+7)/4.\n\nSince p \\equiv 1 \\pmod{24}, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)).\n\nWrite\n\n  n = p(p+7)/4.\n\nThen the remainder is 7/n.\n\nWe now verify the divisibility conditions needed to split 7/n into two unit fractions.\n\n1. Because p \\equiv 1 \\pmod{24}, we have p+7 \\equiv 8 \\pmod{24}, so (p+7)/4 is even. Hence n is even.\n\n2. Because p \\equiv 3 \\pmod{5}, we have p+7 \\equiv 0 \\pmod{5}, so n is divisible by 5. Combining with (1), n is divisible by 10.\n\n3. Modulo 7, since p+7 \\equiv p, we have\n\n   n = p(p+7)/4 \\equiv $p^{2}$/4 \\pmod{7}.\n\n   Because $4^{-1}$ \\equiv 2 \\pmod{7}, this gives n \\equiv $2p^{2}$ \\pmod{7}. If p \\equiv \\pm 3 \\pmod{7}, then $p^{2}$ \\equiv 2 \\pmod{7}, so n \\equiv 4 \\pmod{7}. Hence n+10 \\equiv 0 \\pmod{7}.\n\nTherefore the quantities\n\n  y = (n+10)/7, \\qquad z = n(n+10)/70\n\nare positive integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+10) + 70/(n(n+10))\n  = (7n+70)/(n(n+10))\n  = 7/n.\n\nSubstituting back, we obtain the identity\n\n  4/p = 1/((p+7)/4) + 1/((n+10)/7) + 1/(n(n+10)/70),\n\nwhere n = p(p+7)/4.\n\nHence the conjecture holds for every prime p \\equiv 73 or 193 \\pmod{840}. This gives another explicit subfamily inside the unresolved class p \\equiv 1 \\pmod{24}.\n\nChecks: p=73 gives (x,y,z)=(20,210,30660), and p=193 gives (50,1380,1331700).",
+      "sketch": "We prove another explicit family inside the remaining class $p \\equiv 1 \\pmod{24}$.\n\nAssume p is a prime satisfying\n\n  $p \\equiv 1 \\pmod{24}$,\\qquad $p \\equiv 3 \\pmod{5}$,\\qquad $p \\equiv \\pm 3 \\pmod{7}$.\n\nBy the Chinese remainder theorem this is equivalent to $p \\equiv 73 or 193 \\pmod{840}$.\n\nSet\n\n  x = (p+7)/4.\n\nSince $p \\equiv 1 \\pmod{24}$, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)).\n\nWrite\n\n  n = p(p+7)/4.\n\nThen the remainder is 7/n.\n\nWe now verify the divisibility conditions needed to split 7/n into two unit fractions.\n\n1. Because $p \\equiv 1 \\pmod{24}$, we have $p+7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even. Hence n is even.\n\n2. Because $p \\equiv 3 \\pmod{5}$, we have $p+7 \\equiv 0 \\pmod{5}$, so n is divisible by 5. Combining with (1), n is divisible by 10.\n\n3. Modulo 7, since p+7 \\equiv p, we have\n\n   n = p(p+7)/4 \\equiv $p^{2}$/4 \\pmod{7}.\n\n   Because $4^{-1} \\equiv 2 \\pmod{7}$, this gives $n \\equiv 2p^{2} \\pmod{7}$. If $p \\equiv \\pm 3 \\pmod{7}$, then $p^{2} \\equiv 2 \\pmod{7}$, so $n \\equiv 4 \\pmod{7}$. Hence $n+10 \\equiv 0 \\pmod{7}$.\n\nTherefore the quantities\n\n  y = (n+10)/7, \\qquad z = n(n+10)/70\n\nare positive integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+10) + 70/(n(n+10))\n  = (7n+70)/(n(n+10))\n  = 7/n.\n\nSubstituting back, we obtain the identity\n\n  4/p = 1/((p+7)/4) + 1/((n+10)/7) + 1/(n(n+10)/70),\n\nwhere n = p(p+7)/4.\n\nHence the conjecture holds for every prime $p \\equiv 73 or 193 \\pmod{840}$. This gives another explicit subfamily inside the unresolved class $p \\equiv 1 \\pmod{24}$.\n\nChecks: p=73 gives (x,y,z)=(20,210,30660), and p=193 gives (50,1380,1331700).",
       "status": "valid",
-      "checker_feedback": "The argument is mathematically sound. The congruence assumptions are correctly stated, and the Chinese remainder theorem reduction to the two residue classes 73 and 193 modulo 840 is appropriate. Since $p \\equiv 1 \\pmod{24}$, x=(p+7)/4 is indeed an integer, and the computation 4/p - 1/x = 28/(p(p+7)) is correct. Defining n=p(p+7)/4 then gives the remainder 7/n exactly. Step 1 is justified: p+$7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even, hence n is even. Step 2 is also correct: $p \\equiv 3 \\pmod{5}$ implies p+7 is divisible by 5, so n is divisible by 5, and therefore by 10 when combined with step 1. In step 3, the modular computation modulo 7 is valid: because p+$7 \\equiv p \\pmod{7}$ and $4^{-1}$ \u2261 2 (mod 7), one gets n \u2261 $2p^{2}$ (mod 7); if p \u2261 \u00b13 (mod 7), then p^$2 \\equiv 2 \\pmod{7}$, hence $n \\equiv 4 \\pmod{7}$, so n+10 is divisible by 7. These divisibility facts make y=(n+10)/7 and z=n(n+10)/70 positive integers. The identity 1/y + 1/z = 7/n is checked correctly by direct algebra. Therefore the displayed formula gives a valid three-term decomposition for every prime p in the stated congruence classes. This is another legitimate partial family, not a complete proof of the conjecture, so closes_conjecture remains false."
+      "checker_feedback": "The argument is mathematically sound. The congruence assumptions are correctly stated, and the Chinese remainder theorem reduction to the two residue classes 73 and 193 modulo 840 is appropriate. Since $p \\equiv 1 \\pmod{24}$, x=(p+7)/4 is indeed an integer, and the computation 4/p - 1/x = 28/(p(p+7)) is correct. Defining n=p(p+7)/4 then gives the remainder 7/n exactly. Step 1 is justified: p+$7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even, hence n is even. Step 2 is also correct: $p \\equiv 3 \\pmod{5}$ implies p+7 is divisible by 5, so n is divisible by 5, and therefore by 10 when combined with step 1. In step 3, the modular computation modulo 7 is valid: because p+$7 \\equiv p \\pmod{7}$ and $4^{-1} \\equiv 2 \\pmod{7}$, one gets $n \\equiv 2p^{2} \\pmod{7}$; if $p \\equiv ±3 \\pmod{7}$, then p^$2 \\equiv 2 \\pmod{7}$, hence $n \\equiv 4 \\pmod{7}$, so n+10 is divisible by 7. These divisibility facts make y=(n+10)/7 and z=n(n+10)/70 positive integers. The identity 1/y + 1/z = 7/n is checked correctly by direct algebra. Therefore the displayed formula gives a valid three-term decomposition for every prime p in the stated congruence classes. This is another legitimate partial family, not a complete proof of the conjecture, so closes_conjecture remains false."
     },
     {
       "id": "PA-154165",
       "round": 5,
-      "sketch": "We prove a second explicit family based on the choice x=(p+7)/4.\n\nAssume p is a prime satisfying\n\n  p \\equiv 1 \\pmod{24},\\qquad p \\equiv 3 \\pmod{5},\\qquad p \\equiv \\pm 2 \\pmod{7}.\n\nBy the Chinese remainder theorem, this is equivalent to\n\n  p \\equiv 313 \text{ or } 793 \\pmod{1680}.\n\nSet\n\n  x = (p+7)/4.\n\nSince p \\equiv 1 \\pmod{24}, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)).\n\nWrite\n\n  n = p(p+7)/4.\n\nThen the remainder is 7/n.\n\nWe now show that n satisfies the divisibility conditions for a different 7/n identity.\n\n1. Because p \\equiv 1 \\pmod{24}, we have p+7 \\equiv 8 \\pmod{24}, so (p+7)/4 is even and n is even.\n\n2. Because p \\equiv 1 \\pmod{24}, we also have p \\equiv 1 \\pmod{8}, hence p+7 \\equiv 8 \\pmod{16}, so (p+7)/4 is divisible by 2 but not yet necessarily by 4. To force n to be divisible by 20 we use the stronger congruence hidden in the CRT classes 313 or 793 modulo 1680: both are congruent to 25 modulo 48, so p+7 \\equiv 32 \\pmod{48}, hence (p+7)/4 is divisible by 4. Since p \\equiv 3 \\pmod{5}, we have p+7 \\equiv 0 \\pmod{5}. Therefore n is divisible by 20.\n\n3. Modulo 7, since p+7 \\equiv p \\pmod{7}, we have\n\n   n = p(p+7)/4 \\equiv $p^{2}$/4 \\pmod{7}.\n\n   Because $4^{-1}$ \\equiv 2 \\pmod{7}, this gives n \\equiv $2p^{2}$ \\pmod{7}. If p \\equiv \\pm 2 \\pmod{7}, then $p^{2}$ \\equiv 4 \\pmod{7}, so n \\equiv 1 \\pmod{7}.\n\nHence n+20 is divisible by 7, and since n is divisible by 20, the quantities\n\n  y = (n+20)/7, \\qquad z = n(n+20)/140\n\nare positive integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+20) + 140/(n(n+20))\n  = (7n+140)/(n(n+20))\n  = 7/n.\n\nSubstituting back, we obtain\n\n  4/p = 1/((p+7)/4) + 1/((n+20)/7) + 1/(n(n+20)/140),\n\nwhere n = p(p+7)/4.\n\nTherefore the conjecture holds for every prime p \\equiv 313 or 793 \\pmod{1680}.\n\nChecks: p=313 gives (x,y,z)=(80,3580,4482160), and p=2473 gives (620,218240,33370609920).",
+      "sketch": "We prove a second explicit family based on the choice x=(p+7)/4.\n\nAssume p is a prime satisfying\n\n  $p \\equiv 1 \\pmod{24}$,\\qquad $p \\equiv 3 \\pmod{5}$,\\qquad $p \\equiv \\pm 2 \\pmod{7}$.\n\nBy the Chinese remainder theorem, this is equivalent to\n\n  p \\equiv 313 \text{ or } 793 \\pmod{1680}.\n\nSet\n\n  x = (p+7)/4.\n\nSince $p \\equiv 1 \\pmod{24}$, x is an integer. Then\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)).\n\nWrite\n\n  n = p(p+7)/4.\n\nThen the remainder is 7/n.\n\nWe now show that n satisfies the divisibility conditions for a different 7/n identity.\n\n1. Because $p \\equiv 1 \\pmod{24}$, we have $p+7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even and n is even.\n\n2. Because $p \\equiv 1 \\pmod{24}$, we also have $p \\equiv 1 \\pmod{8}$, hence $p+7 \\equiv 8 \\pmod{16}$, so (p+7)/4 is divisible by 2 but not yet necessarily by 4. To force n to be divisible by 20 we use the stronger congruence hidden in the CRT classes 313 or 793 modulo 1680: both are congruent to 25 modulo 48, so $p+7 \\equiv 32 \\pmod{48}$, hence (p+7)/4 is divisible by 4. Since $p \\equiv 3 \\pmod{5}$, we have $p+7 \\equiv 0 \\pmod{5}$. Therefore n is divisible by 20.\n\n3. Modulo 7, since $p+7 \\equiv p \\pmod{7}$, we have\n\n   n = p(p+7)/4 \\equiv $p^{2}$/4 \\pmod{7}.\n\n   Because $4^{-1} \\equiv 2 \\pmod{7}$, this gives $n \\equiv 2p^{2} \\pmod{7}$. If $p \\equiv \\pm 2 \\pmod{7}$, then $p^{2} \\equiv 4 \\pmod{7}$, so $n \\equiv 1 \\pmod{7}$.\n\nHence n+20 is divisible by 7, and since n is divisible by 20, the quantities\n\n  y = (n+20)/7, \\qquad z = n(n+20)/140\n\nare positive integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+20) + 140/(n(n+20))\n  = (7n+140)/(n(n+20))\n  = 7/n.\n\nSubstituting back, we obtain\n\n  4/p = 1/((p+7)/4) + 1/((n+20)/7) + 1/(n(n+20)/140),\n\nwhere n = p(p+7)/4.\n\nTherefore the conjecture holds for every prime $p \\equiv 313 or 793 \\pmod{1680}$.\n\nChecks: p=313 gives (x,y,z)=(80,3580,4482160), and p=2473 gives (620,218240,33370609920).",
       "status": "valid",
-      "checker_feedback": "The proof is sound. The initial congruence assumptions are consistent, and the reduction to the two residue classes 313 and 793 modulo 1680 is a correct CRT restatement. Since $p \\equiv 1 \\pmod{24}$, the denominator x=(p+7)/4 is integral, and the computation 4/p - 1/x = 28/(p(p+7)) is correct. Defining n=p(p+7)/4 therefore leaves the remainder 7/n exactly. Step 1 is valid: p+$7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even, hence n is even. Step 2 correctly strengthens this to divisibility by 20: the residue classes 313 and 793 modulo 1680 are both congruent to 25 modulo 48, so p+$7 \\equiv 32 \\pmod{48}$, hence (p+7)/4 is divisible by 4; together with $p \\equiv 3 \\pmod{5}$, this implies 5 | (p+7) and therefore 20 | n. Step 3 is also correct: modulo 7 one has n \u2261 $p^{2}$/4 \u2261 $2p^{2}$, and if p \u2261 \u00b12 (mod 7), then $p^{2}$ \u2261 4, so $n \\equiv 1 \\pmod{7}$. Thus n+20 is divisible by 7. The claimed denominators y=(n+20)/7 and z=n(n+20)/140 are therefore integers, and the identity 1/y + 1/z = 7/n is verified by direct algebra. Hence the displayed formula gives a valid three-term Egyptian-fraction decomposition for every prime p \u2261 313 or 793 (mod 1680). This is an additional partial family, not a full proof of the conjecture, so closes_conjecture remains false."
+      "checker_feedback": "The proof is sound. The initial congruence assumptions are consistent, and the reduction to the two residue classes 313 and 793 modulo 1680 is a correct CRT restatement. Since $p \\equiv 1 \\pmod{24}$, the denominator x=(p+7)/4 is integral, and the computation 4/p - 1/x = 28/(p(p+7)) is correct. Defining n=p(p+7)/4 therefore leaves the remainder 7/n exactly. Step 1 is valid: p+$7 \\equiv 8 \\pmod{24}$, so (p+7)/4 is even, hence n is even. Step 2 correctly strengthens this to divisibility by 20: the residue classes 313 and 793 modulo 1680 are both congruent to 25 modulo 48, so p+$7 \\equiv 32 \\pmod{48}$, hence (p+7)/4 is divisible by 4; together with $p \\equiv 3 \\pmod{5}$, this implies 5 | (p+7) and therefore 20 | n. Step 3 is also correct: modulo 7 one has n ≡ $p^{2}$/4 ≡ $2p^{2}$, and if $p \\equiv ±2 \\pmod{7}$, then $p^{2}$ ≡ 4, so $n \\equiv 1 \\pmod{7}$. Thus n+20 is divisible by 7. The claimed denominators y=(n+20)/7 and z=n(n+20)/140 are therefore integers, and the identity 1/y + 1/z = 7/n is verified by direct algebra. Hence the displayed formula gives a valid three-term Egyptian-fraction decomposition for every prime $p \\equiv 313 or 793 \\pmod{1680}$. This is an additional partial family, not a full proof of the conjecture, so closes_conjecture remains false."
     },
     {
       "id": "PA-FB8CFA",
       "round": 6,
-      "sketch": "We state and prove a unified theorem covering the two certified x=(p+7)/4 branches.\n\nLet p be a prime with p \\equiv 1 \\pmod{24}. Define\n\n  x = (p+7)/4, \\qquad n = p(p+7)/4.\n\nThen x is a positive integer and\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)) = 7/n.\n\nSo every decomposition produced by this method reduces to expressing 7/n as a sum of two unit fractions.\n\nWe now prove two general identities.\n\nCase 1. Suppose 10 divides n and n \\equiv 4 \\pmod{7}. Then n+10 is divisible by 7, and the quantities\n\n  y = (n+10)/7, \\qquad z = n(n+10)/70\n\nare integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+10) + 70/(n(n+10))\n  = (7n+70)/(n(n+10))\n  = 7/n.\n\nHence in this case\n\n  4/p = 1/x + 1/((n+10)/7) + 1/(n(n+10)/70).\n\nCase 2. Suppose 20 divides n and n \\equiv 1 \\pmod{7}. Then n+20 is divisible by 7, and the quantities\n\n  y = (n+20)/7, \\qquad z = n(n+20)/140\n\nare integers. Also,\n\n  1/y + 1/z\n  = 7/(n+20) + 140/(n(n+20))\n  = (7n+140)/(n(n+20))\n  = 7/n.\n\nHence in this case\n\n  4/p = 1/x + 1/((n+20)/7) + 1/(n(n+20)/140).\n\nTherefore we obtain the following umbrella statement:\n\n  If p \\equiv 1 \\pmod{24}, x=(p+7)/4, n=p(p+7)/4, and either\n  (i) 10 | n with n \\equiv 4 \\pmod{7}, or\n  (ii) 20 | n with n \\equiv 1 \\pmod{7},\n  then 4/p = 1/x + 1/y + 1/z for explicit positive integers y,z.\n\nThis theorem subsumes the previously checked families p \\equiv 73 or 193 \\pmod{840} and p \\equiv 313 or 793 \\pmod{1680}: those were exactly the congruence classes used to force condition (i) or condition (ii) respectively. The present result is stronger conceptually because it packages both branches into one reusable n-based criterion.",
+      "sketch": "We state and prove a unified theorem covering the two certified x=(p+7)/4 branches.\n\nLet p be a prime with $p \\equiv 1 \\pmod{24}$. Define\n\n  x = (p+7)/4, \\qquad n = p(p+7)/4.\n\nThen x is a positive integer and\n\n  4/p - 1/x = 4/p - 4/(p+7) = 28/(p(p+7)) = 7/n.\n\nSo every decomposition produced by this method reduces to expressing 7/n as a sum of two unit fractions.\n\nWe now prove two general identities.\n\nCase 1. Suppose 10 divides n and $n \\equiv 4 \\pmod{7}$. Then n+10 is divisible by 7, and the quantities\n\n  y = (n+10)/7, \\qquad z = n(n+10)/70\n\nare integers. Moreover,\n\n  1/y + 1/z\n  = 7/(n+10) + 70/(n(n+10))\n  = (7n+70)/(n(n+10))\n  = 7/n.\n\nHence in this case\n\n  4/p = 1/x + 1/((n+10)/7) + 1/(n(n+10)/70).\n\nCase 2. Suppose 20 divides n and $n \\equiv 1 \\pmod{7}$. Then n+20 is divisible by 7, and the quantities\n\n  y = (n+20)/7, \\qquad z = n(n+20)/140\n\nare integers. Also,\n\n  1/y + 1/z\n  = 7/(n+20) + 140/(n(n+20))\n  = (7n+140)/(n(n+20))\n  = 7/n.\n\nHence in this case\n\n  4/p = 1/x + 1/((n+20)/7) + 1/(n(n+20)/140).\n\nTherefore we obtain the following umbrella statement:\n\n  If $p \\equiv 1 \\pmod{24}$, x=(p+7)/4, n=p(p+7)/4, and either\n  (i) 10 | n with $n \\equiv 4 \\pmod{7}$, or\n  (ii) 20 | n with $n \\equiv 1 \\pmod{7}$,\n  then 4/p = 1/x + 1/y + 1/z for explicit positive integers y,z.\n\nThis theorem subsumes the previously checked families $p \\equiv 73 or 193 \\pmod{840}$ and $p \\equiv 313 or 793 \\pmod{1680}$: those were exactly the congruence classes used to force condition (i) or condition (ii) respectively. The present result is stronger conceptually because it packages both branches into one reusable n-based criterion.",
       "status": "valid",
       "checker_feedback": "This proof is valid as stated. The setup is correct: if $p \\equiv 1 \\pmod{24}$, then x=(p+7)/4 is an integer, and 4/p - 1/x = 28/(p(p+7)) = 7/n with n=p(p+7)/4. The rest of the argument is purely conditional on properties of n, so no further hidden assumptions on p are needed. In Case 1, the hypotheses $10 \\mid n$ and $n \\equiv 4 \\pmod{7}$ imply exactly the required integrality: n+10 is divisible by 7, and n(n+10)/70 is integral because $10 \\mid n$ and $7 \\mid (n+10)$. The algebra verifying 1/((n+10)/7) + 1/(n(n+10)/70) = 7/n is correct. Case 2 is analogous and also correct: $20 \\mid n$ and $n \\equiv 1 \\pmod{7}$ imply $7 \\mid (n+20)$, and n(n+20)/140 is integral because $20 \\mid n$ and $7 \\mid (n+20)$. The displayed algebra gives 1/((n+20)/7) + 1/(n(n+20)/140) = 7/n. Therefore the umbrella statement follows immediately. The final remark that this subsumes the previously checked residue-class families is justified by the earlier validated proofs PA-E34C86 and PA-154165, which established concrete congruence conditions on p forcing precisely these two cases for n. This is an important unification theorem, but it remains partial because it does not prove that every prime $p \\equiv 1 \\pmod{24}$ satisfies one of the two n-conditions."
     },
     {
       "id": "PA-1FCAA5",
       "round": 7,
-      "sketch": "We translate the unified x=(p+7)/4 theorem back into congruence classes modulo 840.\n\nAssume p is a prime with p \\equiv 1 \\pmod{24}, and set\n\n  x = (p+7)/4, \\qquad n = p(p+7)/4.\n\nFrom the validated umbrella theorem PA-FB8CFA, the x=(p+7)/4 method succeeds whenever either\n\n  (i) 10 \\mid n and n \\equiv 4 \\pmod{7},\n  or\n  (ii) 20 \\mid n and n \\equiv 1 \\pmod{7}.\n\nWe now characterize these conditions in terms of p modulo 840 (or 1680 where needed), keeping only prime-compatible classes.\n\nCase (i): 10 \\mid n and n \\equiv 4 \\pmod{7}.\n\nBecause p is prime and p \\equiv 1 \\pmod{24}, we have p odd, p \not\\equiv 0 \\pmod{3}, and x=(p+7)/4 an integer. Since p is coprime to 10, the condition $10 \\mid n$ = p(p+7)/4 reduces to 10 | (p+7)/4, equivalently p+7 \\equiv 0 \\pmod{40}, so p \\equiv 33 \\pmod{40}, i.e. p \\equiv 3 \\pmod{5} together with p \\equiv 1 \\pmod{8}.\n\nModulo 7, we have\n\n  n = p(p+7)/4 \\equiv $p^{2}$/4 \\equiv $2p^{2}$ \\pmod{7},\n\nsince $4^{-1}$ \\equiv 2 \\pmod{7}. Thus n \\equiv 4 \\pmod{7} means $2p^{2}$ \\equiv 4 \\pmod{7}, or $p^{2}$ \\equiv 2 \\pmod{7}, so p \\equiv \\pm 3 \\pmod{7}.\n\nCombining p \\equiv 1 \\pmod{24}, p \\equiv 3 \\pmod{5}, and p \\equiv \\pm 3 \\pmod{7}, the Chinese remainder theorem gives exactly the classes\n\n  p \\equiv 73 \text{ or } 193 \\pmod{840},\n\nplus the non-prime-compatible classes 25 and 745 modulo 840, which are discarded because they are divisible by 5. Therefore among prime-compatible residue classes mod 840, Case (i) is equivalent to p \\equiv 73 or 193 \\pmod{840}.\n\nCase (ii): 20 \\mid n and n \\equiv 1 \\pmod{7}.\n\nAs before, modulo 7 we have n \\equiv $2p^{2}$ \\pmod{7}. So n \\equiv 1 \\pmod{7} means $2p^{2}$ \\equiv 1 \\pmod{7}, hence $p^{2}$ \\equiv 4 \\pmod{7}, so p \\equiv \\pm 2 \\pmod{7}.\n\nTo force $20 \\mid n$, we need both $5 \\mid n$ and $4 \\mid n$. The factor $5 \\mid n$ again reduces to p \\equiv 3 \\pmod{5}. For $4 \\mid n$, because p is odd, this is equivalent to 16 | p(p+7). Under p \\equiv 1 \\pmod{24}, one checks that this requires the stronger congruence p \\equiv 25 \\pmod{48}, equivalently p+7 \\equiv 32 \\pmod{48}, so (p+7)/4 is divisible by 4.\n\nCombining p \\equiv 25 \\pmod{48}, p \\equiv 3 \\pmod{5}, and p \\equiv \\pm 2 \\pmod{7}, the Chinese remainder theorem gives the classes\n\n  p \\equiv 313, 793, 985, 1465 \\pmod{1680}.\n\nAmong these, 985 and 1465 are divisible by 5 and therefore cannot be prime. Reducing the prime-compatible classes modulo 840 gives exactly\n\n  p \\equiv 313 \text{ or } 793 \\pmod{840}.\n\nTherefore, among prime-compatible residue classes modulo 840, the unified x=(p+7)/4 theorem applies exactly to\n\n  p \\equiv 73, 193, 313, 793 \\pmod{840}.\n\nIn particular, none of the remaining open classes modulo 840 satisfy the umbrella hypotheses. So the current x=(p+7)/4 mechanism is now completely translated back to p-congruences and explains exactly those four already-validated prime classes.",
+      "sketch": "We translate the unified x=(p+7)/4 theorem back into congruence classes modulo 840.\n\nAssume p is a prime with $p \\equiv 1 \\pmod{24}$, and set\n\n  x = (p+7)/4, \\qquad n = p(p+7)/4.\n\nFrom the validated umbrella theorem PA-FB8CFA, the x=(p+7)/4 method succeeds whenever either\n\n  (i) 10 \\mid n and $n \\equiv 4 \\pmod{7}$,\n  or\n  (ii) 20 \\mid n and $n \\equiv 1 \\pmod{7}$.\n\nWe now characterize these conditions in terms of p modulo 840 (or 1680 where needed), keeping only prime-compatible classes.\n\nCase (i): 10 \\mid n and $n \\equiv 4 \\pmod{7}$.\n\nBecause p is prime and $p \\equiv 1 \\pmod{24}$, we have p odd, p \n$ot \\equiv 0 \\pmod{3}$, and x=(p+7)/4 an integer. Since p is coprime to 10, the condition $10 \\mid n$ = p(p+7)/4 reduces to 10 | (p+7)/4, equivalently $p+7 \\equiv 0 \\pmod{40}$, so $p \\equiv 33 \\pmod{40}$, i.e. $p \\equiv 3 \\pmod{5}$ together with $p \\equiv 1 \\pmod{8}$.\n\nModulo 7, we have\n\n  n = p(p+7)/4 \\equiv $p^{2}$/4 \\equiv $2p^{2}$ \\pmod{7},\n\nsince $4^{-1} \\equiv 2 \\pmod{7}$. Thus $n \\equiv 4 \\pmod{7}$ means $2p^{2} \\equiv 4 \\pmod{7}$, or $p^{2} \\equiv 2 \\pmod{7}$, so $p \\equiv \\pm 3 \\pmod{7}$.\n\nCombining $p \\equiv 1 \\pmod{24}$, $p \\equiv 3 \\pmod{5}$, and $p \\equiv \\pm 3 \\pmod{7}$, the Chinese remainder theorem gives exactly the classes\n\n  p \\equiv 73 \text{ or } 193 \\pmod{840},\n\nplus the non-prime-compatible classes 25 and 745 modulo 840, which are discarded because they are divisible by 5. Therefore among prime-compatible residue classes mod 840, Case (i) is equivalent to $p \\equiv 73 or 193 \\pmod{840}$.\n\nCase (ii): 20 \\mid n and $n \\equiv 1 \\pmod{7}$.\n\nAs before, modulo 7 we have $n \\equiv 2p^{2} \\pmod{7}$. So $n \\equiv 1 \\pmod{7}$ means $2p^{2} \\equiv 1 \\pmod{7}$, hence $p^{2} \\equiv 4 \\pmod{7}$, so $p \\equiv \\pm 2 \\pmod{7}$.\n\nTo force $20 \\mid n$, we need both $5 \\mid n$ and $4 \\mid n$. The factor $5 \\mid n$ again reduces to $p \\equiv 3 \\pmod{5}$. For $4 \\mid n$, because p is odd, this is equivalent to 16 | p(p+7). Under $p \\equiv 1 \\pmod{24}$, one checks that this requires the stronger congruence $p \\equiv 25 \\pmod{48}$, equivalently $p+7 \\equiv 32 \\pmod{48}$, so (p+7)/4 is divisible by 4.\n\nCombining $p \\equiv 25 \\pmod{48}$, $p \\equiv 3 \\pmod{5}$, and $p \\equiv \\pm 2 \\pmod{7}$, the Chinese remainder theorem gives the classes\n\n  p \\equiv 313, 793, 985, 1465 \\pmod{1680}.\n\nAmong these, 985 and 1465 are divisible by 5 and therefore cannot be prime. Reducing the prime-compatible classes modulo 840 gives exactly\n\n  p \\equiv 313 \text{ or } 793 \\pmod{840}.\n\nTherefore, among prime-compatible residue classes modulo 840, the unified x=(p+7)/4 theorem applies exactly to\n\n  p \\equiv 73, 193, 313, 793 \\pmod{840}.\n\nIn particular, none of the remaining open classes modulo 840 satisfy the umbrella hypotheses. So the current x=(p+7)/4 mechanism is now completely translated back to p-congruences and explains exactly those four already-validated prime classes.",
       "status": "valid",
-      "checker_feedback": "The arithmetic in this translation argument is sound. The setup correctly starts from the already-validated umbrella theorem PA-FB8CFA, so the only job is to convert its n-conditions back into congruence conditions on p. In Case (i), because p is prime and $p \\equiv 1 \\pmod{24}$, p is indeed coprime to 10, so $10 \\mid n$ = p(p+7)/4 is equivalent to $10 \\mid (p+7)$/4, hence p+$7 \\equiv 0 \\pmod{40}$, i.e. $p \\equiv 33 \\pmod{40}$, which is the same as $p \\equiv 3 \\pmod{5}$ together with $p \\equiv 1 \\pmod{8}$. The modulo-7 computation n \u2261 $p^{2}$/4 \u2261 $2p^{2}$ (mod 7) is correct, and $n \\equiv 4 \\pmod{7}$ does force p^$2 \\equiv 2 \\pmod{7}$, hence p \u2261 \u00b13 (mod 7). The resulting CRT classes modulo 840 are exactly the stated ones; discarding the classes divisible by 5 is legitimate when restricting to prime-compatible classes. Case (ii) is also correct. The condition $n \\equiv 1 \\pmod{7}$ translates to p \u2261 \u00b12 (mod 7) by the same modular calculation. For $20 \\mid n$, the reduction to $5 \\mid n$ and $4 \\mid n$ is standard; $5 \\mid n$ again gives $p \\equiv 3 \\pmod{5}$. The discussion of $4 \\mid n$ is valid: under $p \\equiv 1 \\pmod{24}$, requiring $16 \\mid p$(p+7) is equivalent to p+$7 \\equiv 32 \\pmod{48}$, i.e. $p \\equiv 25 \\pmod{48}$, and that forces (p+7)/4 to be divisible by 4. The CRT combination then yields exactly the stated classes modulo 1680, of which only 313 and 793 survive the prime-compatibility filter. Therefore the conclusion is justified: among prime-compatible classes modulo 840, the umbrella theorem applies exactly to 73, 193, 313, and 793, and no others. This is a valid exact translation, but it remains partial with respect to the full conjecture because it leaves the 14 open classes untouched."
+      "checker_feedback": "The arithmetic in this translation argument is sound. The setup correctly starts from the already-validated umbrella theorem PA-FB8CFA, so the only job is to convert its n-conditions back into congruence conditions on p. In Case (i), because p is prime and $p \\equiv 1 \\pmod{24}$, p is indeed coprime to 10, so $10 \\mid n$ = p(p+7)/4 is equivalent to $10 \\mid (p+7)$/4, hence p+$7 \\equiv 0 \\pmod{40}$, i.e. $p \\equiv 33 \\pmod{40}$, which is the same as $p \\equiv 3 \\pmod{5}$ together with $p \\equiv 1 \\pmod{8}$. The modulo-7 computation n ≡ $p^{2}$/4 ≡ $2p^{2}$ (mod 7) is correct, and $n \\equiv 4 \\pmod{7}$ does force p^$2 \\equiv 2 \\pmod{7}$, hence $p \\equiv ±3 \\pmod{7}$. The resulting CRT classes modulo 840 are exactly the stated ones; discarding the classes divisible by 5 is legitimate when restricting to prime-compatible classes. Case (ii) is also correct. The condition $n \\equiv 1 \\pmod{7}$ translates to $p \\equiv ±2 \\pmod{7}$ by the same modular calculation. For $20 \\mid n$, the reduction to $5 \\mid n$ and $4 \\mid n$ is standard; $5 \\mid n$ again gives $p \\equiv 3 \\pmod{5}$. The discussion of $4 \\mid n$ is valid: under $p \\equiv 1 \\pmod{24}$, requiring $16 \\mid p$(p+7) is equivalent to p+$7 \\equiv 32 \\pmod{48}$, i.e. $p \\equiv 25 \\pmod{48}$, and that forces (p+7)/4 to be divisible by 4. The CRT combination then yields exactly the stated classes modulo 1680, of which only 313 and 793 survive the prime-compatibility filter. Therefore the conclusion is justified: among prime-compatible classes modulo 840, the umbrella theorem applies exactly to 73, 193, 313, and 793, and no others. This is a valid exact translation, but it remains partial with respect to the full conjecture because it leaves the 14 open classes untouched."
     },
     {
       "id": "PA-8EE413",
       "round": 8,
-      "sketch": "We prove an explicit family inside the genuinely open class p \\equiv 241 \\pmod{840}.\n\nAssume p is a prime satisfying\n\n  p \\equiv 241 \\pmod{2772}.\n\nEquivalently, p \\equiv 241 \\pmod{252} and p \\equiv -1 \\pmod{11}. In particular p \\equiv 1 \\pmod{24}, so (p+11)/4 is an integer.\n\nSet\n\n  x = (p+11)/4.\n\nThen\n\n  4/p - 1/x = 4/p - 4/(p+11) = 44/(p(p+11)).\n\nWrite\n\n  n = p(p+11)/4.\n\nThen the remainder is 11/n.\n\nWe now verify the divisibility conditions needed for a two-unit-fraction decomposition of 11/n.\n\n1. Since p \\equiv 241 \\pmod{252}, we have p+11 \\equiv 0 \\pmod{252}, so (p+11)/4 is divisible by 63. Because p is prime and therefore coprime to 63, it follows that n=p(p+11)/4 is divisible by 63.\n\n2. Modulo 11, since p+11 \\equiv p, we have\n\n   n = p(p+11)/4 \\equiv $p^{2}$/4 \\pmod{11}.\n\n   Because $4^{-1}$ \\equiv 3 \\pmod{11}, this gives n \\equiv $3p^{2}$ \\pmod{11}. As p \\equiv -1 \\pmod{11}, we have $p^{2}$ \\equiv 1 \\pmod{11}, hence n \\equiv 3 \\pmod{11}. Therefore n+63 \\equiv 0 \\pmod{11}.\n\nThus the quantities\n\n  y = (n+63)/11, \\qquad z = n(n+63)/693\n\nare positive integers, because 11 divides n+63 and 693 = 11\\cdot 63 divides n(n+63).\n\nNow compute\n\n  1/y + 1/z\n  = 11/(n+63) + 693/(n(n+63))\n  = (11n+693)/(n(n+63))\n  = 11/n.\n\nSubstituting back, we obtain\n\n  4/p = 1/((p+11)/4) + 1/((n+63)/11) + 1/(n(n+63)/693),\n\nwhere n = p(p+11)/4.\n\nTherefore the conjecture holds for every prime p \\equiv 241 \\pmod{2772}.\n\nChecks: p=241 gives (x,y,z)=(63,1386,334026), and p=2509 gives (630,143703,35922449810). Since 241 mod 2772 reduces to 241 mod 840, this is genuine progress on one of the previously open classes modulo 840.",
+      "sketch": "We prove an explicit family inside the genuinely open class $p \\equiv 241 \\pmod{840}$.\n\nAssume p is a prime satisfying\n\n  $p \\equiv 241 \\pmod{2772}$.\n\nEquivalently, $p \\equiv 241 \\pmod{252}$ and $p \\equiv -1 \\pmod{11}$. In particular $p \\equiv 1 \\pmod{24}$, so (p+11)/4 is an integer.\n\nSet\n\n  x = (p+11)/4.\n\nThen\n\n  4/p - 1/x = 4/p - 4/(p+11) = 44/(p(p+11)).\n\nWrite\n\n  n = p(p+11)/4.\n\nThen the remainder is 11/n.\n\nWe now verify the divisibility conditions needed for a two-unit-fraction decomposition of 11/n.\n\n1. Since $p \\equiv 241 \\pmod{252}$, we have $p+11 \\equiv 0 \\pmod{252}$, so (p+11)/4 is divisible by 63. Because p is prime and therefore coprime to 63, it follows that n=p(p+11)/4 is divisible by 63.\n\n2. Modulo 11, since p+11 \\equiv p, we have\n\n   n = p(p+11)/4 \\equiv $p^{2}$/4 \\pmod{11}.\n\n   Because $4^{-1} \\equiv 3 \\pmod{11}$, this gives $n \\equiv 3p^{2} \\pmod{11}$. As $p \\equiv -1 \\pmod{11}$, we have $p^{2} \\equiv 1 \\pmod{11}$, hence $n \\equiv 3 \\pmod{11}$. Therefore $n+63 \\equiv 0 \\pmod{11}$.\n\nThus the quantities\n\n  y = (n+63)/11, \\qquad z = n(n+63)/693\n\nare positive integers, because 11 divides n+63 and 693 = 11\\cdot 63 divides n(n+63).\n\nNow compute\n\n  1/y + 1/z\n  = 11/(n+63) + 693/(n(n+63))\n  = (11n+693)/(n(n+63))\n  = 11/n.\n\nSubstituting back, we obtain\n\n  4/p = 1/((p+11)/4) + 1/((n+63)/11) + 1/(n(n+63)/693),\n\nwhere n = p(p+11)/4.\n\nTherefore the conjecture holds for every prime $p \\equiv 241 \\pmod{2772}$.\n\nChecks: p=241 gives (x,y,z)=(63,1386,334026), and p=2509 gives (630,143703,35922449810). Since 241 mod 2772 reduces to 241 mod 840, this is genuine progress on one of the previously open classes modulo 840.",
       "status": "valid",
-      "checker_feedback": "This is a valid new partial family. The congruence assumption $p \\equiv 241 \\pmod{2772}$ does indeed imply both $p \\equiv 241 \\pmod{252}$ and $p \\equiv -1 \\pmod{11}$, and in particular $p \\equiv 1 \\pmod{24}$, so x=(p+11)/4 is an integer. The computation 4/p - 1/x = 44/(p(p+11)) is correct, and with n=p(p+11)/4 the remainder is exactly 11/n. Step 1 is justified: p+$11 \\equiv 0 \\pmod{252}$ implies (p+11)/4 is divisible by 63; since a prime p in this class is coprime to 63, n is divisible by 63. Step 2 is also correct: modulo 11 one has n \u2261 $p^{2}$/4 \u2261 $3p^{2}$, and with $p \\equiv -1 \\pmod{11}$ this gives $n \\equiv 3 \\pmod{11}$, so n+63 is divisible by 11. Therefore y=(n+63)/11 and z=n(n+63)/693 are indeed integers because $63 \\mid n$ and $11 \\mid (n+63)$. The final algebra checking 1/y + 1/z = 11/n is correct, so the displayed decomposition follows. The numerical examples p=241 and p=2509 are consistent with the formula. This does not settle the entire class $p \\equiv 241 \\pmod{840}$, only the subfamily $p \\equiv 241 \\pmod{2772}$, so closes_conjecture remains false."
+      "checker_feedback": "This is a valid new partial family. The congruence assumption $p \\equiv 241 \\pmod{2772}$ does indeed imply both $p \\equiv 241 \\pmod{252}$ and $p \\equiv -1 \\pmod{11}$, and in particular $p \\equiv 1 \\pmod{24}$, so x=(p+11)/4 is an integer. The computation 4/p - 1/x = 44/(p(p+11)) is correct, and with n=p(p+11)/4 the remainder is exactly 11/n. Step 1 is justified: p+$11 \\equiv 0 \\pmod{252}$ implies (p+11)/4 is divisible by 63; since a prime p in this class is coprime to 63, n is divisible by 63. Step 2 is also correct: modulo 11 one has n ≡ $p^{2}$/4 ≡ $3p^{2}$, and with $p \\equiv -1 \\pmod{11}$ this gives $n \\equiv 3 \\pmod{11}$, so n+63 is divisible by 11. Therefore y=(n+63)/11 and z=n(n+63)/693 are indeed integers because $63 \\mid n$ and $11 \\mid (n+63)$. The final algebra checking 1/y + 1/z = 11/n is correct, so the displayed decomposition follows. The numerical examples p=241 and p=2509 are consistent with the formula. This does not settle the entire class $p \\equiv 241 \\pmod{840}$, only the subfamily $p \\equiv 241 \\pmod{2772}$, so closes_conjecture remains false."
     }
   ],
   "disproof_attempts": [
@@ -504,7 +504,7 @@
     {
       "round": 1,
       "agent": "Experimenter",
-      "summary": "Examples for p=3,5,7,13 all satisfy the conjecture and highlight that the unresolved class is p \u2261 1 (mod 12)."
+      "summary": "Examples for p=3,5,7,13 all satisfy the conjecture and highlight that the unresolved class is $p \\equiv 1 \\pmod{12}$."
     },
     {
       "round": 1,
@@ -514,7 +514,7 @@
     {
       "round": 1,
       "agent": "Disprover",
-      "summary": "No counterexample was found; the only plausible place to search is the class p \u2261 1 modulo 12, and small primes there still satisfy the conjecture."
+      "summary": "No counterexample was found; the only plausible place to search is the class $p \\equiv 1 \\pmod{12}$, and small primes there still satisfy the conjecture."
     },
     {
       "round": 1,
@@ -524,37 +524,37 @@
     {
       "round": 2,
       "agent": "Prover",
-      "summary": "The previous reduction is sharpened: all primes are now covered except possibly those congruent to 1 modulo 24, and p \u2261 13 (mod 24) has an explicit formula. (+1 implication(s) recorded)"
+      "summary": "The previous reduction is sharpened: all primes are now covered except possibly those congruent to 1 modulo 24, and $p \\equiv 13 \\pmod{24}$ has an explicit formula. (+1 implication(s) recorded)"
     },
     {
       "round": 2,
       "agent": "Checker",
-      "summary": "The new residue-class construction for p \u2261 13 (mod 24) is valid, and the recorded implication to the main p \u2261 1 (mod 12) subproblem is sound. (1 implication(s) checked)"
+      "summary": "The new residue-class construction for $p \\equiv 13 \\pmod{24}$ is valid, and the recorded implication to the main $p \\equiv 1 \\pmod{12}$ subproblem is sound. (1 implication(s) checked)"
     },
     {
       "round": 3,
       "agent": "Prover",
-      "summary": "A new exact formula proves the conjecture for every prime p \u2261 97 (mod 120), adding another explicit family inside the remaining p \u2261 1 (mod 24) case. (+1 implication(s) recorded)"
+      "summary": "A new exact formula proves the conjecture for every prime $p \\equiv 97 \\pmod{120}$, adding another explicit family inside the remaining $p \\equiv 1 \\pmod{24}$ case. (+1 implication(s) recorded)"
     },
     {
       "round": 3,
       "agent": "Checker",
-      "summary": "The p \u2261 97 (mod 120) construction is valid, and its support implication for the remaining p \u2261 1 (mod 24) subproblem is sound. (1 implication(s) checked)"
+      "summary": "The $p \\equiv 97 \\pmod{120}$ construction is valid, and its support implication for the remaining $p \\equiv 1 \\pmod{24}$ subproblem is sound. (1 implication(s) checked)"
     },
     {
       "round": 4,
       "agent": "Experimenter",
-      "summary": "Examples at p=73 and p=193 reveal a new exact pattern, while p=313 shows it only covers a stricter subfamily than p \u2261 73 mod 120."
+      "summary": "Examples at p=73 and p=193 reveal a new exact pattern, while p=313 shows it only covers a stricter subfamily than $p \\equiv 73 \\pmod{120}$."
     },
     {
       "round": 4,
       "agent": "Prover",
-      "summary": "A new checker-ready construction proves the conjecture for all primes p \u2261 73 or 193 (mod 840), adding another explicit family inside p \u2261 1 (mod 24). (+1 implication(s) recorded)"
+      "summary": "A new checker-ready construction proves the conjecture for all primes $p \\equiv 73 or 193 \\pmod{840}$, adding another explicit family inside $p \\equiv 1 \\pmod{24}$. (+1 implication(s) recorded)"
     },
     {
       "round": 4,
       "agent": "Checker",
-      "summary": "The new family for p \u2261 73 or 193 (mod 840) is valid, and its support implication for the remaining p \u2261 1 (mod 24) congruence classes is sound. (1 implication(s) checked)"
+      "summary": "The new family for $p \\equiv 73 or 193 \\pmod{840}$ is valid, and its support implication for the remaining $p \\equiv 1 \\pmod{24}$ congruence classes is sound. (1 implication(s) checked)"
     },
     {
       "round": 5,
@@ -564,12 +564,12 @@
     {
       "round": 5,
       "agent": "Prover",
-      "summary": "A second explicit x=(p+7)/4 family is proved: every prime p \u2261 313 or 793 (mod 1680) satisfies the conjecture by a new 7/n decomposition. (+1 implication(s) recorded)"
+      "summary": "A second explicit x=(p+7)/4 family is proved: every prime $p \\equiv 313 or 793 \\pmod{1680}$ satisfies the conjecture by a new 7/n decomposition. (+1 implication(s) recorded)"
     },
     {
       "round": 5,
       "agent": "Checker",
-      "summary": "The new family for p \u2261 313 or 793 (mod 1680) is valid, and it correctly supports the attempt to unify the two certified x=(p+7)/4 identities. (1 implication(s) checked)"
+      "summary": "The new family for $p \\equiv 313 or 793 \\pmod{1680}$ is valid, and it correctly supports the attempt to unify the two certified x=(p+7)/4 identities. (1 implication(s) checked)"
     },
     {
       "round": 6,
@@ -604,57 +604,57 @@
     {
       "round": 8,
       "agent": "Experimenter",
-      "summary": "Examples at p=241 and p=2509 reveal a new x=(p+11)/4 family that directly hits the previously open class p \u2261 241 mod 840."
+      "summary": "Examples at p=241 and p=2509 reveal a new x=(p+11)/4 family that directly hits the previously open class $p \\equiv 241 \\pmod{840}$."
     },
     {
       "round": 8,
       "agent": "Prover",
-      "summary": "A new first-denominator ansatz x=(p+11)/4 proves the conjecture for every prime p \u2261 241 (mod 2772), giving real progress on the formerly open 241 mod 840 class. (+1 implication(s) recorded)"
+      "summary": "A new first-denominator ansatz x=(p+11)/4 proves the conjecture for every prime $p \\equiv 241 \\pmod{2772}$, giving real progress on the formerly open 241 mod 840 class. (+1 implication(s) recorded)"
     },
     {
       "round": 8,
       "agent": "Checker",
-      "summary": "The new x=(p+11)/4 family for p \u2261 241 (mod 2772) is valid, and it marks real progress on a previously open class modulo 840. (1 implication(s) checked)"
+      "summary": "The new x=(p+11)/4 family for $p \\equiv 241 \\pmod{2772}$ is valid, and it marks real progress on a previously open class modulo 840. (1 implication(s) checked)"
     }
   ],
   "round_summaries": [
     {
       "round": 1,
       "summaries": [
-        "Experimenter: Examples for p=3,5,7,13 all satisfy the conjecture and highlight that the unresolved class is p \u2261 1 (mod 12).",
+        "Experimenter: Examples for p=3,5,7,13 all satisfy the conjecture and highlight that the unresolved class is $p \\equiv 1 \\pmod{12}$.",
         "Prover: A rigorous modular argument proves the conjecture for all primes except possibly those congruent to 1 modulo 12.",
-        "Disprover: No counterexample was found; the only plausible place to search is the class p \u2261 1 modulo 12, and small primes there still satisfy the conjecture.",
+        "Disprover: No counterexample was found; the only plausible place to search is the class $p \\equiv 1 \\pmod{12}$, and small primes there still satisfy the conjecture.",
         "Checker: The modular reduction proof is valid as a partial result, while the disproof attempt fails to produce any genuine counterexample."
       ]
     },
     {
       "round": 2,
       "summaries": [
-        "Prover: The previous reduction is sharpened: all primes are now covered except possibly those congruent to 1 modulo 24, and p \u2261 13 (mod 24) has an explicit formula. (+1 implication(s) recorded)",
-        "Checker: The new residue-class construction for p \u2261 13 (mod 24) is valid, and the recorded implication to the main p \u2261 1 (mod 12) subproblem is sound. (1 implication(s) checked)"
+        "Prover: The previous reduction is sharpened: all primes are now covered except possibly those congruent to 1 modulo 24, and $p \\equiv 13 \\pmod{24}$ has an explicit formula. (+1 implication(s) recorded)",
+        "Checker: The new residue-class construction for $p \\equiv 13 \\pmod{24}$ is valid, and the recorded implication to the main $p \\equiv 1 \\pmod{12}$ subproblem is sound. (1 implication(s) checked)"
       ]
     },
     {
       "round": 3,
       "summaries": [
-        "Prover: A new exact formula proves the conjecture for every prime p \u2261 97 (mod 120), adding another explicit family inside the remaining p \u2261 1 (mod 24) case. (+1 implication(s) recorded)",
-        "Checker: The p \u2261 97 (mod 120) construction is valid, and its support implication for the remaining p \u2261 1 (mod 24) subproblem is sound. (1 implication(s) checked)"
+        "Prover: A new exact formula proves the conjecture for every prime $p \\equiv 97 \\pmod{120}$, adding another explicit family inside the remaining $p \\equiv 1 \\pmod{24}$ case. (+1 implication(s) recorded)",
+        "Checker: The $p \\equiv 97 \\pmod{120}$ construction is valid, and its support implication for the remaining $p \\equiv 1 \\pmod{24}$ subproblem is sound. (1 implication(s) checked)"
       ]
     },
     {
       "round": 4,
       "summaries": [
-        "Experimenter: Examples at p=73 and p=193 reveal a new exact pattern, while p=313 shows it only covers a stricter subfamily than p \u2261 73 mod 120.",
-        "Prover: A new checker-ready construction proves the conjecture for all primes p \u2261 73 or 193 (mod 840), adding another explicit family inside p \u2261 1 (mod 24). (+1 implication(s) recorded)",
-        "Checker: The new family for p \u2261 73 or 193 (mod 840) is valid, and its support implication for the remaining p \u2261 1 (mod 24) congruence classes is sound. (1 implication(s) checked)"
+        "Experimenter: Examples at p=73 and p=193 reveal a new exact pattern, while p=313 shows it only covers a stricter subfamily than $p \\equiv 73 \\pmod{120}$.",
+        "Prover: A new checker-ready construction proves the conjecture for all primes $p \\equiv 73 or 193 \\pmod{840}$, adding another explicit family inside $p \\equiv 1 \\pmod{24}$. (+1 implication(s) recorded)",
+        "Checker: The new family for $p \\equiv 73 or 193 \\pmod{840}$ is valid, and its support implication for the remaining $p \\equiv 1 \\pmod{24}$ congruence classes is sound. (1 implication(s) checked)"
       ]
     },
     {
       "round": 5,
       "summaries": [
         "Experimenter: Examples at p=313 and p=2473 reveal a second exact x=(p+7)/4 family, while p=337 shows the branch conditions are genuinely restrictive.",
-        "Prover: A second explicit x=(p+7)/4 family is proved: every prime p \u2261 313 or 793 (mod 1680) satisfies the conjecture by a new 7/n decomposition. (+1 implication(s) recorded)",
-        "Checker: The new family for p \u2261 313 or 793 (mod 1680) is valid, and it correctly supports the attempt to unify the two certified x=(p+7)/4 identities. (1 implication(s) checked)"
+        "Prover: A second explicit x=(p+7)/4 family is proved: every prime $p \\equiv 313 or 793 \\pmod{1680}$ satisfies the conjecture by a new 7/n decomposition. (+1 implication(s) recorded)",
+        "Checker: The new family for $p \\equiv 313 or 793 \\pmod{1680}$ is valid, and it correctly supports the attempt to unify the two certified x=(p+7)/4 identities. (1 implication(s) checked)"
       ]
     },
     {
@@ -676,9 +676,9 @@
     {
       "round": 8,
       "summaries": [
-        "Experimenter: Examples at p=241 and p=2509 reveal a new x=(p+11)/4 family that directly hits the previously open class p \u2261 241 mod 840.",
-        "Prover: A new first-denominator ansatz x=(p+11)/4 proves the conjecture for every prime p \u2261 241 (mod 2772), giving real progress on the formerly open 241 mod 840 class. (+1 implication(s) recorded)",
-        "Checker: The new x=(p+11)/4 family for p \u2261 241 (mod 2772) is valid, and it marks real progress on a previously open class modulo 840. (1 implication(s) checked)"
+        "Experimenter: Examples at p=241 and p=2509 reveal a new x=(p+11)/4 family that directly hits the previously open class $p \\equiv 241 \\pmod{840}$.",
+        "Prover: A new first-denominator ansatz x=(p+11)/4 proves the conjecture for every prime $p \\equiv 241 \\pmod{2772}$, giving real progress on the formerly open 241 mod 840 class. (+1 implication(s) recorded)",
+        "Checker: The new x=(p+11)/4 family for $p \\equiv 241 \\pmod{2772}$ is valid, and it marks real progress on a previously open class modulo 840. (1 implication(s) checked)"
       ]
     }
   ],

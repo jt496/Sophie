@@ -50,23 +50,25 @@ def _sub_safe(pattern: str, repl, text: str, flags: int = 0) -> str:
 # ---------------------------------------------------------------------------
 
 def _congruences(text: str) -> str:
-    r"""n ≡ b (mod m)  /  n ≡ b mod m  /  n \equiv b mod m  →  $n \equiv b \pmod{m}$"""
-    # Unicode ≡ with parenthesised mod
+    r"""n ≡ b (mod m)  /  n ≡ b mod m  /  n \equiv b \pmod{m}  →  $n \equiv b \pmod{m}$"""
+    
+    # LHS: word chars plus ^ { } / $ \
+    lhs_pat = r'([$]?[\w()+\-/*^{}\\]+[$]?)'
+    # RHS: LHS plus ± and optionally "or <something>"
+    rhs_pat = r'((?:\\pm\s*|±\s*)?[$]?[\w()+\-/*^{}\\]+[$]?(?:\s+(?:or|and)\s+(?:\\pm\s*|±\s*)?[$]?[\w()+\-/*^{}\\]+[$]?)?)'
+    
+    # Mod pattern: allow (mod m), mod m, \pmod{m}, pmod{m}, modulo m
+    mod_pat = r'(?:\\?pmod\s*\{([^}]+)\}|\((?:mod|modulo)\s+([^)]+)\)|(?:mod|modulo)\s+([\w()]+))'
+
+    def repl(m: re.Match) -> str:
+        l = m.group(1).replace('$', '').strip()
+        r = m.group(2).replace('$', '').strip()
+        m_val = (m.group(3) or m.group(4) or m.group(5)).replace('$', '').strip()
+        return f'${l} \\equiv {r} \\pmod{{{m_val}}}$'
+
     text = _sub_safe(
-        r'(-?[\w()]+)\s*≡\s*(-?[\w()]+)\s*\(mod\s+([\w()]+)\)',
-        lambda m: f'${m.group(1)} \\equiv {m.group(2)} \\pmod{{{m.group(3)}}}$',
-        text,
-    )
-    # Unicode ≡ without parentheses
-    text = _sub_safe(
-        r'(-?[\w()]+)\s*≡\s*(-?[\w()]+)\s+mod\s+([\w()]+)',
-        lambda m: f'${m.group(1)} \\equiv {m.group(2)} \\pmod{{{m.group(3)}}}$',
-        text,
-    )
-    # Backslash \equiv (agents sometimes use LaTeX mid-text without delimiters)
-    text = _sub_safe(
-        r'(-?[\w()]+)\s*\\equiv\s*(-?[\w()]+)\s+mod\s+([\w()]+)',
-        lambda m: f'${m.group(1)} \\equiv {m.group(2)} \\pmod{{{m.group(3)}}}$',
+        fr'{lhs_pat}\s*(?:≡|\\equiv)\s*{rhs_pat}\s*{mod_pat}[$]?',
+        repl,
         text,
     )
     return text
@@ -181,6 +183,7 @@ _TEXT_FIELDS: dict[str, list[str]] = {
     'examples':           ['description', 'detail'],
     'facts':              ['text'],
     'implications':       ['note', 'checker_feedback'],
+    'log':                ['summary'],
 }
 
 
@@ -213,6 +216,16 @@ def migrate_session(path: str) -> int:
                 if new != old:
                     rs[key] = new
                     changed += 1
+        
+        # New format uses a list of summaries
+        if 'summaries' in rs and isinstance(rs['summaries'], list):
+            for i, old in enumerate(rs['summaries']):
+                if isinstance(old, str):
+                    new = mathify(old)
+                    if new != old:
+                        rs['summaries'][i] = new
+                        changed += 1
+                        
         for entry in rs.get('entries', []):
             old = entry.get('summary')
             if old and isinstance(old, str):
