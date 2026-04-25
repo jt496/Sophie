@@ -13,7 +13,7 @@ from typing import Any, Dict, List
 
 from . import config
 from .agents import Checker, Disprover, Experimenter, Prover, Researcher, Searcher
-from .agents.formalizer import _conjecture_slug
+from .agents.formalizer import Formalizer, _conjecture_slug
 from .agents.base_agent import BaseAgent
 from .knowledge_base import KnowledgeBase
 
@@ -23,6 +23,7 @@ class Conductor:
         self.kb = kb
         self._agents: Dict[str, BaseAgent] = {
             "Experimenter": Experimenter(kb),
+            "Formalizer":   Formalizer(kb),
             "Prover":       Prover(kb),
             "Disprover":    Disprover(kb),
             "Checker":      Checker(kb),
@@ -35,6 +36,7 @@ class Conductor:
         "C": "Checker",
         "D": "Disprover",
         "E": "Experimenter",
+        "F": "Formalizer",
         "P": "Prover",
         "R": "Researcher",
         "S": "Searcher",

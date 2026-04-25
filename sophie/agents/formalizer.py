@@ -1,16 +1,17 @@
 """
 Formalizer agent – produces Lean 4 / Mathlib formalization of a proof sketch.
 
-Unlike other agents this one is never scheduled automatically by the Conductor.
-It is invoked explicitly via the MCP tool get_formalization_task when the user
-asks for formalization of a specific proof attempt or subproblem.
+Can be run in two ways:
+  • Explicitly: get_formalization_task(source_id) → act → submit_formalization
+  • Via round:  include "F" in the agents string passed to get_round_tasks;
+                the agent auto-selects the best unformalized candidate.
 """
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from .base_agent import BaseAgent
 
@@ -48,6 +49,34 @@ def _existing_lean_files() -> list[str]:
         module = str(rel).replace("/", ".").removesuffix(".lean")
         paths.append(module)
     return paths
+
+
+def write_lean_file(lean_code: str, lean_file: str) -> Optional[str]:
+    """
+    Write (or append) lean_code to lean_file inside the formalization/ tree.
+    Updates the root SophieFormalization.lean import list for new files.
+    Returns the lean_file path on success, None if lean_code or lean_file is empty.
+    """
+    if not lean_file or not lean_code:
+        return None
+    lean_root = LEAN_ROOT.parent
+    target = lean_root / lean_file
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        existing = target.read_text(encoding="utf-8")
+        target.write_text(existing.rstrip() + "\n\n" + lean_code + "\n", encoding="utf-8")
+    else:
+        target.write_text(lean_code + "\n", encoding="utf-8")
+        root_module = lean_root / "SophieFormalization.lean"
+        if root_module.exists():
+            module_name = lean_file.replace("/", ".").removesuffix(".lean")
+            import_line = f"import {module_name}"
+            content = root_module.read_text(encoding="utf-8")
+            if import_line not in content:
+                root_module.write_text(
+                    content.rstrip() + f"\nimport {module_name}\n", encoding="utf-8"
+                )
+    return lean_file
 
 
 _SYSTEM = """\
@@ -135,8 +164,65 @@ class Formalizer(BaseAgent):
             "Output only the JSON block."
         )
 
+    # ── Auto-selection for round workflow ─────────────────────────────────────
+
+    def _select_source(self, snapshot: Dict[str, Any]) -> Optional[tuple[str, str]]:
+        """
+        Pick the best unformalized candidate. Returns (source_id, source_text)
+        or None if there is nothing to formalize.
+
+        Priority:
+          1. Valid proof attempts not yet formalized
+          2. Unchecked proof attempts with a substantial sketch (>300 chars)
+          3. Resolved subproblems not yet formalized
+        """
+        already = {fa["source_id"] for fa in snapshot.get("formalization_attempts", [])}
+
+        for pa in snapshot["proof_attempts"]:
+            if pa["id"] not in already and pa["status"] == "valid":
+                return pa["id"], pa["sketch"]
+
+        for pa in snapshot["proof_attempts"]:
+            if pa["id"] not in already and pa["status"] == "unchecked" and len(pa["sketch"]) > 300:
+                return pa["id"], pa["sketch"]
+
+        for sp in snapshot["subproblems"]:
+            if sp["id"] not in already and sp["status"] == "resolved" and sp.get("resolution"):
+                text = sp["description"] + f"\n\nResolution: {sp['resolution']}"
+                return sp["id"], text
+
+        return None
+
+    def get_task(self, round_: int) -> Dict[str, Any]:
+        """
+        Override base get_task to auto-select a source and store the choice in
+        the KB's agent_context so process_response can retrieve it.
+        """
+        snapshot = self.kb.snapshot()
+        candidate = self._select_source(snapshot)
+        if candidate is None:
+            return {
+                "agent": self.name,
+                "error": (
+                    "No unformalized candidates found. "
+                    "There must be at least one valid, unchecked, or resolved proof attempt "
+                    "that has not yet been formalized."
+                ),
+            }
+        source_id, source_text = candidate
+        self.kb.set_agent_context(self.name, {"source_id": source_id})
+        return {
+            "agent": self.name,
+            "system_prompt": self.system_prompt(),
+            "user_message": self.build_user_message(
+                round_, snapshot, source_id=source_id, source_text=source_text
+            ),
+        }
+
+    # ── Explicit task builder (used by get_formalization_task MCP tool) ───────
+
     def get_formalization_task(self, source_id: str, source_text: str) -> Dict[str, Any]:
-        """Return the prompt package for Claude Code to execute as Formalizer."""
+        """Return the prompt package for an explicitly requested formalization."""
         snapshot = self.kb.snapshot()
         return {
             "agent": self.name,
@@ -147,7 +233,34 @@ class Formalizer(BaseAgent):
             ),
         }
 
+    # ── Response processing ───────────────────────────────────────────────────
+
     def process_response(self, round_: int, response: Dict[str, Any]) -> str:
+        """
+        Write the Lean file, persist the formalization attempt in the KB, and
+        return a summary string.  Reads source_id from the KB's agent_context
+        (set by get_task during the round workflow).
+        """
         if response.get("parse_error"):
-            return f"Formalizer parse error: {response.get('raw_text','')[:200]}"
-        return response.get("summary", "Formalizer produced a Lean formalization.")
+            return f"Formalizer parse error: {response.get('raw_text', '')[:200]}"
+
+        source_id = self.kb.get_agent_context(self.name).get("source_id", "")
+        lean_code: str = response.get("lean_code", "")
+        lean_file: str = response.get("lean_file", "")
+
+        write_lean_file(lean_code, lean_file)
+
+        self.kb.add_formalization_attempt(
+            source_id=source_id,
+            lean_code=lean_code,
+            lean_file=lean_file,
+            mathlib_imports=response.get("mathlib_imports", []),
+            sorries=response.get("sorries", []),
+            confidence=response.get("confidence", "partial"),
+            notes=response.get("notes", ""),
+            summary=response.get("summary", ""),
+        )
+
+        sorry_count = len(response.get("sorries", []))
+        summary = response.get("summary", "Lean formalization produced.")
+        return f"{summary} ({sorry_count} sorries, confidence: {response.get('confidence', '?')})"

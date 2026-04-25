@@ -42,7 +42,7 @@ The MCP server handles only state management and prompt construction.
 | **Searcher** | Writes and executes Python code (networkx, sympy, itertools, etc.) to brute-force search for counterexamples. |
 | **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
-| **Formalizer** | *(on-demand)* Translates proof sketches and results into Lean 4 / Mathlib code. Each formalization is recorded as its own round in the session timeline. Never scheduled automatically — call `get_formalization_task` explicitly. |
+| **Formalizer** | Translates proof sketches and results into Lean 4 / Mathlib code. Can be run via the round workflow using agent letter `F` (auto-selects the best unformalized candidate), or on-demand via `get_formalization_task` for a specific ID. |
 
 ### Knowledge Base
 
@@ -76,19 +76,20 @@ No environment variables are needed.
 
 ### 3. Explore a conjecture
 
-Ask Claude Code naturally:
+The easiest way to use Sophie is through the built-in slash commands
+(see [Slash Commands](#slash-commands) for full details):
+
+```text
+/sophie-start                   — start a new session
+/sophie-round                   — run next round (auto agent selection)
+/sophie-round CP                — run only Checker and Prover this round
+/sophie-formalize               — formalize a result in Lean 4
+```
+
+Or ask Claude Code naturally:
 
 > Start a Sophie session for: "Every even integer greater than 2 is the sum
 > of two primes." Then run round 1.
-
-Claude will call `start_session`, then `get_round_tasks`, fetch each agent's
-prompts with `get_agent_task`, act as that agent, and call `submit_agent_result`
-immediately after each one (results are persisted one by one, so a token-exhaustion
-restart can resume mid-round).
-
-To continue:
-
-> Run another round of the Sophie session.
 
 ---
 
@@ -97,7 +98,7 @@ To continue:
 | Tool | Description |
 | --- | --- |
 | `start_session(conjecture)` | Create a session and return a `session_id`. Also sets it as the current session. |
-| `get_round_tasks(session_id?)` | Return the compact agent list for the current (or next) round: `{round, agents_pending, agents_completed, resumed}`. If a round is in progress after a restart, returns only remaining agents. |
+| `get_round_tasks(agents?, session_id?)` | Return the compact agent list for the current (or next) round: `{round, agents_pending, agents_completed, resumed}`. If a round is in progress after a restart, returns only remaining agents. Optional `agents` string overrides the scheduler: `C=Checker, D=Disprover, E=Experimenter, F=Formalizer, P=Prover, R=Researcher, S=Searcher` — e.g. `"PF"` runs Prover then Formalizer. `F` auto-selects the best unformalized candidate. |
 | `get_agent_task(agent_name, session_id?)` | Return the `system_prompt` and `user_message` for one agent. Call once per agent in `agents_pending`. |
 | `submit_agent_result(agent_name, response_json, session_id?)` | Persist one agent's result immediately. Finalizes the round automatically when the last agent reports. |
 | `submit_round_results(session_id, round, results_json)` | *(Legacy)* Submit all agent responses for a round in one batch. Prefer `submit_agent_result` for crash-safe incremental submission. |
@@ -136,6 +137,61 @@ refresh_viewer(session_id?)         ← call after round_complete=true
 # If tokens run out mid-round, call get_round_tasks again:
 #   resumed=true, agents_completed shows what's done, agents_pending shows what's left
 ```
+
+---
+
+## Slash Commands
+
+When Sophie's `.claude/commands/` directory is inside your project, Claude Code
+exposes three slash commands. Type them in the chat input to trigger them.
+
+### `/sophie-start`
+
+Starts a new exploration session. Claude will ask for the conjecture if you
+haven't already provided it, call `start_session`, confirm the session was
+created, and prompt you to run `/sophie-round`.
+
+### `/sophie-round [agents]`
+
+Runs the next round of the current session. Each agent's result is submitted
+immediately as it finishes, so a token-exhaustion restart can resume mid-round
+without losing work.
+
+**Optional `agents` argument** — a string of letter codes that overrides the
+automatic scheduler and controls which agents run and in what order:
+
+| Letter | Agent | Role |
+| --- | --- | --- |
+| `C` | Checker | Verify unchecked proof/disproof attempts |
+| `D` | Disprover | Search for counterexamples |
+| `E` | Experimenter | Generate concrete examples |
+| `F` | Formalizer | Formalize best unformalized candidate in Lean 4 |
+| `P` | Prover | Attempt a proof |
+| `R` | Researcher | Search the mathematical literature |
+| `S` | Searcher | Computational brute-force search |
+
+Examples:
+
+```text
+/sophie-round          — automatic selection (recommended for most rounds)
+/sophie-round P        — Prover only
+/sophie-round CP       — Checker, then Prover
+/sophie-round EPDC     — Experimenter → Prover → Disprover → Checker
+/sophie-round F        — Formalizer only (auto-picks best unformalized result)
+/sophie-round PF       — Prover, then immediately formalize the best result
+```
+
+Letters are case-insensitive and processed left to right. If a round is already
+in progress (e.g. after a token-exhaustion restart), the `agents` argument is
+ignored and the remaining agents from the interrupted round are run instead.
+
+### `/sophie-formalize`
+
+Formalizes a specific result in Lean 4. Claude will identify the target
+(proof attempt `PA-XXXXXX` or subproblem `SP-XXXXXX`), work through the
+formalization using the lean-lsp tools, and store the result in the KB and in
+`formalization/`. Use this when you want to target a specific ID rather than
+letting the Formalizer auto-select.
 
 ---
 
@@ -187,9 +243,12 @@ This makes it easy to identify sessions in the file browser and viewer.
 
 ## Lean 4 Formalization
 
-Sophie can optionally formalize results in Lean 4 / Mathlib. The Formalizer
-agent is never scheduled automatically — it is invoked on-demand when you want
-to harden a proof sketch into verified code.
+Sophie can formalize results in Lean 4 / Mathlib in two ways:
+
+- **Via round workflow** — include `F` in the agents string (e.g. `/sophie-round PF`)
+  and the Formalizer auto-selects the best unformalized proof attempt or subproblem.
+- **On-demand** — use `/sophie-formalize` or call `get_formalization_task` directly
+  to target a specific proof attempt (`PA-XXXXXX`) or subproblem (`SP-XXXXXX`).
 
 ### Install Lean and fetch Mathlib cache
 

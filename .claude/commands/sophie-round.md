@@ -1,6 +1,11 @@
 Run the next round of the current Sophie session.
 
-1. Call `get_round_tasks` with no arguments — the server reads `sessions/current.json` to resolve the session automatically. Only call `list_sessions` if `get_round_tasks` returns an error (no current session found), then ask the user which session to use.
+If the user provided agent letters after the command (e.g. `/sophie-round CP`), pass
+them as the `agents` argument to `get_round_tasks`.  The letters are:
+  C=Checker  D=Disprover  E=Experimenter  F=Formalizer  P=Prover  R=Researcher  S=Searcher
+If no letters were given, omit the `agents` argument and let the scheduler decide.
+
+1. Call `get_round_tasks` — pass `agents="$ARGUMENTS"` if the user supplied letters, otherwise call with no arguments. The server reads `sessions/current.json` to resolve the session automatically. Only call `list_sessions` if `get_round_tasks` returns an error (no current session found), then ask the user which session to use.
 2. If `should_stop=true`, report the final status and stop.
 3. If `resumed=true`, note which agents already completed (`agents_completed`) and skip straight to the first name in `agents_pending`.
 4. For each agent name in `agents_pending`, work through them one at a time:

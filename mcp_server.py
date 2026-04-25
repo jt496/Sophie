@@ -221,9 +221,11 @@ def get_round_tasks(agents: str = "", session_id: str = "") -> str:
     Args:
         agents:     Optional string of letter codes controlling which agents run
                     and in what order. Each letter maps to one agent:
-                    C=Checker, D=Disprover, E=Experimenter, P=Prover,
-                    R=Researcher, S=Searcher. Example: "CPR" runs Checker,
-                    Prover, Researcher. Omit to use the automatic scheduler.
+                    C=Checker, D=Disprover, E=Experimenter, F=Formalizer,
+                    P=Prover, R=Researcher, S=Searcher. Example: "CPR" runs
+                    Checker, Prover, Researcher. "F" auto-selects the best
+                    unformalized proof attempt or subproblem.
+                    Omit to use the automatic scheduler.
         session_id: The session ID returned by start_session. Defaults to the current session.
     """
     session_id = _resolve_session_id(session_id)
@@ -588,6 +590,10 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
     Store the Formalizer agent's Lean 4 output in the knowledge base AND write
     it to the Lean repository under formalization/.
 
+    Used by the explicit get_formalization_task → submit_formalization workflow.
+    When running the Formalizer via the round workflow (agent letter "F"), use
+    submit_agent_result instead — it calls the same logic automatically.
+
     The Formalizer's response must include a "lean_file" field (path relative to
     formalization/) telling us which file to write to.  If the file already
     exists the new code is appended; if not it is created and the root module
@@ -600,8 +606,8 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
         response_json: The Formalizer's JSON response string.
         session_id:    The session ID. Defaults to the current session.
     """
-    from pathlib import Path
     from sophie.agents.base_agent import BaseAgent
+    from sophie.agents.formalizer import write_lean_file
 
     session_id = _resolve_session_id(session_id)
     if not session_id:
@@ -617,31 +623,8 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
     lean_code: str = parsed.get("lean_code", "")
     lean_file: str = parsed.get("lean_file", "")
 
-    # ── Write to the Lean repo ────────────────────────────────────────────────
-    lean_root = Path(__file__).parent / "formalization"
-    file_written: str | None = None
-    if lean_file and lean_code:
-        target = lean_root / lean_file
-        target.parent.mkdir(parents=True, exist_ok=True)
-        if target.exists():
-            # Append, separated by a blank line
-            existing = target.read_text(encoding="utf-8")
-            target.write_text(existing.rstrip() + "\n\n" + lean_code + "\n",
-                              encoding="utf-8")
-        else:
-            target.write_text(lean_code + "\n", encoding="utf-8")
-            # Add import to root module if not already present
-            root_module = lean_root / "SophieFormalization.lean"
-            if root_module.exists():
-                module_name = lean_file.replace("/", ".").removesuffix(".lean")
-                import_line = f"import {module_name}"
-                content = root_module.read_text(encoding="utf-8")
-                if import_line not in content:
-                    root_module.write_text(content.rstrip() + f"\nimport {module_name}\n",
-                                          encoding="utf-8")
-        file_written = lean_file
+    file_written = write_lean_file(lean_code, lean_file)
 
-    # ── Store in knowledge base ───────────────────────────────────────────────
     fid = kb.add_formalization_attempt(
         source_id=source_id,
         lean_code=lean_code,

@@ -464,8 +464,21 @@ class KnowledgeBase:
             "planned": planned_agents,
             "completed": [],
             "summaries": [],
+            "agent_context": {},
         }
         self._save()
+
+    def set_agent_context(self, agent_name: str, context: Dict[str, Any]) -> None:
+        crs = self._data.get("current_round_state")
+        if crs is not None:
+            crs.setdefault("agent_context", {})[agent_name] = context
+            self._save()
+
+    def get_agent_context(self, agent_name: str) -> Dict[str, Any]:
+        crs = self._data.get("current_round_state")
+        if crs is None:
+            return {}
+        return crs.get("agent_context", {}).get(agent_name, {})
 
     def record_agent_completion(self, agent_name: str, summary: str) -> None:
         crs = self._data.get("current_round_state")
