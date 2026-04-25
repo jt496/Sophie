@@ -159,31 +159,17 @@
   .stat-number { font-size: 24px; font-weight: 700; color: var(--accent); }
   .stat-label  { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
-  /* ── Tabs ── */
-  .tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .tab {
-    padding: 8px 16px;
-    border: none;
-    background: none;
-    color: var(--text-dim);
+  /* ── Stat-nav cards (replace tabs) ── */
+  .stat-nav-card {
     cursor: pointer;
-    font-size: 13px;
-    font-family: var(--font);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: color 0.15s, border-color 0.15s;
+    transition: border-color 0.15s, background 0.15s;
   }
-  .tab:hover { color: var(--text); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
-  .tab-count {
-    display: inline-block;
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 1px 6px;
-    font-size: 11px;
-    margin-left: 5px;
-    color: var(--muted);
+  .stat-nav-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .stat-nav-card.active {
+    border-color: var(--accent);
+    background: rgba(124,131,245,0.08);
   }
+  .stat-nav-card.active .stat-label { color: var(--accent); }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
@@ -426,24 +412,29 @@
     </div>
   </div>
 
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat-card"><div class="stat-number" id="stat-examples">0</div><div class="stat-label">Examples</div></div>
-    <div class="stat-card"><div class="stat-number" id="stat-subproblems">0</div><div class="stat-label">Subproblems</div></div>
-    <div class="stat-card"><div class="stat-number" id="stat-proofs">0</div><div class="stat-label">Proof Attempts</div></div>
-    <div class="stat-card"><div class="stat-number" id="stat-disproofs">0</div><div class="stat-label">Disproof Attempts</div></div>
-    <div class="stat-card"><div class="stat-number" id="stat-facts">0</div><div class="stat-label">Facts</div></div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('rounds')">Rounds <span class="tab-count" id="tc-rounds">0</span></button>
-    <button class="tab" onclick="showTab('facts')">Facts <span class="tab-count" id="tc-facts">0</span></button>
-    <button class="tab" onclick="showTab('examples')">Examples <span class="tab-count" id="tc-examples">0</span></button>
-    <button class="tab" onclick="showTab('subproblems')">Subproblems <span class="tab-count" id="tc-subproblems">0</span></button>
-    <button class="tab" onclick="showTab('proofs')">Proof Attempts <span class="tab-count" id="tc-proofs">0</span></button>
-    <button class="tab" onclick="showTab('disproofs')">Disproof Attempts <span class="tab-count" id="tc-disproofs">0</span></button>
-    <button class="tab" onclick="showTab('lean')">Lean <span class="tab-count" id="tc-lean">0</span></button>
+  <!-- Stats / nav -->
+  <div class="stats" id="stats-nav">
+    <div class="stat-card stat-nav-card active" id="snav-rounds" onclick="showPanel('rounds')">
+      <div class="stat-number" id="stat-rounds">0</div><div class="stat-label">Rounds</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-facts" onclick="showPanel('facts')">
+      <div class="stat-number" id="stat-facts">0</div><div class="stat-label">Facts</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-examples" onclick="showPanel('examples')">
+      <div class="stat-number" id="stat-examples">0</div><div class="stat-label">Examples</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-subproblems" onclick="showPanel('subproblems')">
+      <div class="stat-number" id="stat-subproblems">0</div><div class="stat-label">Subproblems</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-proofs" onclick="showPanel('proofs')">
+      <div class="stat-number" id="stat-proofs">0</div><div class="stat-label">Proof Attempts</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-disproofs" onclick="showPanel('disproofs')">
+      <div class="stat-number" id="stat-disproofs">0</div><div class="stat-label">Disproofs</div>
+    </div>
+    <div class="stat-card stat-nav-card" id="snav-lean" onclick="showPanel('lean')">
+      <div class="stat-number" id="stat-lean">0</div><div class="stat-label">Lean</div>
+    </div>
   </div>
 
   <div id="panel-rounds" class="tab-panel active"></div>
@@ -626,22 +617,17 @@ function render(d) {
   document.getElementById('meta-session').textContent = d.session_id;
   document.getElementById('meta-rounds').textContent = d.rounds_completed;
 
-  // Stats
+  // Stats / nav counts
+  document.getElementById('stat-rounds').textContent      = d.rounds_completed;
+  document.getElementById('stat-facts').textContent       = d.facts.length;
   document.getElementById('stat-examples').textContent    = d.examples.length;
   document.getElementById('stat-subproblems').textContent = d.subproblems.length;
   document.getElementById('stat-proofs').textContent      = d.proof_attempts.length;
   document.getElementById('stat-disproofs').textContent   = d.disproof_attempts.length;
-  document.getElementById('stat-facts').textContent       = d.facts.length;
+  document.getElementById('stat-lean').textContent        = d.formalization_attempts.length;
 
-  // Tab counts
-  document.getElementById('tc-rounds').textContent      = d.rounds_completed;
-  document.getElementById('tc-facts').textContent       = d.facts.length;
-  document.getElementById('tc-examples').textContent    = d.examples.length;
-  document.getElementById('tc-subproblems').textContent = d.subproblems.length;
-  document.getElementById('tc-proofs').textContent      = d.proof_attempts.length;
-  document.getElementById('tc-disproofs').textContent   = d.disproof_attempts.length;
-  const leanCount = d.formalization_attempts.length;
-  document.getElementById('tc-lean').textContent = leanCount;
+  // Ensure rounds panel is active on fresh load
+  showPanel('rounds');
 
   renderRounds(d);
   renderFacts(d.facts);
@@ -1061,11 +1047,12 @@ function renderLean(attempts, d) {
 
 // ── Interactions ───────────────────────────────────────────────────────────
 
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+function showPanel(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stat-nav-card').forEach(c => c.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  const nav = document.getElementById('snav-' + name);
+  if (nav) nav.classList.add('active');
 }
 
 function toggleRound(r) {
