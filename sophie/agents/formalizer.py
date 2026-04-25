@@ -148,6 +148,10 @@ FILE PLACEMENT
 
 RULES
 -----
+• Before finalising the theorem statement, check that every hypothesis is actually
+  used somewhere in the proof body. Remove any hypothesis that is never referenced —
+  Lean's linter will flag it as an `unused variable` warning, and it may indicate
+  the theorem is weaker than necessary or was over-specified.
 • Output ONLY a single JSON block in the format below — no prose before or after.
 • The lean_code field must be a single valid JSON string (escape newlines as \\n,
   quotes as \\").

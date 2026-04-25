@@ -275,6 +275,7 @@ theorem erdos_straus_anchor_k1 (n : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 ≤ n)
 
 end ErdosStraus
 
+
 -- Appended by Formalizer round 35 (PA-C38ABE)
 
 namespace ErdosStraus
@@ -417,5 +418,91 @@ theorem erdos_straus_pn4_identity (n p : ℕ)
 
 #check erdos_straus_anchor_mechanism
 #check  erdos_straus_pn4_identity
+
+end ErdosStraus
+
+-- Appended by Formalizer round 41 (PA-C85CD9)
+
+namespace ErdosStraus
+
+/-! ## n ≡ 1 mod 12: n+4 Criterion (PA-C85CD9) -/
+
+/-- Helper: if q · s = n + 4 with q ≡ 3 (mod 4) and n ≡ 1 (mod 4), then s ≡ 3 (mod 4). -/
+private lemma s_mod4_of_mul_eq (q s n : ℕ) (hq : q % 4 = 3) (hn : n % 4 = 1)
+    (hqs : q * s = n + 4) : s % 4 = 3 := by
+  have h1 : (q * s) % 4 = 1 := by rw [hqs]; omega
+  have h2 : q % 4 * (s % 4) % 4 = 1 := by
+    have hmm := Nat.mul_mod q s 4
+    omega
+  rw [hq] at h2
+  -- h2 : 3 * (s % 4) % 4 = 1
+  have h3 : s % 4 < 4 := Nat.mod_lt s (by norm_num)
+  omega
+
+/-- **n+4 Criterion** (PA-C85CD9): for n ≡ 1 (mod 12) with n ≥ 13, if q is a
+    prime factor of n+4 with q ≡ 3 (mod 4), let s = (n+4)/q, xn = (n+q)/4,
+    t = (s+1)/4. Then xn, n·t, xn·(n·t) are positive integers satisfying
+      4/n = 1/xn + 1/(n·t) + 1/(xn·n·t).
+
+    Equivalently, the witnesses x = (n+q)/4, y = n·(s+1)/4, z = n·(n+q)·(s+1)/16
+    give 4/n = 1/x + 1/y + 1/z. -/
+theorem erdos_straus_n4_criterion (n q : ℕ)
+    (hn12 : n % 12 = 1) (hn13 : 13 ≤ n)
+    (hq4 : q % 4 = 3)
+    (hqdvd : q ∣ n + 4) :
+    ∃ x y z : ℕ, 0 < x ∧ 0 < y ∧ 0 < z ∧
+      (4 : ℚ) / n = 1 / x + 1 / y + 1 / z := by
+  have hn4 : n % 4 = 1 := by omega
+  -- Natural number building blocks
+  set s  : ℕ := (n + 4) / q  with hs_def
+  set xn : ℕ := (n + q) / 4  with hxn_def
+  set t  : ℕ := (s + 1) / 4  with ht_def
+  -- Key division identities
+  have hqs   : q  * s  = n + 4 := Nat.mul_div_cancel' hqdvd
+  have h4nq  : 4 ∣ n + q       := by omega
+  have h4xn  : 4  * xn = n + q := Nat.mul_div_cancel' h4nq
+  have hs4   : s % 4 = 3        := s_mod4_of_mul_eq q s n hq4 hn4 hqs
+  have h4sp1 : 4 ∣ s + 1       := by omega
+  have h4t   : 4  * t  = s + 1 := Nat.mul_div_cancel' h4sp1
+  -- Positivity
+  have hn_pos  : 0 < n  := by omega
+  have hs_pos  : 0 < s  := by
+    rcases Nat.eq_zero_or_pos s with hs | hs
+    · exfalso; rw [hs, mul_zero] at hqs; omega
+    · exact hs
+  have hxn_pos : 0 < xn := by
+    have : 0 < 4 * xn := by linarith [h4xn,  hn13]
+    omega
+  have ht_pos  : 0 < t  := by
+    have : 0 < 4 * t  := by linarith [h4t, hs_pos]
+    omega
+  -- Witnesses: x = xn, y = n * t, z = xn * (n * t)
+  refine ⟨xn, n * t, xn * (n * t),
+          hxn_pos,
+          Nat.mul_pos hn_pos ht_pos,
+          Nat.mul_pos hxn_pos (Nat.mul_pos hn_pos ht_pos),
+          ?_⟩
+  -- Rational identity: 4/n = 1/xn + 1/(n·t) + 1/(xn·n·t)
+  -- After clearing denominators (multiplying by xn·n·t), this reduces to:
+  --   4 · xn · t = n · t + xn + 1
+  -- which is a linear combination of the three ℚ equations below.
+  have hn_ne  : (n  : ℚ) ≠ 0 := by exact_mod_cast hn_pos.ne'
+  have hxn_ne : (xn : ℚ) ≠ 0 := by exact_mod_cast hxn_pos.ne'
+  have ht_ne  : (t  : ℚ) ≠ 0 := by exact_mod_cast ht_pos.ne'
+  -- Key ℚ equations (cast from ℕ)
+  have h4xnQ : 4 * (xn : ℚ) = ↑n + ↑q := by exact_mod_cast h4xn
+  have h4tQ  : 4 * (t  : ℚ) = ↑s + 1  := by exact_mod_cast h4t
+  have hqsQ  : (q  : ℚ) * ↑s = ↑n + 4  := by exact_mod_cast hqs
+  -- Clear casts and denominators, then close by linear combination
+  push_cast
+  field_simp [hn_ne, hxn_ne, ht_ne,
+              mul_ne_zero hn_ne ht_ne,
+              mul_ne_zero hxn_ne (mul_ne_zero hn_ne ht_ne)]
+  -- After field_simp the goal is: 4 * xn * t = n * t + xn + 1
+  -- Proof: (t - 1/4)·(4xn - n - q) + (q/4)·(4t - s - 1) + (1/4)·(qs - n - 4) = 4xt - nt - xn - 1
+  linear_combination ((t : ℚ) - 1 / 4) * h4xnQ + (q : ℚ) / 4 * h4tQ +
+                     (1 : ℚ) / 4 * hqsQ
+
+#check erdos_straus_n4_criterion
 
 end ErdosStraus
