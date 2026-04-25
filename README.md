@@ -18,7 +18,7 @@ The MCP server handles only state management and prompt construction.
 │                        Claude Code (you)                                  │
 │  Acts as every agent in turn, guided by system prompts from the server    │
 └──┬──────────────────────────────────────────────────────────────────┬───┘
-   │  get_round_tasks()                    submit_round_results()     │
+   │  get_round_tasks()    get_agent_task()    submit_agent_result()  │
    ▼                                                                  ▼
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                          MCP Server (Sophie)                              │
@@ -81,8 +81,10 @@ Ask Claude Code naturally:
 > Start a Sophie session for: "Every even integer greater than 2 is the sum
 > of two primes." Then run round 1.
 
-Claude will call `start_session`, then `get_round_tasks`, act as each agent
-in turn, and call `submit_round_results` with the responses.
+Claude will call `start_session`, then `get_round_tasks`, fetch each agent's
+prompts with `get_agent_task`, act as that agent, and call `submit_agent_result`
+immediately after each one (results are persisted one by one, so a token-exhaustion
+restart can resume mid-round).
 
 To continue:
 
@@ -95,11 +97,13 @@ To continue:
 | Tool | Description |
 | --- | --- |
 | `start_session(conjecture)` | Create a session and return a `session_id`. Also sets it as the current session. |
-| `get_round_tasks(session_id)` | Advance to the next round; returns a list of agent tasks (system prompt + user message) for Claude to execute. |
-| `submit_round_results(session_id, round, results_json)` | Submit Claude's agent responses; updates the knowledge base and current session. |
-| `get_session_status(session_id)` | Inspect the full knowledge base snapshot. |
+| `get_round_tasks(session_id?)` | Return the compact agent list for the current (or next) round: `{round, agents_pending, agents_completed, resumed}`. If a round is in progress after a restart, returns only remaining agents. |
+| `get_agent_task(agent_name, session_id?)` | Return the `system_prompt` and `user_message` for one agent. Call once per agent in `agents_pending`. |
+| `submit_agent_result(agent_name, response_json, session_id?)` | Persist one agent's result immediately. Finalizes the round automatically when the last agent reports. |
+| `submit_round_results(session_id, round, results_json)` | *(Legacy)* Submit all agent responses for a round in one batch. Prefer `submit_agent_result` for crash-safe incremental submission. |
+| `get_session_status(session_id?)` | Inspect the full knowledge base snapshot. |
 | `list_sessions()` | List all saved sessions. |
-| `refresh_viewer(session_id)` | Update `sessions/manifest.json` and `current.json`. Call after every `submit_round_results`. |
+| `refresh_viewer(session_id?)` | Update `sessions/manifest.json` and `current.json`. Call after every completed round. |
 | `add_fact(text, session_id?)` | Inject a verified fact as ground truth shown to every agent every round. Returns a `FT-XXXXXX` ID. |
 | `remove_fact(fact_id, session_id?)` | Remove a previously injected fact by its ID. |
 | `get_formalization_task(source_id, session_id?)` | Return a Formalizer task for a proof attempt (`PA-XXXXXX`) or subproblem (`SP-XXXXXX`) ID. Act as the Formalizer agent and pass the response to `submit_formalization`. |
@@ -112,17 +116,25 @@ To continue:
 start_session(conjecture)
   → { session_id }
 
-get_round_tasks(session_id)
-  → { round, should_stop, tasks: [{ agent, system_prompt, user_message }] }
+get_round_tasks(session_id?)
+  → { round, should_stop, agents_pending, agents_completed, resumed }
 
-# Claude reads each task and responds as that agent (JSON output only)
+# For each agent in agents_pending:
 
-submit_round_results(session_id, round, results_json)
-  → { status, summaries, resolved }
+  get_agent_task(agent_name, session_id?)
+    → { agent, system_prompt, user_message }
 
-refresh_viewer(session_id)          ← ALWAYS call after submit_round_results
+  # Claude acts as that agent and produces JSON
+
+  submit_agent_result(agent_name, response_json, session_id?)
+    → { agent, summary, round_complete, agents_remaining, status, resolved }
+
+refresh_viewer(session_id?)         ← call after round_complete=true
 
 # Repeat until resolved=true or should_stop=true
+#
+# If tokens run out mid-round, call get_round_tasks again:
+#   resumed=true, agents_completed shows what's done, agents_pending shows what's left
 ```
 
 ---
@@ -152,7 +164,7 @@ endpoint so clicking any session in the list updates `current.json` on disk.
 - Drag & drop / single-file fallback for Firefox
 
 `sessions/current.json` tracks the active session (updated after every
-`submit_round_results` or `refresh_viewer` call) and is highlighted with a
+`submit_agent_result` or `refresh_viewer` call) and is highlighted with a
 "current" badge in the session list.
 
 `sessions/manifest.json` is regenerated automatically; call the `refresh_viewer`
@@ -206,7 +218,7 @@ submit_formalization(source_id, response_json, session_id?)
   → { formalization_id, summary, confidence, sorry_count }
 ```
 
-After each `submit_round_results`, Sophie surfaces `formalization_suggestions`
+After each round completes, Sophie surfaces `formalization_suggestions`
 — a list of proof attempts that are strong candidates for formalization, with
 reasons and previews. You can also request formalization of any proof attempt
 (`PA-XXXXXX`) or subproblem (`SP-XXXXXX`) at any time.

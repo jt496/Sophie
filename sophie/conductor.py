@@ -34,12 +34,29 @@ class Conductor:
 
     def get_round_tasks(self) -> Dict[str, Any]:
         """
-        Advance to the next round and return the tasks Claude Code should execute.
+        Return the agent list for the current (or next) round.
 
-        Returns a dict with:
-          session_id, round, should_stop, stop_reason, tasks
-        where each task has: agent, system_prompt, user_message.
+        If a round is already in progress (e.g. after a token-exhaustion
+        restart), returns only the agents that have not yet reported.
+        Otherwise advances to the next round, saves the planned agent list to
+        the KB, and returns all agents for that round.
+
+        Returns a compact dict — no system prompts or user messages.
+        Call get_agent_task(agent_name) for each agent in agents_pending.
         """
+        crs = self.kb.current_round_state
+        if crs is not None:
+            pending = [a for a in crs["planned"] if a not in crs["completed"]]
+            return {
+                "session_id": self.kb.session_id,
+                "round": crs["round"],
+                "should_stop": False,
+                "stop_reason": None,
+                "agents_pending": pending,
+                "agents_completed": crs["completed"],
+                "resumed": True,
+            }
+
         if self.kb.status in ("proved", "disproved"):
             return self._stop(f"Already {self.kb.status}.")
 
@@ -55,20 +72,87 @@ class Conductor:
 
         round_ = self.kb.rounds_completed + 1
         agents_to_run = self._decide_agents(round_)
-
-        tasks = [self._agents[name].get_task(round_) for name in agents_to_run]
+        self.kb.start_round(round_, agents_to_run)
 
         return {
             "session_id": self.kb.session_id,
             "round": round_,
             "should_stop": False,
             "stop_reason": None,
-            "tasks": tasks,
+            "agents_pending": agents_to_run,
+            "agents_completed": [],
+            "resumed": False,
         }
+
+    def get_agent_task(self, agent_name: str, round_: int) -> Dict[str, Any]:
+        """Return the system_prompt + user_message for a single agent."""
+        agent = self._agents.get(agent_name)
+        if agent is None:
+            return {"error": f"Unknown agent '{agent_name}'."}
+        return agent.get_task(round_)
+
+    def submit_agent_result(
+        self, agent_name: str, round_: int, response_json: Any
+    ) -> Dict[str, Any]:
+        """
+        Process one agent's response immediately and persist it to the KB.
+
+        If this is the last pending agent for the round, the round is
+        automatically finalized (stagnation update, round counter increment,
+        current_round_state cleared).
+
+        Returns a dict with: agent, summary, round_complete, status, resolved,
+        and (when round_complete) formalization_suggestions.
+        """
+        crs = self.kb.current_round_state
+        if crs is None:
+            return {"error": "No round in progress. Call get_round_tasks first."}
+        if round_ != crs["round"]:
+            return {"error": f"Round mismatch: expected {crs['round']}, got {round_}."}
+
+        agent = self._agents.get(agent_name)
+        if agent is None:
+            return {"error": f"Unknown agent '{agent_name}'."}
+
+        parsed = BaseAgent._extract_json(response_json) if isinstance(response_json, str) else response_json
+
+        try:
+            summary = agent.process_response(round_, parsed)
+        except Exception as exc:
+            summary = f"Error in {agent_name}: {exc}"
+
+        self.kb.log(round_, agent_name, summary)
+        self.kb.record_agent_completion(agent_name, summary)
+
+        # Reload crs after save to get updated completed list
+        crs = self.kb.current_round_state
+        pending = [a for a in crs["planned"] if a not in crs["completed"]]
+        round_complete = len(pending) == 0
+
+        result: Dict[str, Any] = {
+            "agent": agent_name,
+            "summary": summary,
+            "round_complete": round_complete,
+            "agents_remaining": pending,
+            "status": self.kb.status,
+            "resolved": self.kb.status in ("proved", "disproved"),
+        }
+
+        if round_complete:
+            self._update_stagnation()
+            self.kb.log_round_summary(round_, crs["summaries"])
+            self.kb.finish_round()
+            self.kb.increment_round()
+            result["formalization_suggestions"] = self._formalization_suggestions()
+
+        return result
 
     def process_results(self, round_: int, results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Apply each agent's JSON response to the knowledge base.
+        Apply each agent's JSON response to the knowledge base in one batch.
+
+        Kept for backward compatibility. Prefer submit_agent_result for
+        incremental, crash-safe submission.
 
         Each item in results: {"agent": str, "response_json": str | dict}
         Returns: {"status": str, "summaries": list[str], "resolved": bool}
@@ -94,6 +178,7 @@ class Conductor:
 
         self._update_stagnation()
         self.kb.log_round_summary(round_, summaries)
+        self.kb.finish_round()
         self.kb.increment_round()
 
         return {
@@ -212,5 +297,6 @@ class Conductor:
             "round": self.kb.rounds_completed,
             "should_stop": True,
             "stop_reason": reason,
-            "tasks": [],
+            "agents_pending": [],
+            "agents_completed": [],
         }

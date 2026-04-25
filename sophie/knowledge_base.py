@@ -95,6 +95,9 @@ class KnowledgeBase:
             if "facts" not in self._data:
                 self._data["facts"] = []
                 self._save()
+            if "current_round_state" not in self._data:
+                self._data["current_round_state"] = None
+                self._save()
             # Migrate: backfill added_round on examples that predate the field
             if any("added_round" not in ex for ex in self._data.get("examples", [])):
                 for ex in self._data["examples"]:
@@ -123,6 +126,7 @@ class KnowledgeBase:
             "formalization_attempts": [],
             "log": [],
             "round_summaries": [],
+            "current_round_state": None,
         }
 
     def set_conjecture(self, text: str) -> None:
@@ -447,6 +451,34 @@ class KnowledgeBase:
 
     def path(self) -> str:
         return self._path
+
+    # ── In-progress round state ──────────────────────────────────────────────
+
+    @property
+    def current_round_state(self) -> Optional[Dict[str, Any]]:
+        return self._data.get("current_round_state")
+
+    def start_round(self, round_: int, planned_agents: List[str]) -> None:
+        self._data["current_round_state"] = {
+            "round": round_,
+            "planned": planned_agents,
+            "completed": [],
+            "summaries": [],
+        }
+        self._save()
+
+    def record_agent_completion(self, agent_name: str, summary: str) -> None:
+        crs = self._data.get("current_round_state")
+        if crs is None:
+            return
+        if agent_name not in crs["completed"]:
+            crs["completed"].append(agent_name)
+        crs["summaries"].append(f"{agent_name}: {summary}")
+        self._save()
+
+    def finish_round(self) -> None:
+        self._data["current_round_state"] = None
+        self._save()
 
     # ── Stagnation tracking ──────────────────────────────────────────────────
 

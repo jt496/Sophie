@@ -46,13 +46,16 @@ mcp = FastMCP(
         "entirely inside Claude Code — no external API key required.\n\n"
         "Workflow:\n"
         "1. start_session(conjecture) → get a session_id\n"
-        "2. get_round_tasks(session_id) → receive a list of agent tasks\n"
-        "3. For each task, read system_prompt + user_message and respond as "
-        "that agent (output only valid JSON matching the agent's format)\n"
-        "4. submit_round_results(session_id, round, results_json) → update KB\n"
-        "5. refresh_viewer(session_id) → ALWAYS call after submit_round_results\n"
-        "6. Repeat steps 2-5 until should_stop=true or resolved=true\n"
-        "7. Use get_session_status at any time to inspect progress."
+        "2. get_round_tasks(session_id) → compact list of agents_pending\n"
+        "3. For each agent in agents_pending:\n"
+        "   a. get_agent_task(agent_name) → system_prompt + user_message\n"
+        "   b. Act as that agent, output only valid JSON\n"
+        "   c. submit_agent_result(agent_name, response_json) → persisted immediately\n"
+        "4. refresh_viewer(session_id) → call after the round is complete\n"
+        "5. Repeat steps 2-4 until should_stop=true or resolved=true\n"
+        "6. Use get_session_status at any time to inspect progress.\n\n"
+        "If tokens run out mid-round, call get_round_tasks again — it will\n"
+        "resume from where you left off (agents_completed lists done agents)."
     ),
 )
 
@@ -194,22 +197,25 @@ def start_session(conjecture: str) -> str:
     return json.dumps({
         "session_id": kb.session_id,
         "file": kb.path(),
-        "next_step": f"Call get_round_tasks('{kb.session_id}') to begin round 1.",
+        "next_step": f"Call get_round_tasks('{kb.session_id}') to get the agents for round 1.",
     })
 
 
 @mcp.tool()
 def get_round_tasks(session_id: str = "") -> str:
     """
-    Advance to the next round and return the agent tasks for Claude to execute.
+    Return the agent list for the current (or next) round — compact, no prompts.
 
-    For each task in the returned list, read the system_prompt and
-    user_message, then respond as that agent (output only the JSON block
-    described in the system prompt).  Collect all responses and pass them
-    to submit_round_results.
+    If a round is already in progress (e.g. after a token-exhaustion restart),
+    returns only the agents that have not yet reported so the round can be
+    resumed without losing earlier results.
 
-    Returns JSON with: session_id, round, should_stop, stop_reason, tasks.
-    Each task: {agent, system_prompt, user_message}.
+    Returns JSON with: session_id, round, should_stop, stop_reason,
+    agents_pending, agents_completed, resumed.
+
+    For each name in agents_pending: call get_agent_task(agent_name) to get
+    the system_prompt + user_message, act as that agent, then call
+    submit_agent_result(agent_name, response_json).
 
     Args:
         session_id: The session ID returned by start_session. Defaults to the current session.
@@ -227,9 +233,79 @@ def get_round_tasks(session_id: str = "") -> str:
 
 
 @mcp.tool()
+def get_agent_task(agent_name: str, session_id: str = "") -> str:
+    """
+    Return the system_prompt and user_message for a single agent in the current round.
+
+    Call this for each agent name returned by get_round_tasks, one at a time.
+    Read the system_prompt and user_message, act as that agent, output only
+    the JSON block described in the system prompt, then pass the result to
+    submit_agent_result.
+
+    Returns JSON with: agent, system_prompt, user_message.
+
+    Args:
+        agent_name: The agent name from agents_pending (e.g. "Prover", "Checker").
+        session_id: The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    crs = kb.current_round_state
+    if crs is None:
+        return json.dumps({"error": "No round in progress. Call get_round_tasks first."})
+
+    conductor = Conductor(kb)
+    result = conductor.get_agent_task(agent_name, crs["round"])
+    return json.dumps(result)
+
+
+@mcp.tool()
+def submit_agent_result(agent_name: str, response_json: str, session_id: str = "") -> str:
+    """
+    Submit one agent's JSON response and immediately persist it to the KB.
+
+    Call this right after acting as each agent — do not wait until all agents
+    are done.  When the last pending agent for the round submits, the round is
+    automatically finalized (stagnation tracking, round counter increment).
+
+    Returns JSON with: agent, summary, round_complete, agents_remaining,
+    status, resolved.  When round_complete=true also includes
+    formalization_suggestions.
+
+    Args:
+        agent_name:    The agent name (e.g. "Prover").
+        response_json: The raw JSON string the agent produced.
+        session_id:    The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    crs = kb.current_round_state
+    if crs is None:
+        return json.dumps({"error": "No round in progress. Call get_round_tasks first."})
+
+    conductor = Conductor(kb)
+    outcome = conductor.submit_agent_result(agent_name, crs["round"], response_json)
+    _set_current_session(session_id)
+    return json.dumps(outcome)
+
+
+@mcp.tool()
 def submit_round_results(round: int, results_json: str, session_id: str = "") -> str:
     """
-    Submit the agent responses for a completed round.
+    (Legacy) Submit all agent responses for a round in one batch.
+
+    Prefer the incremental submit_agent_result instead — it persists each
+    result immediately so a token-exhaustion restart can resume mid-round.
 
     results_json must be a JSON array where each element has:
       {"agent": "<AgentName>", "response_json": "<the JSON string the agent produced>"}
