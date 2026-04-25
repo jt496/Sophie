@@ -241,7 +241,52 @@ def get_round_tasks(agents: str = "", session_id: str = "") -> str:
 
 
 @mcp.tool()
-def get_agent_task(agent_name: str, session_id: str = "") -> str:
+def get_formalization_candidates(session_id: str = "") -> str:
+    """
+    Return all unformalized proof attempts and resolved subproblems available
+    for the Formalizer agent to work on.
+
+    Each candidate includes: id, type ("proof_attempt" or "subproblem"),
+    status, and a brief description/sketch excerpt (first 300 chars).
+    Use the returned id as the source_id argument to get_agent_task.
+
+    Args:
+        session_id: The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    snap = kb.snapshot()
+    already = {fa["source_id"] for fa in snap.get("formalization_attempts", [])}
+    candidates = []
+
+    for pa in snap.get("proof_attempts", []):
+        if pa["id"] not in already:
+            candidates.append({
+                "id": pa["id"],
+                "type": "proof_attempt",
+                "status": pa.get("status", "unknown"),
+                "excerpt": pa.get("sketch", "")[:300],
+            })
+
+    for sp in snap.get("subproblems", []):
+        if sp["id"] not in already and sp.get("status") == "resolved" and sp.get("resolution"):
+            candidates.append({
+                "id": sp["id"],
+                "type": "subproblem",
+                "status": sp.get("status", "unknown"),
+                "excerpt": (sp.get("description", "") + "\n\nResolution: " + sp.get("resolution", ""))[:300],
+            })
+
+    return json.dumps({"candidates": candidates, "already_formalized": sorted(already)})
+
+
+@mcp.tool()
+def get_agent_task(agent_name: str, session_id: str = "", source_id: str = "") -> str:
     """
     Return the system_prompt and user_message for a single agent in the current round.
 
@@ -255,6 +300,8 @@ def get_agent_task(agent_name: str, session_id: str = "") -> str:
     Args:
         agent_name: The agent name from agents_pending (e.g. "Prover", "Checker").
         session_id: The session ID. Defaults to the current session.
+        source_id:  For the Formalizer only — the specific proof attempt or subproblem
+                    ID to formalize. If omitted, the Formalizer auto-selects.
     """
     session_id = _resolve_session_id(session_id)
     if not session_id:
@@ -268,7 +315,7 @@ def get_agent_task(agent_name: str, session_id: str = "") -> str:
         return json.dumps({"error": "No round in progress. Call get_round_tasks first."})
 
     conductor = Conductor(kb)
-    result = conductor.get_agent_task(agent_name, crs["round"])
+    result = conductor.get_agent_task(agent_name, crs["round"], source_id=source_id)
     return json.dumps(result)
 
 

@@ -108,11 +108,13 @@ class Conductor:
             "resumed": False,
         }
 
-    def get_agent_task(self, agent_name: str, round_: int) -> Dict[str, Any]:
+    def get_agent_task(self, agent_name: str, round_: int, source_id: str = "") -> Dict[str, Any]:
         """Return the system_prompt + user_message for a single agent."""
         agent = self._agents.get(agent_name)
         if agent is None:
             return {"error": f"Unknown agent '{agent_name}'."}
+        if agent_name == "Formalizer" and source_id:
+            return agent.get_task(round_, source_id=source_id)
         return agent.get_task(round_)
 
     def submit_agent_result(

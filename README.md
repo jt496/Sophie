@@ -42,7 +42,7 @@ The MCP server handles only state management and prompt construction.
 | **Searcher** | Writes and executes Python code (networkx, sympy, itertools, etc.) to brute-force search for counterexamples. |
 | **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
-| **Formalizer** | Translates proof sketches and results into Lean 4 / Mathlib code. Can be run via the round workflow using agent letter `F` (auto-selects the best unformalized candidate), or on-demand via `get_formalization_task` for a specific ID. |
+| **Formalizer** | Translates proof sketches and results into Lean 4 / Mathlib code. When invoked via `/sophie-round F`, it first presents all unformalized candidates and asks you to choose one before proceeding. Can also be called on-demand via `get_formalization_task` for a specific ID. |
 
 ### Knowledge Base
 

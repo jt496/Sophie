@@ -1,8 +1,17 @@
 name = "SophieFormalization"
-defaultTargets = ["SophieFormalization"]
+defaultTargets = ["HolroydTalbot", "ErdosStraus", "CarmichaelTotientFunction"]
 
 [[lean_lib]]
-name = "SophieFormalization"
+name = "HolroydTalbot"
+roots = ["SophieFormalization.HolroydTalbot"]
+
+[[lean_lib]]
+name = "ErdosStraus"
+roots = ["SophieFormalization.ErdosStraus"]
+
+[[lean_lib]]
+name = "CarmichaelTotientFunction"
+roots = ["SophieFormalization.CarmichaelTotientFunction"]
 
 [[require]]
 name = "mathlib"

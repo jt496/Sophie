@@ -3,13 +3,15 @@
   Verified cases of the Erdős–Straus conjecture: 4/n = 1/x + 1/y + 1/z
   has a positive integer solution for every n ≥ 2.
 
-  Proved here (Sophie session 20260421, rounds 1–10):
+  Proved here (Sophie session 20260421, rounds 1–33):
     • Even n          (FA-6AA92B / PA-C5E101)
     • n ≡ 3 mod 4     (FA-6AA92B / PA-C5E101)
     • n ≡ 5 mod 12    (FA-6AA92B / SP-34E0FD, PA-25D02A)
     • n ≡ 9 mod 12    (FA-A4DCFE / PA-EF2F96)
+    • n ≡ 1 mod 12, k=0 anchor (PA-A1849C)
+    • n ≡ 1 mod 12, k=1 anchor (PA-8F3E37)
 
-  Still open: n ≡ 1 mod 12.
+  Still open: unconditional proof for n ≡ 1 mod 12.
 -/
 
 import Mathlib
@@ -192,5 +194,158 @@ theorem erdos_straus_anchor_k0 (n : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 ≤ n)
     have hZdivQ' : ((↑((q + 1) / 3) : ℚ)) = ((q : ℚ) + 1) / 3 := by linarith [hZdivQ]
     rw [hYQ', hZdivQ']
     field_simp; grind
+
+/-! ## n ≡ 1 mod 12, k=1 anchor (PA-8F3E37) -/
+
+private lemma four_dvd_k1 (n : ℕ) (h : n % 12 = 1) : 4 ∣ n + 7 := by
+  grind
+
+private lemma anchor_k1_mul4 (n : ℕ) (h : n % 12 = 1) :
+    4 * ((n + 7) / 4) = n + 7 :=
+  Nat.mul_div_cancel' (four_dvd_k1 n h)
+
+/-- k=1 anchor criterion (PA-8F3E37): for n ≡ 1 mod 12, define b₁ = (n+7)/4.
+    Then 4/n = 1/b₁ + 7/(n·b₁).  If p is a prime dividing m = n·b₁ with cofactor
+    q = m/p satisfying q ≡ 6 mod 7, witnesses Y = (p+m)/7 and Z = m·(q+1)/7
+    give 7/m = 1/Y + 1/Z, yielding a full 3-term decomposition of 4/n. -/
+theorem erdos_straus_anchor_k1 (n : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 ≤ n)
+    (p : ℕ) (hp : p.Prime)
+    (q : ℕ) (hpq : p * q = n * ((n + 7) / 4)) (hq7 : q % 7 = 6) :
+    ∃ x Y Z : ℕ, 0 < x ∧ 0 < Y ∧ 0 < Z ∧
+      (4 : ℚ) / n = 1 / x + 1 / Y + 1 / Z := by
+  set b := (n + 7) / 4 with hb_def
+  set m := n * b with hm_def
+  have h4b : 4 * b = n + 7 := anchor_k1_mul4 n hn12
+  have hn_pos : 0 < n := by linarith
+  have hb_pos : 0 < b := by
+    have : 0 < 4 * b := by linarith [h4b]
+    grind
+  have hm_pos : 0 < m := Nat.mul_pos hn_pos hb_pos
+  have hp_pos : 0 < p := hp.pos
+  have hpq' : p * q = m := hpq
+  have hq_pos : 0 < q := by
+    rcases Nat.eq_zero_or_pos q with rfl | hq_pos
+    · simp at hpq'; linarith
+    · exact hq_pos
+  -- Key divisibility: 7 ∣ q + 1 (from q ≡ 6 mod 7)
+  have h7qp1 : 7 ∣ q + 1 := by
+    have : (q + 1) % 7 = 0 := by omega
+    exact Nat.dvd_of_mod_eq_zero this
+  -- p + m = p · (q + 1), so 7 ∣ p + m
+  have hpm_eq : p + m = p * (q + 1) := by
+    have h : p * (q + 1) = p * q + p := by ring
+    linarith [hpq', h]
+  have h7pm : 7 ∣ p + m := by
+    rw [hpm_eq]; exact dvd_mul_of_dvd_right h7qp1 p
+  -- Witnesses: x = b, Y = (p + m) / 7, Z = m * ((q + 1) / 7)
+  refine ⟨b, (p + m) / 7, m * ((q + 1) / 7), hb_pos, ?_, ?_, ?_⟩
+  · -- 0 < Y: p + m is a positive multiple of 7, so ≥ 7
+    exact Nat.div_pos (Nat.le_of_dvd (Nat.add_pos_left hp_pos m) h7pm) (by norm_num)
+  · -- 0 < Z: m · ((q+1)/7) with q+1 ≥ 7
+    exact Nat.mul_pos hm_pos
+      (Nat.div_pos (Nat.le_of_dvd (Nat.succ_pos q) h7qp1) (by norm_num))
+  · -- Rational identity: 4/n = 1/b + 1/Y + 1/Z
+    have hn_ne : (n : ℚ) ≠ 0 := by exact_mod_cast hn_pos.ne'
+    have hb_ne : (b : ℚ) ≠ 0 := by exact_mod_cast hb_pos.ne'
+    have hm_ne : (m : ℚ) ≠ 0 := by exact_mod_cast hm_pos.ne'
+    have hp_ne : (p : ℚ) ≠ 0 := by exact_mod_cast hp_pos.ne'
+    have hq_ne : (q : ℚ) ≠ 0 := by exact_mod_cast hq_pos.ne'
+    have h4bQ : 4 * (b : ℚ) = (n : ℚ) + 7 := by exact_mod_cast h4b
+    have hpqQ : (p : ℚ) * q = m := by exact_mod_cast hpq'
+    have h7pmQ : 7 * ((p + m) / 7 : ℕ) = p + m :=
+      by exact_mod_cast Nat.mul_div_cancel' h7pm
+    have h7qp1Q : 7 * ((q + 1) / 7 : ℕ) = q + 1 :=
+      by exact_mod_cast Nat.mul_div_cancel' h7qp1
+    have hY_pos : 0 < (p + m) / 7 :=
+      Nat.div_pos (Nat.le_of_dvd (Nat.add_pos_left hp_pos m) h7pm) (by norm_num)
+    have hQdiv_pos : 0 < (q + 1) / 7 :=
+      Nat.div_pos (Nat.le_of_dvd (Nat.succ_pos q) h7qp1) (by norm_num)
+    have hY_ne : ((p + m) / 7 : ℕ) ≠ 0 := hY_pos.ne'
+    have hQdiv_ne : ((q + 1) / 7 : ℕ) ≠ 0 := hQdiv_pos.ne'
+    have hZ_ne : m * ((q + 1) / 7 : ℕ) ≠ 0 :=
+      Nat.mul_ne_zero (by exact_mod_cast hm_pos.ne') hQdiv_ne
+    have hYQ : 7 * ((p + m) / 7 : ℚ) = (p : ℚ) + m := by exact_mod_cast h7pmQ
+    have hZdivQ : 7 * (((q + 1) / 7 : ℕ) : ℚ) = (q : ℚ) + 1 := by exact_mod_cast h7qp1Q
+    rw [Nat.cast_mul]
+    field_simp
+    have hYQ' : ((↑((p + m) / 7) : ℚ)) = ((p : ℚ) + m) / 7 := by norm_cast
+    have hZdivQ' : ((↑((q + 1) / 7) : ℚ)) = ((q : ℚ) + 1) / 7 := by linarith [hZdivQ]
+    rw [hYQ', hZdivQ']
+    field_simp; grind
+
+end ErdosStraus
+
+-- Appended by Formalizer round 35 (PA-C38ABE)
+
+namespace ErdosStraus
+
+/-! ## n ≡ 1 mod 12, unified anchor mechanism (PA-C38ABE) -/
+
+/-- Unified anchor identity: for n ≡ 1 mod 12 and any k ≥ 0,
+    with b_k = (n+3)/4 + k and p_k = 3 + 4·k,
+    4/n = 1/b_k + p_k/(n·b_k). -/
+theorem erdos_straus_anchor_identity (n k : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 ≤ n) :
+    (4 : ℚ) / n = 1 / ((n + 3) / 4 + k : ℕ) + (3 + 4 * k : ℕ) / (↑n * ((n + 3) / 4 + k : ℕ)) := by
+  set b : ℕ := (n + 3) / 4 + k
+  set pk : ℕ := 3 + 4 * k
+  have hn_pos : 0 < n := by linarith
+  have hb_base : 4 * ((n + 3) / 4) = n + 3 := anchor_mul4 n hn12
+  have h4b : 4 * b = n + pk := by
+    simp only [b, pk]
+    have : 4 * ((n + 3) / 4 + k) = 4 * ((n + 3) / 4) + 4 * k := by ring
+    linarith
+  have hb_pos : 0 < b := by simp only [b]; linarith [hb_base]
+  have hn_ne : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hn_pos.ne'
+  have hb_ne : (b : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hb_pos.ne'
+  have h4bQ : 4 * (b : ℚ) = (n : ℚ) + (pk : ℚ) := by exact_mod_cast h4b
+  field_simp
+  nlinarith [mul_pos (show (0 : ℚ) < n from by exact_mod_cast hn_pos)
+                     (show (0 : ℚ) < b from by exact_mod_cast hb_pos)]
+
+/-- Anchor Mechanism Lemma (PA-C38ABE): for n ≡ 1 mod 12 and k ≥ 0,
+    if d > 0 divides D_k = n·b_k and p_k = 3+4k divides d + D_k,
+    then Y = (d+D_k)/p_k and Z = (D_k/d)·Y give 4/n = 1/b_k + 1/Y + 1/Z. -/
+theorem erdos_straus_anchor_mechanism (n k : ℕ) (hn12 : n % 12 = 1) (hn2 : 2 ≤ n)
+    (d : ℕ) (hd_pos : 0 < d)
+    (hd_dvd : d ∣ n * ((n + 3) / 4 + k))
+    (hp_dvd : (3 + 4 * k) ∣ d + n * ((n + 3) / 4 + k)) :
+    ∃ x Y Z : ℕ, 0 < x ∧ 0 < Y ∧ 0 < Z ∧
+      (4 : ℚ) / n = 1 / x + 1 / Y + 1 / Z := by
+  set b : ℕ := (n + 3) / 4 + k
+  set pk : ℕ := 3 + 4 * k
+  set D : ℕ := n * b
+  have hb_base : 4 * ((n + 3) / 4) = n + 3 := anchor_mul4 n hn12
+  have h4b : 4 * b = n + pk := by
+    simp only [b, pk]
+    have : 4 * ((n + 3) / 4 + k) = 4 * ((n + 3) / 4) + 4 * k := by ring
+    linarith
+  have hn_pos : 0 < n := by linarith
+  have hb_pos : 0 < b := by simp only [b]; linarith [hb_base]
+  have hD_pos : 0 < D := Nat.mul_pos hn_pos hb_pos
+  have hpk_pos : 0 < pk := by simp [pk];
+  have hpk_dvd : pk ∣ d + D := hp_dvd
+  obtain ⟨q, hq⟩ := hd_dvd
+  have hDq : d * q = D := hq.symm
+  have hq_pos : 0 < q := by
+    rcases Nat.eq_zero_or_pos q with rfl | hqp
+    · simp at hq; linarith [hD_pos]
+    · exact hqp
+  have hY_pos : 0 < (d + D) / pk :=
+    Nat.div_pos (Nat.le_of_dvd (Nat.add_pos_left hd_pos D) hpk_dvd) (by simp [pk])
+  have hpk_Y : pk * ((d + D) / pk) = d + D := Nat.mul_div_cancel' hpk_dvd
+  refine ⟨b, (d + D) / pk, q * ((d + D) / pk), hb_pos, hY_pos, Nat.mul_pos hq_pos hY_pos, ?_⟩
+  have hn_ne : (n : ℚ) ≠ 0 := by exact_mod_cast hn_pos.ne'
+  have hb_ne : (b : ℚ) ≠ 0 := by exact_mod_cast hb_pos.ne'
+  have hpk_ne : (pk : ℚ) ≠ 0 := by exact_mod_cast hpk_pos.ne'
+  have hq_ne : (q : ℚ) ≠ 0 := by exact_mod_cast hq_pos.ne'
+  have h4bQ : 4 * (b : ℚ) = (n : ℚ) + pk := by exact_mod_cast h4b
+  have hDqQ : (d : ℚ) * q = D := by exact_mod_cast hDq
+  have hpkYQ : (pk : ℚ) * ((d + D) / pk : ℕ) = d + D := by exact_mod_cast hpk_Y
+  have hY_ne : ((d + D) / pk : ℕ) ≠ 0 := hY_pos.ne'
+  have hYQ' : ((↑((d + D) / pk) : ℚ)) = ((d : ℚ) + D) / pk := by
+    have := hpkYQ; field_simp at this ⊢; linarith
+  rw [Nat.cast_mul, hYQ']
+  field_simp
+  grind
 
 end ErdosStraus

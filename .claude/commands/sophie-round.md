@@ -11,7 +11,15 @@ If no letters were given, omit the `agents` argument and let the scheduler decid
 4. For each agent name in `agents_pending`, work through them one at a time:
 
    **a. Fetch the task**
-   Call `get_agent_task(agent_name)` to get the `system_prompt` and `user_message` for that agent.
+
+   **If the agent is "Formalizer":**
+   First call `get_formalization_candidates` to retrieve the list of unformalized proofs
+   and subproblems. Present the candidates to the user as a numbered list showing each
+   candidate's id, type, status, and excerpt. Ask the user to pick one (by number or ID).
+   Wait for the user's reply, then call `get_agent_task("Formalizer", source_id=<chosen_id>)`.
+
+   **For all other agents:**
+   Call `get_agent_task(agent_name)` to get the `system_prompt` and `user_message`.
 
    **b. Act as the agent**
 

@@ -40,22 +40,49 @@ def _conjecture_slug(conjecture: str) -> str:
 
 
 def _existing_lean_files() -> list[str]:
-    """Return module paths of all .lean files currently in the formalization tree."""
+    """Return module paths of theorem files in the formalization tree.
+
+    Excludes the per-conjecture index files (depth 1 under SophieFormalization)
+    since those are maintained automatically and not targets for the Formalizer.
+    """
     if not LEAN_ROOT.exists():
         return []
     paths = []
     for p in sorted(LEAN_ROOT.rglob("*.lean")):
         rel = p.relative_to(LEAN_ROOT.parent)
+        # Skip index files: SophieFormalization/<Slug>.lean (exactly 2 parts)
+        if len(rel.parts) == 2:
+            continue
         module = str(rel).replace("/", ".").removesuffix(".lean")
         paths.append(module)
     return paths
+
+
+def _conjecture_index_file(lean_file: str) -> Optional[Path]:
+    """
+    Return the per-conjecture index .lean file that should import lean_file.
+
+    lean_file is relative to formalization/, e.g.:
+      "SophieFormalization/ErdosStraus/Theorems.lean"
+      → formalization/SophieFormalization/ErdosStraus.lean
+
+    Returns None if the path doesn't have at least two components under
+    SophieFormalization (i.e. it IS the index file itself).
+    """
+    parts = Path(lean_file).parts  # e.g. ("SophieFormalization", "ErdosStraus", "Theorems.lean")
+    if len(parts) < 3:
+        return None
+    # index file: SophieFormalization/<Slug>.lean
+    lean_root = LEAN_ROOT.parent
+    return lean_root / parts[0] / (parts[1] + ".lean")
 
 
 def write_lean_file(lean_code: str, lean_file: str) -> Optional[str]:
     """
     Overwrite lean_file with lean_code inside the formalization/ tree.
     lean_code must be the complete file content (not a delta).
-    Updates the root SophieFormalization.lean import list for new files.
+    For new files, registers the import in the per-conjecture index file
+    (e.g. SophieFormalization/ErdosStraus.lean), creating it if needed.
     Returns the lean_file path on success, None if lean_code or lean_file is empty.
     """
     if not lean_file or not lean_code:
@@ -66,14 +93,19 @@ def write_lean_file(lean_code: str, lean_file: str) -> Optional[str]:
     is_new = not target.exists()
     target.write_text(lean_code + "\n", encoding="utf-8")
     if is_new:
-        root_module = lean_root / "SophieFormalization.lean"
-        if root_module.exists():
+        index_file = _conjecture_index_file(lean_file)
+        if index_file is not None:
             module_name = lean_file.replace("/", ".").removesuffix(".lean")
             import_line = f"import {module_name}"
-            content = root_module.read_text(encoding="utf-8")
+            if index_file.exists():
+                content = index_file.read_text(encoding="utf-8")
+            else:
+                # Derive a header from the conjecture slug
+                slug = Path(lean_file).parts[1]
+                content = f"-- {slug} conjecture formalization\n"
             if import_line not in content:
-                root_module.write_text(
-                    content.rstrip() + f"\nimport {module_name}\n", encoding="utf-8"
+                index_file.write_text(
+                    content.rstrip() + f"\n{import_line}\n", encoding="utf-8"
                 )
     return lean_file
 
@@ -204,23 +236,31 @@ class Formalizer(BaseAgent):
 
         return None
 
-    def get_task(self, round_: int) -> Dict[str, Any]:
+    def get_task(self, round_: int, source_id: str = "") -> Dict[str, Any]:
         """
-        Override base get_task to auto-select a source and store the choice in
-        the KB's agent_context so process_response can retrieve it.
+        Override base get_task to auto-select a source (or use the provided
+        source_id) and store the choice in the KB's agent_context so
+        process_response can retrieve it.
         """
         snapshot = self.kb.snapshot()
-        candidate = self._select_source(snapshot)
-        if candidate is None:
-            return {
-                "agent": self.name,
-                "error": (
-                    "No unformalized candidates found. "
-                    "There must be at least one valid, unchecked, or resolved proof attempt "
-                    "that has not yet been formalized."
-                ),
-            }
-        source_id, source_text = candidate
+
+        if source_id:
+            source_text = self._source_text_for_id(snapshot, source_id)
+            if source_text is None:
+                return {"agent": self.name, "error": f"Source ID '{source_id}' not found."}
+        else:
+            candidate = self._select_source(snapshot)
+            if candidate is None:
+                return {
+                    "agent": self.name,
+                    "error": (
+                        "No unformalized candidates found. "
+                        "There must be at least one valid, unchecked, or resolved proof attempt "
+                        "that has not yet been formalized."
+                    ),
+                }
+            source_id, source_text = candidate
+
         self.kb.set_agent_context(self.name, {"source_id": source_id})
         return {
             "agent": self.name,
@@ -229,6 +269,16 @@ class Formalizer(BaseAgent):
                 round_, snapshot, source_id=source_id, source_text=source_text
             ),
         }
+
+    def _source_text_for_id(self, snapshot: Dict[str, Any], source_id: str) -> Optional[str]:
+        """Look up the text for a given source_id in proof_attempts and subproblems."""
+        for pa in snapshot.get("proof_attempts", []):
+            if pa["id"] == source_id:
+                return pa["sketch"]
+        for sp in snapshot.get("subproblems", []):
+            if sp["id"] == source_id and sp.get("resolution"):
+                return sp["description"] + f"\n\nResolution: {sp['resolution']}"
+        return None
 
     # ── Explicit task builder (used by get_formalization_task MCP tool) ───────
 
