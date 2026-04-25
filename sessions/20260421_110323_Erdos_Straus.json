@@ -2,9 +2,9 @@
   "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
   "session_id": "20260421_110323_Erdos_Straus",
   "status": "open",
-  "rounds_completed": 41,
-  "no_progress_rounds": 1,
-  "prev_snapshot_hash": 6986658489998585582,
+  "rounds_completed": 42,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": -4035661108846580475,
   "subproblems": [
     {
       "id": "SP-FA3D86",
@@ -705,6 +705,20 @@
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
+    },
+    {
+      "id": "SP-C57826",
+      "description": "For $n \\equiv 1 \\pmod{24}$ where k=0 fails: does the structural prime $q \\equiv 2 \\pmod{3}$ from b\u2081=(n+7)/4, or the product 2q, always satisfy d \u2261 \u22122n\u00b2 (mod 7), yielding k=1 success? A mod-168 case analysis would resolve this.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-27746E",
+      "description": "Find an explicit closed-form formula for 4/n for $n \\equiv 1 \\pmod{24}$ analogous to the $n \\equiv 13 \\pmod{24}$ result, using k=1 with a divisor derived from b\u2081.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
     }
   ],
   "examples": [
@@ -1276,6 +1290,13 @@
       "sketch": "## NEW THEOREM: Complete Solution When n+4 Has a $Factor \\equiv 3 \\pmod{4}$\n\n**Theorem (n+4 Criterion).** Let $n \\equiv 1 \\pmod{12}$, $n \\geq 13$. Suppose $n+4$ has an odd prime factor $q \\equiv 3 \\pmod{4}$. Then\n$$\\frac{4}{n} = \\frac{1}{x} + \\frac{1}{y} + \\frac{1}{z}$$\nhas the explicit positive-integer solution:\n$$x = \\frac{n+q}{4}, \\quad y = \\frac{n(s+1)}{4}, \\quad z = \\frac{n(n+q)(s+1)}{16},$$\nwhere $s = (n+4)/q$.\n\n**Proof.** Since $n \\equiv 1 \\pmod{4}$ and $q \\equiv 3 \\pmod{4}$ we have $4 \\mid n+q$, so $x = (n+q)/4 \\in \\mathbb{Z}^+$. Since $q \\mid n+4$ and $n+4 \\equiv 1 \\pmod{4}$, $q \\equiv 3 \\pmod{4}$, we get $s = (n+4)/q \\equiv 3 \\pmod{4}$, hence $4 \\mid s+1$ and $y, z \\in \\mathbb{Z}^+$.\n\nVerify the identity: $\\frac{4}{n} - \\frac{1}{x} = \\frac{4}{n} - \\frac{4}{n+q} = \\frac{4q}{n(n+q)}$. Meanwhile\n$$\\frac{1}{y}+\\frac{1}{z} = \\frac{4}{n(s+1)}+\\frac{16}{n(n+q)(s+1)} = \\frac{4(n+q+4)}{n(s+1)(n+q)}.$$\nSince $n+q+4 = (n+4)+q = q(s+1)$ we get $\\frac{4q(s+1)}{n(s+1)(n+q)} = \\frac{4q}{n(n+q)}$. \\hfill$\\square$\n\n**Corollary.** By Landau\u2013Ramanujan, the count of integers $m \\leq X$ with all prime factors $\\equiv 1 \\pmod{4}$ is $O(X/\\sqrt{\\log X})$. Hence the proportion of primes $n \\equiv 1 \\pmod{12}$ for which $n+4$ has ALL prime factors $\\equiv 1 \\pmod{4}$ (so the theorem does not directly apply) has relative density $0$. For a density-$1$ subset of primes $n \\equiv 1 \\pmod{12}$, the conjecture holds with the explicit witnesses above.\n\n## Structural Lemma: d=1 is Always Impossible\n\n**Lemma.** For any $n \\equiv 1 \\pmod{12}$ and $k \\geq 0$ with $p_k = 3+4k$ prime, the trivial divisor $d=1$ of $D_k = n \\cdot b_k$ can never satisfy the anchor condition $d \\equiv -D_k \\pmod{p_k}$.\n\n**Proof.** The condition $1 \\equiv -n b_k \\pmod{p_k}$ with $b_k \\equiv n \\cdot 4^{-1} \\pmod{p_k}$ gives $n^2 \\equiv -4 \\pmod{p_k}$. Since $p_k \\equiv 3 \\pmod{4}$ we have $\\left(\\frac{-4}{p_k}\\right) = \\left(\\frac{-1}{p_k}\\right)\\left(\\frac{4}{p_k}\\right) = (-1)^{(p_k-1)/2} \\cdot 1 = -1$. Hence $-4$ is a quadratic non-residue mod $p_k$ and $n^2 \\equiv -4 \\pmod{p_k}$ is unsolvable. \\hfill$\\square$\n\nThis shows that the anchor divisor must be at least $\\min(n, \\text{prime factor of } b_k)$.\n\n## Exact Anchor Condition (Clarification)\n\nFor completeness, the EXACT condition for anchor $k$ to produce a valid decomposition is: $D_k = n b_k$ has a divisor $d$ (not merely a divisor of $D_k^2$) with $d \\equiv -D_k \\pmod{p_k}$. Setting $D_k = d \\cdot m$ the witnesses are $y = d(m+1)/p_k$, $z = md(m+1)/p_k$; both are integers since $m \\equiv -1 \\pmod{p_k}$ implies $p_k \\mid m+1$.\n\n## Remaining Hard Case\n\nWhen all prime factors of $n+4$ are $\\equiv 1 \\pmod{4}$ (a density-$0$ but infinite set), we must use divisors from $b_k = (n + p_k)/4$ for $k \\geq 1$. Under GRH (Hooley 1967), for any non-square integer $n$ there are infinitely many primes $p$ for which $n$ is a primitive root mod $p$; in particular for infinitely many primes $p_k = 3+4k$, $D_k$ has a prime factor that generates $(\\mathbb{Z}/p_k\\mathbb{Z})^*$ and the required residue class $-D_k \\pmod{p_k}$ is attained. This gives a GRH-conditional proof for all $n \\equiv 1 \\pmod{12}$. [UNVERIFIED: the precise passage from 'primitive root exists' to 'divisor of $D_k$ in the required class' still needs PA-C38ABE / PA-82CE7B argument assembled carefully.]\n\n## Status Summary\n\n- **All $n$ not $\\equiv 1 \\pmod{12}$**: Fully proved (PA-C5E101, PA-EF2F96, PA-25D02A + FT-F60773).\n- **$n \\equiv 1 \\pmod{12}$, $n+4$ has a prime factor $\\equiv 3 \\pmod{4}$**: Complete, explicit, unconditional (this round).\n- **$n \\equiv 1 \\pmod{12}$, $n+4 = $ product of primes $\\equiv 1 \\pmod{4}$**: Conditional on GRH; unconditional resolution open.",
       "status": "valid",
       "checker_feedback": "The theorem and its proof are mathematically correct. I verify each step:\n\n1. INTEGRALITY OF x: $n \\equiv 1 \\pmod{4}$ and $q \\equiv 3 \\pmod{4}$ give n+$q \\equiv 0 \\pmod{4}$, so x = (n+q)/4 \u2208 \u2124\u207a. \u2713\n\n2. INTEGRALITY OF s: q | n+4 by hypothesis, so s = (n+4)/q \u2208 \u2124\u207a. \u2713\n\n3. $s \\equiv 3 \\pmod{4}$: From qs = n+$4 \\equiv 1 \\pmod{4}$ and $q \\equiv 3 \\pmod{4}$, we get $3s \\equiv 1 \\pmod{4}$, so $s \\equiv 3 \\pmod{4}$. \u2713\n\n4. INTEGRALITY OF y: 4 | s+1 (from step 3), so y = n(s+1)/4 \u2208 \u2124\u207a. \u2713\n\n5. INTEGRALITY OF z: z = n\u00b7(n+q)/4\u00b7(s+1)/4. Both (n+q)/4 and (s+1)/4 are positive integers (steps 1 and 3), so z \u2208 \u2124\u207a. \u2713\n\n6. IDENTITY VERIFICATION:\n   - 4/n \u2212 1/x = 4/n \u2212 4/(n+q) = 4q/(n(n+q)). \u2713\n   - 1/y + 1/z = 4/(n(s+1)) + 16/(n(n+q)(s+1)) = 4(n+q+4)/(n(n+q)(s+1)).\n   - Key step: n+q+4 = (n+4)+q = qs+q = q(s+1). So 1/y + 1/z = 4q(s+1)/(n(n+q)(s+1)) = 4q/(n(n+q)). \u2713\n   - Therefore 1/x + 1/y + 1/z = 4/n. \u2713\n\nOBSERVATION: The proof does not actually require q to be prime \u2014 any odd divisor q of n+4 with $q \\equiv 3 \\pmod{4}$ suffices (the primality of q is not used anywhere in the argument). The theorem as stated is correct but slightly weaker than what the proof actually establishes.\n\nCLAIMS ABOUT DENSITY: The Landau\u2013Ramanujan corollary is correctly stated. Integers up to X with all prime $factors \\equiv 1 \\pmod{4}$ number O(X/\u221alog X), so the proportion of primes $n \\equiv 1 \\pmod{12}$ for which n+4 avoids prime $factors \\equiv 3 \\pmod{4}$ is density 0. This is standard and correct. \u2713\n\nSTRUCTURAL LEMMA (d=1 impossibility): The Legendre symbol computation is correct: for $p_k \\equiv 3 \\pmod{4}$, (\u22124/$p_{k}$) = (\u22121/$p_{k}$)(4/$p_{k}$) = (\u2212$1)^{(p_k\u22121)/2}$\u00b71 = \u22121, so \u22124 is a QNR mod $p_{k}$. Hence n\u00b2 \u2261 \u22124 (mod $p_{k}$) is unsolvable, and d=1 can never satisfy the anchor condition. \u2713\n\nEXACT ANCHOR CONDITION CLARIFICATION: The claim that d | $D_{k}$ (not d | D_k\u00b2) is the sufficient condition is verified. If $D_{k}$ = dm with m \u2261 \u22121 (mod $p_{k}$), then y = d(m+1)/$p_{k}$ and z = md(m+1)/$p_{k}$ are both positive integers since $p_{k}$ | m+1, and 1/y + 1/z = $p_{k}$/(dm) = $p_{k}$/$D_{k}$. \u2713 This is a genuine clarification over the D_k\u00b2 formulation in SP-80396A.\n\nSCOPE: The theorem covers $n \\equiv 1 \\pmod{12}$ with a density-1 condition on n+4. The hard case (n+4 = product of $primes \\equiv 1 \\pmod{4)}$ is correctly identified as still open. The GRH-conditional argument for the hard case remains [UNVERIFIED] as flagged.\n\nVERDICT: VALID as a partial result. The n+4 Criterion theorem is a genuine, rigorous, unconditional proof for a density-1 subset of primes $n \\equiv 1 \\pmod{12}$. The overall conjecture is NOT closed."
+    },
+    {
+      "id": "PA-E4BE41",
+      "round": 42,
+      "sketch": "## New Complete Theorem: $n \\equiv 13 \\pmod{24}$\n\n**Theorem (k=0 Anchor with d=2).** For all $n \\equiv 13 \\pmod{24}$ (equivalently, $n \\equiv 1 \\pmod{12}$ and $n \\equiv 5 \\pmod{8}$), the following gives a valid 3-term Egyptian fraction:\n$$\\frac{4}{n} = \\frac{1}{$b_{0}$} + \\frac{1}{y} + \\frac{1}{z},$$\nwhere $b_0 = \\frac{n+3}{4}$, $\\;y = \\frac{n(n+3)/4+2}{3}$, $\\;z = \\frac{n(n+3)/4 \\cdot (n(n+3)/4+2)}{6}$.\n\n**Proof.**\n\n*Setup.* Write $n = 24k+13$. Then $b_0 = (24k+16)/4 = 2(3k+2)$, which is **even**. Let $D_0 = n \\cdot b_0 = n(n+3)/4$.\n\n*Integrality of y.* Since $n \\equiv 1 \\pmod{3}$ and $4 \\equiv 1 \\pmod{3}$: $b_0 \\equiv 1 \\pmod{3}$, so $D_0 \\equiv 1 \\pmod{3}$, giving $D_0+2 \\equiv 0 \\pmod{3}$. Hence $y = (D_0+2)/3 \\in \\mathbb{Z}$.\n\n*Integrality of z.* Write $D_0 = 2M$ where $M = (24k+13)(3k+2)$. Then $z = 2M(M+1)/3$. Now $M \\equiv 1 \\cdot 2 = 2 \\pmod{3}$, so $M+1 \\equiv 0 \\pmod{3}$, giving $3 \\mid M(M+1)$ and $z \\in \\mathbb{Z}$.\n\n*Identity.* The divisor $d=2$ satisfies: (a) $2 \\mid D_0$ (since $b_0$ is even and $n$ is odd); (b) $2 \\equiv 2 \\equiv -D_0 \\pmod{3}$ (since $D_0 \\equiv 1 \\pmod 3$). By the Anchor Mechanism (PA-C38ABE) with $p_0=3$: $3/D_0 = 1/y+1/z$. Since $4/n = 1/b_0 + 3/D_0$, the full identity follows.\n\n*Verifications.* $n=13$: $b_0=4, y=18, z=468$; $1/4+1/18+1/468=4/13$. $n=37$: $b_0=10, y=124, z=22940$; $1/10+1/124+1/22940=4/37$. $n=61$ (where $n+4=65=5\\cdot13$, all prime factors $\\equiv 1 \\pmod 4$, so PA-C85CD9 fails): $b_0=16$, formula still gives valid witnesses.\n\n**Corollary.** This covers ALL $n \\equiv 13 \\pmod{24}$ unconditionally, including the hard cases where $n+4$ has all prime factors $\\equiv 1 \\pmod 4$, bypassing PA-C85CD9.\n\n---\n\n## Structural Insight: $b\u2081 \\equiv 2 \\pmod{3}$ is Universal\n\n**Lemma.** For all $n \\equiv 1 \\pmod{12}$: $b_1 = (n+7)/4 \\equiv 2 \\pmod{3}$.\n\n*Proof.* $n+7 \\equiv 1+7=8 \\equiv 2 \\pmod{3}$, and $4 \\equiv 1 \\pmod 3$, so $(n+7)/4 \\equiv 2 \\pmod 3$.\n\n**Consequence.** $b_1 \\equiv 2 \\pmod 3$ guarantees $b_1$ has at least one prime factor $q \\equiv 2 \\pmod 3$, which divides $D_1=nb_1$. For $n \\equiv 1 \\pmod{24}$ (where $b_0$ is odd and $d=2$ fails for $k=0$): $k=0$ fails iff $n(n+3)/4$ has all prime factors $\\equiv 1 \\pmod 3$. The Lemma guarantees $D_1$ always has a prime $q \\equiv 2 \\pmod 3$. The $k=1$ anchor needs $d \\equiv -D_1 \\equiv -2n^2 \\pmod 7$. Whether $q$ or $2q$ lands in this residue class depends on $n \\pmod 7$.\n\n**Example (n=193, $prime \\equiv 1 \\pmod{24}$, k=0 and PA-C85CD9 both fail).** $b_0=49=7^2$ (all prime factors $\\equiv 1 \\pmod 3$, $k=0$ fails). $n+4=197$ (prime $\\equiv 1 \\pmod 4$, PA-C85CD9 fails). $b_1=50=2\\cdot5^2$; prime $q=5 \\equiv 2 \\pmod 3$. $D_1=9650 \\equiv 4 \\pmod 7$, target $-D_1 \\equiv 3 \\pmod 7$. Divisor $d=10=2\\cdot5 \\equiv 3 \\pmod 7$ divides $9650$. $k=1$ works: $y=(9650+10)/7=1380$, $z=9650\\cdot9660/70=1{,}331{,}700$, giving $4/193=1/50+1/1380+1/1{,}331{,}700$.\n\nThis suggests: when $k=0$ fails, the prime $q \\equiv 2 \\pmod 3$ from $b_1$ (or $2q$) often satisfies the mod-7 condition for $k=1$. A complete proof requires a mod-$\\mathrm{lcm}(24,7)=168$ case analysis.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ],
   "disproof_attempts": [
@@ -1875,6 +1896,11 @@
       "round": 41,
       "agent": "Formalizer",
       "summary": "Formalized the n+4 Criterion (PA-C85CD9): for n \u2261 1 (mod 12) with n \u2265 13, if n+4 has a prime factor q \u2261 3 (mod 4), the explicit witnesses xn=(n+q)/4, n\u00b7t, xn\u00b7n\u00b7t (where t=(s+1)/4, s=(n+4)/q) satisfy 4/n = 1/xn + 1/(n\u00b7t) + 1/(xn\u00b7n\u00b7t), with the rational identity closed by linear_combination. (2 sorries, confidence: partial)"
+    },
+    {
+      "round": 42,
+      "agent": "Prover",
+      "summary": "Proves a new unconditional closed-form EF identity for ALL n \u2261 13 (mod 24) (half of n \u2261 1 (mod 12), including hard cases where PA-C85CD9 fails), and establishes the universal structural lemma that b\u2081=(n+7)/4 \u2261 2 (mod 3) always has a prime factor \u2261 2 (mod 3), providing a ready divisor for the k=1 anchor in the remaining n \u2261 1 (mod 24) case. (+3 implication(s) recorded)"
     }
   ],
   "round_summaries": [
@@ -2163,6 +2189,12 @@
       "summaries": [
         "Formalizer: Formalized the n+4 Criterion (PA-C85CD9): for n \u2261 1 (mod 12) with n \u2265 13, if n+4 has a prime factor q \u2261 3 (mod 4), the explicit witnesses xn=(n+q)/4, n\u00b7t, xn\u00b7n\u00b7t (where t=(s+1)/4, s=(n+4)/q) satisfy 4/n = 1/xn + 1/(n\u00b7t) + 1/(xn\u00b7n\u00b7t), with the rational identity closed by linear_combination. (2 sorries, confidence: partial)"
       ]
+    },
+    {
+      "round": 42,
+      "summaries": [
+        "Prover: Proves a new unconditional closed-form EF identity for ALL n \u2261 13 (mod 24) (half of n \u2261 1 (mod 12), including hard cases where PA-C85CD9 fails), and establishes the universal structural lemma that b\u2081=(n+7)/4 \u2261 2 (mod 3) always has a prime factor \u2261 2 (mod 3), providing a ready divisor for the k=1 anchor in the remaining n \u2261 1 (mod 24) case. (+3 implication(s) recorded)"
+      ]
     }
   ],
   "formalization_attempts": [
@@ -2429,6 +2461,39 @@
       "note": "The n+4 criterion provides an explicit uniform formula for the density-1 case.",
       "status": "valid",
       "checker_feedback": "The relationship is correctly characterised as 'supports' (not 'proves'). The n+4 Criterion from PA-C85CD9 provides an explicit uniform formula 4/n = 4/(n+q) + 4/(n(s+1)) + 16/(n(n+q)(s+1)) for the density-1 subset of primes $n \\equiv 1 \\pmod{12}$ where n+4 has a prime factor $q \\equiv 3 \\pmod{4}$. This genuinely advances SP-067DF1 (find a uniform identity for 4/n as a 3-term EF) by providing such a formula for most primes in the hardest residue class. The 'certain' confidence is reasonable since the formula is fully verified. The implication does not overstate: it says 'supports', not 'proves', SP-067DF1."
+    },
+    {
+      "id": "IMP-1DBC4D",
+      "from_id": "PA-C38ABE",
+      "to_id": "SP-42AA97",
+      "type": "supports",
+      "confidence": "certain",
+      "added_round": 41,
+      "note": "The $n \\equiv 13 \\pmod{24}$ theorem establishes min_k=0 unconditionally for exactly half of $n \\equiv 1 \\pmod{12}$, providing a concrete piece of the mod-M characterisation.",
+      "status": "unchecked",
+      "checker_feedback": null
+    },
+    {
+      "id": "IMP-4D2B60",
+      "from_id": "PA-C85CD9",
+      "to_id": "SP-2B7BDE",
+      "type": "supports",
+      "confidence": "certain",
+      "added_round": 41,
+      "note": "Together PA-C85CD9 and the $n \\equiv 13 \\pmod{24}$ closed form cover complementary subcases; residual hard case is $n \\equiv 1 \\pmod{24}$ with n+4 all-prime-\u2261-1-mod-4 and n(n+3)/4 all-prime-\u2261-1-mod-3.",
+      "status": "unchecked",
+      "checker_feedback": null
+    },
+    {
+      "id": "IMP-3FFF65",
+      "from_id": "PA-C38ABE",
+      "to_id": "SP-1FE821",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 41,
+      "note": "The $b\u2081 \\equiv 2 \\pmod{3}$ lemma supplies the prime $q \\equiv 2 \\pmod{3}$ dividing D\u2081 that SP-1FE821 needs; it remains to verify the mod-7 condition holds.",
+      "status": "unchecked",
+      "checker_feedback": null
     }
   ]
 }
