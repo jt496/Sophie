@@ -147,11 +147,11 @@ def _divisibility(text: str) -> str:
 
 _CONVERTERS = [
     _congruences,
+    _divisibility,   # before subscripts so q|D_k is matched before D_k→$D_{k}$
     _superscripts,
     _subscripts,
     _inequalities,
     _not_equal,
-    _divisibility,
 ]
 
 
