@@ -12,7 +12,7 @@
     "session_id": "20260421_110323_Erdos_Straus",
     "conjecture": "Erdos-Straus: Does 4/n = 1/x + 1/y + 1/z have a positive integer solution for every integer n >= 2",
     "status": "open",
-    "rounds_completed": 31,
+    "rounds_completed": 32,
     "current": true
   },
   {

@@ -229,6 +229,37 @@
   .round-entries { padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
   .round-block.collapsed .round-entries { display: none; }
 
+  /* ── In-progress round ── */
+  @keyframes sophie-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+  .in-progress-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: sophie-pulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .round-block-inprogress {
+    border-color: rgba(124,131,245,0.4);
+    background: var(--surface);
+  }
+  .round-header-inprogress {
+    background: rgba(124,131,245,0.07);
+    border-bottom-color: rgba(124,131,245,0.2);
+  }
+  .agent-pill-pending {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    opacity: 0.35;
+    background: var(--surface2);
+    color: var(--text-dim);
+  }
+
   .agent-entry { display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: start; }
   .agent-name-col { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .agent-summary { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
@@ -727,11 +758,67 @@ function renderRounds(d) {
       </div>`;
   }
 
+  // ── In-progress round (current_round_state) ─────────────────────────────
+  const crs = d.current_round_state;
+  if (crs && Array.isArray(crs.planned) && crs.planned.length > 0) {
+    const planned   = crs.planned   || [];
+    const completed = crs.completed || [];
+    const summaries = crs.summaries || [];  // "AgentName: text" strings
+    const pending   = planned.filter(a => !completed.includes(a));
+
+    // Pills: completed in colour, pending greyed-out
+    const pills = planned.map(a => {
+      if (completed.includes(a))
+        return `<span class="agent-pill agent-${esc(a)}">${esc(a)}</span>`;
+      return `<span class="agent-pill-pending">${esc(a)}</span>`;
+    }).join('');
+
+    // Completed agent entries
+    let entriesHtml = '';
+    for (const line of summaries) {
+      const colon = line.indexOf(':');
+      const agentName  = colon > 0 ? line.slice(0, colon).trim() : '';
+      const summaryTxt = colon > 0 ? line.slice(colon + 1).trim() : line;
+      entriesHtml += `
+        <div class="agent-entry">
+          <div class="agent-name-col">
+            ${agentName ? `<span class="agent-pill agent-${esc(agentName)}">${esc(agentName)}</span>` : ''}
+          </div>
+          <div class="agent-summary">${esc(summaryTxt)}</div>
+        </div>`;
+    }
+    // Pending agent placeholders
+    for (const a of pending) {
+      entriesHtml += `
+        <div class="agent-entry" style="opacity:0.45">
+          <div class="agent-name-col">
+            <span class="agent-pill-pending">${esc(a)}</span>
+          </div>
+          <div class="agent-summary" style="font-style:italic">waiting…</div>
+        </div>`;
+    }
+
+    html += `
+      <div class="round-block round-block-inprogress" id="round-inprogress">
+        <div class="round-header round-header-inprogress" style="cursor:default">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="in-progress-dot"></span>
+            <span class="round-title">Round ${crs.round} — in progress</span>
+          </div>
+          <div class="round-agents">${pills}</div>
+        </div>
+        <div class="round-entries">${entriesHtml}</div>
+      </div>`;
+  }
+
   html += '</div>';
   document.getElementById('panel-rounds').innerHTML = html;
 
-  // Scroll the latest round into view
-  if (roundNums.length) {
+  // Scroll the latest round (or in-progress block) into view
+  const inprog = document.getElementById('round-inprogress');
+  if (inprog) {
+    inprog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else if (roundNums.length) {
     const latest = document.getElementById('round-' + roundNums[roundNums.length - 1]);
     if (latest) latest.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }

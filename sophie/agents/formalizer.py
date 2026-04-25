@@ -53,7 +53,8 @@ def _existing_lean_files() -> list[str]:
 
 def write_lean_file(lean_code: str, lean_file: str) -> Optional[str]:
     """
-    Write (or append) lean_code to lean_file inside the formalization/ tree.
+    Overwrite lean_file with lean_code inside the formalization/ tree.
+    lean_code must be the complete file content (not a delta).
     Updates the root SophieFormalization.lean import list for new files.
     Returns the lean_file path on success, None if lean_code or lean_file is empty.
     """
@@ -62,11 +63,9 @@ def write_lean_file(lean_code: str, lean_file: str) -> Optional[str]:
     lean_root = LEAN_ROOT.parent
     target = lean_root / lean_file
     target.parent.mkdir(parents=True, exist_ok=True)
-    if target.exists():
-        existing = target.read_text(encoding="utf-8")
-        target.write_text(existing.rstrip() + "\n\n" + lean_code + "\n", encoding="utf-8")
-    else:
-        target.write_text(lean_code + "\n", encoding="utf-8")
+    is_new = not target.exists()
+    target.write_text(lean_code + "\n", encoding="utf-8")
+    if is_new:
         root_module = lean_root / "SophieFormalization.lean"
         if root_module.exists():
             module_name = lean_file.replace("/", ".").removesuffix(".lean")
@@ -153,12 +152,24 @@ class Formalizer(BaseAgent):
         existing = _existing_lean_files()
         existing_str = "\n".join(f"  • {f}" for f in existing) if existing else "  (none yet)"
         suggested = f"SophieFormalization/{slug}/Theorems.lean"
+
+        # Include current file content so the Formalizer can produce the complete file.
+        lean_root = LEAN_ROOT.parent
+        target = lean_root / suggested
+        existing_content = ""
+        if target.exists():
+            existing_content = (
+                f"\nEXISTING FILE CONTENT (lean_code must include this plus your additions):\n"
+                f"```lean\n{target.read_text(encoding='utf-8').rstrip()}\n```\n"
+            )
+
         return (
             f"CONJECTURE: {snapshot['conjecture']}\n\n"
             f"SOURCE ID: {source_id}\n\n"
             f"EXISTING LEAN FILES IN REPO:\n{existing_str}\n\n"
             f"SUGGESTED TARGET FILE: {suggested}\n"
-            f"(Append to it if it already exists, or create it if not.)\n\n"
+            f"(Produce the complete file — lean_code will overwrite the target.)"
+            f"{existing_content}\n\n"
             f"PROOF SKETCH TO FORMALIZE:\n{source_text}\n\n"
             "Please produce a Lean 4 / Mathlib formalization of the above. "
             "Output only the JSON block."

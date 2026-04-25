@@ -25,13 +25,16 @@ If no letters were given, omit the `agents` argument and let the scheduler decid
    Output only valid JSON matching the agent's required format. Do not add prose before
    or after the JSON block.
 
-   **c. Submit immediately**
+   **c. Submit immediately, then refresh**
    Call `submit_agent_result(agent_name, response_json)` right away — do not wait until
    all agents are done. The result is persisted immediately so a token-exhaustion restart
    can resume from this point. Check `round_complete` in the response — if `true`, the
    round has been finalized automatically.
+   After each `submit_agent_result` call, immediately call `refresh_viewer` with the
+   session_id. This updates the viewer with partial round progress so the user can see
+   each agent's result as it arrives, not just at the end of the round.
 
-5. After all agents have submitted (or `round_complete=true` is returned), call `refresh_viewer` with the session_id.
+5. After all agents have submitted (or `round_complete=true` is returned), call `refresh_viewer` once more with the session_id to ensure the final round state is displayed.
 6. Report a brief summary of what happened this round and suggest running `/sophie-round` again to continue.
 
 **Resuming after token exhaustion:** If a previous run was interrupted mid-round,

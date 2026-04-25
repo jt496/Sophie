@@ -6,7 +6,7 @@
   Proved here (Sophie session 20260421, rounds 1–10):
     • Even n          (FA-6AA92B / PA-C5E101)
     • n ≡ 3 mod 4     (FA-6AA92B / PA-C5E101)
-    • n ≡ 5 mod 12    (FA-6AA92B / SP-34E0FD)
+    • n ≡ 5 mod 12    (FA-6AA92B / SP-34E0FD, PA-25D02A)
     • n ≡ 9 mod 12    (FA-A4DCFE / PA-EF2F96)
 
   Still open: n ≡ 1 mod 12.
@@ -53,6 +53,19 @@ theorem erdos_straus_five_mod12 (k : ℕ) :
   have h2 : (12 : ℚ) * k + 5 ≠ 0 := by positivity
   field_simp
   ring
+
+/-- Existential form (PA-25D02A): for every n ≡ 5 mod 12, there exist positive integers
+    x, y, z with 4/n = 1/x + 1/y + 1/z.
+    Witness: x = n, y = (n+1)/3, z = n·(n+1)/3 (valid since 3 ∣ n+1 when n ≡ 2 mod 3). -/
+theorem erdos_straus_of_five_mod12 (n : ℕ) (hn : 5 ≤ n) (hmod : n % 12 = 5) :
+    ∃ x y z : ℕ, 0 < x ∧ 0 < y ∧ 0 < z ∧
+      (4 : ℚ) / n = 1 / x + 1 / y + 1 / z := by
+  obtain ⟨k, hk⟩ : ∃ k, n = 12 * k + 5 := ⟨n / 12, by omega⟩
+  subst hk
+  -- x = 12k+5 = n,  y = 4k+2 = (n+1)/3,  z = (4k+2)·(12k+5) = n·(n+1)/3
+  exact ⟨12 * k + 5, 4 * k + 2, (4 * k + 2) * (12 * k + 5),
+         by omega, by omega, by positivity,
+         by push_cast; exact erdos_straus_five_mod12 k⟩
 
 /-! ## n ≡ 9 mod 12 -/
 
