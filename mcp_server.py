@@ -314,27 +314,20 @@ def list_sessions() -> str:
     """
     List all saved Sophie sessions with their conjecture, status, and round count.
     """
-    Path(config.KB_DIR).mkdir(parents=True, exist_ok=True)
-    files = sorted(glob.glob(os.path.join(config.KB_DIR, "*.json")), reverse=True)
-
-    if not files:
+    manifest_path = os.path.join(config.KB_DIR, "manifest.json")
+    if not os.path.exists(manifest_path):
         return json.dumps({"result": "No sessions found."})
 
-    sessions = []
-    for f in files:
-        try:
-            with open(f) as fh:
-                data = json.load(fh)
-            sessions.append({
-                "session_id": data.get("session_id", Path(f).stem),
-                "status":     data.get("status", "?"),
-                "rounds":     data.get("rounds_completed", 0),
-                "conjecture": data.get("conjecture", "")[:80],
-            })
-        except Exception:
-            sessions.append({"session_id": Path(f).stem, "error": "unreadable"})
-
-    return json.dumps(sessions)
+    try:
+        with open(manifest_path) as f:
+            sessions = json.load(f)
+            # Truncate conjecture length to 80 characters for consistency with previous behavior
+            for s in sessions:
+                if "conjecture" in s and isinstance(s["conjecture"], str):
+                    s["conjecture"] = s["conjecture"][:80]
+            return json.dumps(sessions)
+    except Exception as e:
+        return json.dumps({"error": f"Could not read manifest: {e}"})
 
 
 # ─────────────────────────────────────────────────────────────────────────────
