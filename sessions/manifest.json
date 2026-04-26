@@ -1,7 +1,5 @@
 [
   {
-<<<<<<< HEAD
-=======
     "filename": "20260426_073152_for-every-positive-integer-n-10-10-10-n-.json",
     "session_id": "20260426_073152_for-every-positive-integer-n-10-10-10-n-",
     "conjecture": "For every positive integer n, 10^(10^(10^n)) + 10^(10^n) + 10^n - 1 is not prime (i.e., it is always composite).",
@@ -10,18 +8,12 @@
     "current": true
   },
   {
->>>>>>> 1603b51 (WIP tower non prime conjecture.)
     "filename": "20260425_205029_ErdosStrausPrime.json",
     "session_id": "20260425_205029_ErdosStrausPrime",
     "conjecture": "Does 4/p = 1/x + 1/y + 1/z have a positive integer solution in x, y, z, for every prime p?",
     "status": "open",
-<<<<<<< HEAD
     "rounds_completed": 16,
-    "current": true
-=======
-    "rounds_completed": 8,
     "current": false
->>>>>>> 1603b51 (WIP tower non prime conjecture.)
   },
   {
     "filename": "20260423_151851_carmichael-s-totient-function-conjecture.json",
