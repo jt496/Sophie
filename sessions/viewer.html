@@ -717,7 +717,18 @@ function renderRounds(d) {
 
   for (const r of roundNums) {
     const logEntries = logByRound[r] || [];
-    const agents = [...new Set(logEntries.map(e => e.agent))];
+    let agents = [...new Set(logEntries.map(e => e.agent))];
+
+    const rSumObj = (d.round_summaries || []).find(rs => rs.round === r);
+
+    // If log is empty, try deriving agents from summaries
+    if (agents.length === 0 && rSumObj && rSumObj.summaries) {
+      agents = rSumObj.summaries.map(line => {
+        const colon = line.indexOf(':');
+        return colon > 0 ? line.slice(0, colon).trim() : '';
+      }).filter(a => a);
+    }
+
     const agentPills = agents.map(a =>
       `<span class="agent-pill agent-${esc(a)}" title="${esc(a)}">${esc(a[0])}</span>`
     ).join('');
@@ -772,7 +783,6 @@ function renderRounds(d) {
     }
 
     // Narrative paragraph if stored
-    const rSumObj = (d.round_summaries || []).find(rs => rs.round === r);
     const narrativeHtml = rSumObj?.narrative
       ? `<div class="round-narrative"><div class="round-narrative-label">Round summary</div>${linkify(rSumObj.narrative)}</div>`
       : '';

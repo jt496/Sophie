@@ -320,7 +320,7 @@ def get_agent_task(agent_name: str, session_id: str = "", source_id: str = "") -
 
 
 @mcp.tool()
-def submit_agent_result(agent_name: str, response_json: str, session_id: str = "") -> str:
+def submit_agent_result(agent_name: str, response_json: str, session_id: str = "", narrative: str = "") -> str:
     """
     Submit one agent's JSON response and immediately persist it to the KB.
 
@@ -336,6 +336,7 @@ def submit_agent_result(agent_name: str, response_json: str, session_id: str = "
         agent_name:    The agent name (e.g. "Prover").
         response_json: The raw JSON string the agent produced.
         session_id:    The session ID. Defaults to the current session.
+        narrative:     Optional round summary/narrative (only used when round_complete=true).
     """
     session_id = _resolve_session_id(session_id)
     if not session_id:
@@ -349,13 +350,13 @@ def submit_agent_result(agent_name: str, response_json: str, session_id: str = "
         return json.dumps({"error": "No round in progress. Call get_round_tasks first."})
 
     conductor = Conductor(kb)
-    outcome = conductor.submit_agent_result(agent_name, crs["round"], response_json)
+    outcome = conductor.submit_agent_result(agent_name, crs["round"], response_json, narrative=narrative)
     _set_current_session(session_id)
     return json.dumps(outcome)
 
 
 @mcp.tool()
-def submit_round_results(round: int, results_json: str, session_id: str = "") -> str:
+def submit_round_results(round: int, results_json: str, session_id: str = "", narrative: str = "") -> str:
     """
     (Legacy) Submit all agent responses for a round in one batch.
 
@@ -371,6 +372,7 @@ def submit_round_results(round: int, results_json: str, session_id: str = "") ->
         session_id:   The session ID. Defaults to the current session.
         round:        The round number (as returned by get_round_tasks).
         results_json: JSON-encoded array of agent results.
+        narrative:    Optional round summary/narrative.
     """
     session_id = _resolve_session_id(session_id)
     if not session_id:
@@ -385,7 +387,7 @@ def submit_round_results(round: int, results_json: str, session_id: str = "") ->
         return json.dumps({"error": f"Invalid results_json: {e}"})
 
     conductor = Conductor(kb)
-    outcome = conductor.process_results(round, results)
+    outcome = conductor.process_results(round, results, narrative=narrative)
     _set_current_session(session_id)
 
     if outcome["resolved"]:

@@ -118,7 +118,7 @@ class Conductor:
         return agent.get_task(round_)
 
     def submit_agent_result(
-        self, agent_name: str, round_: int, response_json: Any
+        self, agent_name: str, round_: int, response_json: Any, narrative: str = ""
     ) -> Dict[str, Any]:
         """
         Process one agent's response immediately and persist it to the KB.
@@ -166,14 +166,14 @@ class Conductor:
 
         if round_complete:
             self._update_stagnation()
-            self.kb.log_round_summary(round_, crs["summaries"])
+            self.kb.log_round_summary(round_, crs["summaries"], narrative=narrative)
             self.kb.finish_round()
             self.kb.increment_round()
             result["formalization_suggestions"] = self._formalization_suggestions()
 
         return result
 
-    def process_results(self, round_: int, results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def process_results(self, round_: int, results: List[Dict[str, Any]], narrative: str = "") -> Dict[str, Any]:
         """
         Apply each agent's JSON response to the knowledge base in one batch.
 
@@ -203,7 +203,7 @@ class Conductor:
             summaries.append(f"{agent_name}: {summary}")
 
         self._update_stagnation()
-        self.kb.log_round_summary(round_, summaries)
+        self.kb.log_round_summary(round_, summaries, narrative=narrative)
         self.kb.finish_round()
         self.kb.increment_round()
 

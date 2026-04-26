@@ -785,21 +785,24 @@
         "Prover: A rigorous modular argument proves the conjecture for all primes except possibly those congruent to 1 modulo 12.",
         "Disprover: No counterexample was found; the only plausible place to search is the class $p \\equiv 1 \\pmod{12}$, and small primes there still satisfy the conjecture.",
         "Checker: The modular reduction proof is valid as a partial result, while the disproof attempt fails to produce any genuine counterexample."
-      ]
+      ],
+      "narrative": "Round 1 established the foundational reduction: the Erd\u0151s-Straus conjecture holds for all primes except those congruent to 1 modulo 12. Examples verified small primes, and the search for counterexamples began in the difficult residue class."
     },
     {
       "round": 2,
       "summaries": [
         "Prover: The previous reduction is sharpened: all primes are now covered except possibly those congruent to 1 modulo 24, and $p \\equiv 13 \\pmod{24}$ has an explicit formula. (+1 implication(s) recorded)",
         "Checker: The new residue-class construction for $p \\equiv 13 \\pmod{24}$ is valid, and the recorded implication to the main $p \\equiv 1 \\pmod{12}$ subproblem is sound. (1 implication(s) checked)"
-      ]
+      ],
+      "narrative": "Round 2 sharpened the reduction, proving that only primes congruent to 1 modulo 24 remain unresolved. A new explicit identity was proved and verified for the $p \u2261 13 \\pmod{24}$ class."
     },
     {
       "round": 3,
       "summaries": [
         "Prover: A new exact formula proves the conjecture for every prime $p \\equiv 97 \\pmod{120}$, adding another explicit family inside the remaining $p \\equiv 1 \\pmod{24}$ case. (+1 implication(s) recorded)",
         "Checker: The $p \\equiv 97 \\pmod{120}$ construction is valid, and its support implication for the remaining $p \\equiv 1 \\pmod{24}$ subproblem is sound. (1 implication(s) checked)"
-      ]
+      ],
+      "narrative": "Round 3 added another verified family to the proof: primes congruent to 97 modulo 120. This further reduces the space of potential counterexamples within the $p \u2261 1 \\pmod{24}$ class."
     },
     {
       "round": 4,

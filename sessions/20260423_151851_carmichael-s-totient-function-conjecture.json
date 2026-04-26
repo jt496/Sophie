@@ -656,7 +656,8 @@
         "Prover: Proved the conjecture for all odd n, all n≡2 (mod 4), and all pure powers of 2; the remaining gap is n=2^a·q with a≥2, q≥3 odd.",
         "Disprover: No counterexample found; any counterexample must be divisible by 4, computationally ruled out below 10^10, and the proof gap is isolated to n=4k with k odd and k≥3.",
         "Checker: Verified Cases 1–3 of the Prover's argument as correct; confirmed Case 4 is a genuine gap; no counterexample found; the hard core of the conjecture is now isolated to n=4k with k odd and k≥3."
-      ]
+      ],
+      "narrative": "Round 1 established the foundational cases for odd n, n≡2 (mod 4), and powers of 2, successfully isolating the conjecture's difficulty to n=4k (k odd, k≥3)."
     },
     {
       "round": 2,
@@ -666,13 +667,15 @@
         "Prover: Proved conjecture for all n=2^a·q (a≥2, q odd, 3∤q) via m=3·2^(a−1)·q; remaining gap is n with 3|odd_part(n).",
         "Disprover: No counterexample up to N=50000; gap narrowed to 3|odd_part(n), b≥2 sub-case, with no structural reason to expect a counterexample.",
         "Searcher: Searched all n up to 50000 in the remaining gap class (3|odd_part, 4|n) and found zero counterexamples; all apparent singletons are boundary artifacts with partners outside the search window."
-      ]
+      ],
+      "narrative": "Round 2 resolved the case for all numbers not divisible by 3 in their odd part. The remaining analytic gap was narrowed to instances where 3 divides the odd part of n."
     },
     {
       "round": 3,
       "summaries": [
         "Checker: Verified Cases 4a and 4b of PA-6713E5 as individually correct; closes_conjecture=false due to acknowledged open subcases (b≥2 or 5|r). DA-5627AF presents no counterexample and fails as a disproof attempt."
-      ]
+      ],
+      "narrative": "Round 3 verified the individual steps for Case 4a and 4b, further constraining the unresolved edge cases to specific modular residues."
     },
     {
       "round": 4,
