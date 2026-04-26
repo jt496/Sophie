@@ -517,6 +517,9 @@
 </div>
 
 <script>
+// ── Read-only mode (GitHub Pages and any non-local host) ──────────────────
+const READONLY = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+
 // ── UI State (preserves expansion states across re-renders) ───────────────
 const _uiState = {
   rounds: {}, // roundNum -> boolean (isExpanded)
@@ -565,8 +568,8 @@ async function populateFromManifest(sessions, silent = false) {
         <div class="session-right">
           ${currentBadge}
           <span class="status-badge ${statusClass}">${esc(s.status || '?')}</span>
-          <button class="session-delete-btn" title="Delete this session"
-            onclick="event.stopPropagation();deleteSession('${esc(s.filename)}')">\u2715</button>
+          ${READONLY ? '' : `<button class="session-delete-btn" title="Delete this session"
+            onclick="event.stopPropagation();deleteSession('${esc(s.filename)}')">\u2715</button>`}
         </div>
       </div>`;
   }).join('');
@@ -579,19 +582,21 @@ async function populateFromManifest(sessions, silent = false) {
         _currentFetchUrl = url;
         _currentHandle = null;
         render(await r.json());
-        // Tell the server to update current.json + manifest.json (best-effort)
-        fetch('/set-current', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename: el.dataset.filename }),
-        }).then(resp => {
-          if (resp.ok) {
-            // Update current highlight in the list without a full re-render
-            list.querySelectorAll('.session-item').forEach(item =>
-              item.classList.toggle('session-current', item === el)
-            );
-          }
-        }).catch(() => { /* serve.py not running — ignore */ });
+        // Tell the server to update current.json + manifest.json (best-effort, local only)
+        if (!READONLY) {
+          fetch('/set-current', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: el.dataset.filename }),
+          }).then(resp => {
+            if (resp.ok) {
+              // Update current highlight in the list without a full re-render
+              list.querySelectorAll('.session-item').forEach(item =>
+                item.classList.toggle('session-current', item === el)
+              );
+            }
+          }).catch(() => { /* serve.py not running — ignore */ });
+        }
       } catch (e) { console.error('Failed to load session:', e); }
     });
   });
@@ -887,10 +892,10 @@ function renderRounds(d) {
           <span class="round-title">Round ${r}</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <div class="round-agents">${agentPills}</div>
-            <div class="round-actions" onclick="event.stopPropagation()">
+            ${READONLY ? '' : `<div class="round-actions" onclick="event.stopPropagation()">
               <button class="round-action-btn fork-btn" title="Fork session at end of round ${r}" onclick="forkSession(${r})">⎇ fork</button>
               <button class="round-action-btn prune-btn" title="Remove round ${r} data" onclick="pruneRound(${r})">✕ prune</button>
-            </div>
+            </div>`}
             <span class="chevron">${chevron}</span>
           </div>
         </div>
@@ -1226,7 +1231,7 @@ function renderLean(attempts, d) {
     const sorryNote = fa.sorries?.length
       ? `<span style="font-size:11px;color:var(--red);margin-left:8px">${fa.sorries.length} sorry${fa.sorries.length > 1 ? 's' : ''}</span>` : '';
 
-    const canAccept = (!fa.sorries || fa.sorries.length === 0);
+    const canAccept = !READONLY && (!fa.sorries || fa.sorries.length === 0);
     const acceptBtn = canAccept
       ? `<button class="round-action-btn fork-btn" style="opacity:1;white-space:nowrap"
            onclick="event.stopPropagation();acceptProof('${esc(fa.id)}')"
