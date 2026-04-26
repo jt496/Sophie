@@ -5,9 +5,9 @@
       "args": [
         "run",
         "--project",
-        "/home/john/Reps/Sophie",
+        ".",
         "python",
-        "/home/john/Reps/Sophie/mcp_server.py"
+        "mcp_server.py"
       ]
     }
   }
