@@ -1,5 +1,5 @@
 {
-  "conjecture": "Carmichael's totient function conjecture: For every positive integer n, there exists another positive integer m ≠ n such that φ(m) = φ(n), where φ is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
+  "conjecture": "Carmichael's totient function conjecture: For every positive integer $n$, there exists another positive integer $m \\neq n$ such that $\\varphi(m) = \\varphi(n)$, where $\\varphi$ is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
   "session_id": "20260423_151851_carmichael-s-totient-function-conjecture",
   "status": "open",
   "rounds_completed": 8,

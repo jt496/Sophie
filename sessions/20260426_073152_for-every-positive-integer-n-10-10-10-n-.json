@@ -1,5 +1,5 @@
 {
-  "conjecture": "For every positive integer n, 10^(10^(10^n)) + 10^(10^n) + 10^n - 1 is not prime (i.e., it is always composite).",
+  "conjecture": "For every positive integer $n$, $10^{10^{10^n}} + 10^{10^n} + 10^n - 1$ is not prime (i.e., it is always composite).",
   "session_id": "20260426_073152_for-every-positive-integer-n-10-10-10-n-",
   "status": "proved",
   "rounds_completed": 3,

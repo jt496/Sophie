@@ -1,5 +1,5 @@
 {
-  "conjecture": "Does 4/p = 1/x + 1/y + 1/z have a positive integer solution in x, y, z, for every prime p?",
+  "conjecture": "Does $4/p = 1/x + 1/y + 1/z$ have a positive integer solution in $x, y, z$, for every prime $p$?",
   "session_id": "20260425_205029_ErdosStrausPrime",
   "status": "open",
   "rounds_completed": 16,
