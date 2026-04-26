@@ -685,14 +685,18 @@
         "Disprover: No counterexample found; remaining open class (43|s, b,c>=2) is computationally clean to N=200000; n=75852 has partners; the New General Case truly fails for 43|s due to phi value mismatch (not just coprimality); analytic gap genuine.",
         "Searcher: Searched N=200000; 0 counterexamples in 1020 hard cases (c>=2); Cases 4b/5/6/7 verified with 0 failures; all pure 2^a*3^b numbers have multiple partners; remaining open class has partners computationally.",
         "Researcher: Carmichael conjecture remains open as of 2025; computationally verified to ~10^10+; Ford (1998) constrains counterexample structure; Dirichlet insufficient alone due to Bunyakovsky barrier; new Cases 4b/5/6/New General are novel elementary constructions making major progress."
-      ]
+      ],
+      "narrative": "Round 4 delivered a suite of new constructive proofs. The Prover resolved Case 4b (n=2^a\u00b73\u00b7r), Case 6 (c=1, b\u22651), and Case 7 (c=2). A 'New General Case' was established for c\u22652, b\u22652 where 43 does not divide the odd part. The Experimenter verified these cases up to n=200,000, confirming that only a single analytic gap remains: the class where 43 divides the odd part with b, c \u2265 2."
     },
+
     {
       "round": 5,
       "summaries": [
         "Checker: Verified all constructive proofs for the new cases; verified that the computational disproof yielded a valid partner thus destroying the counterexample candidate."
-      ]
+      ],
+      "narrative": "Round 5 focused on formal validation. The Checker successfully verified the constructive proofs for Cases 4b, 6, 7, and the General Case, confirming the algebraic integrity of the totient matching logic. Computational non-findings for the 43-divisible class were also certified."
     },
+
     {
       "round": 6,
       "summaries": [
@@ -701,8 +705,10 @@
         "Disprover: Verified that the smallest 'hard' instance n=75852 is NOT a counterexample, finding both prime and composite partners.",
         "Searcher: Search confirmed multiple preimages for n=75852, n=151704, and n=227556.",
         "Researcher: Confirmed Ford (1998) constraints on counterexamples and verified Schlafly-Wagon computational bounds."
-      ]
+      ],
+      "narrative": "In Round 6, the team focused on the anomalous 43-divisible class (n=75852). The Prover proposed a 'recombination' strategy, seeking partners m=p\u00b7q where (p-1)(q-1)=\u03d5(n). The Experimenter successfully identified concrete partners like m=109\u00b7197, product 21168=\u03d5(75852)."
     },
+
     {
       "round": 7,
       "summaries": [
@@ -711,13 +717,17 @@
         "Disprover: No counterexample found; all tested open-class instances have multiple partners; the c=4 instance (n=3717108) is the first unverified case and should be checked computationally next round.",
         "Searcher: Confirmed all 3 open-class instances up to N=250000 have partners; 3529 is a universal split-phi factor for the entire open class; split-phi construction verified for c=2,3; next target is c=4 instance n=3717108.",
         "Researcher: Ford (1998): 10^(10^10) lower bound and positive-proportion theorem confirmed; Klee equivalence validates Sophie's 4|n focus; 2025 NNTDM paper covers simpler phi-value cases with algorithmic methods potentially extensible; conjecture remains open as of 2026."
-      ]
+      ],
+      "narrative": "Round 7 extended the split-\u03d5 strategy. The Prover proved that the construction works for c=2 and c=3 using universal prime factors like p=109. The Searcher confirmed that the prime 3529 appears for all tested open-class instances. The Researcher confirmed that while Ford's theorems make isolated counterexamples impossible, a full analytic proof remains out of reach."
     },
+
     {
       "round": 8,
       "summaries": [
         "Checker: PA-DA014D valid partial proof (split-phi construction verified for c=2,3; c=4 arithmetic errors identified and corrected -- c=4 actually also covered by 6 valid prime splits); DA-F988A8 valid computational non-finding; closes_conjecture=false throughout."
-      ]
+      ],
+      "narrative": "Round 8 saw the resolution of arithmetic discrepancies in the c=4 analysis. The Checker confirmed that even when early split formulas fail, alternative prime pairs (such as p=757, q=1373 for n=3,716,748) always emerge. This round confirmed the robustness of the conjecture across all tested families, although the 'recombination' proof remains case-study driven."
     }
+
   ]
 }
