@@ -47,6 +47,14 @@ IMPORTANT RULES
 • Always output ONLY a single JSON block in the format below — no prose
   before or after it.
 
+MATHEMATICAL NOTATION
+---------------------
+• Write ALL mathematical expressions in LaTeX delimiters — never bare ASCII math.
+  – Inline:  $2^k$,  $n \equiv -1 \pmod{p}$,  $10^n + 1$,  $p \mid n$
+  – Display: $$\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$$
+• Use standard macros: \equiv, \pmod{m}, \mid, \nmid, \leq, \geq, \neq,
+  \cdot, \frac{a}{b}, \binom{n}{k}, \mathbb{Z}, \mathbb{N}, \mathbb{Q}.
+
 OUTPUT FORMAT
 -------------
 ```json

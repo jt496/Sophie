@@ -37,6 +37,14 @@ RULES
   "flawed" means it is wrong, too strong, or unsupported.
 • Always output ONLY a single JSON block in the format below.
 
+MATHEMATICAL NOTATION
+---------------------
+• Write ALL mathematical expressions in LaTeX delimiters — never bare ASCII math.
+  – Inline:  $2^k$,  $n \equiv -1 \pmod{p}$,  $10^n + 1$,  $p \mid n$
+  – Display: $$\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$$
+• Use standard macros: \equiv, \pmod{m}, \mid, \nmid, \leq, \geq, \neq,
+  \cdot, \frac{a}{b}, \binom{n}{k}, \mathbb{Z}, \mathbb{N}, \mathbb{Q}.
+
 CRITICAL RULE FOR closes_conjecture
 -------------------------------------
 Set "closes_conjecture": true ONLY if the proof covers ALL cases of the

@@ -10,6 +10,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
   onload="window._katexReady=true"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <style>
   :root {
     --bg: #0f1117;
@@ -336,13 +337,27 @@
     font-size: 13px;
     line-height: 1.7;
     color: var(--text-dim);
-    white-space: pre-wrap;
     word-break: break-word;
-    font-family: var(--mono);
-    font-size: 12px;
     display: none;
   }
   .card.expanded .card-body { display: block; }
+  /* Markdown resets inside card bodies */
+  .card-body p { margin: 0.35em 0; }
+  .card-body p:first-child { margin-top: 0; }
+  .card-body p:last-child  { margin-bottom: 0; }
+  .card-body ul, .card-body ol { margin: 0.35em 0; padding-left: 1.6em; }
+  .card-body li { margin: 0.1em 0; }
+  .card-body h1, .card-body h2, .card-body h3 { color: var(--text); margin: 0.6em 0 0.25em; font-size: 13px; }
+  .card-body code { font-family: var(--mono); font-size: 11px; background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 3px; }
+  .card-body pre  { font-family: var(--mono); font-size: 11px; white-space: pre-wrap; word-break: break-word; background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 4px; margin: 6px 0; overflow-x: auto; }
+  .card-body pre code { background: none; padding: 0; }
+  /* Verbatim code body (Lean, terminal output) */
+  .card-body-code {
+    font-family: var(--mono);
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
 
   .checker-feedback {
     margin-top: 10px;
@@ -624,12 +639,47 @@ function esc(s) {
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// Escape then replace KB IDs with clickable links
+// Escape then replace KB IDs with clickable links (used for short header text)
 function linkify(text) {
   const escaped = esc(text);
   return escaped.replace(/\b((PA|DA|SP|EX|FT|IMP|FA)-[0-9A-F]{6})\b/g,
     (m) => `<a class="kb-ref" href="#" onclick="jumpTo('${m}');return false">${m}</a>`);
 }
+
+// ── Markdown + LaTeX rendering ────────────────────────────────────────────────
+// Protect $...$ and $$...$$ from marked's HTML escaper by replacing them with
+// <x-m id="N"></x-m> raw-HTML placeholders (marked passes raw HTML through),
+// then restoring them after markdown rendering so KaTeX auto-render finds them.
+function _applyMarkdown(src, parseInline) {
+  if (!src) return '';
+  if (typeof marked === 'undefined') return linkify(src); // CDN fallback
+
+  const math = [];
+  function save(m) { math.push(m); return `<x-m id="${math.length - 1}"></x-m>`; }
+
+  let protected_ = String(src)
+    .replace(/\$\$[\s\S]*?\$\$/g, save)         // display math first
+    .replace(/\$(?!\$)[^$\n]+?\$/g, save);       // then inline math
+
+  marked.setOptions({ gfm: true, breaks: false });
+  let html = parseInline
+    ? (marked.parseInline ? marked.parseInline(protected_) : marked.parse(protected_))
+    : marked.parse(protected_);
+
+  // Restore math spans
+  html = html.replace(/<x-m id="(\d+)"><\/x-m>/g, (_, i) => math[+i]);
+
+  // Linkify KB IDs
+  html = html.replace(/\b((PA|DA|SP|EX|FT|IMP|FA)-[0-9A-F]{6})\b/g,
+    (m) => `<a class="kb-ref" href="#" onclick="jumpTo('${m}');return false">${m}</a>`);
+
+  return html;
+}
+
+// Block markdown (paragraphs, lists, headings, code fences) — for body content
+function renderMarkdown(text) { return _applyMarkdown(text, false); }
+// Inline markdown only (bold/italic/code, no block wrapping) — for titles/summaries
+function renderInline(text)   { return _applyMarkdown(text, true);  }
 
 function render(d) {
   // Normalise — new stub sessions may be missing some arrays
@@ -754,7 +804,7 @@ function renderRounds(d) {
                   ? `<span class="agent-pill ${pillClass}">${esc(agentName)}</span>`
                   : ''}
               </div>
-              <div class="agent-summary">${linkify(summaryText)}</div>
+              <div class="agent-summary">${renderInline(summaryText)}</div>
             </div>`;
         }
       } else {
@@ -765,7 +815,7 @@ function renderRounds(d) {
               <div class="agent-name-col">
                 <span class="agent-pill agent-${esc(entry.agent)}">${esc(entry.agent)}</span>
               </div>
-              <div class="agent-summary">${linkify(entry.summary)}</div>
+              <div class="agent-summary">${renderInline(entry.summary)}</div>
             </div>`;
         }
       }
@@ -777,14 +827,14 @@ function renderRounds(d) {
             <div class="agent-name-col">
               <span class="agent-pill agent-${esc(entry.agent)}">${esc(entry.agent)}</span>
             </div>
-            <div class="agent-summary">${linkify(entry.summary)}</div>
+            <div class="agent-summary">${renderInline(entry.summary)}</div>
           </div>`;
       }
     }
 
     // Narrative paragraph if stored
     const narrativeHtml = rSumObj?.narrative
-      ? `<div class="round-narrative"><div class="round-narrative-label">Round summary</div>${linkify(rSumObj.narrative)}</div>`
+      ? `<div class="round-narrative"><div class="round-narrative-label">Round summary</div>${renderMarkdown(rSumObj.narrative)}</div>`
       : '';
 
     // Expansion state: check _uiState first, fall back to isLatest
@@ -832,7 +882,7 @@ function renderRounds(d) {
           <div class="agent-name-col">
             ${agentName ? `<span class="agent-pill agent-${esc(agentName)}">${esc(agentName)}</span>` : ''}
           </div>
-          <div class="agent-summary">${linkify(summaryTxt)}</div>
+          <div class="agent-summary">${renderInline(summaryTxt)}</div>
         </div>`;
     }
     // Pending agent placeholders
@@ -884,7 +934,7 @@ function renderFacts(facts) {
       <div class="sp-item" id="card-${f.id}">
         <span class="sp-icon" style="color:var(--accent)">★</span>
         <div>
-          <div class="sp-desc">${linkify(f.text)}</div>
+          <div class="sp-desc">${renderInline(f.text)}</div>
           <div class="sp-source" style="margin-top:4px"><span class="card-id">${esc(f.id)}</span> · added round ${f.added_round ?? '?'}</div>
         </div>
         <span class="card-badge badge-valid">fact</span>
@@ -911,11 +961,11 @@ function renderExamples(examples) {
       <div class="card${expandedClass}" id="card-${ex.id}">
         <div class="card-header" onclick="toggleCard('${ex.id}')">
           <span class="card-id">${esc(ex.id)}</span>
-          <span class="card-title">${linkify(ex.description)}</span>
+          <span class="card-title">${renderInline(ex.description)}</span>
           <span class="card-badge ${supClass}">${supLabel}</span>
           <span class="chevron">${chevron}</span>
         </div>
-        <div class="card-body">${linkify(ex.detail)}</div>
+        <div class="card-body">${renderMarkdown(ex.detail)}</div>
       </div>`;
   }
   html += '</div>';
@@ -940,12 +990,12 @@ function renderSubproblems(sps) {
     const icon = sp.status === 'resolved' ? '✓' : sp.status === 'partial' ? '◑' : '○';
     const badge = `<span class="card-badge badge-${sp.status}">${sp.status}</span>`;
     const resolution = sp.resolution
-      ? `<div class="sp-resolution">↳ ${linkify(sp.resolution)}</div>` : '';
+      ? `<div class="sp-resolution">↳ ${renderInline(sp.resolution)}</div>` : '';
     html += `
       <div class="sp-item" id="card-${sp.id}">
         <span class="sp-icon" style="color:${sp.status==='resolved'?'var(--green)':sp.status==='partial'?'var(--yellow)':'var(--muted)'}">${icon}</span>
         <div>
-          <div class="sp-desc">${linkify(sp.description)}</div>
+          <div class="sp-desc">${renderInline(sp.description)}</div>
           ${resolution}
           <div class="sp-source" style="margin-top:4px">from ${esc(sp.source_agent)} · <span class="card-id">${esc(sp.id)}</span></div>
         </div>
@@ -974,7 +1024,7 @@ function renderProofs(proofs) {
     const chevron = _uiState.cards[pa.id] ? '▴' : '▾';
 
     const feedback = pa.checker_feedback
-      ? `<div class="checker-feedback ${pa.status}"><strong>Checker:</strong> ${linkify(pa.checker_feedback)}</div>` : '';
+      ? `<div class="checker-feedback ${pa.status}"><strong>Checker:</strong> ${renderMarkdown(pa.checker_feedback)}</div>` : '';
     html += `
       <div class="card${expandedClass}" id="card-${pa.id}">
         <div class="card-header" onclick="toggleCard('${pa.id}')">
@@ -984,7 +1034,7 @@ function renderProofs(proofs) {
           <span class="card-badge badge-${pa.status}">${pa.status}</span>
           <span class="chevron">${chevron}</span>
         </div>
-        <div class="card-body">${linkify(pa.sketch)}${feedback}</div>
+        <div class="card-body">${renderMarkdown(pa.sketch)}${feedback}</div>
       </div>`;
   }
   html += '</div>';
@@ -1003,7 +1053,7 @@ function renderDisproofs(disproofs) {
     const chevron = _uiState.cards[da.id] ? '▴' : '▾';
 
     const feedback = da.checker_feedback
-      ? `<div class="checker-feedback ${da.status}"><strong>Checker:</strong> ${linkify(da.checker_feedback)}</div>` : '';
+      ? `<div class="checker-feedback ${da.status}"><strong>Checker:</strong> ${renderMarkdown(da.checker_feedback)}</div>` : '';
     html += `
       <div class="card${expandedClass}" id="card-${da.id}">
         <div class="card-header" onclick="toggleCard('${da.id}')">
@@ -1013,7 +1063,7 @@ function renderDisproofs(disproofs) {
           <span class="card-badge badge-${da.status}">${da.status}</span>
           <span class="chevron">${chevron}</span>
         </div>
-        <div class="card-body">${linkify(da.candidate_counterexample)}${feedback}</div>
+        <div class="card-body">${renderMarkdown(da.candidate_counterexample)}${feedback}</div>
       </div>`;
   }
   html += '</div>';
@@ -1054,9 +1104,9 @@ function renderImplications(imps, d) {
     const fromLbl  = idLabel[imp.from_id] || imp.from_id;
     const toLbl    = idLabel[imp.to_id]   || imp.to_id;
     const feedback = imp.checker_feedback
-      ? `<div class="sp-resolution checker-feedback ${status}"><strong>Checker:</strong> ${linkify(imp.checker_feedback)}</div>` : '';
+      ? `<div class="sp-resolution checker-feedback ${status}"><strong>Checker:</strong> ${renderMarkdown(imp.checker_feedback)}</div>` : '';
     const note     = imp.note
-      ? `<div class="sp-resolution" style="color:var(--text-dim)">Note: ${linkify(imp.note)}</div>` : '';
+      ? `<div class="sp-resolution" style="color:var(--text-dim)">Note: ${renderInline(imp.note)}</div>` : '';
     html += `
       <div class="sp-item" id="card-${imp.id}">
         <span class="sp-icon" style="color:${color};font-size:18px">${sym}</span>
@@ -1068,9 +1118,9 @@ function renderImplications(imps, d) {
             <span style="color:var(--muted);margin-left:6px;font-size:12px">${conf}</span>
           </div>
           <div style="color:var(--text-dim);font-size:12px;margin-top:3px">
-            <em>${linkify(fromLbl)}</em>
+            <em>${renderInline(fromLbl)}</em>
             <span style="margin:0 5px;color:${color}">${sym}</span>
-            <em>${linkify(toLbl)}</em>
+            <em>${renderInline(toLbl)}</em>
           </div>
           ${note}${feedback}
           <div class="sp-source" style="margin-top:4px">
@@ -1145,7 +1195,7 @@ function renderLean(attempts, d) {
           <span class="card-badge ${confClass}">${esc(fa.confidence)}</span>
           <span class="chevron">${chevron}</span>
         </div>
-        <div class="card-body">`;
+        <div class="card-body card-body-code">`;
 
     if (fa.mathlib_imports?.length) {
       html += `<div style="color:var(--muted);margin-bottom:8px">${fa.mathlib_imports.map(i => esc(i)).join('\n')}</div>`;
@@ -1154,13 +1204,13 @@ function renderLean(attempts, d) {
     html += esc(fa.lean_code);
 
     if (fa.sorries?.length) {
-      html += `\n\n<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;color:var(--red);font-size:12px"><strong>Sorries to fill:</strong>\n`;
-      fa.sorries.forEach((s, i) => { html += `${i + 1}. ${esc(s)}\n`; });
-      html += '</div>';
+      html += `\n\n<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;font-family:var(--font);white-space:normal;color:var(--red);font-size:12px"><strong>Sorries to fill:</strong><ol style="margin:6px 0 0;padding-left:1.4em">`;
+      fa.sorries.forEach(s => { html += `<li>${renderInline(s)}</li>`; });
+      html += '</ol></div>';
     }
 
     if (fa.notes) {
-      html += `<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;color:var(--text-dim);font-size:12px"><strong>Notes:</strong> ${esc(fa.notes)}</div>`;
+      html += `<div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;font-family:var(--font);white-space:normal;color:var(--text-dim);font-size:12px"><strong>Notes:</strong> ${renderMarkdown(fa.notes)}</div>`;
     }
 
     html += `</div></div>`;
