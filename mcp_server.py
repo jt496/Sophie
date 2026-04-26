@@ -14,8 +14,8 @@ Typical workflow
 2. get_round_tasks(session_id)        → {round, tasks, should_stop, ...}
    [Claude reads each task's system_prompt + user_message and responds as
     that agent, producing the required JSON output]
-3. submit_round_results(session_id, round, results_json)
-                                      → {status, summaries, resolved}
+3. submit_agent_result(agent_name, response_json)
+                                      → {agent, summary, round_complete, ...}
 4. Repeat steps 2–3 until should_stop or resolved is true.
 5. get_session_status(session_id)     → full KB snapshot at any time.
 
@@ -356,55 +356,6 @@ def submit_agent_result(agent_name: str, response_json: str, session_id: str = "
 
 
 @mcp.tool()
-def submit_round_results(round: int, results_json: str, session_id: str = "", narrative: str = "") -> str:
-    """
-    (Legacy) Submit all agent responses for a round in one batch.
-
-    Prefer the incremental submit_agent_result instead — it persists each
-    result immediately so a token-exhaustion restart can resume mid-round.
-
-    results_json must be a JSON array where each element has:
-      {"agent": "<AgentName>", "response_json": "<the JSON string the agent produced>"}
-
-    Returns JSON with: status, summaries, resolved, next_step.
-
-    Args:
-        session_id:   The session ID. Defaults to the current session.
-        round:        The round number (as returned by get_round_tasks).
-        results_json: JSON-encoded array of agent results.
-        narrative:    Optional round summary/narrative.
-    """
-    session_id = _resolve_session_id(session_id)
-    if not session_id:
-        return json.dumps({"error": "No session_id provided and no current session found."})
-    kb = _load_kb(session_id)
-    if kb is None:
-        return json.dumps({"error": f"Session '{session_id}' not found."})
-
-    try:
-        results = json.loads(results_json)
-    except json.JSONDecodeError as e:
-        return json.dumps({"error": f"Invalid results_json: {e}"})
-
-    conductor = Conductor(kb)
-    outcome = conductor.process_results(round, results, narrative=narrative)
-    _set_current_session(session_id)
-
-    if outcome["resolved"]:
-        outcome["next_step"] = (
-            f"Conjecture {outcome['status'].upper()}. "
-            f"Call get_session_status('{session_id}') for the full report."
-        )
-    else:
-        outcome["next_step"] = (
-            f"Call get_round_tasks('{session_id}') to continue, "
-            "or get_session_status to inspect progress."
-        )
-
-    return json.dumps(outcome)
-
-
-@mcp.tool()
 def get_session_status(session_id: str = "") -> str:
     """
     Return a detailed snapshot of a session's knowledge base.
@@ -426,8 +377,8 @@ def refresh_viewer(session_id: str = "") -> str:
     """
     Refresh sessions/viewer.html and sessions/current.json for a session.
 
-    Call this after every submit_round_results to ensure the viewer is
-    up to date.  This is a lightweight call — safe to invoke every round.
+    Call this after every completed round to ensure the viewer is up to date.
+    This is a lightweight call — safe to invoke every round.
 
     Args:
         session_id: The session ID to make current and inject into the viewer. Defaults to the current session.

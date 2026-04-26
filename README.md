@@ -101,7 +101,6 @@ Or ask Claude Code naturally:
 | `get_round_tasks(agents?, session_id?)` | Return the compact agent list for the current (or next) round: `{round, agents_pending, agents_completed, resumed}`. If a round is in progress after a restart, returns only remaining agents. Optional `agents` string overrides the scheduler: `C=Checker, D=Disprover, E=Experimenter, F=Formalizer, P=Prover, R=Researcher, S=Searcher` — e.g. `"PF"` runs Prover then Formalizer. `F` auto-selects the best unformalized candidate. |
 | `get_agent_task(agent_name, session_id?)` | Return the `system_prompt` and `user_message` for one agent. Call once per agent in `agents_pending`. |
 | `submit_agent_result(agent_name, response_json, session_id?)` | Persist one agent's result immediately. Finalizes the round automatically when the last agent reports. |
-| `submit_round_results(session_id, round, results_json)` | *(Legacy)* Submit all agent responses for a round in one batch. Prefer `submit_agent_result` for crash-safe incremental submission. |
 | `get_session_status(session_id?)` | Inspect the full knowledge base snapshot. |
 | `list_sessions()` | List all saved sessions. |
 | `refresh_viewer(session_id?)` | Update `sessions/manifest.json` and `current.json`. Call after every completed round. |
