@@ -1,10 +1,13 @@
 {
   "mcpServers": {
     "sophie": {
-      "command": "bash",
+      "command": "uv",
       "args": [
-        "-c",
-        "exec $HOME/Reps/Sophie/.venv/bin/python $HOME/Reps/Sophie/mcp_server.py"
+        "run",
+        "--project",
+        "/home/john/Reps/Sophie",
+        "python",
+        "/home/john/Reps/Sophie/mcp_server.py"
       ]
     }
   }

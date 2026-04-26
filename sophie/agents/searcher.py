@@ -50,8 +50,8 @@ SEARCH STRATEGY
 IMPORTANT RULES
 ---------------
 • Write self-contained, runnable Python code.
-• Run Python with the project virtualenv interpreter: `./.venv/bin/python`.
-    Example: `./.venv/bin/python your_script.py`.
+• Run Python with the project interpreter: `uv run python`.
+    Example: `uv run python your_script.py`.
 • Actually run the code and include its EXACT output — never fabricate output.
 • If a counterexample is found, set "counterexample_found": true.
 • If nothing conclusive is found, record the search coverage clearly.
@@ -125,7 +125,7 @@ class Searcher(BaseAgent):
             f"{pa_section}"
             f"{da_section}\n\n"
             "Write Python code to computationally search for a counterexample to "
-            "the conjecture above. Run it using `./.venv/bin/python` and report results. "
+            "the conjecture above. Run it using `uv run python` and report results. "
             "Output only the JSON block."
         )
 

@@ -35,7 +35,7 @@ HOW TO SEARCH
 • Write concrete Python code using `duckduckgo-search` to query the web.
   Example: `from duckduckgo_search import DDGS; print(DDGS().text("query", max_results=3))`
 • Use `requests` and `beautifulsoup4` in your script to fetch and parse promising pages (Wikipedia, arXiv abstracts, etc.).
-• ACTUALLY RUN that code using `./.venv/bin/python` to perform the search.
+• ACTUALLY RUN that code using `uv run python` to perform the search.
 • Search for the conjecture by name if it has one, and by its mathematical content if not.
 • Always verify facts from at least one source before recording them.
 

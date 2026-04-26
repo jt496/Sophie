@@ -21,7 +21,7 @@ Typical workflow
 
 Running
 -------
-  .venv/bin/python mcp_server.py
+  uv run python mcp_server.py
 """
 
 from __future__ import annotations
@@ -577,6 +577,60 @@ def prune_session(
         "session_id": session_id,
         "total_removed": total_removed,
         "removed": stats,
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Proof acceptance tool
+# ─────────────────────────────────────────────────────────────────────────────
+
+@mcp.tool()
+def accept_proof(formalization_id: str, session_id: str = "") -> str:
+    """
+    Accept a zero-sorry Lean formalization and mark the session as proved.
+
+    Can only succeed when:
+      1. The formalization exists in the session.
+      2. It has zero unresolved sorries.
+
+    Sets session status from "pending_proof" to "proved".
+
+    Args:
+        formalization_id: The FA-XXXXXX ID of the Lean formalization to accept.
+        session_id:        The session ID. Defaults to the current session.
+    """
+    session_id = _resolve_session_id(session_id)
+    if not session_id:
+        return json.dumps({"error": "No session_id provided and no current session found."})
+    kb = _load_kb(session_id)
+    if kb is None:
+        return json.dumps({"error": f"Session '{session_id}' not found."})
+
+    snap = kb.snapshot()
+    fa = next(
+        (f for f in snap.get("formalization_attempts", []) if f["id"] == formalization_id),
+        None,
+    )
+    if fa is None:
+        return json.dumps({"error": f"Formalization '{formalization_id}' not found in session."})
+
+    sorries = fa.get("sorries") or []
+    if sorries:
+        return json.dumps({
+            "error": (
+                f"Cannot accept: formalization has {len(sorries)} unresolved "
+                f"sorry(s). Resolve all sorries first."
+            ),
+            "sorries": sorries,
+        })
+
+    kb.set_status("proved")
+    _set_current_session(session_id)
+    return json.dumps({
+        "status": "proved",
+        "formalization_id": formalization_id,
+        "session_id": session_id,
+        "message": "Session marked as proved. Congratulations!",
     })
 
 

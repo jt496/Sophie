@@ -13,11 +13,11 @@ The MCP server handles only state management and prompt construction.
 
 ## Architecture
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                        Claude Code (you)                                  │
 │  Acts as every agent in turn, guided by system prompts from the server    │
-└──┬──────────────────────────────────────────────────────────────────┬───┘
+└──┬──────────────────────────────────────────────────────────────┬───────┘
    │  get_round_tasks()    get_agent_task()    submit_agent_result()  │
    ▼                                                                  ▼
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -38,7 +38,7 @@ The MCP server handles only state management and prompt construction.
 | **Experimenter** | Generates concrete examples, boundary cases, and numerical checks. Identifies sub-cases. |
 | **Prover** | Attempts to construct rigorous proofs or partial results. Learns from Checker feedback. Records implication edges between subproblems and proof attempts when it identifies logical dependencies. |
 | **Disprover** | Searches for counterexamples. Probes weaknesses in proof attempts. |
-| **Checker** | Verifies every proof and disproof attempt line-by-line. Also validates implication claims recorded by the Prover and Researcher, issuing `valid`/`flawed` verdicts with feedback. Issues verdicts. |
+| **Checker** | Verifies every proof and disproof attempt line-by-line. Also validates implication claims recorded by the Prover and Researcher, issuing `valid`/`flawed` verdicts with feedback. When a proof is validated as complete (`closes_conjecture: true`), sets the session to `pending_proof` — awaiting Lean formalization and user acceptance before the session is marked `proved`. |
 | **Searcher** | Writes and executes Python code (networkx, sympy, itertools, etc.) to brute-force search for counterexamples. |
 | **Researcher** | Searches the mathematical literature and the web (Wikipedia, arXiv, MathOverflow, OEIS) for prior results, known partial proofs, and relevant techniques. Records implication edges grounded in the literature. Runs on round 3 (initial survey), then every 6th round, or whenever the session stagnates for 2+ rounds. |
 | **Conductor** | Rule-based scheduler: decides which agents run each round and detects convergence. No LLM call — pure logic. |
@@ -49,7 +49,7 @@ The MCP server handles only state management and prompt construction.
 All findings are stored in `sessions/<session_id>.json` and persist across
 restarts. The schema tracks:
 
-- The conjecture and current status (`open` / `proved` / `disproved` / `unknown`)
+- The conjecture and current status (`open` / `pending_proof` / `proved` / `disproved` / `unknown`)
 - **Subproblems** – decomposed sub-questions from any agent
 - **Examples** – concrete cases with a support/contradict/neutral label
 - **Proof attempts** – with Checker verdicts and feedback
@@ -66,9 +66,7 @@ restarts. The schema tracks:
 ### 1. Install dependencies
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+uv sync
 ```
 
 ### 2. Wire up the MCP server
@@ -111,11 +109,12 @@ Or ask Claude Code naturally:
 | `remove_fact(fact_id, session_id?)` | Remove a previously injected fact by its ID. |
 | `get_formalization_task(source_id, session_id?)` | Return a Formalizer task for a proof attempt (`PA-XXXXXX`) or subproblem (`SP-XXXXXX`) ID. Act as the Formalizer agent and pass the response to `submit_formalization`. |
 | `submit_formalization(source_id, response_json, session_id?)` | Store the Formalizer's Lean 4 output in the knowledge base and write it to `formalization/`. |
+| `accept_proof(formalization_id, session_id?)` | Accept a zero-sorry Lean formalization and mark the session as `proved`. Only succeeds when the formalization has no unresolved `sorry`s. |
 | `prune_session(session_id?)` | Archive low-value KB entries to reduce context size: caps examples, trims resolved subproblems, removes old flawed attempts, and compresses the log. |
 
 ### Round workflow
 
-```
+```text
 start_session(conjecture)
   → { session_id }
 
@@ -139,6 +138,19 @@ refresh_viewer(session_id?)         ← call after round_complete=true
 # If tokens run out mid-round, call get_round_tasks again:
 #   resumed=true, agents_completed shows what's done, agents_pending shows what's left
 ```
+
+### Proof acceptance workflow
+
+When the Checker validates a proof as complete (`closes_conjecture: true`), the
+session status becomes `pending_proof` and exploration stops. To mark it as
+`proved`:
+
+1. Run the Formalizer (`/sophie-round F`) to produce a Lean 4 proof.
+2. Iterate until there are zero `sorry`s remaining.
+3. Call `accept_proof(formalization_id)` — or click **✓ accept** in the viewer.
+
+This ensures `proved` reflects a machine-checked result, not just a
+human-readable sketch.
 
 ---
 
@@ -202,25 +214,49 @@ letting the Formalizer auto-select.
 Serve the `sessions/` directory over HTTP and open `viewer.html` in any browser:
 
 ```bash
-python sophie/serve.py        # default port 8765
+uv run python sophie/serve.py        # default port 8765
 # then open http://localhost:8765/viewer.html
 ```
 
 The viewer reads `manifest.json` (auto-generated by `refresh_viewer`) to list
-all sessions and loads the current one automatically. No drag-and-drop or
-folder-picker interaction required. `serve.py` also exposes a `POST /set-current`
-endpoint so clicking any session in the list updates `current.json` on disk.
+all sessions and loads the current one automatically. `serve.py` also handles
+several `POST` endpoints that power the interactive session management features
+described below.
 
-**Features:**
+**Session list:**
 
-- Session list — all sessions shown with conjecture, status badge, and round count;
-  click any row to load it and promote it to "current" (updates `current.json` via `serve.py`)
-- Rounds timeline — collapsible, colour-coded by agent (including Formalizer in teal)
-- Tabs for Facts, Examples, Subproblems, Proof Attempts, Disproof Attempts, **Lean**, and **Implications**
-- **Implications tab** — shows every recorded implication edge with type arrow (⟹ proves / → supports / ✗ blocks / ⟺ equivalent), the resolved descriptions of both endpoints, confidence, Checker verdict, and notes; sorted valid → unchecked → flawed
+- All sessions shown with conjecture, status badge, and round count; click any
+  row to load it and promote it to "current" (updates `current.json` on disk)
+- **✕ Delete** button (appears on hover) — permanently removes the session file
+  and rebuilds the manifest
+
+**Session view:**
+
+- Rounds timeline — collapsible, colour-coded by agent
+- Each round header shows two action buttons on hover:
+  - **⎇ fork** — creates a new independent session containing all data up to
+    and including that round; the fork becomes the current session immediately
+  - **✕ prune** — removes that round's data from the session entirely; all
+    remaining rounds are renumbered to be contiguous and `rounds_completed` is
+    recalculated
+- Tabs for Facts, Examples, Subproblems, Proof Attempts, Disproof Attempts,
+  **Lean**, and **Implications**
+- **Implications tab** — shows every recorded implication edge with type arrow
+  (⟹ proves / → supports / ✗ blocks / ⟺ equivalent), confidence,
+  Checker verdict, and notes; sorted valid → unchecked → flawed
 - Expandable detail cards with Checker feedback inline
-- **"Open sessions folder"** button (Chrome/Edge) — alternative to the HTTP server
-- Drag & drop / single-file fallback for Firefox
+- **Lean tab** — zero-sorry formalizations show a **✓ accept** button; clicking
+  it calls `POST /accept-proof` and marks the session as `proved`
+
+**Status badges:**
+
+| Badge | Meaning |
+| --- | --- |
+| `open` | Exploration in progress |
+| `pending_proof` | Checker validated a complete proof; awaiting Lean formalization |
+| `proved` | Zero-sorry Lean proof accepted by the user |
+| `disproved` | A valid counterexample was found |
+| `unknown` | Session stopped without a definitive result |
 
 `sessions/current.json` tracks the active session (updated after every
 `submit_agent_result` or `refresh_viewer` call) and is highlighted with a
@@ -235,11 +271,16 @@ tool to force a rebuild if needed.
 
 Session filenames include a short slug derived from the conjecture, e.g.:
 
-```
+```text
 sessions/20260420_100815_holroyd-talbot-conjecture-2005.json
 ```
 
-This makes it easy to identify sessions in the file browser and viewer.
+Forked sessions append `_fork_r<N>` to the slug, making them easy to identify:
+
+```text
+sessions/20260426_143012_holroyd-talbot-conjecture-2005_fork_r4.json
+```
+
 `sessions/current.json` always points to the most recently started or updated session.
 
 ---
@@ -256,7 +297,7 @@ Sophie can formalize results in Lean 4 / Mathlib in two ways:
 ### Install Lean and fetch Mathlib cache
 
 1. Install Lean using the official instructions:
-  https://lean-lang.org/install/
+  <https://lean-lang.org/install/>
 2. From this repo, enter the formalization project directory and fetch cached
   build artifacts:
 
@@ -270,7 +311,7 @@ faster.
 
 ### Workflow
 
-```
+```text
 get_formalization_task(source_id, session_id?)
   → { agent: "Formalizer", system_prompt, user_message }
 
@@ -278,6 +319,10 @@ get_formalization_task(source_id, session_id?)
 
 submit_formalization(source_id, response_json, session_id?)
   → { formalization_id, summary, confidence, sorry_count }
+
+# Once sorry_count == 0:
+accept_proof(formalization_id, session_id?)
+  → { status: "proved" }
 ```
 
 After each round completes, Sophie surfaces `formalization_suggestions`
@@ -309,17 +354,16 @@ This mode makes direct API calls and requires a key:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-source .venv/bin/activate
-python main.py
+uv run python main.py
 ```
 
 CLI options:
 
 ```bash
-python main.py --conjecture "..."       # skip the interactive prompt
-python main.py --session 20240420_...   # resume a previous session
-python main.py --rounds 5               # limit to 5 rounds
-python main.py --model claude-opus-4-5  # use a specific model
+uv run python main.py --conjecture "..."       # skip the interactive prompt
+uv run python main.py --session 20240420_...   # resume a previous session
+uv run python main.py --rounds 5               # limit to 5 rounds
+uv run python main.py --model claude-opus-4-5  # use a specific model
 ```
 
 ---
@@ -333,6 +377,5 @@ are needed for normal use.
 To inspect the MCP server interactively:
 
 ```bash
-source .venv/bin/activate
-mcp dev mcp_server.py
+uv run mcp dev mcp_server.py
 ```

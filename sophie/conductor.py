@@ -75,6 +75,12 @@ class Conductor:
 
         if self.kb.status in ("proved", "disproved"):
             return self._stop(f"Already {self.kb.status}.")
+        if self.kb.status == "pending_proof":
+            return self._stop(
+                "A complete proof has been found and checked. "
+                "Run the Formalizer (F) to produce a zero-sorry Lean proof, "
+                "then accept it with accept_proof() to mark the session as proved."
+            )
 
         if self.kb.no_progress_rounds >= config.CONVERGENCE_PATIENCE:
             self.kb.set_status("unknown")

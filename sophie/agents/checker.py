@@ -51,7 +51,8 @@ Set "closes_conjecture": true ONLY if the proof covers ALL cases of the
 conjecture with no gaps, unverified steps, or missing sub-cases.  A proof
 that handles some residue classes, special cases, or a subset of inputs
 must have "closes_conjecture": false even if that partial proof is valid.
-This field is what triggers the session to be marked proved — get it right.
+Setting this to true marks the session as "pending_proof" — awaiting Lean
+formalization with zero sorries before the user accepts it as proved.
 
 OUTPUT FORMAT
 -------------
@@ -157,9 +158,10 @@ class Checker(BaseAgent):
                 status=pv["verdict"],
                 feedback=pv.get("feedback", ""),
             )
-            # Only close the session when the proof is complete for ALL cases
+            # Mark as pending_proof when proof is complete — "proved" requires
+            # a zero-sorry Lean formalization accepted by the user.
             if pv["verdict"] == "valid" and pv.get("closes_conjecture", False):
-                self.kb.set_status("proved")
+                self.kb.set_status("pending_proof")
 
         for dv in response.get("disproof_verdicts", []):
             self.kb.update_disproof_attempt(

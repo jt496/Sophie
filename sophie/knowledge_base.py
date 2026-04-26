@@ -9,7 +9,7 @@ Schema
 {
   "conjecture": str,
   "session_id": str,
-  "status": "open" | "proved" | "disproved" | "unknown",
+  "status": "open" | "pending_proof" | "proved" | "disproved" | "unknown",
   "rounds_completed": int,
 
   "subproblems": [
@@ -501,7 +501,7 @@ class KnowledgeBase:
     # ── Final verdict ────────────────────────────────────────────────────────
 
     def set_status(self, status: str) -> None:
-        assert status in ("open", "proved", "disproved", "unknown")
+        assert status in ("open", "proved", "disproved", "unknown", "pending_proof")
         self._data["status"] = status
         self._save()
 
