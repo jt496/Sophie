@@ -661,10 +661,10 @@ function _applyMarkdown(src, parseInline) {
     .replace(/\$\$[\s\S]*?\$\$/g, save)         // display math first
     .replace(/\$(?!\$)[^$\n]+?\$/g, save);       // then inline math
 
-  marked.setOptions({ gfm: true, breaks: false });
+  const opts = { gfm: true, breaks: false };
   let html = parseInline
-    ? (marked.parseInline ? marked.parseInline(protected_) : marked.parse(protected_))
-    : marked.parse(protected_);
+    ? (marked.parseInline ? marked.parseInline(protected_, opts) : marked.parse(protected_, opts))
+    : marked.parse(protected_, opts);
 
   // Restore math spans
   html = html.replace(/<x-m id="(\d+)"><\/x-m>/g, (_, i) => math[+i]);
