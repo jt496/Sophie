@@ -136,5 +136,14 @@
       ]
     }
   ],
-  "current_round_state": null
+  "current_round_state": {
+    "round": 4,
+    "planned": [
+      "Prover",
+      "Checker"
+    ],
+    "completed": [],
+    "summaries": [],
+    "agent_context": {}
+  }
 }

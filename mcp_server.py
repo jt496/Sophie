@@ -706,5 +706,23 @@ def submit_formalization(source_id: str, response_json: str, session_id: str = "
 # Entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _start_viewer_server() -> None:
+    """Start the HTTP viewer server in a background daemon thread."""
+    import threading
+    from sophie.serve import SophieHandler
+    from http.server import HTTPServer
+
+    port = 8765
+    try:
+        server = HTTPServer(("", port), SophieHandler)
+        t = threading.Thread(target=server.serve_forever, daemon=True)
+        t.start()
+        print(f"[Sophie] Viewer server at http://localhost:{port}/viewer.html", flush=True)
+    except OSError:
+        pass  # port already in use — serve.py likely running separately
+
+
+_start_viewer_server()
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")
