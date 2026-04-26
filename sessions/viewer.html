@@ -583,16 +583,6 @@ async function populateFromManifest(sessions, silent = false) {
   }
   doKatexLanding();
 
-  // Auto-load current session (only if not already showing one)
-  if (!silent && currentEntry) {
-    try {
-      const url = './' + currentEntry.filename;
-      const r = await fetch(url, { cache: 'no-store' });
-      _currentFetchUrl = url;
-      _currentHandle = null;
-      render(await r.json());
-    } catch { /* ignore */ }
-  }
 }
 
 // ── State ──────────────────────────────────────────────────────────────────
@@ -697,6 +687,10 @@ function renderMarkdown(text) { return _applyMarkdown(text, false); }
 function renderInline(text)   { return _applyMarkdown(text, true);  }
 
 function render(d) {
+  // Reset expansion state for the new session
+  _uiState.rounds = {};
+  _uiState.cards  = {};
+
   // Normalise — new stub sessions may be missing some arrays
   d.examples               = d.examples               || [];
   d.subproblems            = d.subproblems            || [];
@@ -852,9 +846,7 @@ function renderRounds(d) {
       ? `<div class="round-narrative"><div class="round-narrative-label">Round summary</div>${renderMarkdown(rSumObj.narrative)}</div>`
       : '';
 
-    // Expansion state: check _uiState first, fall back to isLatest
-    const isLatest = (r === roundNums[roundNums.length - 1]);
-    if (_uiState.rounds[r] === undefined) _uiState.rounds[r] = isLatest;
+    if (_uiState.rounds[r] === undefined) _uiState.rounds[r] = false;
     const isExpanded = _uiState.rounds[r];
     const collapsedClass = isExpanded ? '' : ' collapsed';
     const chevron = isExpanded ? '▾' : '▸';
@@ -966,7 +958,7 @@ function renderExamples(examples) {
   }
   let html = '<div class="card-grid">';
   for (const ex of examples) {
-    if (_uiState.cards[ex.id] === undefined) _uiState.cards[ex.id] = true; // Default expanded
+    if (_uiState.cards[ex.id] === undefined) _uiState.cards[ex.id] = false;
     const expandedClass = _uiState.cards[ex.id] ? ' expanded' : '';
     const chevron = _uiState.cards[ex.id] ? '▴' : '▾';
     
