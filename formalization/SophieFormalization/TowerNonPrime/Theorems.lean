@@ -1,26 +1,3 @@
-/-
-  SophieFormalization.TowerNonPrime.Theorems
-
-  For every positive integer n, the number
-    E(n) = 10^(10^(10^n)) + 10^(10^n) + 10^n - 1
-  is composite (not prime).
-
-  Proved here (Sophie session 20260426):
-    PA-8E7A69 (verified): 10^(2^k)+1 divides E(n) for n = 2^k * m (m odd).
-
-  ## Proof outline
-
-  Write n = 2^k · m with m odd.  Let p = 10^(2^k) + 1.
-
-  1. In ℤ, 10^(2^k) ≡ −1  (mod p)  (definition of p).
-  2. 10^n = (10^(2^k))^m ≡ (−1)^m = −1  (mod p)  (m odd).
-  3. n = 2^k·m ≥ 2^k ≥ k+1, so 2^(k+1) ∣ 2^n ∣ 10^n.
-  4. Hence 10^(10^n) ≡ 10^0 = 1  (mod p)  (the exponent is ≡ 0 mod 2^(k+1)).
-  5. Similarly 10^(10^(10^n)) ≡ 1  (mod p).
-  6. E(n) ≡ 1 + 1 + (−1) − 1 = 0  (mod p).
-  7. 1 < p = 10^(2^k)+1 and p < E(n), so the factorization is non-trivial.
--/
-
 import Mathlib
 
 namespace TowerNonPrime
@@ -37,13 +14,10 @@ lemma two_pow_ge_succ (k : ℕ) : k + 1 ≤ 2 ^ k := by
 
 /-- For m odd, (x + 1) ∣ (x^m + 1) in ℤ. -/
 lemma dvd_pow_add_one_of_odd (x : ℤ) (m : ℕ) (hm : Odd m) : (x + 1) ∣ (x ^ m + 1) := by
-  obtain ⟨j, hj⟩ := hm
-  rw [hj]
-  -- x^(2j+1) + 1 = (x+1) * (x^(2j) - x^(2j-1) + ... - x + 1)
-  -- This follows from the factorisation of x^n + 1 for odd n.
-  have : x ^ (2 * j + 1) + 1 = (x + 1) * ∑ i ∈ Finset.range (2 * j + 1), (-1) ^ i * x ^ (2 * j - i) := by
-    sorry -- Geometric sum / cyclotomic factoring: (x+1) ∣ (x^(2j+1)+1) for all j
-  exact ⟨_, this⟩
+  have : x ^ m + 1 = x ^ m - (-1) ^ m := by
+    rw [hm.neg_one_pow, sub_neg_eq_add]
+  rw [this]
+  exact sub_dvd_pow_sub_pow x (-1) m
 
 /-! ## Modular reduction lemmas -/
 
@@ -72,24 +46,41 @@ lemma two_pow_succ_dvd_ten_pow (k m : ℕ) (hm : 0 < m) :
   have hdvd : 2 ^ (k + 1) ∣ 2 ^ (2 ^ k * m) :=
     Nat.pow_dvd_pow 2 hn
   have htenfact : (10 : ℤ) ^ (2 ^ k * m) = (2 : ℤ) ^ (2 ^ k * m) * 5 ^ (2 ^ k * m) := by
-    norm_num; ring
-  rw [htenfact]
-  exact_mod_cast Dvd.dvd.mul_right (Int.coe_nat_dvd.mpr hdvd) _
+    have h10 : (10 :ℤ) = 2 * 5 := by norm_num
+    rw [h10, mul_pow]
+  rw_mod_cast [htenfact]
+  grind
 
 /-- If 2^(k+1) ∣ N then 10^N ≡ 1 (mod 10^(2^k)+1),
     given that 10^(2^k) ≡ −1 (mod 10^(2^k)+1). -/
 lemma ten_pow_of_even_exp_eq_one (k : ℕ) (N : ℕ) (hdvd : 2 ^ (k + 1) ∣ N) :
     (10 ^ 2 ^ k + 1 : ℤ) ∣ (10 ^ N - 1) := by
   obtain ⟨q, hq⟩ := hdvd
+  have hbase : (10 ^ 2 ^ k + 1 : ℤ) ∣ (10 ^ 2 ^ (k + 1) - 1) := by
+    rw [pow_succ, pow_mul, pow_two]
+    exact ⟨10 ^ 2 ^ k - 1, by ring⟩
   rw [hq, pow_mul]
-  -- 10^(2^(k+1) * q) = (10^(2^(k+1)))^q = ((10^(2^k))^2)^q
-  -- 10^(2^k) ≡ -1, so (10^(2^k))^2 ≡ 1, so ((10^(2^k))^2)^q ≡ 1
-  have hbase : (10 ^ 2 ^ k + 1 : ℤ) ∣ ((10 ^ 2 ^ k) ^ 2 - 1) := by
-    have : (10 : ℤ) ^ 2 ^ k ^ 2 - 1 = (10 ^ 2 ^ k + 1) * (10 ^ 2 ^ k - 1) := by ring
-    exact ⟨10 ^ 2 ^ k - 1, this⟩
-  sorry -- (A^2)^q - 1 = (A^2 - 1) * (A^(2(q-1)) + ... + 1), so (A^2-1) ∣ (A^(2q)-1)
+  have hsub : (10 ^ 2 ^ (k + 1) - 1 : ℤ) ∣ ((10 ^ 2 ^ (k + 1)) ^ q - 1) := by
+    have h := sub_dvd_pow_sub_pow ((10 : ℤ) ^ 2 ^ (k + 1)) 1 q
+    rw [one_pow] at h
+    exact h
+  exact dvd_trans hbase hsub
 
 /-! ## The main divisibility theorem -/
+
+-- /-- For n = 2^k * m with m odd and positive,
+--     (10^(2^k) + 1) divides E(n) in ℤ.
+--     Here E(n) = 10^(10^(10^n)) + 10^(10^n) + 10^n - 1. -/
+-- theorem dvd_tower_expr (k m : ℕ) (hm_odd : Odd m) (hm_pos : 0 < m) :
+--     let n := 2 ^ k * m
+--     let p : ℤ := 10 ^ 2 ^ k + 1
+--     p ∣ (10 : ℤ) ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1 := by
+--   intro n p
+--   -- Step A: 10^n ≡ -1 (mod p), i.e., p ∣ 10^n + 1
+--   have hA : p ∣ (10 : ℤ) ^ n + 1 := ten_pow_n_cong_neg_one k m hm_odd
+--   -- Step B: 2^(k+1) ∣ 10^n
+--   have hB : 2 ^ (k + 1) ∣ (10 ^ n : ℕ) := two_pow_succ_dvd_ten_pow k m hm_pos
+--   -- Step C: 2^(k+1) ∣ 10^(10^n), since 10^
 
 /-- For n = 2^k * m with m odd and positive,
     (10^(2^k) + 1) divides E(n) in ℤ.
@@ -108,7 +99,12 @@ theorem dvd_tower_expr (k m : ℕ) (hm_odd : Odd m) (hm_pos : 0 < m) :
     apply Nat.dvd_trans hB
     apply Nat.pow_dvd_pow
     -- Need n ≤ 10^n
-    exact Nat.le_self_pow (Nat.pos_of_mul_pos_left hm_pos (Nat.zero_le _)) 10
+    induction n with
+    | zero => norm_num
+    | succ n ih =>
+    simp only [Order.add_one_le_iff]
+    rw [pow_succ]
+    grind
   -- Step D: p ∣ 10^(10^n) - 1
   have hD : p ∣ (10 : ℤ) ^ 10 ^ n - 1 :=
     ten_pow_of_even_exp_eq_one k (10 ^ n) (by exact_mod_cast hB)
@@ -154,24 +150,28 @@ theorem tower_not_prime (n : ℕ) (hn : 0 < n) :
   -- Let p = 10^(2^k) + 1
   set p := 10 ^ 2 ^ k + 1
   -- Show p ∣ E(n) in ℕ
+  have hm_pos : 0 < m := by exact Nat.pos_of_mul_pos_left hn--Nat.Odd.pos hm_odd
   have hdvd_int : (p : ℤ) ∣ (10 : ℤ) ^ 10 ^ 10 ^ (2 ^ k * m) + 10 ^ 10 ^ (2 ^ k * m) +
       10 ^ (2 ^ k * m) - 1 := by
-    have hm_pos : 0 < m := Nat.Odd.pos hm_odd
     exact dvd_tower_expr k m hm_odd hm_pos
   have hEN_pos : 10 ^ 2 ^ k + 1 ≤ 10 ^ 10 ^ 10 ^ (2 ^ k * m) + 10 ^ 10 ^ (2 ^ k * m) +
       10 ^ (2 ^ k * m) - 1 := by
-    have hm_pos : 0 < m := Nat.Odd.pos hm_odd
     have := expr_gt_factor k m hm_pos
     omega
   have hdvd_nat : p ∣ 10 ^ 10 ^ 10 ^ (2 ^ k * m) + 10 ^ 10 ^ (2 ^ k * m) +
       10 ^ (2 ^ k * m) - 1 := by
-    rw [Nat.dvd_iff_div_mul_eq (by positivity)]
-    sorry -- Transfer from ℤ divisibility to ℕ
+    rw [← Int.natCast_dvd_natCast]
+    have hpos : 1 ≤ 10 ^ 10 ^ 10 ^ (2 ^ k * m) + 10 ^ 10 ^ (2 ^ k * m) + 10 ^ (2 ^ k * m) := by
+      have := expr_gt_factor k m hm_pos
+      have := factor_gt_one k
+      omega
+    rw [Int.natCast_sub hpos]
+    exact hdvd_int
   -- Conclude not prime: p is a non-trivial divisor
   intro hprime
   have hpgt1 : 1 < p := factor_gt_one k
   have hplt : p < 10 ^ 10 ^ 10 ^ (2 ^ k * m) + 10 ^ 10 ^ (2 ^ k * m) +
       10 ^ (2 ^ k * m) - 1 + 1 := by omega
-  exact absurd (hprime.eq_one_or_self_of_dvd p hdvd_nat) (by omega)
+  exact absurd (hprime.eq_one_or_self_of_dvd p hdvd_nat) (by grind)
 
 end TowerNonPrime
