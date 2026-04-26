@@ -3,9 +3,9 @@
     "filename": "20260426_115657_an-integer-m-geq-0-is-a-sum-of-two-trian.json",
     "session_id": "20260426_115657_an-integer-m-geq-0-is-a-sum-of-two-trian",
     "conjecture": "An integer $m \\geq 0$ is a sum of two triangular numbers $m = T_a + T_b$ (where $T_k = \\frac{k(k+1)}{2}$ and $a, b \\geq 0$) if and only if $4m+1$ is a sum of two squares.",
-    "status": "open",
+    "status": "proved",
     "rounds_completed": 3,
-    "current": true
+    "current": false
   },
   {
     "filename": "20260426_073152_for-every-positive-integer-n-10-10-10-n-.json",
@@ -13,7 +13,7 @@
     "conjecture": "For every positive integer $n$, $10^{10^{10^n}} + 10^{10^n} + 10^n - 1$ is not prime (i.e., it is always composite).",
     "status": "proved",
     "rounds_completed": 3,
-    "current": false
+    "current": true
   },
   {
     "filename": "20260425_205029_ErdosStrausPrime.json",

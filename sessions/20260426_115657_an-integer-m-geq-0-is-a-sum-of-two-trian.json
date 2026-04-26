@@ -1,7 +1,7 @@
 {
   "conjecture": "An integer $m \\geq 0$ is a sum of two triangular numbers $m = T_a + T_b$ (where $T_k = \\frac{k(k+1)}{2}$ and $a, b \\geq 0$) if and only if $4m+1$ is a sum of two squares.",
   "session_id": "20260426_115657_an-integer-m-geq-0-is-a-sum-of-two-trian",
-  "status": "open",
+  "status": "proved",
   "rounds_completed": 3,
   "no_progress_rounds": 0,
   "prev_snapshot_hash": -754011818058913715,
