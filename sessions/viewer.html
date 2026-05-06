@@ -549,10 +549,19 @@ async function populateFromManifest(sessions, silent = false) {
   const wrap = document.getElementById('session-list-wrap');
   const currentEntry = sessions.find(s => s.current);
 
+  // Current session first; others sorted by last_updated (or session_id) descending
+  const sorted = [...sessions].sort((a, b) => {
+    if (a.current && !b.current) return -1;
+    if (!a.current && b.current) return 1;
+    const ka = a.last_updated || a.session_id || '';
+    const kb = b.last_updated || b.session_id || '';
+    return kb.localeCompare(ka);
+  });
+
   document.getElementById('session-list-label').textContent =
     `${sessions.length} session${sessions.length !== 1 ? 's' : ''}`;
 
-  list.innerHTML = sessions.map((s, i) => {
+  list.innerHTML = sorted.map((s, i) => {
     const conj = s.conjecture || s.filename;
     const statusClass = 'status-' + (s.status || 'open');
     const rounds = s.rounds_completed ?? 0;
@@ -657,6 +666,50 @@ async function handleRefreshClick() {
 
 btnRefresh.addEventListener('click', handleRefreshClick);
 btnRefreshApp.addEventListener('click', handleRefreshClick);
+
+// ── Auto-reload polling (HTTP mode only) ────────────────────────────────────
+let _lastPingMtime = 0;
+let _lastPingSession = null;
+let _pollInterval = null;
+
+async function pollForChanges() {
+  try {
+    const resp = await fetch('/ping', { cache: 'no-store' });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const { session_id, mtime } = data;
+    if (!session_id) return;
+
+    const sessionChanged = session_id !== _lastPingSession;
+    const dataChanged = mtime !== _lastPingMtime;
+
+    if (sessionChanged || dataChanged) {
+      _lastPingSession = session_id;
+      _lastPingMtime = mtime;
+
+      // Reload the open session view if one is displayed
+      if (_currentFetchUrl || _currentHandle) {
+        await reloadCurrentSession();
+        updateLastRefreshed();
+      }
+
+      // Always refresh the session list (picks up new rounds_completed, last_updated, etc.)
+      await tryFetchManifest(/* silent= */ true);
+    }
+  } catch { /* /ping not available — serve.py not running */ }
+}
+
+function startPolling() {
+  if (_pollInterval) return;
+  _pollInterval = setInterval(pollForChanges, 3000);
+}
+
+function stopPolling() {
+  if (_pollInterval) { clearInterval(_pollInterval); _pollInterval = null; }
+}
+
+// Start polling as soon as the page loads (no-op if serve.py isn't running)
+startPolling();
 
 function formatTimestamp(sid) {
   if (!sid) return '';

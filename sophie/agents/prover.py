@@ -114,6 +114,12 @@ class Prover(BaseAgent):
         if response.get("parse_error"):
             return f"Prover parse error: {response.get('raw_text','')[:200]}"
 
+        schema_err = self._check_schema(
+            response, ["proof_sketch", "completeness"], "Prover"
+        )
+        if schema_err:
+            return schema_err
+
         sketch = response.get("proof_sketch", "")
         if sketch:
             pa_id = self.kb.add_proof_attempt(round_, sketch)

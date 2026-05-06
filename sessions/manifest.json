@@ -13,7 +13,7 @@
     "conjecture": "For every positive integer $n$, $10^{10^{10^n}} + 10^{10^n} + 10^n - 1$ is not prime (i.e., it is always composite).",
     "status": "proved",
     "rounds_completed": 3,
-    "current": true
+    "current": false
   },
   {
     "filename": "20260425_205029_ErdosStrausPrime.json",
@@ -44,7 +44,7 @@
     "session_id": "20260420_100815_HolroydTalbot",
     "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if $1 \\leq r \\leq \\mu(G)/2$, then $G$ is $r$-EKR (there exists a vertex $v$ such that the star $I^r_v(G)$ is a maximum intersecting family of independent $r$-sets), and strictly $r$-EKR (every maximum intersecting family is a star) when $1 < r < \\mu(G)/2$. Here $\\mu(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
     "status": "open",
-    "rounds_completed": 22,
-    "current": false
+    "rounds_completed": 32,
+    "current": true
   }
 ]

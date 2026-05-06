@@ -34,8 +34,47 @@ class SophieHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(SESSIONS_DIR), **kwargs)
 
     def log_message(self, fmt, *args):  # quieter logs
-        if self.path not in ("/set-current",):
+        if self.path not in ("/set-current", "/ping"):
             super().log_message(fmt, *args)
+
+    def do_GET(self):
+        if self.path == "/ping":
+            self._handle_ping()
+        else:
+            super().do_GET()
+
+    def _handle_ping(self):
+        """Return current session mtime + rounds_completed for change detection."""
+        try:
+            current_path = SESSIONS_DIR / "current.json"
+            if not current_path.exists():
+                self._json_response({"session_id": None, "mtime": 0, "rounds_completed": 0})
+                return
+            with open(current_path) as f:
+                cur = json.load(f)
+            session_id = cur.get("session_id")
+            # Find the session file
+            session_file = None
+            for fname in os.listdir(SESSIONS_DIR):
+                if not fname.endswith(".json") or fname in {"current.json", "manifest.json"}:
+                    continue
+                fpath = SESSIONS_DIR / fname
+                try:
+                    with open(fpath) as f:
+                        d = json.load(f)
+                    if d.get("session_id") == session_id:
+                        session_file = fpath
+                        rounds = d.get("rounds_completed", 0)
+                        break
+                except Exception:
+                    pass
+            if session_file is None:
+                self._json_response({"session_id": session_id, "mtime": 0, "rounds_completed": 0})
+                return
+            mtime = session_file.stat().st_mtime
+            self._json_response({"session_id": session_id, "mtime": mtime, "rounds_completed": rounds})
+        except Exception as exc:
+            self._json_response({"session_id": None, "mtime": 0, "rounds_completed": 0, "error": str(exc)})
 
     # ── helpers ──────────────────────────────────────────────────────────
 
@@ -53,6 +92,7 @@ class SophieHandler(SimpleHTTPRequestHandler):
                 sid = fd.get("session_id")
                 if not sid:
                     continue
+                mtime = datetime.fromtimestamp(fpath.stat().st_mtime).strftime("%Y%m%d_%H%M%S")
                 entries.append({
                     "filename": fname,
                     "session_id": sid,
@@ -60,6 +100,7 @@ class SophieHandler(SimpleHTTPRequestHandler):
                     "status": fd.get("status", "open"),
                     "rounds_completed": fd.get("rounds_completed", 0),
                     "current": sid == current_id,
+                    "last_updated": mtime,
                 })
             except Exception:
                 pass

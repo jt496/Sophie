@@ -153,6 +153,12 @@ class Conductor:
         except Exception as exc:
             summary = f"Error in {agent_name}: {exc}"
 
+        # If process_response detected a schema mismatch, surface it as an
+        # error so the caller can re-submit with the correct field names.
+        # Do NOT advance the round or record completion in this case.
+        if summary.startswith(f"{agent_name} response used unrecognised field names"):
+            return {"error": summary}
+
         self.kb.log(round_, agent_name, summary)
         self.kb.record_agent_completion(agent_name, summary)
 

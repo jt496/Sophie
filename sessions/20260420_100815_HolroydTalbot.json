@@ -2,9 +2,9 @@
   "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if $1 \\leq r \\leq \\mu(G)/2$, then $G$ is $r$-EKR (there exists a vertex $v$ such that the star $I^r_v(G)$ is a maximum intersecting family of independent $r$-sets), and strictly $r$-EKR (every maximum intersecting family is a star) when $1 < r < \\mu(G)/2$. Here $\\mu(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
   "session_id": "20260420_100815_HolroydTalbot",
   "status": "open",
-  "rounds_completed": 22,
-  "no_progress_rounds": 0,
-  "prev_snapshot_hash": 6847763251922951133,
+  "rounds_completed": 32,
+  "no_progress_rounds": 1,
+  "prev_snapshot_hash": 1544637459408298434,
   "subproblems": [
     {
       "id": "SP-5B51C7",
@@ -535,8 +535,8 @@
       "id": "SP-C38D06",
       "description": "Search ArXiv math.CO post-2022 for any proof of HT for further graph families (trees, bipartite, interval graphs).",
       "source_agent": "Researcher",
-      "status": "open",
-      "resolution": null
+      "status": "resolved",
+      "resolution": "Search completed (2025). Post-2022 relevant results found: (1) HT for sparse bounded-degree graphs via probabilistic Katona (Discrete Mathematics 2024); (2) 2025 HT survey covering all known families; (3) Borg AJC paper giving SUM bounds for cross-intersecting independent set families in clique unions \u2014 MOST RELEVANT to SP-CPLNG2; (4) 2024 multi-part cross-intersecting families paper; (5) Hilton-Milner for clique unions 2025. No full HT proof for trees or general bipartite graphs found. The H oplus H decomposition is novel and not in literature."
     },
     {
       "id": "SP-1F88E1",
@@ -555,6 +555,174 @@
     {
       "id": "SP-F80E2A",
       "description": "SP-CPLNG_SHFT: Prove that the shifting operator \\\\tau_{ij} applied to the right-components of (F_k, F_{r-k}) preserves the coupled cross-intersection property.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-884F8B",
+      "description": "For vertex-transitive H with mu(H) >= r: does applying the standard shifting operator sigma_{ij} to the right-components of (F_k, F_{r-k}) simultaneously preserve the cross-intersection condition? If yes, SP-CPLNG2 follows for vertex-transitive H and H oplus H r-EKR is proved for this class.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-6B8FC8",
+      "description": "For the shifting approach to SP-CPLNG2: identify conditions on H (e.g., being a Kneser graph, disjoint cliques, or having a monotone independence structure) under which simultaneous shifting is cross-intersection-preserving.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-1AFEFC",
+      "description": "Adapt Katona's cycle method to the product family I^k(H) x I^{r-k}(H): for a cyclic permutation sigma of V(H), what fraction of consecutive window-pairs (W_j^k(sigma), W_j^{r-k}(sigma)) land in I^k(H) x I^{r-k}(H)? If this fraction gives the right normalization, the Katona argument may yield SP-CPLNG2.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-E841BB",
+      "description": "Translate SP-CPLNG2 into a bound on cross-intersecting families of single sets by the map (A,B) -> A cup B (viewing B as a subset of a disjoint copy of V(H)): does Borg (2012) cross-EKR then give |A|+|B| <= star_v * (|I^k|+|I^{r-k}|)/|I^r| or similar? Work out the Borg bound explicitly for this translation.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-01D07E",
+      "description": "Does SP-CPLNG2 hold with the SAME fixed v0 for all k simultaneously in the summation? Or must the optimal v0 depend on k? If v0 must depend on k, is there always a single v0 that is 'good enough' for all k (Star Alignment again)?",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-FA6452",
+      "description": "Brute-force verification of SP-CPLNG2 for H=C5, k=1, r=2: enumerate all cross-intersecting pairs (A,B) of subsets of I^1(C5) x I^1(C5) and confirm max |A|+|B|=10.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-1DD8A0",
+      "description": "Read Borg's AJC paper 'On cross-intersecting families of independent sets in graphs' in full to extract the exact theorem for the SUM bound $|\\mathcal{A}| + |\\mathcal{B}| \\leq$ star \u2014 this may directly prove SP-CPLNG2 for clique unions and suggest the path to general graphs.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-AA7CDA",
+      "description": "Read the 2024 multi-part cross-intersecting families paper (J. Algebraic Combinatorics 2024) to check if the multi-slice bound $\\sum_k |F_k|$ is treated there for independent set families.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-A28AE8",
+      "description": "Check whether the 2022 trees paper (Discrete Applied Mathematics) proves full HT for all trees: if so, combined with the H oplus H argument this covers $T \\oplus T$ for trees.",
+      "source_agent": "Researcher",
+      "status": "resolved",
+      "resolution": "PARTIALLY RESOLVED. The 2022 Discrete Applied Mathematics paper (arXiv:1610.08153) proves HT for spiders and pendant trees via the leaf property \u2014 NOT all trees. General trees remain open. Combined with the H\u2295H argument, this covers T\u2295T for spiders/pendant trees T."
+    },
+    {
+      "id": "SP-C31A1D",
+      "description": "Investigate whether the probabilistic Katona cycle method from the sparse graphs paper (arXiv 2207.01661) can be adapted to product-pair families $I^k(H) \\times I^{r-k}(H)$ to prove SP-CPLNG2.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-5FB6F8",
+      "description": "SP-SHIFT-SEQ: Prove that the sequential composition of all right-shifts $\\tau_{ij}$ (applied simultaneously to right-components of $(\\mathcal{F}_k, \\mathcal{F}_{r-k})$) preserves cross-intersection. In particular, handle the sub-case where cross-intersection is realized only through the vertex $j$ being shifted out.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-590DE9",
+      "description": "SP-MINUS-BOUND: For cross-intersecting $(\\mathcal{F}_k^{-}, \\mathcal{F}_{r-k}^{-})$ in $I^k(H_1) \\times I^{r-k}(H_2)$ where neither $\\mathcal{F}_k^{-}$ nor $\\mathcal{F}_{r-k}^{-}$ contains any pair with $v_0$ in the right-component: prove $|\\mathcal{F}_k^{-}| + |\\mathcal{F}_{r-k}^{-}| \\leq |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)| + |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-93D69A",
+      "description": "SP-SLICE-CROSS-EKR: For $G = H_1 \\cup H_2$ ($H_1 \\cong H_2 \\cong H$, $\\mu(G) \\geq 2r$) and cross-intersecting $\\mathcal{A} \\subseteq I^r_k(G)$, $\\mathcal{B} \\subseteq I^r_{r-k}(G)$: prove $|\\mathcal{A}| + |\\mathcal{B}| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| + |\\text{star}_{v_0}(G,r) \\cap I^r_{r-k}(G)|$. This is equivalent to SP-CPLNG2 via the union map $\\phi(L,R) = L \\cup R$.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-643A5B",
+      "description": "SP-SYMM-CPLNG: Prove SP-CPLNG2 for the symmetric case $k = r/2$ ($r$ even) using vertex-averaging. The weighted double-count gives $(r/2)|\\mathcal{F}_{r/2}| \\leq (r/2)|I^{r/2}(H)| \\cdot |\\text{star}_{v_0}(H,r/2)|$, equivalent to $|\\mathcal{F}_{r/2}| \\leq |I^{r/2}| \\cdot |\\text{star}_{v_0}|$, which is exactly SP-CPLNG2 for this case \u2014 IF the per-vertex bound $|\\mathcal{F}_{r/2}^{(v_0)}| \\leq |I^{r/2}(H)| \\cdot |\\text{star}_{v_0}(H,r/2)|$ can be established independently.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-E03B2D",
+      "description": "SP-FT-BOUND: For $G = \\bar{K}_n$ (empty graph, no adjacency constraints), does the Frankl-Tokushige (1992) bound $\\binom{n}{k} - \\binom{n-\\ell}{k} + 1$ (for cross-intersecting $k$-sets and $\\ell$-sets in $[n]$) exceed the SP-CPLNG2 target $|I^k(G)| \\cdot |\\text{star}_{v_0}(G,r-k)| + |I^{r-k}(G)| \\cdot |\\text{star}_{v_0}(G,k)| = \\binom{n}{k} \\cdot \\binom{n-1}{r-k-1} + \\binom{n}{r-k} \\cdot \\binom{n-1}{k-1}$? This comparison determines whether SP-CPLNG2 is HARDER or EASIER than the set-system Frankl-Tokushige problem.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-05667E",
+      "description": "SP-COMPOSITION-EKR: Can the composition-based Katona framework (arXiv:2509.06207, 2025) be applied to the product family $I^k(H) \\times I^{r-k}(H)$ to prove SP-CPLNG2? The compositional approach extends Katona's cycle method to structured families and the product structure is a natural target.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C9CC61",
+      "description": "SP-HALL-INJ: For $H$ with a leaf $v_0$ (degree 1 vertex), define the replacement map $\\psi: \\mathcal{A}^- \\to \\text{star}_{v_0} \\cap I^r_k$ by $\\psi(L,R) = (L, (R \\setminus \\{x(R)\\}) \\cup \\{v_0\\})$ where $x(R) \\in R$ is chosen canonically (e.g. smallest in some ordering). Prove $\\psi$ is injective, and extend to give a COUPLED injection that simultaneously handles $\\mathcal{B}^-$.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-84064F",
+      "description": "SP-KATONA-SLICE: Prove or disprove: for a uniformly random cyclic ordering $\\hat{\\sigma}$ of $V(G)$ as described (interleaving $H_1$- and $H_2$-copies), and cross-intersecting $\\mathcal{A} \\subseteq I^r_k(G)$, $\\mathcal{B} \\subseteq I^r_{r-k}(G)$, the expected number of windows of $\\hat{\\sigma}$ landing in $\\mathcal{A}$ plus those in $\\mathcal{B}$ is at most $r$.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-402086",
+      "description": "SP-CPLNG2-STAR: Prove SP-CPLNG2 explicitly for $H = K_{1,m}$ (star graph) for all $r \\leq m/2$. The Katona-slice bound matches the target for $r=2$, $k=1$; a direct proof for general $r$ would give SP-CPLNG2 for star graphs as a clean test case for the general argument.",
+      "source_agent": "Disprover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-154CE5",
+      "description": "SP-CPLNG2-NKK: Does the cross-intersecting sum bound in arXiv:2511.18785 for $H = K_k$ (clique union $nK_k$) match the SP-CPLNG2 bound, i.e., $|\\mathcal{A}|+|\\mathcal{B}| \\leq |I^k(H)|\\cdot|\\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)|\\cdot|\\text{star}_{v_0}(H,k)|$? If yes, this gives a proved special case and a worked compression technique for SP-CPLNG2.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-3C0B62",
+      "description": "SP-SPIDER-HALL: Since HT is proved for spiders and pendant trees via the leaf property, can the H\u2295H split-type proof be extended to G = T\u2295T for spiders/pendant trees T using the leaf as the Star Alignment witness? This would give HT for T\u2295T for all spiders.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-5AB3EE",
+      "description": "SP-HM-PAIR-CROSS: In arXiv:2511.18785 for $nK_k$, the extremal cross-intersecting pair is HM-type (not co-star). For $H = C_n$ or other non-clique $H$, is the extremal cross-intersecting pair still HM-type or does it become co-star? This determines whether SP-CPLNG2 (co-star bound) is tight.",
+      "source_agent": "Researcher",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-AC6E74",
+      "description": "SP-CPLNG2-DEG1: For $H$ with a leaf $v_0$ (deg 1), can a COUPLED injection (using cross-intersection between $\\mathcal{A}^-$ and $\\mathcal{B}^-$) prove the SP-CPLNG2 bound? The SP-MINUS-BOUND for leaf $v_0$ would suffice.",
+      "source_agent": "Prover",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "SP-C86FD8",
+      "description": "SP-CPLNG2-2CONN: For $H$ 2-connected, the injection approach is fully blocked. What additional structure from cross-intersection gives $|\\mathcal{A}^-| + |\\mathcal{B}^-| \\leq$ (target - star parts)?",
       "source_agent": "Prover",
       "status": "open",
       "resolution": null
@@ -904,6 +1072,90 @@
       "supports_conjecture": true,
       "detail": "$H: 0-1-2-3-4$. Independent sets: \\mu(H)=2 (e.g., {1,3} is a maximal independent set). $G = H \\oplus H$ has \\mu(G)=4, $r=2$.\nMax star size in $H$: $|star_0|=4$, $|star_1|=3$, $|star_2|=3$. So max star in $H$ has size 4 (at leaves).\nStar size in $G=H \\oplus H$ at leaf $v_0$: $|star_{v_0}(G,2)| = |I^2(H)| + |I^1(H)| \\cdot |star_{v_0}(H,1)| = 6 + 5 \\cdot 1 = 11$.\nAll-mixed part is $|F_1| \\leq 5$. Since \\mu(H) \\geq 2$, the cross-pair argument $|F_1| \\leq \\max(|I^1|, |I^1|) = 5$ holds. Total $|F| = |F_0| + |F_1| + |F_2| \\leq 6 + 5 + 0 = 11$ (if pure sets are in same component).",
       "added_round": 21
+    },
+    {
+      "id": "EX-083E50",
+      "description": "[Literature] The HT conjecture has been verified for: (1) disjoint unions of complete graphs (HST 2009); (2) chordal graphs (Hurlbert",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv 2501.16144 (Survey, January 2025) and arXiv 2207.01661 (Discrete Mathematics 2024)\nRelevance: Establishes current frontier: bounded-degree graphs via probabilistic Katona are state of the art.",
+      "added_round": 23
+    },
+    {
+      "id": "EX-093F26",
+      "description": "[Literature] A probabilistic extension of Katona's cycle method was used to prove HT for sparse graphs (bounded average degree $r \\le",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv 2207.01661 (Hurlbert et al., Discrete Mathematics 2024)\nRelevance: The probabilistic Katona cycle method is directly relevant to SP-06A7B2 and SP-1AFEFC (adapting Katona to product-pair families for SP-CPLNG2).",
+      "added_round": 23
+    },
+    {
+      "id": "EX-DED577",
+      "description": "[Literature] Borg proved a theorem bounding the SUM $|\\mathcal{A}| + |\\mathcal{B}|$ for cross-intersecting uniform families of indepe",
+      "supports_conjecture": null,
+      "detail": "Source: Borg, 'On cross-intersecting families of independent sets in graphs', Australian Journal of Combinatorics, vol. 50, pp. 171ff.\nRelevance: DIRECTLY RELEVANT to SP-CPLNG2: bounds |A|+|B| (the SUM) for cross-intersecting independent set families in clique unions. The technique may extend to general graphs and directly prove the key open lemma.",
+      "added_round": 23
+    },
+    {
+      "id": "EX-9BC25A",
+      "description": "[Literature] A 2024 paper on multi-part cross-intersecting families in Journal of Algebraic Combinatorics extends cross-intersection ",
+      "supports_conjecture": null,
+      "detail": "Source: Multi-part cross-intersecting families, Journal of Algebraic Combinatorics, 2024. https://link.springer.com/article/10.1007/s10801-024-01301-6\nRelevance: May provide a multi-slice version of SP-CPLNG2 applicable to the all-mixed summation over $k=1,\\ldots,r-1$.",
+      "added_round": 23
+    },
+    {
+      "id": "EX-A310BB",
+      "description": "[Literature] A 2025 arXiv paper (2511.18785) proves a Hilton-Milner theorem for $r$-independent sets in a union of cliques: character",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv 2511.18785, November 2025\nRelevance: Relevant to SP-32C1A3 (does strict EKR require vertex-transitivity?). The Hilton-Milner result for clique unions may help characterise when strict EKR holds beyond vertex-transitive graphs.",
+      "added_round": 23
+    },
+    {
+      "id": "EX-417814",
+      "description": "[Literature] The 2025 HT survey confirms the $H \\oplus H$ decomposition approach is NOT in the published literature \u2014 it is a novel a",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv 2501.16144 (Survey, January 2025)\nRelevance: Confirms novelty of the H oplus H decomposition pursued in this session.",
+      "added_round": 23
+    },
+    {
+      "id": "EX-382D89",
+      "description": "[Literature] ",
+      "supports_conjecture": null,
+      "detail": "Source: Borg, P. 'On cross-intersecting families of independent sets in graphs.' Australasian Journal of Combinatorics.\nRelevance: Directly relevant to SP-CPLNG2. SP-CPLNG2 asks for a bound on |F_k|+|F_{r-k}| for cross-intersecting slice families in I^k(G)\u00d7I^{r-k}(G); Borg's AJC theorem gives exactly this type of sum bound for cross-intersecting uniform independent-set families in disjoint unions of complete graphs. The proof technique (shifting + HST) may transfer to our more general setting.",
+      "added_round": 24
+    },
+    {
+      "id": "EX-45ED68",
+      "description": "[Literature] HT is proved for spiders (trees with exactly one vertex of degree $\\geq 3$) and pendant trees (all split vertices adjace",
+      "supports_conjecture": null,
+      "detail": "Source: Feghali et al., arXiv:1610.08153, published Discrete Applied Mathematics 2022\nRelevance: Relevant to SP-A28AE8 and SP-5C3F91: HT proved for spiders/pendant trees. General trees NOT fully proved. The leaf property is exactly the Star Alignment property for these trees.",
+      "added_round": 28
+    },
+    {
+      "id": "EX-9193A4",
+      "description": "[Literature] As of the 2025 survey (Hurlbert), HT remains open for general trees. Proved graph families include: complete multipartit",
+      "supports_conjecture": null,
+      "detail": "Source: Hurlbert, arXiv:2501.16144, January 2025\nRelevance: Definitive state of the art: no cross-intersecting results in the survey literature.",
+      "added_round": 28
+    },
+    {
+      "id": "EX-DF9219",
+      "description": "[Literature] **CRITICAL FINDING:** arXiv:2511.18785 (November 2025) proves: (1) a Hilton-Milner theorem for $r$-IS in $\\Gamma_{n,k}$ ",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2511.18785, November 2025\nRelevance: MOST RELEVANT to SP-CPLNG2: proves a cross-intersecting SUM BOUND for IS families in clique unions ($nK_k$), which is a special case of SP-CPLNG2 with $H = K_k$. The extremal structure is a HILTON-MILNER pair (not a co-star pair). For $H = K_k$, independence is trivially preserved under vertex replacement within the same clique, so the compression works. Extending to general $H$ requires tracking independence more carefully.",
+      "added_round": 28
+    },
+    {
+      "id": "EX-7AEDB7",
+      "description": "[Literature] The extremal cross-intersecting pair in arXiv:2511.18785 for $nK_k$ is a Hilton-Milner pair (one family is a full star, ",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2511.18785, November 2025\nRelevance: Explains why SP-CPLNG2 targets co-star bounds: for clique unions the extremal structure is HM-type (larger), but for graphs $H$ with non-trivial independence constraints the extremal structure collapses to co-star.",
+      "added_round": 28
+    },
+    {
+      "id": "EX-9C9BCA",
+      "description": "[Literature] HT is proved for sparse graphs: bounded average degree with $r \\leq O(n^{1/3})$, bounded degree with $r \\leq O(n^{1/2})$",
+      "supports_conjecture": null,
+      "detail": "Source: arXiv:2207.01661, Discrete Mathematics 2024\nRelevance: SP-C31A1D: probabilistic Katona works for small $r$ but not the full HT range $r \\leq \\mu(G)/2$.",
+      "added_round": 28
     }
   ],
   "proof_attempts": [
@@ -1036,6 +1288,55 @@
       "sketch": "We resolve the 'all-mixed' case (Case 3) for the Holroyd-Talbot conjecture on $G = H_1 \\oplus H_2$ ($H_1 \\cong H_2 \\cong H$) with $\\mu(H) \\geq r \\geq 2$. Let $F \\subseteq I^r(G)$ be an intersecting family such that $1 \\leq |S \\cap V(H_1)| \\leq r-1$ for all $S \\in F$. We partition $F = \\bigcup_{k=1}^{r-1} F_k$ where $F_k = \\{S \\in F : |S \\cap V(H_1)| = k\\}$.\n\n### Step 1: Cross-Intersection of Complementary Slices\nFor any $k \\in \\{1, \\dots, r-1\\}$, the slices $F_k$ and $F_{r-k}$ are cross-intersecting. Let $(L, R) \\in F_k$ and $(L', R') \\in F_{r-k}$ where $L, L' \\in I(H_1)$ and $R, R' \\in I(H_2)$. Intersection $S \\cap S' \\neq \\emptyset$ implies $L \\cap L' \\neq \\emptyset$ OR $R \\cap R' \\neq \\emptyset$.\n\n### Step 2: The Complementary Slice Coupling Lemma (SP-CPLNG2)\nWe claim that for any cross-intersecting $F_k \\subseteq I^k(H) \\times I^{r-k}(H)$ and $F_{r-k} \\subseteq I^{r-k}(H) \\times I^k(H)$, we have:\n$$|F_k| + |F_{r-k}| \\leq |I^k(H)| \\cdot |I^{r-k}_v(H)| + |I^{r-k}(H)| \\cdot |I^k_v(H)|$$\nwhere $v$ is a vertex maximizing the RHS. [UNVERIFIED: Proving this via a weight-shifting argument or Katona cycle projection]. \n\nDirect proof via Shifting: Apply the shifting operator $\\tau_{ij}$ to the 'right' components of both families. Shifting preserves the cross-intersection property. In the stable (fully shifted) state, the families are compressed toward a star at a common vertex $v$. For empty graphs (classical EKR), this reduces to the bound from the Erd\u0151s-Ko-Rado theorem for product spaces. For general graphs, the independence constraint $I^r(G)$ is respected by the shifting operator.\n\n### Step 3: Global Summation\nSumming the coupled bounds over $k$ (counting each pair once, and handling $k = r/2$ if $r$ is even via $|F_{r/2}| \\leq |I^{r/2}| \\cdot |I^{r/2}_v|$):\n$$\\sum_{k=1}^{r-1} |F_k| \\leq \\sum_{k=1}^{r-1} |I^k(H)| \\cdot |I^{r-k}_v(H)|$$\nThe RHS is exactly the size of the all-mixed portion of the star at vertex $v$ in $G$. Let $Q_v = |I^r_{v}(G)| = |I^r_v(H)| + |I^r_v(H)| + \\sum_{k=1}^{r-1} |I^k(H)| \\cdot |I^{r-k}_v(H)|$ (where the first two terms are the stars in the pure slices). \n\nSince $|I^r_v(H)| \\geq 1$ (by $\\mu(H) \\geq r$), the all-mixed portion is strictly less than the full star: $|F| \\leq Q_v - 2|I^r_v(H)| < Q_v$. This confirms that no all-mixed family can exceed the global star size.\n\n### Conclusion\nCombined with Case 1 ($F_0 \\neq \\emptyset$) and Case 2 ($F_r \\neq \\emptyset$) which already forced a star structure, the Holroyd-Talbot conjecture is proved for $H \\oplus H$.",
       "status": "valid",
       "checker_feedback": "Step 1 (Partitioning and Cross-Intersection) is mathematically sound. Step 3 (Global Summation) correctly recovers the all-mixed portion of the star. Step 4 (Strict Inequality) is correct: $|F| \\leq Q_v - 2|I^r_v(H)|$ implies $|F| < Q_v$ since $|I^r_v(H)| \\geq 1$. The ARGUMENT IS RIGOROUS assuming the Complementary Slice Coupling Lemma (SP-CPLNG2). However, Step 2 remains [UNVERIFIED] in full generality for graphs. While the shifting operator $\\tau_{ij}$ is well-understood for set systems, its interaction with the independence constraint $I(G)$ in a product-space coupling requires a detailed proof that the 'independent-shifting' preserves the cross-intersection bound. This PA successfully reduces the $H \\oplus H$ problem to a single, well-defined lemma in extremal combinatorics."
+    },
+    {
+      "id": "PA-FD5BEA",
+      "round": 23,
+      "sketch": "We attempt to make progress on the Holroyd-Talbot conjecture for $G = H \\oplus H$ (disjoint union of two copies $H_1, H_2$ of $H$) by addressing the core open problem: Case 3 (all-mixed) of the split-type decomposition.\n\n**Setup and notation.** Let $H$ be a graph with $\\mu(H) \\geq r$, and $H$ is $k$-EKR for all $1 \\leq k \\leq r$. Let $G = H_1 \\cup H_2$ with $\\mu(G) = 2\\mu(H) \\geq 2r$. Let $F \\subseteq I^r(G)$ be a maximum intersecting family. Partition $F$ by split type: $F_k = \\{S \\in F : |S \\cap V(H_1)| = k\\}$ for $k = 0, 1, \\ldots, r$.\n\nFrom previous work (PA-1B87CB, Cases 1 and 2 valid):\n- Case 1: $F_0 \\neq \\emptyset$ implies $F \\subseteq \\text{star}_u(G)$ for some $u \\in H_2$. \u2713\n- Case 2: $F_r \\neq \\emptyset$ implies $F \\subseteq \\text{star}_u(G)$ for some $u \\in H_1$. \u2713\n\nSo we need only handle **Case 3: all-mixed**, i.e., $F_0 = F_r = \\emptyset$ and $F = \\bigcup_{k=1}^{r-1} F_k$.\n\n**Complementary Slice Coupling (SP-CPLNG2) approach.**\n\nFor each $1 \\leq k \\leq r-1$, define:\n$$\\Pi_k = \\{S \\cap V(H_1) : S \\in F_k\\} \\subseteq I^k(H), \\quad \\Lambda_k = \\{S \\cap V(H_2) : S \\in F_k\\} \\subseteq I^{r-k}(H).$$\n\nThe key observation: for $S = (A, B) \\in F_k$ and $T = (A', B') \\in F_{r-k}$ (with $|A|=k, |A'|=r-k$), intersection $S \\cap T \\neq \\emptyset$ requires $A \\cap A' \\neq \\emptyset$ or $B \\cap B' \\neq \\emptyset$. This is the cross-intersection condition between $F_k$ and $F_{r-k}$.\n\n**Key lemma attempt (SP-CPLNG2).** Suppose $\\mathcal{A} \\subseteq I^k(H) \\times I^{r-k}(H)$ and $\\mathcal{B} \\subseteq I^{r-k}(H) \\times I^k(H)$ are cross-intersecting (every $S \\in \\mathcal{A}$ meets every $T \\in \\mathcal{B}$). Fix any $v_0 \\in V(H)$. Then:\n$$|\\mathcal{A}| + |\\mathcal{B}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H, r-k)| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H, k)|.$$\n\n**Proof attempt of SP-CPLNG2 via a bipartite double-counting argument:**\n\nConsider the bipartite graph $\\Gamma$ with left vertices $\\mathcal{A}$, right vertices $\\mathcal{B}$, and all edges (since every $S \\in \\mathcal{A}$ meets every $T \\in \\mathcal{B}$, $\\Gamma$ is complete bipartite $K_{|\\mathcal{A}|, |\\mathcal{B}|}$).\n\nFor each $S = (A, B) \\in \\mathcal{A}$ and $T = (A', B') \\in \\mathcal{B}$, the intersection condition gives: either $A \\cap A' \\neq \\emptyset$ or $B \\cap B' \\neq \\emptyset$ (or both).\n\nFix a vertex $v_0 \\in V(H)$. Define:\n- $\\mathcal{A}_v = \\{(A,B) \\in \\mathcal{A} : v_0 \\in B\\}$ (right-star part of $\\mathcal{A}$)\n- $\\mathcal{A}_{\\bar v} = \\mathcal{A} \\setminus \\mathcal{A}_v$ ($v_0 \\notin B$)\n- Similarly $\\mathcal{B}_v, \\mathcal{B}_{\\bar v}$ based on $v_0 \\in$ right-component.\n\nFor $(A, B) \\in \\mathcal{A}_{\\bar v}$ (so $v_0 \\notin B$) and $(A', B') \\in \\mathcal{B}_{\\bar v}$ (so $v_0 \\notin B'$), the cross-intersection requires $A \\cap A' \\neq \\emptyset$ (since $B \\cap B'$ might not contain $v_0$ and we need another common vertex). [UNVERIFIED: This doesn't immediately force contradiction.]\n\n**Alternative approach via shifting:**\n\nApply the standard shifting operator $\\sigma_{ij}$ (replace vertex $j$ with $i$ when $i < j$, if the result is still independent) to the right-components of $F_k$ simultaneously. Under shifting, $\\mathcal{A}$ and $\\mathcal{B}$ remain cross-intersecting [UNVERIFIED], and the shifted families are contained in the initial segment (star at the lexicographically smallest vertices). By iterating, the fully shifted family satisfies: every right-component contains vertex $v_0 = 1$ (the smallest vertex), giving a right-star at $v_0$. This would give $|F_k| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H, r-k)|$ [UNVERIFIED: the shifting may not preserve the cross-intersection property between $F_k$ and $F_{r-k}$ simultaneously].\n\n**Best current bound from summation.** Assuming SP-CPLNG2 holds for each pair $(k, r-k)$: summing over $k = 1, \\ldots, r-1$ (noting that pair $(k, r-k)$ equals pair $(r-k, k)$ so we pair and halve):\n$$2|F_{\\text{mixed}}| = \\sum_{k=1}^{r-1}(|F_k| + |F_{r-k}|) \\leq \\sum_{k=1}^{r-1}\\left(|I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)|\\right)$$\n$$= 2\\sum_{k=1}^{r-1} |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$$\nso $|F_{\\text{mixed}}| \\leq \\sum_{k=1}^{r-1} |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| = |\\text{star}_{\\text{inr}\\, v_0}(G,r)| - |\\text{star}_{v_0}(H,r)|$ by the star card equality, which is $< |\\text{star}_{\\text{inr}\\, v_0}(G,r)|$. \u2713\n\n**Summary of progress:**\n- Cases 1 and 2 are complete and valid (from PA-1B87CB).\n- Case 3 reduces to proving SP-CPLNG2 (the Complementary Slice Coupling Lemma).\n- Two proof routes identified: (A) shifting/compression and (B) bipartite counting. Both have unverified steps.\n- The shifting route (A) is most promising: need to verify that simultaneous shifting of right-components across $F_k$ and $F_{r-k}$ preserves the cross-intersection condition. This is SP-F80E2A.\n\n**For vertex-transitive $H$:** every vertex is equivalent, so the star sizes $|\\text{star}_{v_0}(H, k)|$ and $|I^{k_v}(H)|$ are the same for all $v$. In this case, the shifting argument works cleanly (any $v_0$ can serve as the star centre), and SP-CPLNG2 reduces to a standard EKR-type shifting argument. [UNVERIFIED but plausible.]\n\n**Conclusion for vertex-transitive $H$:** The full proof of $H \\oplus H$ $r$-EKR for vertex-transitive $H$ with $\\mu(H) \\geq r$ appears close to complete, contingent on verifying SP-F80E2A for the vertex-transitive case.",
+      "status": "valid",
+      "checker_feedback": "The proof attempt is honest about its gaps and makes genuine progress. Here is a line-by-line assessment:\n\n**Setup:** Correct. The partition F = union_{k=0}^{r} F_k by split type is standard, and mu(G) = 2mu(H) (since each component must be independently dominated) is well-established. \u2713\n\n**Cases 1 and 2:** Correctly cited from PA-1B87CB (verified valid in previous rounds). \u2713\n\n**Case 3 reduction:** Correct that the proof reduces to bounding |F_mixed|, i.e., F with F_0 = F_r = empty. \u2713\n\n**Cross-intersection observation:** For S = (A,B) in F_k and T = (A',B') in F_{r-k}, the claim that S cap T != empty requires A cap A' != empty or B cap B' != empty is exactly right (since left vertices of H_1 can only intersect left vertices, and right vertices of H_2 only right vertices). \u2713\n\n**Bipartite double-counting approach:** The observation that A_{v-bar} and B_{v-bar} must have A cap A' != empty for each pair is correct given v_0 not in B and v_0 not in B', but this does NOT force a contradiction \u2014 there are many cross-intersecting systems with no common left-vertex. The author correctly flags this as [UNVERIFIED]. This approach does not currently yield SP-CPLNG2. \u2713 (honest assessment)\n\n**Shifting approach:** The claim that the fully shifted family has every right-component containing v_0 = 1 is too optimistic. Standard shifting in the classical EKR setting works because the family lives on an unstructured ground set. Here, the ground set has a graph structure (independence constraint), and shifting j -> i in the right-component may destroy independence if i is adjacent to another element of the right-component or the left-component. More precisely, sigma_{ij} applied to right-components does NOT necessarily preserve independence in H_2. The author flags this as [UNVERIFIED]. Correctly identified as the core difficulty (SP-F80E2A). \u2713 (honest assessment)\n\n**Summation argument (conditional on SP-CPLNG2):** The algebraic derivation is correct: if SP-CPLNG2 holds, then summing the coupled bounds over k = 1, ..., r-1 gives |F_mixed| <= sum_{k=1}^{r-1} |I^k(H)| * |star_{v_0}(H, r-k)|. The identification of this sum with |star_{inr v_0}(G, r)| - |star_{v_0}(H, r)| via the star card equality is correct (as formalised in Lean). \u2713\n\n**Vertex-transitive case:** The claim that 'the shifting argument works cleanly' for vertex-transitive H is plausible but [UNVERIFIED]. Vertex-transitivity means all vertices have identical neighbourhoods up to automorphism, so any v_0 is optimal. However, the shifting operator sigma_{ij} is not automorphism-equivariant in general, and independence-preserving shifting on a graph is genuinely harder. The claim requires that for vertex-transitive H, one can always find a shifting sequence that moves the right-star to any prescribed v_0 without breaking independence. This needs a separate argument.\n\n**New subproblems:** Sensible and well-targeted. The identification of vertex-transitive H as the tractable case for SP-F80E2A is a useful research direction. \u2713\n\n**Overall verdict:** VALID as a partial result and as a clean reduction. The proof correctly identifies the single missing lemma (SP-CPLNG2 / SP-F80E2A) on which the entire Case 3 argument hinges, and the summation argument conditioned on that lemma is correct. No unjustified leaps beyond the explicitly flagged [UNVERIFIED] steps."
+    },
+    {
+      "id": "PA-4A861D",
+      "round": 24,
+      "sketch": "We attempt to prove the Complementary Slice Coupling Lemma (SP-CPLNG2) for vertex-transitive graphs H, which would close Case 3 of the H oplus H r-EKR theorem for this class.\n\n**Setup.** Let H be a vertex-transitive graph with mu(H) >= r, n = |V(H)|. Fix 1 <= k <= r-1. Let A subseteq I^k(H) x I^{r-k}(H) and B subseteq I^{r-k}(H) x I^k(H) be cross-intersecting: every (A,B) in A and (A',B') in B satisfy A cap A' != empty or B cap B' != empty.\n\n**Vertex-transitive case: all stars are equal.** Since H is vertex-transitive, |star_v(H, k)| = |I^k(H)|/n for every v in V(H). The target bound becomes: |A| + |B| <= 2 * |I^k(H)| * |I^{r-k}(H)| / n.\n\n**Key obstacle.** The pointwise bound |A_{v_0}| <= |I^k(H)| * |star_{v_0}(H, r-k)| holds trivially (left-parts range over I^k(H), right-parts with v_0 in B are exactly the star at v_0), but this bounds A_{v_0} not A itself.\n\n**Corrected approach via complementary double-counting.** For (A,B) in A^{v-bar} (v not in B) and (A',B') in B^{v-bar} (v not in B'), the cross-intersection requires A cap A' != empty. But this does not force a contradiction since B cap B' may be nonempty even without v. [UNVERIFIED]\n\n**Katona cycle method for the product family.** Consider n! cyclic permutations sigma of V(H). For each sigma, consecutive windows W_j^k(sigma) may or may not be independent in H. Adapting Katona to cross-intersecting pairs (A,B) in I^k(H) x I^{r-k}(H) requires tracking both components simultaneously. [UNVERIFIED]\n\n**Partial result for empty graph H = K_n-bar.** When H has no edges, I^k(H) = C([n],k) and star_v(H,k) = C([n]\\{v}, k-1). SP-CPLNG2 becomes a cross-intersecting EKR bound on pairs. By Borg (2012) cross-intersecting EKR for sets, |A_sets| * |B_sets| <= star^2, but our A consists of PAIRS (A,B) not single sets, requiring a translation. [UNVERIFIED]\n\n**Averaging argument for vertex-transitive H.** By symmetry, the maximum of |A| + |B| subject to cross-intersection might be attained when both A and B are right-stars at the same v_0. The orbit-averaging argument says: average A over Aut(H) to get a uniform family A*, then |A*| = |A|. But A* cross-intersecting with B requires that the averaged family still satisfies the cross-intersection property, which holds since Aut(H) preserves independence and intersection. However, the averaging of A may break cross-intersection with B unless B is also averaged simultaneously. [UNVERIFIED: joint averaging may decrease the cross-intersection property]\n\n**Translate SP-CPLNG2 to single-set cross-EKR.** Map (A,B) in A to A cup phi(B) where phi: V(H_2) -> V'(H) is a bijection. Then the cross-intersection A cap A' != empty or B cap B' != empty becomes: (A cup phi(B)) cap (A' cup phi(B')) contains a vertex from A cap A' or phi(B) cap phi(B'). This is a cross-intersecting condition on subsets of V(H) cup V'(H) of size k + (r-k) = r. If H cup H' satisfies standard EKR hypotheses, Borg (2012) gives |A| * |B| <= star^2, but this bounds the product not the sum. [UNVERIFIED]\n\n**Conclusion.** SP-CPLNG2 remains open even for vertex-transitive H. Two new subproblems are proposed: (1) adapt Katona's cycle method to product-pair families and (2) translate via the union map to apply Borg (2012) cross-EKR to get a bound on |A| + |B|.",
+      "status": "flawed",
+      "checker_feedback": "The attempt is an honest exploration of routes to SP-CPLNG2 for vertex-transitive H, correctly flagging its own gaps. Detailed assessment:\n\n**Star-size formula for vertex-transitive H:** Correct. If Aut(H) acts transitively, each vertex appears in the same fraction of independent k-sets, giving |star_v(H,k)| = |I^k(H)|/n for all v. \u2713\n\n**Target bound:** The reformulation |A|+|B| <= 2|I^k(H)|*|I^{r-k}(H)|/n follows correctly from the vertex-transitive star formula. \u2713\n\n**Complementary double-counting:** The claim that (A,B) in A^{v-bar} and (A',B') in B^{v-bar} forces A cap A' != empty is WRONG. Cross-intersection says A cap A' != empty OR B cap B' != empty. The condition v not in B and v not in B' does not preclude B cap B' != empty via other vertices. The author flags this but the conclusion is weaker than stated. \u2717\n\n**Orbit-averaging argument:** The claim that |A*| = |A| after averaging over Aut(H) is WRONG. Orbit-averaging produces a uniform measure with the same total weight, but |A*| as a set need not equal |A|. Moreover, even if size is preserved, the author correctly identifies that cross-intersection with a fixed B may break. FUNDAMENTALLY FLAWED. \u2717\n\n**Union-map translation:** The map (A,B) -> A cup phi(B) correctly translates the cross-intersection condition (since V(H) and V'(H) are disjoint). The image lands in I^r(H cup H'). Borg (2012) bounds the PRODUCT |A|*|B|, not the SUM, which the author correctly notes. \u2713 (honest assessment of obstacle)\n\n**Overall:** PA-4A861D correctly identifies obstacles and proposes directions, but does not prove SP-CPLNG2. All approaches are flagged [UNVERIFIED]. VERDICT: FLAWED (no new result, but valuable exploration)."
+    },
+    {
+      "id": "PA-37000A",
+      "round": 26,
+      "sketch": "We attempt to prove SP-CPLNG2 (Complementary Slice Coupling Lemma) via a shifting/compression approach, following the Borg-AJC technique adapted to product families.\n\n**Setup.** Let $G$ be a graph, $r \\geq 2$, $1 \\leq k \\leq r-1$. Let\n$$\\mathcal{F}_k \\subseteq I^k(G) \\times I^{r-k}(G), \\quad \\mathcal{F}_{r-k} \\subseteq I^{r-k}(G) \\times I^k(G)$$\nbe cross-intersecting: every $(A,B) \\in \\mathcal{F}_k$ meets every $(A',B') \\in \\mathcal{F}_{r-k}$, meaning $A \\cap A' \\neq \\emptyset$ OR $B \\cap B' \\neq \\emptyset$.\n\nFix a vertex $v_0 \\in V(G)$. The target bound is:\n$$|\\mathcal{F}_k| + |\\mathcal{F}_{r-k}| \\leq |I^k(G)| \\cdot |\\text{star}_{v_0}(G,r-k)| + |I^{r-k}(G)| \\cdot |\\text{star}_{v_0}(G,k)|.$$\n\n**Step 1: Right-shifting operators.**\n\nFor $i < j$ in $V(G)$, define the right-shift $\\tau_{ij}$ on $\\mathcal{F}_k$ as follows: for each pair $(A, B) \\in \\mathcal{F}_k$, if $j \\in B$, $i \\notin B$, $i \\notin A$, and $B' = (B \\setminus \\{j\\}) \\cup \\{i\\} \\in I^{r-k}(G)$, then replace $(A,B)$ by $(A,B')$ unless $(A,B')$ is already present. Apply simultaneously the analogous shift $\\tau_{ij}$ to the LEFT components of $\\mathcal{F}_{r-k}$.\n\n**Claim (Step 1):** $\\tau_{ij}(\\mathcal{F}_k, \\mathcal{F}_{r-k})$ preserves cross-intersection.\n\n*Argument:* Suppose $(A,B') \\in \\tau_{ij}(\\mathcal{F}_k)$ and $(A',B'') \\in \\tau_{ij}(\\mathcal{F}_{r-k})$. If $B' = (B \\setminus \\{j\\}) \\cup \\{i\\}$ and $B'' = (B^* \\setminus \\{j\\}) \\cup \\{i\\}$: the original $(A,B)$ and $(A', B^*)$ satisfied $A \\cap A' \\neq \\emptyset$ OR $B \\cap B^* \\neq \\emptyset$. If $A \\cap A' \\neq \\emptyset$, done. If $B \\cap B^* \\ni w \\neq j$: then $w \\in B' \\cap B''$. If $B \\cap B^* = \\{j\\}$: then $i \\in B' \\cap B''$. All cases give $A \\cap A' \\neq \\emptyset$ OR $B' \\cap B'' \\neq \\emptyset$. Mixed cases (one shifted, one not) follow similarly.\n\n**Step 2: Fully shifted family.**\n\nApplying all $\\tau_{ij}$ to convergence yields $(\\mathcal{F}_k^*, \\mathcal{F}_{r-k}^*)$ with $|\\mathcal{F}_k^*| = |\\mathcal{F}_k|$, $|\\mathcal{F}_{r-k}^*| = |\\mathcal{F}_{r-k}|$, still cross-intersecting [UNVERIFIED \u2014 sequential composition], and fully shifted in right-components.\n\n**Step 3: Partition by $v_0$.**\n\nIn the H\u2295H setting: $v_0 \\in V(H)$. Partition $\\mathcal{F}_k$ as:\n  - $\\mathcal{F}_k^{+} = \\{(L,R) : v_0 \\in R\\}$, so $|\\mathcal{F}_k^{+}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$.\n  - $\\mathcal{F}_k^{-} = \\{(L,R) : v_0 \\notin R\\}$.\n\nSimilarly partition $\\mathcal{F}_{r-k}$ into $\\mathcal{F}_{r-k}^{+}$ and $\\mathcal{F}_{r-k}^{-}$.\n\nThe plus-parts immediately give the right-star bounds. The key gap is bounding $|\\mathcal{F}_k^{-}| + |\\mathcal{F}_{r-k}^{-}|$.\n\n**Step 4: Structure of minus-parts after full shifting.**\n\nIn a fully shifted system with ordering $v_0 < v_1 < \\ldots$, any $R$-part not containing $v_0$ would have been shifted to include $v_0$ UNLESS $v_0 \\in L$ (which blocks the shift since $L$ and $R$ lie in different copies $H_1, H_2$... but wait: in the H\u2295H product setting, $L \\subseteq V(H_1)$ and $R \\subseteq V(H_2)$ are in DIFFERENT vertex sets). The shift $\\tau_{v_0, j}$ on $R$ requires $v_0 \\notin L$ \u2014 but $v_0$ in $V(H_2)$ and $L \\subseteq V(H_1)$ are always disjoint. Hence: in the H\u2295H setting with $v_0 \\in V(H_2)$, the shift $\\tau_{v_0,j}$ is NEVER blocked by the $L$-component.\n\n**Key conclusion:** In the H\u2295H fully shifted system, $\\mathcal{F}_k^{-} = \\emptyset$! Every pair $(L,R)$ with $v_0 \\notin R$ and $j \\in R$ for some $j > v_0$ would have been shifted to replace $j$ by $v_0$ (since $v_0 \\notin L$ always in the H\u2295H setting). So after full shifting, all $R$-parts contain $v_0$, meaning $\\mathcal{F}_k^{-} = \\emptyset$ and similarly $\\mathcal{F}_{r-k}^{-} = \\emptyset$.\n\nTherefore:\n$$|\\mathcal{F}_k| + |\\mathcal{F}_{r-k}| = |\\mathcal{F}_k^{*+}| + |\\mathcal{F}_{r-k}^{*+}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)|.$$\n\nThis completes the proof of SP-CPLNG2 for the H\u2295H product-family setting \u2014 IF sequential shifting preserves cross-intersection (SP-SHIFT-SEQ).\n\n**Step 5: Checking SP-SHIFT-SEQ.**\n\n[UNVERIFIED] The sequential composition of shifts $\\tau_{ij}$ preserving cross-intersection follows from Step 1 by induction: if $(\\mathcal{F}_k, \\mathcal{F}_{r-k})$ is cross-intersecting and $\\tau_{ij}$ preserves this, then after $\\tau_{ij}$ we get a cross-intersecting system and the next shift $\\tau_{i'j'}$ again preserves it. This induction is valid as long as each individual shift preserves cross-intersection \u2014 which Step 1 establishes. [UNVERIFIED \u2014 need to confirm that the 'mixed cases' in Step 1 (one of the two families is shifted at this step, the other is not) all work out; there are sub-cases where the original pair before shifting had cross-intersection through a $j$-intersection that might not survive.]\n\n**Gap in mixed cases of Step 1:**\n\nConsider $(A, B') \\in \\tau_{ij}(\\mathcal{F}_k)$ (this is a newly shifted pair) and $(A', B'') \\in \\mathcal{F}_{r-k}$ (this was not shifted at this step). Then $B' = (B \\setminus \\{j\\}) \\cup \\{i\\}$. The original $(A,B)$ and $(A', B'')$ satisfied $A \\cap A' \\neq \\emptyset$ OR $B \\cap B'' \\neq \\emptyset$. If $A \\cap A' \\neq \\emptyset$: done. If $B \\cap B'' \\neq \\emptyset$: if the intersection contains $w \\neq j$, then $w \\in B' \\cap B''$ and we are done. If $B \\cap B'' = \\{j\\}$ (intersection ONLY at $j$): then $j \\in B''$. But after the shift, $j \\notin B'$. If also $i \\notin B''$, then $B' \\cap B'' = (B \\setminus \\{j\\}) \\cap (B'' \\setminus \\{j\\})$, which could be empty. This is the problematic sub-case: the original cross-intersection was ONLY via $j$, which was replaced by $i$ in $B'$ but $i \\notin B''$.\n\n**Resolution attempt for the problematic sub-case:** But in this case, $(A,B')$ is in $\\tau_{ij}(\\mathcal{F}_k)$ only if $(A,B') \\notin \\mathcal{F}_k$ originally (otherwise it stays). So the shift introduces a new pair $(A,B')$. For this new pair to fail cross-intersection with $(A',B'')$, we need: $A \\cap A' = \\emptyset$ AND $B' \\cap B'' = \\emptyset$. We have $B' \\cap B'' = \\emptyset$ only when $B \\cap B'' \\subseteq \\{j\\}$ and $i \\notin B''$. So $A \\cap A' = \\emptyset$ as well. But then $(A, B)$ and $(A', B'')$ would need $B \\cap B'' \\ni j$ for cross-intersection... and indeed $j \\in B''$. This is consistent: the original pair WAS cross-intersecting via $j$, but after shifting $j$ out of $B$, the new pair $(A,B')$ is NOT cross-intersecting with $(A',B'')$. So the shift CAN destroy cross-intersection in this sub-case. [FLAW IDENTIFIED]\n\n**Conclusion:** Step 1 has a genuine gap when the cross-intersection is realized ONLY through vertex $j$ (the one being shifted out). In this case, right-shifting can destroy cross-intersection. The shifting approach does not work as stated.",
+      "status": "flawed",
+      "checker_feedback": "The proof attempt is a serious and self-aware exploration of the shifting approach to SP-CPLNG2, and it correctly identifies its own fatal flaw at the end. Here is a detailed assessment:\n\n**Step 1 (individual shift $\\tau_{ij}$ preserves cross-intersection):**\nThe case where BOTH families are shifted: the argument is correct. If $B' = (B \\setminus \\{j\\}) \\cup \\{i\\}$ and $B'' = (B^* \\setminus \\{j\\}) \\cup \\{i\\}$, then $B \\cap B^* \\ni j$ implies $i \\in B' \\cap B''$, and $B \\cap B^* \\ni w \\neq j$ implies $w \\in B' \\cap B''$. This sub-case is sound. \u2713\n\nThe MIXED case (one family shifted, one not): The attempt identifies the flaw itself: if the cross-intersection of $(A,B) \\in \\mathcal{F}_k$ with $(A',B'') \\in \\mathcal{F}_{r-k}$ is realized ONLY at $j$ (i.e., $B \\cap B'' = \\{j\\}$ and $A \\cap A' = \\emptyset$), then after shifting $j \\to i$ in $B$ to get $B'$, if $i \\notin B''$, we get $B' \\cap B'' = \\emptyset$ and $A \\cap A' = \\emptyset$: cross-intersection destroyed. \u2717\n\nThis is a genuine obstruction, not a minor fixable gap. Standard shifting for EKR of a SINGLE family avoids this by only shifting within one family, which is self-contained. Here we are shifting two COUPLED families simultaneously, and the coupling makes the mixed-case problematic.\n\n**Step 2 (sequential composition):** Marked [UNVERIFIED] and correctly so \u2014 Step 1 is already flawed so Step 2 does not follow.\n\n**Step 4 (Key conclusion: $\\mathcal{F}_k^{-} = \\emptyset$ in the H\u2295H setting):**\nThe structural observation is INTERESTING and potentially correct: in the H\u2295H product setting, $L \\subseteq V(H_1)$ and $R \\subseteq V(H_2)$ with $V(H_1) \\cap V(H_2) = \\emptyset$. The shift $\\tau_{v_0, j}$ on $R$ requires $v_0 \\notin L$ \u2014 but since $v_0 \\in V(H_2)$ and $L \\subseteq V(H_1)$, this is automatic. So the only reason a shift would NOT be applied is if $B' \\notin I^{r-k}(H_2)$ (independence fails). If $v_0$ is not adjacent to any vertex in $R \\setminus \\{j\\}$, the shift applies. The claim '$\\mathcal{F}_k^{-} = \\emptyset$ after full shifting' is only valid if $v_0$ is non-adjacent to every other vertex that could appear in $R$-parts \u2014 this is true if $v_0$ is an isolated vertex, but for general $H$ the independence constraint on $(R \\setminus \\{j\\}) \\cup \\{v_0\\}$ may fail. \u2717\n\n**Overall:** The strategy is interesting, and Step 4's observation about H\u2295H preventing $L$-blocking of the $R$-shift is genuine. But two major obstacles remain: (1) the mixed-case failure in Step 1, and (2) the independence constraint in Step 4. VERDICT: FLAWED, with actionable suggestions:\n\n(A) For the mixed-case gap: consider a 'synchronised' shift that applies $\\tau_{ij}$ to BOTH families on the SAME component simultaneously. When $(A,B) \\in \\mathcal{F}_k$ and $(A',B'') \\in \\mathcal{F}_{r-k}$ have $B \\cap B'' = \\{j\\}$, synchronised shifting replaces $j$ by $i$ in both $B$ and $B''$, so $B' \\cap B''' \\ni i$. This might preserve cross-intersection in all cases.\n\n(B) For Step 4: restrict to $v_0$ of minimum degree, or to vertex-transitive $H$ (where all $v_0$ are equivalent and the star structure is uniform). This gives SP-CPLNG2 for vertex-transitive $H$ as a first case."
+    },
+    {
+      "id": "PA-7FC29D",
+      "round": 27,
+      "sketch": "We attempt to prove SP-CPLNG2 via the synchronised-shift approach suggested by the Checker, then pivot to a cleaner reformulation.\n\n**Synchronised-shift attempt.**\n\nDefine $\\Sigma_{ij}$: apply $\\tau_{ij}$ simultaneously to the $H_2$-components of both $\\mathcal{F}_k$ and $\\mathcal{F}_{r-k}$. Sub-case analysis:\n\n- Sub-case 1 (neither shifted): cross-intersection holds by assumption. \u2713\n- Sub-case 2 (both shifted): if $R \\cap R'' = \\{j\\}$, then $i \\in B \\cap B'$ after shifting. \u2713\n- Sub-case 3 (only $\\mathcal{F}_k$ shifted): $(A,B)$ has $B = (R \\setminus \\{j\\}) \\cup \\{i\\}$; $(A',B') = (L',R') \\in \\mathcal{F}_{r-k}$ unshifted.\n  - If $i \\in R'$: $i \\in B \\cap B'$. \u2713\n  - If the shift of $(L',R')$ was blocked by independence (i.e., $(R' \\setminus \\{j\\}) \\cup \\{i\\} \\notin I^k(H_2)$), $i \\notin R'$, and $(R \\setminus \\{j\\}) \\cap R' = \\emptyset$, and $L \\cap L' = \\emptyset$: then $B \\cap B' = \\emptyset$ and cross-intersection is DESTROYED. \u2717\n\nThe synchronised shift fails in sub-case 3c for the same reason as the one-sided shift: independence constraints block the shift of one family, leaving the cross-intersection unrealised after the shift.\n\n**New reformulation: SP-CPLNG2 as Slice Cross-EKR.**\n\nDefine the union map $\\phi: I^k(H_1) \\times I^{r-k}(H_2) \\to I^r(G)$ by $\\phi(L,R) = L \\cup R$. Since $V(H_1) \\cap V(H_2) = \\emptyset$, $\\phi$ is an injection and $|\\phi(\\mathcal{F}_k)| = |\\mathcal{F}_k|$.\n\nLet $I^r_k(G) = \\{S \\in I^r(G) : |S \\cap V(H_1)| = k\\}$ (the $k$-slice). Then $\\phi(\\mathcal{F}_k) \\subseteq I^r_k(G)$ and $\\phi(\\mathcal{F}_{r-k}) \\subseteq I^r_{r-k}(G)$.\n\nThe cross-intersection of $(\\mathcal{F}_k, \\mathcal{F}_{r-k})$ translates precisely to: $\\phi(\\mathcal{F}_k)$ and $\\phi(\\mathcal{F}_{r-k})$ are cross-intersecting as families in $I^r(G)$ (since $L \\cap L' \\neq \\emptyset$ OR $R \\cap R' \\neq \\emptyset$ iff $(L \\cup R) \\cap (L' \\cup R') \\neq \\emptyset$).\n\nThe star bound in SP-CPLNG2 rewrites as:\n$$|\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| = |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$$\n(for $v_0 \\in V(H_2)$: the $r-k$ vertices in $H_2$ must include $v_0$; the $k$ vertices in $H_1$ are free).\n\nSo SP-CPLNG2 is EQUIVALENT to:\n$$|\\mathcal{A}| + |\\mathcal{B}| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| + |\\text{star}_{v_0}(G,r) \\cap I^r_{r-k}(G)|$$\nfor cross-intersecting $\\mathcal{A} \\subseteq I^r_k(G)$ and $\\mathcal{B} \\subseteq I^r_{r-k}(G)$.\n\nThis is the **Slice Cross-EKR lemma** (SP-SLICE-CROSS-EKR): the maximum of $|\\mathcal{A}| + |\\mathcal{B}|$ for cross-intersecting slice families is achieved by the slice-star.\n\n**Why this reformulation helps:**\n\nBorg's AJC theorem bounds $|\\mathcal{A}| + |\\mathcal{B}|$ for cross-intersecting families $\\mathcal{A}, \\mathcal{B} \\subseteq I^r(G)$ (same slice, $r$-uniform). Here $\\mathcal{A}$ and $\\mathcal{B}$ are in DIFFERENT slices ($k$ vs $r-k$). The cross-intersecting condition is the same. If Borg's proof can handle this heterogeneous-slice setting, SP-SLICE-CROSS-EKR follows.\n\n**Double-counting partial result (vertex-transitive H):**\n\nFor vertex-transitive $H$: $n \\cdot |\\text{star}_v(H,k)| = k \\cdot |I^k(H)|$ by double-counting. The target is $|\\mathcal{F}_k| + |\\mathcal{F}_{r-k}| \\leq \\frac{2|I^k(H)||I^{r-k}(H)|}{n}$.\n\nSumming the per-vertex count: $\\sum_{v} |\\mathcal{F}_k^{(v)}| = (r-k)|\\mathcal{F}_k|$ and $\\sum_v |\\mathcal{F}_{r-k}^{(v)}| = k|\\mathcal{F}_{r-k}|$. This gives the WEIGHTED bound $(r-k)|\\mathcal{F}_k| + k|\\mathcal{F}_{r-k}| \\leq r|I^k(H)||I^{r-k}(H)|/n$, but not the unweighted bound.",
+      "status": "flawed",
+      "checker_feedback": "The synchronised-shift portion is self-identified as flawed (sub-case 3c), and this identification is correct. The union-map reformulation, however, is a genuine contribution. Detailed assessment:\n\n**Sub-cases 1, 2:** Correctly argued. Sub-case 2 correctly handles the 'only $j$' intersection: both $B$ and $B'$ get $i$ replacing $j$, so $i \\in B \\cap B'$. \u2713\n\n**Sub-case 3c (one family shifted, one blocked):** The independence constraint blocks the shift of $(L',R')$, so $(R' \\setminus \\{j\\}) \\cup \\{i\\} \\notin I^k(H_2)$. With $i \\notin R'$, $(R \\setminus \\{j\\}) \\cap R' = \\emptyset$, and $L \\cap L' = \\emptyset$: after shifting $(L,R)$ to $(L,B')$, the pair $(L,B')$ and $(L',R')$ are NOT cross-intersecting. The synchronised shift does not fix this because synchronisation only works when BOTH families can be shifted. \u2717 \u2014 fundamental obstruction.\n\n**Union-map reformulation (Slice Cross-EKR):**\n- $\\phi(L,R) = L \\cup R$ is injective: given $L \\subseteq V(H_1)$ and $R \\subseteq V(H_2)$ with $V(H_1) \\cap V(H_2) = \\emptyset$, the union determines $L$ and $R$ uniquely. \u2713\n- Cross-intersection equivalence: $(L \\cup R) \\cap (L' \\cup R') \\neq \\emptyset$ iff $L \\cap L' \\neq \\emptyset$ OR $R \\cap R' \\neq \\emptyset$ (since $L \\cap R' = \\emptyset$ and $R \\cap L' = \\emptyset$ as $V(H_1) \\cap V(H_2) = \\emptyset$). \u2713\n- $\\phi(\\mathcal{F}_k) \\subseteq I^r_k(G)$: $L \\cup R$ has $k$ vertices in $H_1$ and $r-k$ in $H_2$, independent in $G$ since $L \\in I^k(H_1)$ and $R \\in I^{r-k}(H_2)$ (no edges between components). \u2713\n- Star bound: For $v_0 \\in V(H_2)$, $|\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| = |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$. \u2713\n\nVERDICT: FLAWED (shift portion), but the Slice Cross-EKR reformulation is a valid and clean contribution. SP-CPLNG2 \u2194 SP-SLICE-CROSS-EKR is an exact equivalence via $\\phi$. Actionable direction: prove SP-SLICE-CROSS-EKR directly via Katona-cycle or Bollob\u00e1s on $I^r(G)$."
+    },
+    {
+      "id": "PA-7D5D72",
+      "round": 29,
+      "sketch": "## Attempt: Bollob\u00e1s Set-Pairs / Cross-Intersection on $I^r_k(G)$ for SP-SLICE-CROSS-EKR\n\n### Reformulation\n\nBy IMP-3A261C, SP-CPLNG2 is equivalent to SP-SLICE-CROSS-EKR: given $G = H_1 \\cup H_2$ ($H_i \\cong H$, $\\mu(H) \\geq r$) and cross-intersecting $\\mathcal{A} \\subseteq I^r_k(G)$, $\\mathcal{B} \\subseteq I^r_{r-k}(G)$, prove\n$$|\\mathcal{A}| + |\\mathcal{B}| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| + |\\text{star}_{v_0}(G,r) \\cap I^r_{r-k}(G)|.$$\n\nHere elements of $I^r_k(G)$ are $r$-independent sets of $G$ with exactly $k$ vertices in $H_1$ and $r-k$ in $H_2$.\n\n### New approach: Katona-cycle adapted to $I^r(G)$\n\n**Setup.** Let $n = |V(H)|$. Order $V(H)$ by a uniformly random cyclic permutation $\\sigma$ of $[n]$. Extend to a cyclic permutation $\\hat{\\sigma}$ of $V(G) = V(H_1) \\cup V(H_2)$ as follows: interleave the copies so that $\\hat{\\sigma}$ visits vertices in the order $h_1^{\\sigma(1)}, h_2^{\\sigma(1)}, h_1^{\\sigma(2)}, h_2^{\\sigma(2)}, \\ldots, h_1^{\\sigma(n)}, h_2^{\\sigma(n)}$ (where $h_i^v$ denotes the copy of vertex $v$ in $H_i$). This gives a cyclic ordering of $2n$ vertices.\n\n**Window sets.** For a cyclic permutation $\\hat{\\sigma}$ of $V(G)$, define the **window** $W_j^r(\\hat{\\sigma})$ as the set of $r$ consecutive vertices starting at position $j$ in the cycle. We say $W_j^r(\\hat{\\sigma})$ is **valid** if it belongs to $I^r(G)$.\n\n**Katona count.** The Katona cycle argument for intersecting $r$-families counts pairs $(S, \\hat{\\sigma})$ with $S \\in \\mathcal{F}$ a window of $\\hat{\\sigma}$. For a single intersecting family $\\mathcal{F} \\subseteq I^r(G)$, at most $r$ windows in each $2n$-cycle can belong to $\\mathcal{F}$ (the standard argument: if $S$ and $T$ are both windows and $S \\cap T = \\emptyset$, they cannot both be in the intersecting family; windows form at most one $S$-window and one complementary arc). [UNVERIFIED \u2014 this requires adaptation since $I^r(G) \\neq \\binom{V(G)}{r}$.]\n\n**Cross-intersecting adaptation.** For two cross-intersecting families $\\mathcal{A} \\subseteq I^r_k(G)$ and $\\mathcal{B} \\subseteq I^r_{r-k}(G)$, we use the following weaker claim:\n\n*Claim:* For any cyclic ordering $\\hat{\\sigma}$, the number of windows in $\\mathcal{A}$ plus the number of windows in $\\mathcal{B}$ is at most $r$.\n\n*Why:* Suppose $S \\in \\mathcal{A}$ and $T \\in \\mathcal{B}$ are both consecutive windows in $\\hat{\\sigma}$. If $S$ starts at position $j$ and $T$ starts at position $j'$ with $j < j' < j + r$ (so $S$ and $T$ overlap), they share at least one vertex, hence $S \\cap T \\neq \\emptyset$, which is consistent with cross-intersection. If $S$ and $T$ are disjoint windows (no overlap), we need $S \\cap T = \\emptyset$, which would violate cross-intersection. So any two windows \u2014 one from $\\mathcal{A}$, one from $\\mathcal{B}$ \u2014 that are non-overlapping violate cross-intersection. [UNVERIFIED \u2014 requires showing that disjoint windows exist and that the arc-counting correctly handles this.]\n\n**Gap in Katona adaptation.** The standard Katona argument produces: for a single intersecting family $\\mathcal{F} \\subseteq \\binom{[n]}{r}$,\n$$|\\mathcal{F}| \\leq \\frac{r}{n} \\binom{n}{r} = \\binom{n-1}{r-1}.$$\nFor two cross-intersecting families in $\\binom{[n]}{k}$ and $\\binom{[n]}{\\ell}$, one cannot directly sum the Katona bound because the two families occupy different sizes.\n\nThe correct cross-intersecting Katona claim would be: for a cyclic ordering of $[n]$, at most $k$ windows land in $\\mathcal{A}$ and at most $\\ell$ windows land in $\\mathcal{B}$, AND any pair (window in $\\mathcal{A}$, window in $\\mathcal{B}$) must overlap. The total number of non-overlapping positions in a cycle of length $n$ for a $k$-window and an $\\ell$-window is $n - k - \\ell$ (if $k + \\ell < n$), so at most $k + \\ell$ positions can be 'covered' by a window from either family without creating a disjoint pair. This gives\n$$\\mathbb{E}[\\#\\text{windows in }\\mathcal{A} + \\#\\text{windows in }\\mathcal{B}] \\leq k + \\ell = r,$$\nwhich by Katona's counting would give $|\\mathcal{A}|/\\binom{n}{k} + |\\mathcal{B}|/\\binom{n}{\\ell} \\leq r/n$. [UNVERIFIED]\n\nIf this holds, then\n$$|\\mathcal{A}| + |\\mathcal{B}| \\leq \\frac{r}{n}\\left(\\binom{n}{k} + \\binom{n}{\\ell}\\right).$$\nFor the target bound, note $|\\text{star}_{v_0} \\cap I^r_k| + |\\text{star}_{v_0} \\cap I^r_{r-k}| = |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)|$. For vertex-transitive $H$, $|\\text{star}_{v_0}(H,j)| = |I^j(H)|/n$, so the right-hand side equals $(|I^k|^2 / n) + (|I^{r-k}|^2/n)$, which in general differs from $r(|I^k| + |I^{r-k}|)/n$.\n\nSo the Katona cycle bound on $I^r_k(G)$ does NOT directly match the SP-SLICE-CROSS-EKR target for vertex-transitive $H$.\n\n### Alternative: Direct averaging / pushing argument\n\n**Setup.** Fix a vertex $v_0 \\in V(H) \\subseteq V(H_2)$. Partition $\\mathcal{A}$ and $\\mathcal{B}$:\n$$\\mathcal{A} = \\mathcal{A}^+ \\cup \\mathcal{A}^-, \\quad \\mathcal{A}^+ = \\{S \\in \\mathcal{A} : v_0 \\in S\\}, \\quad \\mathcal{A}^- = \\mathcal{A} \\setminus \\mathcal{A}^+,$$\n$$\\mathcal{B} = \\mathcal{B}^+ \\cup \\mathcal{B}^-, \\quad \\mathcal{B}^+ = \\{T \\in \\mathcal{B} : v_0 \\in T\\}, \\quad \\mathcal{B}^- = \\mathcal{B} \\setminus \\mathcal{B}^+.$$\n\n**Claim 1:** $|\\mathcal{A}^+| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_k(G)|$ and $|\\mathcal{B}^+| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_{r-k}(G)|$. [Trivially true by definition of star.]\n\n**Claim 2 (Key):** $|\\mathcal{A}^-| + |\\mathcal{B}^-| \\leq 0$, i.e., $\\mathcal{A}^- = \\mathcal{B}^- = \\emptyset$. [UNVERIFIED \u2014 this would mean every element of $\\mathcal{A}$ and $\\mathcal{B}$ contains $v_0$, which is the desired conclusion, but is NOT true in general: one can have cross-intersecting families with no single common vertex.]\n\n**Claim 2 (Weakened):** $|\\mathcal{A}^-| + |\\mathcal{B}^-| \\leq |\\text{star}_{v_0}(G,r) \\cap I^r_k(G)| + |\\text{star}_{v_0}(G,r) \\cap I^r_{r-k}(G)| - |\\mathcal{A}^+| - |\\mathcal{B}^+|$, i.e., we need $|\\mathcal{A}^-| \\leq$ (remaining star budget). This is circular.\n\n**Injection from $\\mathcal{A}^-$ to star.** For $S \\in \\mathcal{A}^-$ (with $v_0 \\notin S$, $S \\in I^r_k(G)$), we want to inject $S$ into $\\text{star}_{v_0}(G,r) \\cap I^r_k(G)$. Since $S$ has $k$ vertices in $H_1$ and $r-k$ in $H_2$, and $v_0 \\in V(H_2)$ but $v_0 \\notin S$: the $H_2$-part of $S$ is an $(r-k)$-independent set $R \\subseteq V(H_2) \\setminus \\{v_0\\}$. We need to map $R \\mapsto R' \\in I^{r-k}(H_2)$ with $v_0 \\in R'$.\n\nLet $R' = (R \\setminus \\{x\\}) \\cup \\{v_0\\}$ for some $x \\in R$. For $R'$ to be independent, we need: $v_0$ is not adjacent to any vertex of $R \\setminus \\{x\\}$, i.e., $N(v_0) \\cap (R \\setminus \\{x\\}) = \\emptyset$. If $|N(v_0) \\cap R| \\leq 1$, we can pick $x \\in N(v_0) \\cap R$ (or any $x \\in R$ if $N(v_0) \\cap R = \\emptyset$) and get $R'$ independent.\n\nIf $|N(v_0) \\cap R| \\geq 2$, no such $x$ works (replacing one neighbour of $v_0$ still leaves another). So the injection fails when $R$ has $\\geq 2$ neighbours of $v_0$.\n\n**Sub-case: $v_0$ has degree $\\leq 1$ in $H$.** Then $|N(v_0) \\cap R| \\leq 1$ for any $R \\in I^{r-k}(H)$, and the injection $S \\mapsto (L, R')$ works for all $S \\in \\mathcal{A}^-$. Injectivity: different $R$ give different $R'$ since $L$ is fixed and $|R \\setminus N(v_0)| = r-k-1$ determines $R$ from $R'$ (we removed one element and added $v_0$, so $R = (R' \\setminus \\{v_0\\}) \\cup \\{x\\}$; injectivity fails if two different $R$ give the same $R'$). [UNVERIFIED \u2014 requires more care when $x$ is not in $N(v_0)$, since different choices of $x$ could give the same $R'$; the map must be made canonical.]\n\n**Conclusion of sub-case.** For $H$ with a degree-$\\leq 1$ vertex $v_0$ (e.g., trees, graphs with leaves): the injection gives $|\\mathcal{A}^-| \\leq |\\text{star}_{v_0} \\cap I^r_k| - |\\mathcal{A}^+|$. Similarly (by symmetry or the same argument applied to $\\mathcal{B}$) $|\\mathcal{B}^-| \\leq |\\text{star}_{v_0} \\cap I^r_{r-k}| - |\\mathcal{B}^+|$. Adding: $|\\mathcal{A}| + |\\mathcal{B}| \\leq |\\text{star}_{v_0} \\cap I^r_k| + |\\text{star}_{v_0} \\cap I^r_{r-k}|$. [UNVERIFIED \u2014 injectivity and the symmetry of the $\\mathcal{B}$ argument need to be checked carefully; in particular, why is the injection from $\\mathcal{A}^-$ into $\\text{star}_{v_0} \\cap I^r_k \\setminus \\mathcal{A}^+$? We need the injection image to be outside $\\mathcal{A}^+$, which holds if $\\phi(S) \\notin \\mathcal{A}$ \u2014 not guaranteed.]\n\n**Correct injection target.** Let $\\mathcal{A}^* = \\text{star}_{v_0}(G,r) \\cap I^r_k(G)$ (all $r$-independent $k$-slices containing $v_0$). We want an injection $\\psi: \\mathcal{A}^- \\to \\mathcal{A}^* \\setminus \\mathcal{A}^+$, i.e., injecting $\\mathcal{A}^-$ into the star minus the elements already in $\\mathcal{A}$. This would require $|\\mathcal{A}^-| + |\\mathcal{A}^+| \\leq |\\mathcal{A}^*|$, i.e., $|\\mathcal{A}| \\leq |\\mathcal{A}^*|$. But this is WRONG in general: cross-intersecting families are not required to be subfamilies of a star each individually.\n\n### New subproblem identified\n\nThe injection approach fails because $\\mathcal{A}$ alone (without the coupling to $\\mathcal{B}$) can be large. SP-CPLNG2 is a JOINT bound on $|\\mathcal{A}| + |\\mathcal{B}|$, not individual bounds. Any injection proof must use the cross-intersection property between $\\mathcal{A}$ and $\\mathcal{B}$.\n\n**Correct strategy candidate (injection using cross-intersection):** Define a map $\\psi: (\\mathcal{A}^- \\times \\mathcal{B}^-) \\to (\\mathcal{A}^* \\times \\mathcal{B}^*)$ where $\\mathcal{A}^* = $ star $\\cap I^r_k$, $\\mathcal{B}^* = $ star $\\cap I^r_{r-k}$. For a cross-intersecting pair $(S, T) \\in \\mathcal{A}^- \\times \\mathcal{B}^-$, $S \\cap T \\neq \\emptyset$. Since $v_0 \\notin S$ and $v_0 \\notin T$, the witness of intersection is some vertex $u \\in V(H) \\setminus \\{v_0\\}$.\n\nThe pairing argument gives: each $S \\in \\mathcal{A}^-$ cross-intersects every $T \\in \\mathcal{B}^-$. We can pair $S$ with a complementary set in $\\mathcal{A}^*$, but this requires the image to be injective across different $S$ AND use the coupling with $\\mathcal{B}^-$.\n\n### Partial result: SP-CPLNG2 for $H$ with a dominating vertex\n\n**Proposition:** If $H$ has a vertex $v_0$ that is adjacent to every other vertex (i.e., $v_0$ is a dominating vertex, or more precisely a vertex such that $H \\setminus v_0$ has independence number $\\geq r-1$), then SP-CPLNG2 holds.\n\n**Proof sketch:** If $v_0 \\in V(H_2)$ is adjacent to all other vertices of $H_2$, then any $R \\in I^{r-k}(H_2) \\setminus \\{\\text{sets containing } v_0\\}$ has $N(v_0) \\supseteq V(H_2) \\setminus \\{v_0\\}$, so $R \\cap N(v_0) = R \\neq \\emptyset$ (if $R$ is non-empty). Wait \u2014 if $v_0$ is dominating in $H_2$, then $R \\subseteq V(H_2) \\setminus \\{v_0\\}$ and $R$ is independent in $H_2$, but $H_2$ has all vertices adjacent to $v_0$, so $I^{r-k}(H_2) \\setminus \\text{star}_{v_0}$ contains only sets in $V(H_2) \\setminus \\{v_0\\}$ that are independent \u2014 and these sets can be $\\{v_0\\}$-free. If $R \\in \\mathcal{B}^-$ (i.e., $v_0 \\notin R$), then every pair $(S, R) \\in \\mathcal{A} \\times \\mathcal{B}^-$ satisfies: $S$ must intersect $R$, but $v_0 \\notin R$ and $S, R \\subseteq V(H_2)$ are both independent in $H_2$... [This approach is getting complicated; the dominating vertex structure is not directly useful.]\n\n### Summary of this attempt\n\nNo complete proof of SP-CPLNG2 / SP-SLICE-CROSS-EKR is found. Two partial results emerge:\n\n1. **For $H$ with a leaf $v_0$ (degree 1):** An injection $S \\mapsto S'$ (replacing one vertex of the $H_2$-part with $v_0$) works when $|N(v_0) \\cap R| \\leq 1$ (automatic for leaves). However, injectivity of the map from $\\mathcal{A}^-$ into $\\mathcal{A}^*$ fails unless the map is canonical and the cross-intersection with $\\mathcal{B}^-$ is used.\n\n2. **Katona cycle on $I^r(G)$:** The cycle method gives $|\\mathcal{A}|/|I^r_k(G)| + |\\mathcal{B}|/|I^r_{r-k}(G)| \\leq r/n$ [UNVERIFIED, requires proof that disjoint windows in $\\mathcal{A}$ and $\\mathcal{B}$ cannot both appear in a cycle]. Even if true, this gives a different bound from the star bound.\n\n**Identified the correct missing piece:** The injection approach needs to be COUPLED \u2014 use cross-intersection between $\\mathcal{A}^-$ and $\\mathcal{B}^-$ to show that $|\\mathcal{A}^-| + |\\mathcal{B}^-| \\leq$ (remaining star capacity). This suggests a **Hall's theorem / deficiency argument**: define a bipartite graph $\\Gamma$ with $\\mathcal{A}^-$ on one side and the 'unused star positions' on the other, with edges for compatible replacements; then Hall's condition (or a deficiency version) gives the injection.",
+      "status": "flawed",
+      "checker_feedback": "PA-7D5D72 is a valuable exploration that correctly identifies its own gaps. Detailed assessment:\n\n**Katona-cycle adaptation (Part 1).** The idea of using an interleaved cyclic ordering is interesting but has several problems:\n\n(A) The interleaved ordering $h_1^{\\sigma(1)}, h_2^{\\sigma(1)}, \\ldots$ is a fixed structure, not a uniformly random one from all $(2n)!$ permutations. The standard Katona argument uses a UNIFORMLY RANDOM cyclic permutation of the ground set and counts the expected number of windows. Here the interleaved structure constrains which orderings appear, so the symmetry argument that drives Katona's count does not apply without modification.\n\n(B) The claim 'at most $r$ windows land in $\\mathcal{A} \\cup \\mathcal{B}$ per cycle' is unproved. The statement 'disjoint windows cannot coexist with cross-intersection' is correct (since $S \\cap T = \\emptyset$ for $S \\in \\mathcal{A}$, $T \\in \\mathcal{B}$ violates cross-intersection), but this only excludes DISJOINT pairs of windows, not all non-overlapping pairs. In a cycle of length $2n$, two windows of sizes $k$ and $r-k$ are disjoint only if they are sufficiently far apart. The count of non-disjoint window pairs is not bounded by $r$ without additional argument.\n\n(C) Even if the window-count bound $\\mathbb{E}[\\#\\mathcal{A}\\text{-windows} + \\#\\mathcal{B}\\text{-windows}] \\leq r$ held, the resulting bound would be $|\\mathcal{A}|/|I^r_k(G)| + |\\mathcal{B}|/|I^r_{r-k}(G)| \\leq r/n$. For vertex-transitive $H$ this gives $r(|I^k(H)||I^{r-k}(H)| + |I^{r-k}(H)||I^k(H)|)/n = 2r|I^k||I^{r-k}|/n$. The SP-CPLNG2 target is $|I^k|^2/n + |I^{r-k}|^2/n$ (using the vertex-transitive star formula). These are equal only when $|I^k| = |I^{r-k}|$ AND $r = 1$ or specific relations hold. In general the Katona-slice bound and the SP-CPLNG2 target are DIFFERENT quantities.\n\n**Injection approach (Part 2).** The partition $\\mathcal{A} = \\mathcal{A}^+ \\cup \\mathcal{A}^-$ is sound and Claim 1 is trivially correct. Fatal problems:\n\n(D) The injection $\\psi: \\mathcal{A}^- \\to \\mathcal{A}^* \\setminus \\mathcal{A}^+$ requires $\\psi(S) \\notin \\mathcal{A}$ for all $S \\in \\mathcal{A}^-$. There is no reason why this holds; the image might land in $\\mathcal{A}^+$.\n\n(E) For the sum bound $|\\mathcal{A}| + |\\mathcal{B}| \\leq |\\mathcal{A}^*| + |\\mathcal{B}^*|$ to follow from individual injections $\\mathcal{A}^- \\hookrightarrow \\mathcal{A}^*$ and $\\mathcal{B}^- \\hookrightarrow \\mathcal{B}^*$, we would need $|\\mathcal{A}^-| \\leq |\\mathcal{A}^*| - |\\mathcal{A}^+|$ and $|\\mathcal{B}^-| \\leq |\\mathcal{B}^*| - |\\mathcal{B}^+|$ \u2014 i.e., $|\\mathcal{A}| \\leq |\\mathcal{A}^*|$ and $|\\mathcal{B}| \\leq |\\mathcal{B}^*|$ individually. But individual cross-intersecting families can exceed the star in size (Frankl-Tokushige shows this for set families). So uncoupled injections CANNOT work.\n\n(F) The Disprover has now explicitly verified that for $H = P_9$, $k=1$, the map $\\psi(L, \\{x\\}) = (L, \\{0\\})$ is NOT injective. This is a concrete proof that the uncoupled injection fails.\n\n**Positive aspects.** The Hall's-theorem suggestion for a coupled injection is the right direction but unexecuted. The partition of $\\mathcal{A}$ is a useful decomposition."
+    },
+    {
+      "id": "PA-72A1FC",
+      "round": 30,
+      "sketch": "## Adapting the Clique-Union Compression (arXiv:2511.18785) to SP-CPLNG2\n\n### Context\n\nThe Researcher found that arXiv:2511.18785 (November 2025) proves a tight cross-intersecting sum bound for $r$-independent sets in $\\Gamma_{n,k} = nK_k$ using a compression operator $\\pi_{i,s}$ that replaces vertex $(i,s)$ (the $s$-th vertex of the $i$-th clique) with $(i,1)$. This works because within each $K_k$, all vertices are equivalent for independence: any IS uses at most one vertex per clique, so swapping within the clique preserves IS.\n\n### SP-CPLNG2 for isolated vertex $v_0$: complete proof\n\n**Theorem:** Let $H$ be a graph with an isolated vertex $v_0 \\in V(H)$. Then SP-CPLNG2 holds: for any cross-intersecting $\\mathcal{A} \\subseteq I^k(H_1) \\times I^{r-k}(H_2)$ and $\\mathcal{B} \\subseteq I^{r-k}(H_1) \\times I^k(H_2)$,\n$$|\\mathcal{A}| + |\\mathcal{B}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)|.$$\n\n**Proof.** Fix a total order $\\prec$ on $V(H_2)$ with $v_0$ as the minimum. Define $\\pi: I^{r-k}(H_2) \\to \\text{star}_{v_0}(H_2, r-k)$ by:\n- If $v_0 \\in R$: $\\pi(R) = R$.\n- If $v_0 \\notin R$: $\\pi(R) = (R \\setminus \\{x_0(R)\\}) \\cup \\{v_0\\}$, where $x_0(R) = \\max_{\\prec}(R)$.\n\n*Independence:* Since $v_0$ is isolated, $v_0 \\not\\sim y$ for all $y \\in V(H_2)$. So $(R \\setminus \\{x_0(R)\\}) \\cup \\{v_0\\} \\in I^{r-k}(H_2)$ for any $R \\in I^{r-k}(H_2)$. \u2713\n\n*Injectivity:* Suppose $\\pi(R) = \\pi(R')$.\n- Case 1: Both $v_0 \\in R$ and $v_0 \\in R'$. Then $\\pi(R) = R = R'$.\n- Case 2: $v_0 \\notin R$, $v_0 \\notin R'$. Then $(R \\setminus \\{x_0(R)\\}) \\cup \\{v_0\\} = (R' \\setminus \\{x_0(R')\\}) \\cup \\{v_0\\}$, giving $R \\setminus \\{x_0(R)\\} = R' \\setminus \\{x_0(R')\\}$. WLOG $x_0(R) \\succeq x_0(R')$. If $x_0(R) \\succ x_0(R')$: since $R \\setminus \\{x_0(R)\\} = R' \\setminus \\{x_0(R')\\}$, all elements of $R'$ except $x_0(R')$ appear in $R$, so $x_0(R) \\in R'$. But then $x_0(R') = \\max_\\prec(R') \\succeq x_0(R) \\succ x_0(R')$: contradiction. Hence $x_0(R) = x_0(R')$ and $R = R'$. \u2713\n- Case 3: $v_0 \\in R$, $v_0 \\notin R'$. Then $\\pi(R) = R \\ni v_0$ and $\\pi(R') = (R' \\setminus \\{x_0(R')\\}) \\cup \\{v_0\\}$. For equality: $R = (R' \\setminus \\{x_0(R')\\}) \\cup \\{v_0\\}$, so $|R| = |R'| = r-k$ and $x_0(R') \\notin R$. Since $v_0 \\in R$ and all other elements of $R$ are in $R'$ (except $x_0(R')$): $R \\setminus \\{v_0\\} \\subseteq R' \\setminus \\{x_0(R')\\}$. But $|R \\setminus \\{v_0\\}| = r-k-1 = |R' \\setminus \\{x_0(R')\\}|$, so $R \\setminus \\{v_0\\} = R' \\setminus \\{x_0(R')\\}$. Now $x_0(R') = \\max_\\prec(R')$. All elements of $R' \\setminus \\{x_0(R')\\} = R \\setminus \\{v_0\\}$ are $\\prec x_0(R')$. And $v_0$ is the $\\prec$-minimum, so $v_0 \\prec x_0(R')$, meaning $v_0 \\notin R'$ \u2713. But this is consistent; injectivity in this case: we need $\\pi^{-1}(\\{(R'\\setminus\\{x_0\\})\\cup\\{v_0\\}\\})$ to contain only $R'$ (via case 2 logic) and $R = (R'\\setminus\\{x_0(R')\\})\\cup\\{v_0\\}$ (case 3). These are distinct elements of $I^{r-k}(H_2)$, so $\\pi$ is NOT injective here \u2014 it maps both $R$ (which contains $v_0$) and $R'$ (which does not, but $\\pi(R') = R$) to the same set $R$. **Correction needed.** \u2717\n\n*Fixing the injectivity:* The issue is that $\\pi$ maps $R \\ni v_0$ identically AND maps some $R' \\not\\ni v_0$ to the same value. The fix: restrict the codomain. Actually, $\\pi$ maps $I^{r-k}(H_2)$ INTO $\\{R : v_0 \\in R\\}$. The pre-image of any $R^* \\ni v_0$ consists of: (a) $R^*$ itself (if $v_0 \\in R^*$), and (b) $R^* \\setminus \\{v_0\\} \\cup \\{y\\}$ for $y \\succ x_0(R^* \\setminus \\{v_0\\})$ \u2014 wait, this is more complex.\n\n*Correct injection construction:* We want a DIFFERENT injection $\\psi: I^{r-k}(H_2) \\to \\text{star}_{v_0}(H_2, r-k)$ that is injective. Let $n_2 = |V(H_2)|$. The sets in $I^{r-k}(H_2)$ not containing $v_0$ biject with $(r-k)$-subsets of $V(H_2) \\setminus \\{v_0\\}$ (since $v_0$ is isolated, any IS of $H_2$ remains an IS when $v_0$ is added/removed freely). So $|I^{r-k}(H_2) \\setminus \\text{star}_{v_0}| = \\binom{n_2-1}{r-k}$ and $|\\text{star}_{v_0}(H_2,r-k)| = \\binom{n_2-1}{r-k-1}$. BUT $\\binom{n_2-1}{r-k} > \\binom{n_2-1}{r-k-1}$ when $r-k > (n_2-1)/2$, so no injection exists from $I^{r-k}(H_2) \\setminus \\text{star}_{v_0}$ into $\\text{star}_{v_0}$ in general!\n\n*Critical realisation:* The individual bound $|\\mathcal{A}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$ CANNOT hold in general, even for isolated $v_0$, because $\\mathcal{A}$ could be $\\mathcal{A} = \\{(L, R) : L \\in I^k(H_1), R \\in I^{r-k}(H_2)\\}$ (all pairs), giving $|\\mathcal{A}| = |I^k(H)| \\cdot |I^{r-k}(H)|$ which exceeds $|I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$ since $|I^{r-k}(H)| > |\\text{star}_{v_0}(H,r-k)|$ in general.\n\n*Correction:* The individual bound fails. The cross-intersection is essential EVEN for isolated $v_0$. The injection approach does not work without coupling.\n\n### Corrected analysis: what cross-intersection gives\n\nFor $v_0$ isolated, cross-intersecting $\\mathcal{A}$ and $\\mathcal{B}$: every $(L,R) \\in \\mathcal{A}$ and $(L',R') \\in \\mathcal{B}$ satisfy $L \\cap L' \\neq \\emptyset$ OR $R \\cap R' \\neq \\emptyset$.\n\n**Partition by $v_0$-containment:**\n- $\\mathcal{A}^+ = \\{(L,R) \\in \\mathcal{A} : v_0 \\in R\\}$, $|\\mathcal{A}^+| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$. \u2713\n- $\\mathcal{A}^- = \\mathcal{A} \\setminus \\mathcal{A}^+$, elements have $v_0 \\notin R$.\n- Similarly $\\mathcal{B}^+$, $\\mathcal{B}^-$.\n\n**Target:** $|\\mathcal{A}^-| + |\\mathcal{B}^-| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)| - |\\mathcal{A}^+| + |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)| - |\\mathcal{B}^+|$, i.e., we want $|\\mathcal{A}| + |\\mathcal{B}| \\leq$ target.\n\nFor elements $(L,R) \\in \\mathcal{A}^-$ and $(L',R') \\in \\mathcal{B}^-$: $v_0 \\notin R$ and $v_0 \\notin R'$. Cross-intersection: $L \\cap L' \\neq \\emptyset$ OR $R \\cap R' \\neq \\emptyset$.\n\nFor $v_0$ isolated, $v_0 \\in I^1(H)$. Consider any $S = (L_S, R_S) \\in \\mathcal{A}^-$ and $T = (L_T, R_T) \\in \\mathcal{B}^-$. Cross-intersection: either $L_S \\cap L_T \\neq \\emptyset$ (both contain some $u \\in V(H_1)$) or $R_S \\cap R_T \\neq \\emptyset$ (both contain some $w \\in V(H_2) \\setminus \\{v_0\\}$).\n\nThis is a genuine constraint on the joint family. The correct bound exploits this via a bipartite argument or the Bollob\u00e1s-type set-pair inequality. [The full execution remains open.]\n\n### Strongest confirmed partial result\n\n**Observation:** For $v_0$ isolated, $|\\text{star}_{v_0}(H, j)| = |I^{j-1}(H \\setminus \\{v_0\\})| = |I^{j-1}(H)|$ (since $v_0$ is isolated, the $(j)$-IS containing $v_0$ biject with $(j-1)$-IS of the rest). So the SP-CPLNG2 target becomes\n$$|I^k(H)| \\cdot |I^{r-k-1}(H)| + |I^{r-k}(H)| \\cdot |I^{k-1}(H)|.$$\n\nThis is a Vandermonde-type identity direction. One can verify this bound numerically for small cases. Whether the cross-intersecting constraint forces this bound remains to be proved via a bipartite matching or Bollob\u00e1s argument.\n\n### Key new strategy: Bollob\u00e1s-type argument for cross-intersecting $(\\mathcal{A}^-, \\mathcal{B}^-)$\n\nFor $v_0$ isolated and cross-intersecting $(\\mathcal{A}^-, \\mathcal{B}^-)$ with $v_0 \\notin R$ for all elements of $\\mathcal{A}^-$ and $v_0 \\notin R'$ for all of $\\mathcal{B}^-$:\n\nEvery $(L, R) \\in \\mathcal{A}^-$ can be thought of as a set $L \\cup R$ (disjoint since $L \\subseteq V(H_1)$ and $R \\subseteq V(H_2)$) of size $r$. Every $(L', R') \\in \\mathcal{B}^-$ is the set $L' \\cup R'$ of size $r$. Cross-intersection: $(L \\cup R) \\cap (L' \\cup R') \\neq \\emptyset$. So the union-sets form a cross-intersecting family $\\mathcal{A}' \\subseteq I^r_k(G) \\setminus \\{S : v_0 \\in S\\}$ and $\\mathcal{B}' \\subseteq I^r_{r-k}(G) \\setminus \\{S : v_0 \\in S\\}$ (all $r$-IS of $G$ containing exactly $k$ or $r-k$ $H_1$-vertices, NOT containing $v_0$).\n\nSP-MINUS-BOUND (SP-590DE9) asks exactly for a bound on such families. This is the same open subproblem as before, now confirmed as the core for isolated $v_0$ case too.\n\n### Summary of this attempt\n\n1. **Isolated $v_0$:** The individual injection approach fails (injection map is not injective). The cross-intersection coupling IS needed. SP-CPLNG2 for isolated $v_0$ reduces to SP-MINUS-BOUND.\n\n2. **Leaf $v_0$ (degree 1):** Same obstruction. The injection $\\pi$ from $\\mathcal{A}^-$ into the star is NOT injective (multiple $R$'s can map to the same $\\pi(R)$ when $v_0 \\notin R$ but we just replace an element with $v_0$). Cross-intersection coupling needed.\n\n3. **The clique-union technique of arXiv:2511.18785:** Works specifically because in $nK_k$, the compression is a bijection on the 'clique support' (which clique is used), only changing the vertex WITHIN the clique. No two distinct IS can map to the same IS under this compression. For general $H$, no such bijective compression is available.",
+      "status": "flawed",
+      "checker_feedback": "This attempt is a partially self-correcting analysis that correctly identifies several failures but does not produce a proof of SP-CPLNG2. The checker verdict is **flawed** (no valid proof is given), but the analysis is mathematically sound and the conclusions are correctly drawn.\n\n**Step 1 \u2014 Injection map $\\pi$ for isolated $v_0$:** The attempt correctly defines $\\pi(R) = R$ if $v_0 \\in R$, and $\\pi(R) = (R \\setminus \\{x_0(R)\\}) \\cup \\{v_0\\}$ if $v_0 \\notin R$, where $x_0(R) = \\max_{\\prec}(R)$. The independence check is correct: since $v_0$ is isolated, inserting $v_0$ into any IS remains an IS.\n\n**Step 2 \u2014 Injectivity failure correctly identified:** The attempt correctly self-diagnoses the non-injectivity in Case 3. If $R^* \\ni v_0$ and $R' = (R^* \\setminus \\{v_0\\}) \\cup \\{y\\}$ for some $y \\succ \\max_{\\prec}(R^* \\setminus \\{v_0\\})$, then $x_0(R') = y$ and $\\pi(R') = (R' \\setminus \\{y\\}) \\cup \\{v_0\\} = R^*$. So both $R^*$ and $R'$ map to $R^*$ under $\\pi$. The injectivity failure is genuine and correctly noted.\n\n**Step 3 \u2014 Individual bound failure:** The attempt correctly notes that $|\\mathcal{A}| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$ cannot hold individually when $\\mathcal{A}$ ranges freely over all pairs; cross-intersection IS needed.\n\n**Step 4 \u2014 The Bollob\u00e1s-type suggestion:** This is stated as a direction ('The full execution remains open') rather than a proof. No actual bound is derived. This part does not constitute a proof.\n\n**Step 5 \u2014 Codomain observation for isolated $v_0$:** The observation that $|\\text{star}_{v_0}(H,j)| = |I^{j-1}(H \\setminus \\{v_0\\})|$ is correct for isolated $v_0$, since every IS of size $j$ containing $v_0$ is in bijection with an IS of size $j-1$ in $H \\setminus \\{v_0\\}$.\n\n**Step 6 \u2014 Reduction to SP-MINUS-BOUND:** The identification that $\\mathcal{A}^-$ and $\\mathcal{B}^-$ under the union map $\\varphi(L,R) = L \\cup R$ give cross-intersecting subfamilies of $I^r(G)$ avoiding $v_0$, and that bounding these is exactly SP-MINUS-BOUND (SP-590DE9), is correct.\n\n**Overall verdict:** The attempt contains no completed proof of SP-CPLNG2 for isolated $v_0$ or any other case. What it provides is: (a) correctly identified failure modes for the injection approach, (b) a correct reduction to SP-MINUS-BOUND, and (c) an unfilled suggestion to use a Bollob\u00e1s-type argument. Marked flawed (no proof produced), but the analysis is sound and the reductions are valid."
+    },
+    {
+      "id": "PA-CD8A94",
+      "round": 32,
+      "sketch": "## Targeting SP-MINUS-BOUND (SP-590DE9) via Shadow Argument and Frankl-Tokushige Analogue\n\n### Setup and Goal\n\nWe work in the setting of SP-CPLNG2. Let $G = H_1 \\cup H_2$ with $H_1 \\cong H_2 \\cong H$, $\\mu(H) \\geq r$, and fix a vertex $v_0 \\in V(H)$. We have cross-intersecting families $\\mathcal{A} \\subseteq I^k(H_1) \times I^{r-k}(H_2)$ and $\\mathcal{B} \\subseteq I^{r-k}(H_1) \times I^k(H_2)$: every $(L,R) \\in \\mathcal{A}$ meets every $(L'\\,R') \\in \\mathcal{B}$, i.e. $L \\cap L' \neq \\emptyset$ or $R \\cap R' \neq \\emptyset$.\n\nGoal: $|\\mathcal{A}| + |\\mathcal{B}| \\leq |I^k(H)| \\cdot |\text{star}_{v_0}(H,r-k)| + |I^{r-k}(H)| \\cdot |\text{star}_{v_0}(H,k)|$.\n\nPartition $\\mathcal{A} = \\mathcal{A}^+ \\cup \\mathcal{A}^-$ by $v_0 \\in R$ (resp. $v_0 \notin R$), and similarly $\\mathcal{B}^\\pm$. Trivially $|\\mathcal{A}^+| \\leq |I^k(H)| \\cdot |\text{star}_{v_0}(H,r-k)|$ and $|\\mathcal{B}^+| \\leq |I^{r-k}(H)| \\cdot |\text{star}_{v_0}(H,k)|$. The open problem is bounding $|\\mathcal{A}^-| + |\\mathcal{B}^-|$ by the same total RHS (SP-590DE9 / SP-MINUS-BOUND).\n\n### Union-Family Reformulation\n\nThe map $\u000barphi(L,R) = L \\cup R$ is injective (since $V(H_1)$ and $V(H_2)$ are disjoint). Setting $\\mathcal{U} = \u000barphi(\\mathcal{A}^-)$ and $\\mathcal{V} = \u000barphi(\\mathcal{B}^-)$, we have $|\\mathcal{A}^-| = |\\mathcal{U}|$ and $|\\mathcal{B}^-| = |\\mathcal{V}|$. Cross-intersection of $\\mathcal{A}^-$ and $\\mathcal{B}^-$ becomes: every $U \\in \\mathcal{U}$ meets every $V \\in \\mathcal{V}$ as sets in $V(G)$. So SP-590DE9 = SP-93D69A (SP-SLICE-CROSS-EKR) via $\u000barphi$: they are equivalent subproblems.\n\n### Shadow Bound Attempt\n\nFor any fixed $V = L' \\cup R' \\in \\mathcal{V}$: $\\mathcal{U} \\subseteq \\{U \\in I^r_{k,v_0^-}(G) : U \\cap V \neq \\emptyset\\}$. Define $f(V) = |\\{U \\in I^r_{k,v_0^-}(G) : U \\cap V = \\emptyset\\}| = |I^k(H \\setminus N[L'\\,])| \\cdot |I^{r-k}(H \\setminus (N[R'\\,] \\cup \\{v_0\\}))|$. Then $|\\mathcal{U}| \\leq |I^r_{k,v_0^-}(G)| - f(V)$. For this to yield SP-590DE9, we need $f(V) \\geq |I^k(H)| \\cdot |I^{r-k}(H) \\setminus \text{star}_{v_0}|$ for all $V \\in \\mathcal{V}$. This is FALSE in general: if $L'$ is large, $H \\setminus N[L'\\,]$ may be empty, giving $f(V) = 0$.\n\n### Frankl-Tokushige Analogue\n\nFor ordinary cross-intersecting set families, Frankl-Tokushige (1992) proved the Hilton-Milner bound. The IS constraint changes the extremal structure to co-star (arXiv:2511.18785 for $nK_k$). The IS-version of Frankl-Tokushige for cross-intersecting IS in different slices of $I^r(G)$ would directly imply SP-590DE9 if the IS constraint tightens the FT bound to the star-ratio. This is the most promising new direction for SP-590DE9.",
+      "status": "unchecked",
+      "checker_feedback": ""
     }
   ],
   "disproof_attempts": [
@@ -1140,6 +1441,27 @@
       "candidate_counterexample": "No counterexample found. For r=3 all-mixed in G=$C_{9}$ cup $C_{9}$: heuristic analysis gives |$F_{1}$|+|$F_{2}$| << max_star=93. If $F_{1}$ is centred at $a_{0}$ in $H_{1}$ (all {$a_{0}$,b,c} with {b,c} IS in $H_{2}$), then |$F_{1}$|<=|$I^{2(H)}$|=27. But any {d,e,f} in $F_{2}$ (split 2:1) must intersect each {$a_{0}$,b,c} in $F_{1}$: need d=$a_{0}$ or e=$a_{0}$ ($H_{1}$ part) or f in {b,c} ($H_{2}$ part). Since f is one vertex and {b,c} varies over 27 pairs, this forces f to belong to many 2-IS in $H_{2}$, which restricts |$F_{2}$| severely. The tension between $F_{1}$ and $F_{2}$ appears to prevent |F| from approaching max_star.",
       "status": "valid",
       "checker_feedback": "This is a heuristic non-example report rather than a counterexample. The analysis for r=3, G=$C_{9}$ cup $C_{9}$ is plausible: |$I^{2(C_9)}$|=27, and the tension argument is qualitatively correct. However, the report does not provide an exact bound on |$F_{2}$|, so the claim |$F_{1}$|+|$F_{2}$|<<max_star=93 is not rigorously proved; it is a heuristic. This is fine as a null-result report, but does not constitute a proof that no counterexample exists in this family."
+    },
+    {
+      "id": "DA-AECC9D",
+      "round": 24,
+      "candidate_counterexample": "No counterexample to the Holroyd-Talbot conjecture has been found. Investigating SP-CPLNG2 itself as a potential failure point.\n\n**Testing SP-CPLNG2 for H = C_5, k=1, r=2.**\nI^1(C_5) x I^1(C_5): pairs ({a},{b}), size 25.\nCross-intersecting A, B subseteq I^1 x I^1: every ({a},{b}) in A and ({a'},{b'}) in B satisfy a=a' or b=b'.\nSP-CPLNG2 target: |A|+|B| <= |I^1|*|star_{v0}(C5,1)| + |I^1|*|star_{v0}(C5,1)| = 5*1+5*1=10.\nRight-star at 0: A = {({a},{0}) : a in V} size 5, B = {({a'},{0}) : a' in V} size 5, total=10. Tight.\nTrying A = all pairs with a=0 or b=0, size 9: any B element ({1},{1}) fails cross-intersection with ({0},{2}) in A since {1}\u2229{0}=\u2205 and {1}\u2229{2}=\u2205. So B is forced to be small. SP-CPLNG2 appears tight and correct here.\n\n**Critical weakness identified in the summation step of SP-MX15A1.**\nSP-CPLNG2 uses a FIXED v0 for each (k, r-k) pair. The summation in Step 3 of SP-MX15A1 must use the SAME v0 for all k to get the star_inr identity. If the optimal v0 for the coupling bound depends on k (i.e., v0(k) != v0(k') for different splits), then the sum over k uses different v0 values and does NOT equal |star_{inr v0}(G oplus G, r)| for any single v0. This would invalidate the all-mixed proof strategy as currently stated.",
+      "status": "valid",
+      "checker_feedback": "Two valid contributions:\n\n**SP-CPLNG2 for H=C_5, k=1, r=2:** The verification is correct. Cross-intersecting A,B subseteq I^1(C5) x I^1(C5) means: for every ({a},{b}) in A and ({a'},{b'}) in B, a=a' or b=b'. SP-CPLNG2 target: |A|+|B| <= 5*1+5*1=10. Right-star examples achieve 10. The failure of the 'union' family (|A|=9) is correctly computed: ({0},{2}) in A and ({1},{1}) in B fail cross-intersection since {0}\u2229{1}=\u2205 and {2}\u2229{1}=\u2205. \u2713 Direct numerical support for SP-CPLNG2.\n\n**Fixed-v0 requirement:** The observation is sharp. SP-CPLNG2 claims the bound for ANY fixed v0. The summation step in SP-MX15A1 Step 3 uses a FIXED v0 throughout, which is valid as long as SP-CPLNG2 holds for all v0 uniformly (which is exactly what SP-CPLNG2 states). The weakness is real but softer than presented: it is not a flaw in the proof strategy, but a reminder that SP-CPLNG2 must be proved for ALL v0, not just the optimal one. If SP-CPLNG2 holds universally, pick any single v0 and apply it across all k \u2014 the summation is valid. \u2713"
+    },
+    {
+      "id": "DA-EBC1EA",
+      "round": 27,
+      "candidate_counterexample": "No counterexample to the Holroyd-Talbot conjecture has been found. We investigate SP-CPLNG2 for potential failure and probe the symmetric case.\n\n**Probing SP-CPLNG2 for $H = C_9$, $r = 2$, $k = 1$:**\n\n$I^1(H) = \\{0,...,8\\}$, $|I^1| = 9$, $|\\text{star}_v(H,1)| = 1$ for each $v$. Target bound: $|\\mathcal{F}_1| + |\\mathcal{F}_1'| \\leq 9 \\cdot 1 + 9 \\cdot 1 = 18$. The cross-intersection condition for singleton families ($(a,b)$ and $(a',b')$ cross-intersect iff $a = a'$ OR $b = b'$) means maximising both families forces them to share a common left or right vertex. Optimal: $\\mathcal{F}_1 = \\{v_0\\} \\times I^1(H)$ and $\\mathcal{F}_1' = \\{v_0\\} \\times I^1(H)$, giving total 18. Adding any pair $(a,b)$ with $a \\neq v_0$ to $\\mathcal{F}_1$ forces $|\\mathcal{F}_1'| \\leq 1$, total $\\leq 11$. SP-CPLNG2 verified for this case.\n\n**Partial result from vertex-averaging for $k = r/2$ ($r$ even):**\n\nFor the SYMMETRIC case $k = r/2$ with $r$ even: vertex-averaging gives $\\sum_v |\\mathcal{F}_{r/2}^{(v)}| = (r/2)|\\mathcal{F}_{r/2}|$ and the per-vertex bound (if we can show $|\\mathcal{F}_{r/2}^{(v)}| \\leq |I^{r/2}(H)| \\cdot |\\text{star}_v(H,r/2)|$ [UNVERIFIED]) would sum to $n \\cdot |I^{r/2}| \\cdot |\\text{star}_v| = (r/2)|I^{r/2}|^2$, giving $|\\mathcal{F}_{r/2}| \\leq |I^{r/2}| \\cdot |\\text{star}_v(H,r/2)|$. This matches the SP-CPLNG2 target for the symmetric case.",
+      "status": "valid",
+      "checker_feedback": "SP-CPLNG2 verification for $H=C_9$, $r=2$, $k=1$ is correct. The cross-intersection condition for singleton families ($a=a'$ OR $b=b'$) is correctly identified. The optimal family achieves bound 18; adding any off-$v_0$ pair forces the other family to size $\\leq 1$. \u2713\n\nThe partial symmetric case ($k=r/2$, $r$ even): vertex-averaging is an EQUALITY $\\sum_v |\\mathcal{F}_{r/2}^{(v)}| = (r/2)|\\mathcal{F}_{r/2}|$. The per-vertex bound $|\\mathcal{F}_{r/2}^{(v)}| \\leq |I^{r/2}(H)| \\cdot |\\text{star}_v(H,r/2)|$ is [UNVERIFIED] but the proof structure is sound IF this per-vertex bound holds. SP-SYMM-CPLNG is a valid new subproblem. \u2713"
+    },
+    {
+      "id": "DA-EBA9E6",
+      "round": 29,
+      "candidate_counterexample": "No counterexample to the Holroyd-Talbot conjecture has been found. We investigate SP-CPLNG2 for a potential failure point and examine the new injection approach from PA-7D5D72.\n\n**Attack on SP-HALL-INJ (leaf injection, SP-C9CC61):**\nLet $H = P_4$ (path on 4 vertices: $0-1-2-3$). Then $\\mu(P_4) = 2$, $r = 1$ is only valid (r \u2264 1), too trivial. Take $H = P_5$ (path $0-1-2-3-4$): $\\mu(P_5) = 2$, so $r = 1$ only again.\n\nTake $H = P_7$ (path $0-1-2-3-4-5-6$): $\\mu = 3$, so $r \\leq 1$ still for non-trivial. To get $r = 2$ we need $\\mu(H) \\geq 4$. Take $H = P_9$ ($\\mu = 4$, $r = 2$). Leaf $v_0 = 0$ (degree 1). The $H_2$-part $R$ of any $S \\in \\mathcal{A}^-$ is a 1-set $\\{x\\}$ with $x \\neq 0$ (since $v_0 \\notin S$). The map $\\psi: S = (L, \\{x\\}) \\mapsto (L, \\{0\\})$ is well-defined (0 has degree 1, only neighbour is 1; $\\{0\\}$ is always independent). Since $R = \\{x\\}$ is a 1-set, $(R \\setminus \\{x\\}) \\cup \\{0\\} = \\{0\\} \\in I^1(H_2)$. The map $\\psi(L, \\{x\\}) = (L, \\{0\\})$ is NOT injective: for fixed $L$, all pairs $(L, \\{x\\})$ for $x \\neq 0$ map to the same $(L, \\{0\\})$. This is the canonical injectivity failure.\n\n**Failure analysis:** The injection fails because it collapses all $H_2$-singletons to the leaf $v_0$. The COUPLED argument must use the cross-intersection between $\\mathcal{A}^-$ and $\\mathcal{B}^-$ to show that not all these collapsed images can simultaneously be needed. But for $k = r-k = 1$, $\\mathcal{A}$ and $\\mathcal{B}$ both live in $I^1(H_1) \\times I^1(H_2)$, which is the symmetric case. PA-75F443 handles $r = 2$ directly, so this is already covered.\n\n**Testing SP-KATONA-SLICE for a potential failure:**\nLet $H = K_{1,m}$ (star graph, $m \\geq 4$, so $\\mu(H) = m$). Take $r = 2$, $k = 1$. $I^1(H) = V(H)$ ($m+1$ vertices), $I^2(H)$ = all independent 2-sets = $\\binom{m}{2}$ (leaves only, centre excluded from any $I^2$). For $G = H_1 \\cup H_2$: $\\mathcal{A} \\subseteq I^2_1(G) = I^1(H_1) \\times I^1(H_2)$ (size $(m+1)^2$), $\\mathcal{B} \\subseteq I^2_1(G) = I^1(H_1) \\times I^1(H_2)$ (same by symmetry since $k = r-k = 1$). Cross-intersecting: every $(a_1, a_2) \\in \\mathcal{A}$ intersects every $(b_1, b_2) \\in \\mathcal{B}$: $a_1 = b_1$ OR $a_2 = b_2$.\n\nTarget: $|\\mathcal{A}| + |\\mathcal{B}| \\leq |I^1(H)| \\cdot |\\text{star}_{v_0}(H,1)| + |I^1(H)| \\cdot |\\text{star}_{v_0}(H,1)| = 2(m+1) \\cdot 1 = 2(m+1)$ (since $|\\text{star}_{v_0}(H,1)| = 1$ for any $v_0$). Can we construct cross-intersecting $\\mathcal{A}, \\mathcal{B} \\subseteq I^1(H_1) \\times I^1(H_2)$ with $|\\mathcal{A}| + |\\mathcal{B}| > 2(m+1)$? Take $\\mathcal{A} = \\{(c_1, v) : v \\in V(H_2)\\}$ ($c_1$ = centre of $H_1$) and $\\mathcal{B} = \\{(u, c_2) : u \\in V(H_1)\\}$ ($c_2$ = centre of $H_2$) \u2014 each of size $m+1$. Cross-intersection check: $(c_1, \\ell_1) \\cap (\\ell_1', c_2)$ for $\\ell_1' \\neq c_1$ and $\\ell_1 \\neq c_2$: gives the empty intersection. So this pair is NOT cross-intersecting.\n\nSo the 'obvious' large construction fails. A cross-intersecting pair of size $> 2(m+1)$ does not seem achievable, supporting SP-CPLNG2.\n\n**Probing the Katona-slice expected count for $K_{1,m}$:** The Katona-slice bound (if true) would give $|\\mathcal{A}|/(m+1)^2 + |\\mathcal{B}|/(m+1)^2 \\leq 2/(m+1)$, i.e., $|\\mathcal{A}| + |\\mathcal{B}| \\leq 2(m+1)$. This matches the SP-CPLNG2 target exactly for $K_{1,m}$ and $r=2$, $k=1$. Good consistency check.\n\n**Key structural insight about the Katona-slice idea:** In the standard Katona argument for a single intersecting family $\\mathcal{F} \\subseteq \\binom{[n]}{r}$, the crucial observation is: if $S, T \\in \\mathcal{F}$ are both consecutive $r$-windows in a cyclic ordering AND $S \\cap T = \\emptyset$, this is a contradiction (since $\\mathcal{F}$ is intersecting). For cross-intersecting $\\mathcal{A}, \\mathcal{B}$: if $S \\in \\mathcal{A}$ and $T \\in \\mathcal{B}$ are consecutive windows AND $S \\cap T = \\emptyset$, this violates cross-intersection. So disjoint windows \u2014 one from $\\mathcal{A}$, one from $\\mathcal{B}$ \u2014 cannot coexist. This is a direct analogue of the Katona obstruction.",
+      "status": "valid",
+      "checker_feedback": "The Disprover analysis is careful and accurate. (1) Verified non-injectivity of the leaf injection for $H = P_9$, $k = 1$: the map $\\psi(L, \\{x\\}) = (L, \\{0\\})$ collapses all singletons to $\\{v_0\\}$ \u2014 a clean concrete counterexample to the injectivity claim. (2) Tested SP-CPLNG2 for $H = K_{1,m}$, $r=2$, $k=1$: correctly identified that the obvious large cross-intersecting construction fails ($(c_1, \\ell_1)$ and $(\\ell_1', c_2)$ with $\\ell_1' \\neq c_1$ and $\\ell_1 \\neq c_2$ are disjoint), supporting SP-CPLNG2. (3) The Katona-slice consistency check for $K_{1,m}$ is a positive data point (though not a proof). (4) The key structural insight that cross-intersecting families cannot have disjoint windows is the correct cross-intersecting analogue of Katona's obstruction, and is the most actionable observation this round."
     }
   ],
   "log": [
@@ -1562,6 +1884,116 @@
       "round": 22,
       "agent": "Checker",
       "summary": "Verified the validity of the all-mixed decomposition strategy, confirming that the conjecture for H+H now rests entirely on proving the Complementary Slice Coupling Lemma. (2 implication(s) checked)"
+    },
+    {
+      "round": 23,
+      "agent": "Prover",
+      "summary": "Partial progress on Case 3 (all-mixed) of H oplus H r-EKR: reduces entirely to proving SP-CPLNG2 (Complementary Slice Coupling), identifies the shifting approach (SP-F80E2A) as the most promising route, and notes the vertex-transitive case appears close to provable. (+2 implication(s) recorded)"
+    },
+    {
+      "round": 23,
+      "agent": "Checker",
+      "summary": "Checked PA-FD5BEA (valid, partial) and IMP-FE3187 (valid conditional): the proof correctly reduces Case 3 of H+H r-EKR to SP-CPLNG2, and SP-F80E2A logically implies SP-CPLNG2 if proved. (1 implication(s) checked)"
+    },
+    {
+      "round": 24,
+      "agent": "Prover",
+      "summary": "SP-CPLNG2 remains open even for vertex-transitive H; the averaging, Katona, and Borg-translation approaches all face obstacles with product-pair families, and two new concrete subproblems bridge from classical cross-EKR to the pair setting."
+    },
+    {
+      "round": 24,
+      "agent": "Disprover",
+      "summary": "No HT counterexample found; SP-CPLNG2 verified numerically for C5 k=1 (bound 10 appears tight); critical flaw identified: the summation step in SP-MX15A1 requires the SAME v0 for all k, but SP-CPLNG2 is only proved for arbitrary v0 \u2014 if optimal v0 depends on k, the all-mixed proof strategy fails."
+    },
+    {
+      "round": 24,
+      "agent": "Checker",
+      "summary": "PA-4A861D rated flawed (orbit-averaging argument incorrect, no SP-CPLNG2 proof); DA-AECC9D rated valid (SP-CPLNG2 numerically confirmed for C5 k=1, fixed-v0 requirement correctly identified as necessary and internally consistent)."
+    },
+    {
+      "round": 24,
+      "agent": "Researcher",
+      "summary": "The 2025 HT survey and Borg AJC paper reveal: HT proved for sparse graphs via probabilistic Katona; Borg's paper gives a SUM bound for cross-intersecting independent set families in clique unions (DIRECTLY relevant to SP-CPLNG2); the H oplus H decomposition is novel; trees and general bipartite remain open."
+    },
+    {
+      "round": 25,
+      "agent": "Researcher",
+      "summary": "Error in Researcher: slice(None, 80, None)"
+    },
+    {
+      "round": 26,
+      "agent": "Prover",
+      "summary": "Developed a shifting-based approach to SP-CPLNG2 that correctly identifies the key structural insight (in the H\u2295H setting, fully shifted families have all right-components containing $v_0$, giving the bound directly), but found that the individual right-shift $\\tau_{ij}$ can destroy cross-intersection when the shared vertex is exactly $j$; the shift approach is promising but requires either repairing the shifting step or a direct structural argument to handle the $j$-only sub-case. (+2 implication(s) recorded)"
+    },
+    {
+      "round": 26,
+      "agent": "Checker",
+      "summary": "PA-37000A is FLAWED: the 'mixed case' failure in Step 1 (shifting destroys cross-intersection when the shared vertex is exactly $j$) and an independence-constraint gap in Step 4 are both genuine, though the structural H\u2295H insight and the synchronised-shift fix direction are valuable. (2 implication(s) checked)"
+    },
+    {
+      "round": 27,
+      "agent": "Prover",
+      "summary": "Synchronised shifting fails in the independence-blocked sub-case for the same reason as one-sided shifting; reformulated SP-CPLNG2 as the Slice Cross-EKR lemma (cross-intersecting families in different slices of $I^r(G)$ bounded by slice-stars), which is a direct target for extending Borg's AJC theorem to heterogeneous slices. (+2 implication(s) recorded)"
+    },
+    {
+      "round": 27,
+      "agent": "Disprover",
+      "summary": "No counterexample to HT or SP-CPLNG2 found; verified SP-CPLNG2 for $H=C_9$, $r=2$, $k=1$ by direct analysis (bound 18 is tight); identified that the symmetric case $k=r/2$ ($r$ even) may be provable via vertex-averaging double-count, giving a partial result; the synchronised-shift sub-case 3c remains a genuine proof gap."
+    },
+    {
+      "round": 27,
+      "agent": "Checker",
+      "summary": "PA-7FC29D is FLAWED (synchronised-shift fails in sub-case 3c) but the Slice Cross-EKR reformulation within it is valid; DA-EBC1EA is VALID; both IMP-3A261C (equivalence) and IMP-141722 (support) are correctly stated. (2 implication(s) checked)"
+    },
+    {
+      "round": 27,
+      "agent": "Researcher",
+      "summary": "Critical finding: the Frankl-Tokushige (1992) theorem for cross-intersecting k-uniform and l-uniform set families (without independence constraints) achieves its maximum via a Hilton-Milner pair (NOT co-stars), suggesting the independence constraint in SP-CPLNG2 is what forces the co-star extremal structure; arXiv:2601.01929 (2026) completes this for all t families; arXiv:2511.18785 (2025) handles same-slice independent sets in clique unions via compression+projection; arXiv:2509.06207 (2025) provides a compositional Katona framework potentially extendable to product-pair families. (+3 implication(s) recorded)"
+    },
+    {
+      "round": 28,
+      "agent": "Checker",
+      "summary": "Verified three 'supports, plausible' implication claims linking Frankl-Tokushige (1992), the 2026 multi-uniform result, and the Katona-composition framework to SP-SLICE-CROSS-EKR; all correctly labelled and mathematically sound. (3 implication(s) checked)"
+    },
+    {
+      "round": 29,
+      "agent": "Prover",
+      "summary": "Explored Katona-cycle and injection approaches to SP-SLICE-CROSS-EKR; Katona-cycle gives a different (unverified) bound, while the injection approach for leaves identifies a new coupled Hall's theorem subproblem (SP-HALL-INJ) as the key missing piece. (+2 implication(s) recorded)"
+    },
+    {
+      "round": 29,
+      "agent": "Disprover",
+      "summary": "No counterexample found; confirmed the leaf-injection from PA-7D5D72 fails non-injectivity for $P_9$, $k=1$; identified that the Katona-slice bound matches the SP-CPLNG2 target exactly for $H = K_{1,m}$; pinpointed that the cross-intersecting Katona obstruction (disjoint windows violate cross-intersection) is the key analogy to pursue."
+    },
+    {
+      "round": 29,
+      "agent": "Checker",
+      "summary": "Checked PA-7D5D72 (flawed \u2014 Katona-slice gives wrong target, uncoupled injection non-injective), DA-EBA9E6 (valid \u2014 concrete failure of injection confirmed, star-graph consistency check), and two implications (both flawed \u2014 IMP-4562A6 overstates scope, IMP-ADA105 misidentifies Katona bound as matching SP-CPLNG2 target). (2 implication(s) checked)"
+    },
+    {
+      "round": 29,
+      "agent": "Researcher",
+      "summary": "Critical finding: arXiv:2511.18785 (Nov 2025) proves a tight cross-intersecting sum bound for r-IS in nK_k (union of cliques) via compression, the closest known literature result to SP-CPLNG2; HT for general trees remains open (spiders/pendant trees proved via leaf property in 2022 paper, partially resolving SP-A28AE8). (+1 implication(s) recorded)"
+    },
+    {
+      "round": 30,
+      "agent": "Prover",
+      "summary": "Identified that the individual injection approach fails even for isolated $v_0$ (non-injectivity confirmed); the clique-union compression of arXiv:2511.18785 is bijective due to clique symmetry unavailable for general $H$; SP-CPLNG2 in full generality reduces precisely to proving SP-MINUS-BOUND (SP-590DE9). (+1 implication(s) recorded)"
+    },
+    {
+      "round": 31,
+      "agent": "Checker",
+      "summary": "Checked PA-72A1FC (no valid proof of SP-CPLNG2; injection fails; analysis correctly reduces problem to SP-590DE9) and verified IMP-9C3951 and IMP-85267D as logically sound. (2 implication(s) checked)"
+    },
+    {
+      "round": 32,
+      "agent": "Prover",
+      "summary": "Prover produced a ? attempt."
+    },
+    {
+      "round": 32,
+      "agent": "Checker",
+      "summary": "Nothing to check this round; round 32 Prover attempt pending Checker review next round."
     }
   ],
   "round_summaries": [
@@ -1768,6 +2200,84 @@
         "Prover: Proposed the Complementary Slice Coupling Lemma to resolve the all-mixed case of H+H, reducing the problem to a shifting-based bound on cross-intersecting product families. (+1 implication(s) recorded)",
         "Checker: Verified the validity of the all-mixed decomposition strategy, confirming that the conjecture for H+H now rests entirely on proving the Complementary Slice Coupling Lemma. (2 implication(s) checked)"
       ]
+    },
+    {
+      "round": 23,
+      "summaries": [
+        "Prover: Partial progress on Case 3 (all-mixed) of H oplus H r-EKR: reduces entirely to proving SP-CPLNG2 (Complementary Slice Coupling), identifies the shifting approach (SP-F80E2A) as the most promising route, and notes the vertex-transitive case appears close to provable. (+2 implication(s) recorded)",
+        "Checker: Checked PA-FD5BEA (valid, partial) and IMP-FE3187 (valid conditional): the proof correctly reduces Case 3 of H+H r-EKR to SP-CPLNG2, and SP-F80E2A logically implies SP-CPLNG2 if proved. (1 implication(s) checked)"
+      ]
+    },
+    {
+      "round": 24,
+      "summaries": [
+        "Prover: SP-CPLNG2 remains open even for vertex-transitive H; the averaging, Katona, and Borg-translation approaches all face obstacles with product-pair families, and two new concrete subproblems bridge from classical cross-EKR to the pair setting.",
+        "Disprover: No HT counterexample found; SP-CPLNG2 verified numerically for C5 k=1 (bound 10 appears tight); critical flaw identified: the summation step in SP-MX15A1 requires the SAME v0 for all k, but SP-CPLNG2 is only proved for arbitrary v0 \u2014 if optimal v0 depends on k, the all-mixed proof strategy fails.",
+        "Checker: PA-4A861D rated flawed (orbit-averaging argument incorrect, no SP-CPLNG2 proof); DA-AECC9D rated valid (SP-CPLNG2 numerically confirmed for C5 k=1, fixed-v0 requirement correctly identified as necessary and internally consistent).",
+        "Researcher: The 2025 HT survey and Borg AJC paper reveal: HT proved for sparse graphs via probabilistic Katona; Borg's paper gives a SUM bound for cross-intersecting independent set families in clique unions (DIRECTLY relevant to SP-CPLNG2); the H oplus H decomposition is novel; trees and general bipartite remain open."
+      ]
+    },
+    {
+      "round": 25,
+      "summaries": [
+        "Researcher: Error in Researcher: slice(None, 80, None)"
+      ],
+      "narrative": "Round 25 Researcher identified Borg's AJC cross-intersecting independent sets paper as directly analogous to SP-CPLNG2, and the Borg-Feghali (2022) sum bound as the set-system template. New subproblem SP-BORG-TRANSFER asks whether Borg's compression technique transfers to prove SP-CPLNG2 for general graphs."
+    },
+    {
+      "round": 26,
+      "summaries": [
+        "Prover: Developed a shifting-based approach to SP-CPLNG2 that correctly identifies the key structural insight (in the H\u2295H setting, fully shifted families have all right-components containing $v_0$, giving the bound directly), but found that the individual right-shift $\\tau_{ij}$ can destroy cross-intersection when the shared vertex is exactly $j$; the shift approach is promising but requires either repairing the shifting step or a direct structural argument to handle the $j$-only sub-case. (+2 implication(s) recorded)",
+        "Checker: PA-37000A is FLAWED: the 'mixed case' failure in Step 1 (shifting destroys cross-intersection when the shared vertex is exactly $j$) and an independence-constraint gap in Step 4 are both genuine, though the structural H\u2295H insight and the synchronised-shift fix direction are valuable. (2 implication(s) checked)"
+      ],
+      "narrative": "Round 26: Prover developed a shifting-based approach to SP-CPLNG2, discovering the key H\u2295H structural insight (V(H_1)\u2229V(H_2)=\u2205 prevents L-blocking of R-shifts) but found the 'mixed case' for individual shifts is flawed; Checker confirmed the flaw and identified a synchronised-shift fix direction as the next attack."
+    },
+    {
+      "round": 27,
+      "summaries": [
+        "Prover: Synchronised shifting fails in the independence-blocked sub-case for the same reason as one-sided shifting; reformulated SP-CPLNG2 as the Slice Cross-EKR lemma (cross-intersecting families in different slices of $I^r(G)$ bounded by slice-stars), which is a direct target for extending Borg's AJC theorem to heterogeneous slices. (+2 implication(s) recorded)",
+        "Disprover: No counterexample to HT or SP-CPLNG2 found; verified SP-CPLNG2 for $H=C_9$, $r=2$, $k=1$ by direct analysis (bound 18 is tight); identified that the symmetric case $k=r/2$ ($r$ even) may be provable via vertex-averaging double-count, giving a partial result; the synchronised-shift sub-case 3c remains a genuine proof gap.",
+        "Checker: PA-7FC29D is FLAWED (synchronised-shift fails in sub-case 3c) but the Slice Cross-EKR reformulation within it is valid; DA-EBC1EA is VALID; both IMP-3A261C (equivalence) and IMP-141722 (support) are correctly stated. (2 implication(s) checked)",
+        "Researcher: Critical finding: the Frankl-Tokushige (1992) theorem for cross-intersecting k-uniform and l-uniform set families (without independence constraints) achieves its maximum via a Hilton-Milner pair (NOT co-stars), suggesting the independence constraint in SP-CPLNG2 is what forces the co-star extremal structure; arXiv:2601.01929 (2026) completes this for all t families; arXiv:2511.18785 (2025) handles same-slice independent sets in clique unions via compression+projection; arXiv:2509.06207 (2025) provides a compositional Katona framework potentially extendable to product-pair families. (+3 implication(s) recorded)"
+      ],
+      "narrative": "Round 27 Researcher: found that Frankl-Tokushige (1992) solves the set-system version of SP-SLICE-CROSS-EKR (heterogeneous cross-intersecting families) but with a Hilton-Milner extremal structure (not co-stars), suggesting the independence constraint is what forces co-star extremals in SP-CPLNG2; new 2025-2026 papers extend this to multiple families and clique unions."
+    },
+    {
+      "round": 28,
+      "summaries": [
+        "Checker: Verified three 'supports, plausible' implication claims linking Frankl-Tokushige (1992), the 2026 multi-uniform result, and the Katona-composition framework to SP-SLICE-CROSS-EKR; all correctly labelled and mathematically sound. (3 implication(s) checked)"
+      ],
+      "narrative": "Round 28 (Checker only): Verified three new implication claims from round 27. All three \u2014 linking Frankl-Tokushige (1992), arXiv:2601.01929 (2026 multi-uniform), and arXiv:2509.06207 (Katona-composition) to SP-SLICE-CROSS-EKR \u2014 are correctly labelled 'supports, plausible' and mathematically sound. Key consolidation: SP-CPLNG2 requires fundamentally using the independence structure, since the Frankl-Tokushige theorem shows the co-star bound fails for general set families."
+    },
+    {
+      "round": 29,
+      "summaries": [
+        "Prover: Explored Katona-cycle and injection approaches to SP-SLICE-CROSS-EKR; Katona-cycle gives a different (unverified) bound, while the injection approach for leaves identifies a new coupled Hall's theorem subproblem (SP-HALL-INJ) as the key missing piece. (+2 implication(s) recorded)",
+        "Disprover: No counterexample found; confirmed the leaf-injection from PA-7D5D72 fails non-injectivity for $P_9$, $k=1$; identified that the Katona-slice bound matches the SP-CPLNG2 target exactly for $H = K_{1,m}$; pinpointed that the cross-intersecting Katona obstruction (disjoint windows violate cross-intersection) is the key analogy to pursue.",
+        "Checker: Checked PA-7D5D72 (flawed \u2014 Katona-slice gives wrong target, uncoupled injection non-injective), DA-EBA9E6 (valid \u2014 concrete failure of injection confirmed, star-graph consistency check), and two implications (both flawed \u2014 IMP-4562A6 overstates scope, IMP-ADA105 misidentifies Katona bound as matching SP-CPLNG2 target). (2 implication(s) checked)",
+        "Researcher: Critical finding: arXiv:2511.18785 (Nov 2025) proves a tight cross-intersecting sum bound for r-IS in nK_k (union of cliques) via compression, the closest known literature result to SP-CPLNG2; HT for general trees remains open (spiders/pendant trees proved via leaf property in 2022 paper, partially resolving SP-A28AE8). (+1 implication(s) recorded)"
+      ],
+      "narrative": "Round 29: Prover explored Katona-slice and injection approaches to SP-SLICE-CROSS-EKR (both flawed); Disprover confirmed uncoupled injection non-injective for P9; Checker flagged both new implications as flawed; Researcher found critical reference: arXiv:2511.18785 proves a tight cross-intersecting sum bound for r-IS in nK_k (union of cliques) via compression \u2014 the closest known result to SP-CPLNG2, giving a worked special case and compression technique for H=K_k."
+    },
+    {
+      "round": 30,
+      "summaries": [
+        "Prover: Identified that the individual injection approach fails even for isolated $v_0$ (non-injectivity confirmed); the clique-union compression of arXiv:2511.18785 is bijective due to clique symmetry unavailable for general $H$; SP-CPLNG2 in full generality reduces precisely to proving SP-MINUS-BOUND (SP-590DE9). (+1 implication(s) recorded)"
+      ],
+      "narrative": "Round 30 (Prover only): Adapted the clique-union compression technique from arXiv:2511.18785 to SP-CPLNG2. Discovered that the individual injection approach fails even for isolated vertices (the map is non-injective), and that the clique-union compression is bijective due to a special clique symmetry unavailable for general H. Confirmed that SP-CPLNG2 fully reduces to proving SP-MINUS-BOUND (SP-590DE9): bounding |A^-|+|B^-| for cross-intersecting families where neither contains v_0 in the right-component."
+    },
+    {
+      "round": 31,
+      "summaries": [
+        "Checker: Checked PA-72A1FC (no valid proof of SP-CPLNG2; injection fails; analysis correctly reduces problem to SP-590DE9) and verified IMP-9C3951 and IMP-85267D as logically sound. (2 implication(s) checked)"
+      ]
+    },
+    {
+      "round": 32,
+      "summaries": [
+        "Prover: Prover produced a ? attempt.",
+        "Checker: Nothing to check this round; round 32 Prover attempt pending Checker review next round."
+      ]
     }
   ],
   "experiments": [
@@ -1954,6 +2464,149 @@
       "note": "The coupling lemma provides the exact termwise upper bound required to sum to the star size.",
       "status": "valid",
       "checker_feedback": "Correct. The coupling bound is precisely formulated to sum to the all-mixed part of the star at $v_0$."
+    },
+    {
+      "id": "IMP-FE3187",
+      "from_id": "SP-F80E2A",
+      "to_id": "SP-CPLNG2",
+      "type": "proves",
+      "confidence": "plausible",
+      "added_round": 22,
+      "note": "If simultaneous shifting of right-components preserves cross-intersection, then the fully shifted family is a right-star, giving the coupling bound.",
+      "status": "valid",
+      "checker_feedback": "The implication SP-F80E2A => SP-CPLNG2 is correctly stated with confidence 'plausible'. If simultaneous shifting of right-components in (F_k, F_{r-k}) preserves the cross-intersection property, then by iterating sigma_{ij} over all pairs i < j we obtain a fully shifted pair (F_k*, F_{r-k}*) that is still cross-intersecting and where every right-component contains the minimum vertex v_0. This gives F_k* subseteq I^k(H) x star_{v_0}(H, r-k), so |F_k| = |F_k*| <= |I^k(H)| * |star_{v_0}(H, r-k)|, and symmetrically for F_{r-k}*. Summing gives the SP-CPLNG2 bound. The logical chain is sound given the premise of SP-F80E2A. The 'plausible' confidence rating is appropriate since SP-F80E2A itself is unproved. Verdict: VALID as a conditional implication."
+    },
+    {
+      "id": "IMP-96ED78",
+      "from_id": "SP-BORG-TRANSFER",
+      "to_id": "SP-MINUS-BOUND",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 25,
+      "note": "Borg's AJC technique applied to left-projections of the all-minus families may bound SP-MINUS-BOUND and hence SP-CPLNG2.",
+      "status": "valid",
+      "checker_feedback": "The relationship 'SP-BORG-TRANSFER supports SP-MINUS-BOUND' is correctly stated as plausible. SP-MINUS-BOUND asks for a bound on cross-intersecting families where neither family has $v_0$ in the right-component; SP-BORG-TRANSFER proposes applying Borg's AJC technique to left-projections of these families. The translation from projection bound to full family bound is non-trivial and unverified. 'Plausible' confidence is appropriate and not overstated. \u2713"
+    },
+    {
+      "id": "IMP-F40B7C",
+      "from_id": "SP-SHIFT-SEQ",
+      "to_id": "SP-CPLNG2",
+      "type": "proves",
+      "confidence": "plausible",
+      "added_round": 25,
+      "note": "If sequential right-shifting preserves cross-intersection in the H\u2295H setting, then fully shifted families have all $R$-parts containing $v_0$, directly giving the SP-CPLNG2 bound.",
+      "status": "valid",
+      "checker_feedback": "The relationship 'SP-SHIFT-SEQ proves SP-CPLNG2' is correctly stated as plausible. PA-37000A shows that IF sequential right-shifting preserves cross-intersection AND IF the independence constraint does not block $\\tau_{v_0,j}$ in the H\u2295H setting, THEN $\\mathcal{F}_k^{-} = \\emptyset$ after full shifting, giving SP-CPLNG2. The note slightly understates the independence-constraint requirement, but both items carry [UNVERIFIED] flags and 'plausible' confidence. The implication is not overstated. \u2713"
+    },
+    {
+      "id": "IMP-3A261C",
+      "from_id": "SP-SLICE-CROSS-EKR",
+      "to_id": "SP-CPLNG2",
+      "type": "equivalent",
+      "confidence": "certain",
+      "added_round": 26,
+      "note": "The union map $\\phi(L,R) = L \\cup R$ is an injection from $I^k(H_1) \\times I^{r-k}(H_2)$ to $I^r_k(G)$ that exactly translates SP-CPLNG2 to SP-SLICE-CROSS-EKR.",
+      "status": "valid",
+      "checker_feedback": "$\\phi$ is injective, cross-intersection is preserved in both directions ($V(H_1) \\cap V(H_2) = \\emptyset$ ensures $L \\cap R' = R \\cap L' = \\emptyset$), the slice constraint corresponds exactly to the product constraint, and the star-slice bound computation is correct. 'Certain' and 'equivalent' are fully justified. \u2713"
+    },
+    {
+      "id": "IMP-141722",
+      "from_id": "KR-BORG-AJC-CROSS",
+      "to_id": "SP-SLICE-CROSS-EKR",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 26,
+      "note": "Borg's AJC cross-EKR theorem for same-slice families in $H_1 \\cup H_2$ may extend to the heterogeneous-slice setting of SP-SLICE-CROSS-EKR.",
+      "status": "valid",
+      "checker_feedback": "Borg's AJC handles same-uniform-size cross-intersecting families; SP-SLICE-CROSS-EKR involves the same uniform size $r$ but different slices ($k$ vs $r-k$). The extension to this heterogeneous-slice setting requires additional work. 'Plausible' and 'supports' are appropriate \u2014 not overstated. \u2713"
+    },
+    {
+      "id": "IMP-C0CFE5",
+      "from_id": "KR-FRANKL-TOKUSHIGE-1992",
+      "to_id": "SP-SLICE-CROSS-EKR",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 26,
+      "note": "Frankl-Tokushige (1992) solves the set-system version of SP-SLICE-CROSS-EKR (heterogeneous-size cross-intersecting families); the independence constraint from $H$ may force the co-star extremal structure that FT lacks, making SP-CPLNG2 tighter than the general FT bound.",
+      "status": "valid",
+      "checker_feedback": "The relationship is correctly labelled 'supports, plausible' rather than 'proves'. Frankl-Tokushige (1992) resolves the analogue of SP-SLICE-CROSS-EKR in which $I^r_k(G)$ and $I^r_{r-k}(G)$ are replaced by arbitrary $k$-uniform and $(r-k)$-uniform set families (no independence constraint). Their extremal structure is a Hilton-Milner pair \u2014 one family is a full star, the other consists of all sets meeting it \u2014 rather than a co-star pair. SP-SLICE-CROSS-EKR asserts that when sets are drawn from $I^k(H)$ and $I^{r-k}(H)$ (independent sets in $H$), the extremal pair is instead a co-star pair. The Frankl-Tokushige result thus shows that the co-star bound claimed in SP-CPLNG2 would be WRONG for set families, and therefore provides genuine (though indirect) support: the independence constraint is the additional ingredient that forces the co-star structure. The implication is correctly framed as 'supports, plausible'. No overstatement. Valid."
+    },
+    {
+      "id": "IMP-CF2985",
+      "from_id": "KR-CROSS-MULTISIZE-2026",
+      "to_id": "SP-SLICE-CROSS-EKR",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 26,
+      "note": "arXiv:2601.01929 (2026) characterises the maximum sum for cross-intersecting multi-uniform set families; adapting their method to independent-set families may give SP-SLICE-CROSS-EKR and hence SP-CPLNG2.",
+      "status": "valid",
+      "checker_feedback": "Correctly labelled 'supports, plausible'. arXiv:2601.01929 characterises the maximum of $|A_1|+\\cdots+|A_t|$ for pairwise cross-intersecting multi-uniform set families on $[n]$. The result is for arbitrary set systems, not independent-set families; adapting their method to $I^k(H)\\times I^{r-k}(H)$ would require understanding how the independence constraint modifies both the extremal structure and the proof technique (likely shifting/compression arguments). There is a plausible methodological transfer \u2014 in particular their treatment of the $k \\neq \\ell$ heterogeneous case is the most relevant \u2014 but the independence constraint introduces non-trivial new obstacles (as the failure of shifting on $I^k(H)$ already shows). The label 'supports, plausible' is accurate; no overstatement. Valid."
+    },
+    {
+      "id": "IMP-6D54B0",
+      "from_id": "KR-KATONA-COMPOSITION-2025",
+      "to_id": "SP-1AFEFC",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 26,
+      "note": "The composition-based Katona framework (arXiv:2509.06207, 2025) generalises the cycle method to structured product families and may extend to $I^k(H) \\times I^{r-k}(H)$ for SP-1AFEFC.",
+      "status": "valid",
+      "checker_feedback": "Correctly labelled 'supports, plausible'. The Katona cycle method applies in its standard form to $r$-uniform families on $[n]$: a cyclic permutation $\\sigma$ of $[n]$ contributes at most $r$ consecutive arcs to any intersecting family, giving $|\\mathcal{F}| \\leq \\binom{n-1}{r-1}$. arXiv:2509.06207 extends this via a composition framework to product families. For SP-1AFEFC (the Katona-cycle approach to $I^k(H)\\times I^{r-k}(H)$), one would need: (i) a suitable notion of 'cyclic ordering' on $I^r(H)$ that respects the slice partition $I^r_k$, and (ii) an arc-counting bound that yields $|A|+|B| \\leq |\\text{star}_{v_0} \\cap I^r_k| + |\\text{star}_{v_0} \\cap I^r_{r-k}|$. Neither (i) nor (ii) is automatic; $I^r(H)$ is not a full $r$-uniform hypergraph so the standard cyclic-arc count breaks. The implication is appropriately stated as 'supports, plausible' \u2014 the framework is a promising template but significant adaptation is needed. Valid."
+    },
+    {
+      "id": "IMP-4562A6",
+      "from_id": "SP-HALL-INJ",
+      "to_id": "SP-CPLNG2",
+      "type": "proves",
+      "confidence": "plausible",
+      "added_round": 28,
+      "note": "A successful coupled Hall injection for $H$ with a leaf $v_0$ would directly prove SP-SLICE-CROSS-EKR and hence SP-CPLNG2 for graphs $H$ with leaves (including all trees).",
+      "status": "flawed",
+      "checker_feedback": "The label 'proves, plausible' is too strong. SP-HALL-INJ, if proved, would give SP-CPLNG2 for graphs $H$ with leaves \u2014 not full generality. Furthermore, the uncoupled injection already fails for $P_9$, $k=1$ (confirmed by Disprover), so SP-HALL-INJ itself requires a genuinely coupled argument; the scope of the implication is overstated. Should be downgraded to 'supports, plausible' with the scope limited to $H$ with leaves."
+    },
+    {
+      "id": "IMP-ADA105",
+      "from_id": "SP-KATONA-SLICE",
+      "to_id": "SP-93D69A",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 28,
+      "note": "If the Katona-slice window count bound holds, it gives $|\\mathcal{A}|/|I^r_k| + |\\mathcal{B}|/|I^r_{r-k}| \\leq r/n$, which combined with the star formula for vertex-transitive $H$ recovers the SP-SLICE-CROSS-EKR target.",
+      "status": "flawed",
+      "checker_feedback": "The implication note claims that the Katona-slice bound 'combined with the star formula for vertex-transitive $H$ recovers the SP-SLICE-CROSS-EKR target.' This is incorrect. For vertex-transitive $H$, the Katona-slice bound gives $2r|I^k||I^{r-k}|/n$ whereas the SP-CPLNG2 target is $(|I^k|^2 + |I^{r-k}|^2)/n$. These are equal only in the symmetric case $|I^k| = |I^{r-k}|$ with $r = 1$ or similar special conditions \u2014 not in general. The implication should be removed or reformulated to say only that SP-KATONA-SLICE supports a Katona-type bound on $I^r_k(G)$, which may be a weaker statement than SP-SLICE-CROSS-EKR."
+    },
+    {
+      "id": "IMP-9C3951",
+      "from_id": "SP-CPLNG2-NKK",
+      "to_id": "SP-CPLNG2",
+      "type": "supports",
+      "confidence": "plausible",
+      "added_round": 28,
+      "note": "arXiv:2511.18785 proves a cross-intersecting sum bound for r-IS in nK_k via compression; if this matches SP-CPLNG2 for H=K_k, it gives a proved special case and compression technique to adapt.",
+      "status": "valid",
+      "checker_feedback": "The claim is that arXiv:2511.18785's result for $\\Gamma_{n,k} = nK_k$ supports SP-CPLNG2 (as a proved special case providing a compression technique to adapt). The relationship label is 'supports, plausible' \u2014 not 'proves'. This is correct: the paper proves SP-CPLNG2 for $H = nK_k$ using clique-union compression, which is a special case of SP-CPLNG2 and provides partial evidence plus a technique. The caveat (technique not transferable to general $H$) is well-documented in the KB. Verdict: valid as a 'supports' claim."
+    },
+    {
+      "id": "IMP-85267D",
+      "from_id": "SP-590DE9",
+      "to_id": "SP-CPLNG2",
+      "type": "proves",
+      "confidence": "certain",
+      "added_round": 29,
+      "note": "SP-MINUS-BOUND (bounding $|\\mathcal{F}_k^-| + |\\mathcal{F}_{r-k}^-|$ when neither family has $v_0$ in right-components) directly implies SP-CPLNG2 by adding the trivially bounded star parts.",
+      "status": "valid",
+      "checker_feedback": "The claim is that SP-MINUS-BOUND (SP-590DE9) proves SP-CPLNG2, labelled 'proves, certain'. The argument is: partition $\\mathcal{A} = \\mathcal{A}^+ \\cup \\mathcal{A}^-$ and $\\mathcal{B} = \\mathcal{B}^+ \\cup \\mathcal{B}^-$ where $+$ means $v_0 \\in R$ (right-component). Then $|\\mathcal{A}^+| \\leq |I^k(H)| \\cdot |\\text{star}_{v_0}(H,r-k)|$ and $|\\mathcal{B}^+| \\leq |I^{r-k}(H)| \\cdot |\\text{star}_{v_0}(H,k)|$ trivially. SP-MINUS-BOUND asserts the complementary bound on $|\\mathcal{A}^-| + |\\mathcal{B}^-|$. Adding the two inequalities gives SP-CPLNG2. This reduction is logically valid. Verdict: valid."
+    },
+    {
+      "id": "IMP-CD9A59",
+      "from_id": "SP-93D69A",
+      "to_id": "SP-590DE9",
+      "type": "equivalent",
+      "confidence": "certain",
+      "note": "SP-SLICE-CROSS-EKR and SP-MINUS-BOUND are equivalent via the injective union map phi(L,R)=L cup R.",
+      "added_round": 32,
+      "relationship": "equivalent",
+      "strength": "certain"
     }
   ]
 }

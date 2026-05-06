@@ -58,6 +58,27 @@ class BaseAgent(ABC):
     # ── Helpers ──────────────────────────────────────────────────────────────
 
     @staticmethod
+    def _check_schema(response: Dict[str, Any], required: list[str], agent_name: str) -> str | None:
+        """
+        Return an error string if none of the required fields are present but
+        the response contains other keys — a strong signal that the wrong field
+        names were used.  Returns None when the schema looks correct.
+        """
+        if response.get("parse_error"):
+            return None  # already flagged elsewhere
+        present = [f for f in required if response.get(f)]
+        if present:
+            return None  # at least one required field found — looks fine
+        other_keys = [k for k in response if k not in ("summary", "parse_error", "raw_text")]
+        if other_keys:
+            return (
+                f"{agent_name} response used unrecognised field names "
+                f"{other_keys!r} instead of required {required!r}. "
+                "Nothing was saved. Re-submit with the correct field names."
+            )
+        return None
+
+    @staticmethod
     def _extract_json(text: str) -> Dict[str, Any]:
         """
         Extract the first JSON block from the LLM reply.

@@ -87,6 +87,12 @@ class Disprover(BaseAgent):
         if response.get("parse_error"):
             return f"Disprover parse error: {response.get('raw_text','')[:200]}"
 
+        schema_err = self._check_schema(
+            response, ["candidate_counterexample"], "Disprover"
+        )
+        if schema_err:
+            return schema_err
+
         candidate = response.get("candidate_counterexample", "")
         if candidate:
             self.kb.add_disproof_attempt(round_, candidate)
