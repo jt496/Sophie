@@ -1,7 +1,7 @@
 {
   "conjecture": "Prove there are an infinite number of integral solutions to 4m^2 + m = 5n^2 + n.",
   "session_id": "20260511_163752_prove-there-are-an-infinite-number-of-in",
-  "status": "pending_proof",
+  "status": "proved",
   "rounds_completed": 2,
   "no_progress_rounds": 0,
   "prev_snapshot_hash": 5685299471161723584,
