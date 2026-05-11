@@ -1,0 +1,143 @@
+{
+  "conjecture": "Prove there are an infinite number of integral solutions to 4m^2 + m = 5n^2 + n.",
+  "session_id": "20260511_163752_prove-there-are-an-infinite-number-of-in",
+  "status": "pending_proof",
+  "rounds_completed": 2,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": 5685299471161723584,
+  "facts": [],
+  "implications": [],
+  "subproblems": [
+    {
+      "id": "SP-0C1285",
+      "description": "The equation reduces to the generalized Pell equation $v^2 - 5u^2 = -4$ via substitution $u = 8m+1$, $v = 10n+1$. Which solutions $(u,v)$ of this Pell equation satisfy $u \\equiv 1 \\pmod{8}$ and $v \\equiv 1 \\pmod{10}$ (necessary for $m,n$ to be integers)? Verify the substitution carefully.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Correct substitution is $p=8m+1, q=10n+1$, reducing to $5p^2-4q^2=1$, equivalently $X^2-5Y^2=-1$ with $X=2q, Y=p$."
+    },
+    {
+      "id": "SP-896AE1",
+      "description": "Are there infinitely many solutions to $v^2 - 5u^2 = -4$ with $u \\equiv 1 \\pmod{8}$ and $v \\equiv 1 \\pmod{10}$? This would directly prove the conjecture.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "For even-indexed $k$, the Pell solutions satisfy $X_k\\equiv2\\pmod{20}$ and $Y_k\\equiv1\\pmod8$, giving infinitely many integer solutions."
+    },
+    {
+      "id": "SP-4790EC",
+      "description": "Identify the full set of Pell equation solutions modulo $\\text{lcm}(8,10)=40$ to determine the density of valid $(m,n)$ solutions.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Period-2 behavior modulo 8 and modulo 20 established; even indices give all valid integral solutions."
+    }
+  ],
+  "examples": [
+    {
+      "id": "EX-1BA03E",
+      "description": "Trivial solution $(m,n)=(0,0)$",
+      "supports_conjecture": true,
+      "detail": "Setting $m=0, n=0$: $4(0)^2 + 0 = 0$ and $5(0)^2 + 0 = 0$. Both sides equal $0$. Verified.",
+      "added_round": 0
+    },
+    {
+      "id": "EX-446F50",
+      "description": "Solution $(m,n)=(1,1)$",
+      "supports_conjecture": null,
+      "detail": "Setting $m=1, n=1$: $4(1)^2 + 1 = 5$ and $5(1)^2 + 1 = 6$. $5 \\neq 6$. Not a solution.",
+      "added_round": 0
+    },
+    {
+      "id": "EX-79788C",
+      "description": "Parametric family via factoring: $(m,n)=(0,0)$ and reduction to Pell equation",
+      "supports_conjecture": true,
+      "detail": "The equation factors as $m(4m+1) = n(5n+1)$. Via substitution $u=8m+1$, $v=10n+1$: the equation becomes $v^2-5u^2=-4$. The trivial solution $(m,n)=(0,0)$ corresponds to $(u,v)=(1,1)$. Solutions of $v^2-5u^2=-4$ include $(u,v)=(1,1),(2,4),(5,11),(13,29),(34,76),(89,199),\\ldots$ For integer $m,n$ we need $u\\equiv1\\pmod{8}$ and $v\\equiv1\\pmod{10}$. The pair $(u,v)=(1,1)$ satisfies both, giving $(m,n)=(0,0)$.",
+      "added_round": 0
+    },
+    {
+      "id": "EX-259628",
+      "description": "Search for next nontrivial integer solution via Pell sequence",
+      "supports_conjecture": true,
+      "detail": "Pell solutions to $v^2-5u^2=-4$: $(1,1),(2,4),(5,11),(13,29),(34,76),(89,199),(233,521),(610,1364),(1597,3571),\\ldots$ Check congruences: $(89,199)$: $89\\equiv1\\pmod8$? $89=11\\cdot8+1$, yes. $199\\equiv9\\pmod{10}$, no. $(1597,3571)$: $1597=199\\cdot8+5$, $1597\\equiv5\\pmod8$, no. $(u,v)=(233,521)$: $233=29\\cdot8+1$, $233\\equiv1\\pmod8$, yes! $521\\equiv1\\pmod{10}$, yes! So $m=(233-1)/8=29$, $n=(521-1)/10=52$. Check: $4(29)^2+29=4\\cdot841+29=3364+29=3393$. $5(52)^2+52=5\\cdot2704+52=13520+52=13572$. These are NOT equal \u2014 error somewhere. Recheck: $v^2-5u^2$: $521^2-5\\cdot233^2=271441-5\\cdot54289=271441-271445=-4$. \u2713 But $m=29,n=52$: $4m^2+m=3393$, $5n^2+n=13572$. Not equal! The substitution must be rechecked.",
+      "added_round": 0
+    }
+  ],
+  "proof_attempts": [
+    {
+      "id": "PA-77D5D8",
+      "round": 1,
+      "sketch": "We prove there are infinitely many integral solutions $(m,n)\\in\\mathbb{Z}^2$ to $4m^2+m=5n^2+n$.\n\n**Step 1: Substitution.** Set $p=8m+1$ and $q=10n+1$. Then $m=(p-1)/8$ is an integer iff $p\\equiv1\\pmod8$, and $n=(q-1)/10$ is an integer iff $q\\equiv1\\pmod{10}$.\n\nThe equation $4m^2+m=5n^2+n$ becomes:\n$$\\frac{(p-1)(p+1)}{16}=\\frac{(q-1)(q+1)}{20},$$\ni.e., $5(p^2-1)=4(q^2-1)$, i.e., $5p^2-4q^2=1$.\n\n**Step 2: Reduction to negative Pell.** Let $X=2q$ and $Y=p$. Then $5Y^2-4(X/2)^2=1$ becomes $5Y^2-X^2=1$... Recheck: $5p^2-4q^2=1$ with $X=2q$: $5Y^2-(X^2/4)=... $ No: $4q^2=X^2$, so $5Y^2-X^2=-4\\cdot(-1)$... Actually $5p^2-4q^2=1\\Rightarrow 4q^2=5p^2-1$, and with $X=2q$: $X^2=4q^2=5p^2-1=5Y^2-1$, so $X^2-5Y^2=-1$.\n\nThe negative Pell equation $X^2-5Y^2=-1$ has fundamental solution $(X_0,Y_0)=(2,1)$, corresponding to $(p,q)=(1,1)$ and $(m,n)=(0,0)$.\n\n**Step 3: Pell recurrence.** From the fundamental solution $(X,Y)=(9,4)$ of $X^2-5Y^2=1$, all solutions to $X^2-5Y^2=-1$ are given by\n$$(X_k+Y_k\\sqrt5)=(2+\\sqrt5)(9+4\\sqrt5)^k, \\quad k=0,1,2,\\ldots$$\nEquivalently, $(X_{k+1},Y_{k+1})=(9X_k+20Y_k,\\,4X_k+9Y_k)$.\n\n**Step 4: Periodicity modulo 20.** Since $20Y_k\\equiv0\\pmod{20}$, we have $X_{k+1}\\equiv9X_k\\pmod{20}$. Since $9^2=81\\equiv1\\pmod{20}$, the period is 2: $X_k\\equiv2\\cdot9^k\\pmod{20}$. For even $k$: $X_k\\equiv2\\pmod{20}$, so $q=X_k/2\\equiv1\\pmod{10}$. \u2713\n\n**Step 5: Periodicity modulo 8.** We compute $(X_{k+1},Y_{k+1})\\equiv(X_k+4Y_k,4X_k+Y_k)\\pmod8$ (since $9\\equiv1$ and $20\\equiv4\\pmod8$). Starting $(X_0,Y_0)\\equiv(2,1)$:\n- $k=0$: $(2,1)$, $Y_0\\equiv1\\pmod8$ \u2713\n- $k=1$: $(2+4,8+1)=(6,9)\\equiv(6,1)\\pmod8$\n- $k=2$: $(6+4,24+1)=(10,25)\\equiv(2,1)\\pmod8$\n\nPeriod 2: for even $k$, $Y_k\\equiv1\\pmod8$, so $p=Y_k\\equiv1\\pmod8$. \u2713\n\n**Step 6: Also $X_k$ is even for all $k$.** Since $X_0=2$ is even and $X_{k+1}=9X_k+20Y_k$ is even (both terms even when $X_k$ is even), by induction $X_k$ is always even, so $q=X_k/2$ is always an integer.\n\n**Conclusion.** For each even $k\\geq0$, the pair $(p,q)=(Y_k,X_k/2)$ satisfies $5p^2-4q^2=1$ with $p\\equiv1\\pmod8$ and $q\\equiv1\\pmod{10}$, yielding integer solutions $m=(p-1)/8$ and $n=(q-1)/10$ to the original equation. Since there are infinitely many even $k$, the equation has infinitely many integral solutions. $\\blacksquare$\n\n**Example verification:** $k=2$: $(X_2,Y_2)=(9\\cdot38+20\\cdot17, 4\\cdot38+9\\cdot17)=(342+340,152+153)=(682,305)$. So $p=305,q=341$, $m=38,n=34$. Check: $4(38)^2+38=5776+38=5814$; $5(34)^2+34=5780+34=5814$. \u2713",
+      "status": "valid",
+      "checker_feedback": "The proof is complete and correct. Line-by-line assessment:\n\n**Step 1 (Substitution):** Setting $p=8m+1$, $q=10n+1$ and computing $4m^2+m = \\frac{(p-1)(p+1)}{16}$ and $5n^2+n=\\frac{(q-1)(q+1)}{20}$ is correct algebra. Setting these equal gives $5(p^2-1)=4(q^2-1)$, i.e., $5p^2-4q^2=1$. \u2713\n\n**Step 2 (Reduction to negative Pell):** $5p^2-4q^2=1$ with $X=2q$, $Y=p$ gives $X^2=4q^2=5p^2-1=5Y^2-1$, so $X^2-5Y^2=-1$. \u2713\n\n**Step 3 (Pell recurrence):** The fundamental solution of $X^2-5Y^2=1$ is $(9,4)$ (check: $81-80=1$ \u2713), and of $X^2-5Y^2=-1$ is $(2,1)$ (check: $4-5=-1$ \u2713). The recurrence $(X_{k+1},Y_{k+1})=(9X_k+20Y_k,4X_k+9Y_k)$ follows from multiplication by $(9+4\\sqrt5)$. \u2713\n\n**Step 4 (Periodicity mod 20):** $X_{k+1}\\equiv9X_k\\pmod{20}$, period 2. For even $k$: $X_k\\equiv2\\pmod{20}$, so $q=X_k/2\\equiv1\\pmod{10}$. \u2713\n\n**Step 5 (Periodicity mod 8):** Sequence $(X_k,Y_k)\\pmod8$ has period 2: $(2,1)\\to(6,1)\\to(2,1)\\to\\cdots$ For even $k$: $Y_k\\equiv1\\pmod8$. \u2713\n\n**Step 6 (Parity):** $X_k$ always even by induction, so $q=X_k/2\\in\\mathbb{Z}$. \u2713\n\n**Conclusion:** For each even $k\\geq0$, integer solutions $(m,n)=((Y_k-1)/8,(X_k/2-1)/10)$ are produced. Numerically verified at $k=2$: $(m,n)=(38,34)$, giving $5814=5814$. \u2713 The proof is complete."
+    }
+  ],
+  "disproof_attempts": [
+    {
+      "id": "DA-9569B4",
+      "round": 1,
+      "candidate_counterexample": "No counterexample found. The conjecture appears true \u2014 the Prover's construction gives verified solutions $(m,n)=(0,0)$ and $(m,n)=(38,34)$, and the Pell recurrence generates infinitely more.",
+      "status": "flawed",
+      "checker_feedback": "This is not a genuine disproof attempt but a concession; marked flawed only in the sense that it is vacuous as a disproof. The observations within it are correct."
+    }
+  ],
+  "formalization_attempts": [
+    {
+      "id": "FA-1DA1D4",
+      "source_id": "PA-77D5D8",
+      "lean_file": "SophieFormalization/ProveThereAre/Theorems.lean",
+      "lean_code": "import Mathlib\n\n/-!\n# Infinitely many integer solutions to 4m\u00b2 + m = 5n\u00b2 + n\n\nWe prove that the Diophantine equation `4m\u00b2 + m = 5n\u00b2 + n` has infinitely many\ninteger solutions, by constructing an explicit infinite parametric family.\n\n## Strategy\n\nThe substitution `p = 8m + 1`, `q = 10n + 1` transforms the equation into\n`5p\u00b2 - 4q\u00b2 = 1`, equivalently the negative Pell equation `X\u00b2 - 5Y\u00b2 = -1`\nvia `X = 2q`, `Y = p`.\n\nThe Pell recurrence `(X_{k+1}, Y_{k+1}) = (9X_k + 20Y_k, 4X_k + 9Y_k)`\nstarting from `(X_0, Y_0) = (2, 1)` generates all solutions.  The even-indexed\nterms satisfy `X_k \u2261 2 (mod 20)` and `Y_k \u2261 1 (mod 8)` (period-2 behaviour),\nyielding the integer solution `m = (Y_k - 1)/8`, `n = (X_k/2 - 1)/10`.\nSince `Y_k` is strictly increasing, the map `k \u21a6 (m_k, n_k)` is injective,\ngiving infinitely many distinct solutions.\n-/\n\nnamespace PellQuadratic\n\n/-- The Pell sequence satisfying `X\u00b2 - 5Y\u00b2 = -1`, with recurrence from `(9,4)`. -/\ndef pell : \u2115 \u2192 \u2124 \u00d7 \u2124\n  | 0 => (2, 1)\n  | n + 1 => let (x, y) := pell n; (9 * x + 20 * y, 4 * x + 9 * y)\n\nlemma pell_eq (n : \u2115) : (pell n).1 ^ 2 - 5 * (pell n).2 ^ 2 = -1 := by\n  induction n with\n  | zero => simp [pell]\n  | succ n ih => simp only [pell]; ring_nf; linarith [ih]\n\nlemma pell_pos (n : \u2115) : 0 < (pell n).1 \u2227 0 < (pell n).2 := by\n  induction n with\n  | zero => simp [pell]\n  | succ n ih => simp only [pell]; constructor <;> linarith [ih.1, ih.2]\n\nlemma pell_snd_strictMono : StrictMono (fun n => (pell n).2) :=\n  strictMono_nat_of_lt_succ fun n => by\n    simp only [pell]; linarith [(pell_pos n).1, (pell_pos n).2]\n\n/-- Even-indexed Pell terms satisfy `X \u2261 2 (mod 20)` and `Y \u2261 1 (mod 8)`. -/\nlemma pell_even_mod (n : \u2115) :\n    (pell (2 * n)).1 % 20 = 2 \u2227 (pell (2 * n)).2 % 8 = 1 := by\n  induction n with\n  | zero => simp [pell]\n  | succ n ih =>\n    rw [show 2 * (n + 1) = 2 * n + 1 + 1 from by ring]\n    simp only [pell]; obtain \u27e8hx, hy\u27e9 := ih; constructor <;> omega\n\nprivate lemma div8_strictMono {x y : \u2124} (hx : x % 8 = 1) (hy : y % 8 = 1) (hlt : x < y) :\n    (x - 1) / 8 < (y - 1) / 8 := by\n  obtain \u27e8a, ha\u27e9 : (8 : \u2124) \u2223 x - 1 := Int.dvd_of_emod_eq_zero (by omega)\n  obtain \u27e8b, hb\u27e9 : (8 : \u2124) \u2223 y - 1 := Int.dvd_of_emod_eq_zero (by omega)\n  have hxa : x = 8 * a + 1 := by linarith\n  have hyb : y = 8 * b + 1 := by linarith\n  rw [show (x - 1) / 8 = a from by rw [hxa]; omega,\n      show (y - 1) / 8 = b from by rw [hyb]; omega]\n  linarith\n\n/-- The parametric solution family: m-component. -/\ndef solM (k : \u2115) : \u2124 := ((pell (2 * k)).2 - 1) / 8\n\n/-- The parametric solution family: n-component. -/\ndef solN (k : \u2115) : \u2124 := ((pell (2 * k)).1 / 2 - 1) / 10\n\nlemma sol_is_solution (k : \u2115) : 4 * solM k ^ 2 + solM k = 5 * solN k ^ 2 + solN k := by\n  unfold solM solN\n  obtain \u27e8hx, hy\u27e9 := pell_even_mod k\n  obtain \u27e8a, ha\u27e9 : (8 : \u2124) \u2223 (pell (2 * k)).2 - 1 := Int.dvd_of_emod_eq_zero (by omega)\n  obtain \u27e8b, hb\u27e9 : (20 : \u2124) \u2223 (pell (2 * k)).1 - 2 := Int.dvd_of_emod_eq_zero (by omega)\n  have hY : (pell (2 * k)).2 = 8 * a + 1 := by linarith\n  have hX : (pell (2 * k)).1 = 20 * b + 2 := by linarith\n  have hX2 : (pell (2 * k)).1 / 2 = 10 * b + 1 := by rw [hX]; omega\n  rw [show ((pell (2 * k)).2 - 1) / 8 = a from by rw [hY]; omega,\n      show ((pell (2 * k)).1 / 2 - 1) / 10 = b from by rw [hX2]; omega]\n  have hpell := pell_eq (2 * k)\n  rw [hX, hY] at hpell\n  nlinarith [hpell]\n\nlemma solM_strictMono : StrictMono solM := fun a b hab =>\n  div8_strictMono (pell_even_mod a).2 (pell_even_mod b).2 (pell_snd_strictMono (by omega))\n\n/-- The equation `4m\u00b2 + m = 5n\u00b2 + n` has infinitely many integer solutions. -/\ntheorem infinite_solutions :\n    Set.Infinite {p : \u2124 \u00d7 \u2124 | 4 * p.1 ^ 2 + p.1 = 5 * p.2 ^ 2 + p.2} := by\n  apply Set.infinite_of_injective_forall_mem (f := fun k => (solM k, solN k))\n  \u00b7 intro a b hab\n    simp only [Prod.mk.injEq] at hab\n    exact solM_strictMono.injective hab.1\n  \u00b7 intro k\n    simp only [Set.mem_setOf_eq]\n    exact sol_is_solution k\n\nend PellQuadratic\n",
+      "mathlib_imports": [
+        "import Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "complete",
+      "status": "draft",
+      "notes": "The proof is fully verified by Lean 4 / Mathlib with zero sorries. The key steps are: (1) define the Pell recurrence for X\u00b2-5Y\u00b2=-1; (2) prove even-indexed terms satisfy X\u22612 (mod 20) and Y\u22611 (mod 8) by period-2 induction; (3) use the Pell invariant and divisibility to show each even-indexed term gives an integer solution; (4) use strict monotonicity of Y to conclude injectivity and hence infinitely many solutions.",
+      "summary": "Complete Lean 4 formalization proving infinitely many integer solutions to 4m\u00b2+m=5n\u00b2+n via the negative Pell equation X\u00b2-5Y\u00b2=-1 and period-2 congruence analysis."
+    }
+  ],
+  "log": [
+    {
+      "round": 1,
+      "agent": "Experimenter",
+      "summary": "The equation reduces to the Pell equation $v^2-5u^2=-4$; the substitution needs verification, but Pell methods look promising for proving infinitely many solutions."
+    },
+    {
+      "round": 1,
+      "agent": "Prover",
+      "summary": "Complete proof via negative Pell equation $X^2-5Y^2=-1$: even-indexed Pell solutions satisfy the required congruences mod 8 and mod 20, yielding infinitely many integer solutions $(m,n)$."
+    },
+    {
+      "round": 1,
+      "agent": "Disprover",
+      "summary": "No counterexample found; the proof in PA-77D5D8 is essentially complete and correct upon checking each step, with the only minor gap being the unproved (but standard) Pell recurrence formula."
+    },
+    {
+      "round": 1,
+      "agent": "Checker",
+      "summary": "PA-77D5D8 is valid and complete: the Pell equation reduction plus period-2 congruence analysis fully proves infinitely many integral solutions exist."
+    },
+    {
+      "round": 2,
+      "agent": "Formalizer",
+      "summary": "Complete Lean 4 formalization proving infinitely many integer solutions to 4m\u00b2+m=5n\u00b2+n via the negative Pell equation X\u00b2-5Y\u00b2=-1 and period-2 congruence analysis."
+    }
+  ],
+  "round_summaries": [
+    {
+      "round": 1,
+      "summaries": [
+        "Experimenter: The equation reduces to the Pell equation $v^2-5u^2=-4$; the substitution needs verification, but Pell methods look promising for proving infinitely many solutions.",
+        "Prover: Complete proof via negative Pell equation $X^2-5Y^2=-1$: even-indexed Pell solutions satisfy the required congruences mod 8 and mod 20, yielding infinitely many integer solutions $(m,n)$.",
+        "Disprover: No counterexample found; the proof in PA-77D5D8 is essentially complete and correct upon checking each step, with the only minor gap being the unproved (but standard) Pell recurrence formula.",
+        "Checker: PA-77D5D8 is valid and complete: the Pell equation reduction plus period-2 congruence analysis fully proves infinitely many integral solutions exist."
+      ],
+      "narrative": "Round 1 produced a complete proof in a single pass. The Experimenter identified the key substitution and reduction to a Pell equation. The Prover completed the argument: setting $p=8m+1$, $q=10n+1$ reduces $4m^2+m=5n^2+n$ to $5p^2-4q^2=1$, equivalently the negative Pell equation $X^2-5Y^2=-1$ (with $X=2q$, $Y=p$). The even-indexed solutions to this Pell equation satisfy $X_k\\equiv2\\pmod{20}$ and $Y_k\\equiv1\\pmod{8}$ (period-2 behavior), yielding infinitely many integer solutions \u2014 verified numerically with $(m,n)=(38,34)$. The Checker confirmed the proof is complete with no gaps."
+    },
+    {
+      "round": 2,
+      "summaries": [
+        "Formalizer: Complete Lean 4 formalization proving infinitely many integer solutions to 4m\u00b2+m=5n\u00b2+n via the negative Pell equation X\u00b2-5Y\u00b2=-1 and period-2 congruence analysis."
+      ]
+    }
+  ],
+  "current_round_state": null
+}
