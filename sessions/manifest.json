@@ -3,7 +3,7 @@
     "filename": "20260610_075056_there-exist-unique-positive-integers-a-a.json",
     "session_id": "20260610_075056_there-exist-unique-positive-integers-a-a",
     "conjecture": "There exist unique positive integers a and n such that a^(n+1) \u2212 (a + 1)^n = 2001.",
-    "status": "pending_proof",
+    "status": "proved",
     "rounds_completed": 3,
     "current": true
   },

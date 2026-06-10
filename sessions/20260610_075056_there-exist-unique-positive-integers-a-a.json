@@ -1,7 +1,7 @@
 {
   "conjecture": "There exist unique positive integers a and n such that a^(n+1) \u2212 (a + 1)^n = 2001.",
   "session_id": "20260610_075056_there-exist-unique-positive-integers-a-a",
-  "status": "pending_proof",
+  "status": "proved",
   "rounds_completed": 3,
   "no_progress_rounds": 0,
   "prev_snapshot_hash": 8417674830656041819,
