@@ -1,12 +1,19 @@
 [
   {
+    "filename": "20260610_075056_there-exist-unique-positive-integers-a-a.json",
+    "session_id": "20260610_075056_there-exist-unique-positive-integers-a-a",
+    "conjecture": "There exist unique positive integers a and n such that a^(n+1) \u2212 (a + 1)^n = 2001.",
+    "status": "pending_proof",
+    "rounds_completed": 3,
+    "current": true
+  },
+  {
     "filename": "20260511_163752_prove-there-are-an-infinite-number-of-in.json",
     "session_id": "20260511_163752_prove-there-are-an-infinite-number-of-in",
     "conjecture": "Prove there are an infinite number of integral solutions to 4m^2 + m = 5n^2 + n.",
     "status": "proved",
     "rounds_completed": 2,
-    "current": true,
-    "last_updated": "20260511_165225"
+    "current": false
   },
   {
     "filename": "20260426_115657_an-integer-m-geq-0-is-a-sum-of-two-trian.json",
@@ -14,8 +21,7 @@
     "conjecture": "An integer $m \\geq 0$ is a sum of two triangular numbers $m = T_a + T_b$ (where $T_k = \\frac{k(k+1)}{2}$ and $a, b \\geq 0$) if and only if $4m+1$ is a sum of two squares.",
     "status": "proved",
     "rounds_completed": 3,
-    "current": false,
-    "last_updated": "20260426_192507"
+    "current": false
   },
   {
     "filename": "20260426_073152_for-every-positive-integer-n-10-10-10-n-.json",
@@ -23,8 +29,7 @@
     "conjecture": "For every positive integer $n$, $10^{10^{10^n}} + 10^{10^n} + 10^n - 1$ is not prime (i.e., it is always composite).",
     "status": "proved",
     "rounds_completed": 3,
-    "current": false,
-    "last_updated": "20260426_120351"
+    "current": false
   },
   {
     "filename": "20260425_205029_ErdosStrausPrime.json",
@@ -32,8 +37,7 @@
     "conjecture": "Does $4/p = 1/x + 1/y + 1/z$ have a positive integer solution in $x, y, z$, for every prime $p$?",
     "status": "open",
     "rounds_completed": 16,
-    "current": false,
-    "last_updated": "20260426_120329"
+    "current": false
   },
   {
     "filename": "20260423_151851_carmichael-s-totient-function-conjecture.json",
@@ -41,8 +45,7 @@
     "conjecture": "Carmichael's totient function conjecture: For every positive integer $n$, there exists another positive integer $m \\neq n$ such that $\\varphi(m) = \\varphi(n)$, where $\\varphi$ is Euler's totient function. In other words, no value of the totient function is achieved exactly once.",
     "status": "open",
     "rounds_completed": 8,
-    "current": false,
-    "last_updated": "20260426_120253"
+    "current": false
   },
   {
     "filename": "20260421_110323_Erdos_Straus.json",
@@ -50,8 +53,7 @@
     "conjecture": "Erdos-Straus: Does $4/n = 1/x + 1/y + 1/z$ have a positive integer solution for every integer $n\\ge 2$",
     "status": "open",
     "rounds_completed": 42,
-    "current": false,
-    "last_updated": "20260426_120209"
+    "current": false
   },
   {
     "filename": "20260420_100815_HolroydTalbot.json",
@@ -59,7 +61,6 @@
     "conjecture": "Holroyd-Talbot Conjecture (2005): For any graph G, if $1 \\leq r \\leq \\mu(G)/2$, then $G$ is $r$-EKR (there exists a vertex $v$ such that the star $I^r_v(G)$ is a maximum intersecting family of independent $r$-sets), and strictly $r$-EKR (every maximum intersecting family is a star) when $1 < r < \\mu(G)/2$. Here $\\mu(G) denotes the size of the smallest maximal independent set of G (equivalently, the smallest independent dominating set).",
     "status": "open",
     "rounds_completed": 51,
-    "current": false,
-    "last_updated": "20260507_145653"
+    "current": false
   }
 ]
