@@ -1,0 +1,150 @@
+{
+  "conjecture": "Determine all possible values of the expression A^3 + B^3 + C^3 \u2212 3ABC where A, B, and C are nonnegative integers.",
+  "session_id": "20260617_111534_determine-all-possible-values-of-the-exp",
+  "status": "pending_proof",
+  "rounds_completed": 2,
+  "no_progress_rounds": 0,
+  "prev_snapshot_hash": -6876817615029258180,
+  "facts": [],
+  "implications": [],
+  "subproblems": [
+    {
+      "id": "SP-301F5C",
+      "description": "Prove that $A^3+B^3+C^3-3ABC\\not\\equiv 3,6\\pmod{9}$ for all nonneg integers $A,B,C$ (the modular obstruction).",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Proved via the identity $f=SQ$ with $S=3C+a+2b$ and $Q=a^2+ab+b^2$: the equivalence $3|S \\Leftrightarrow 3|Q$ forces $9|f$ whenever $3|f$, ruling out residues 3 and 6 mod 9."
+    },
+    {
+      "id": "SP-1E1DC0",
+      "description": "Prove that every nonneg integer $n\\not\\equiv 3,6\\pmod{9}$ is achieved by some $(A,B,C)$. The factorization $A^3+B^3+C^3-3ABC=(A+B+C)(A^2+B^2+C^2-AB-BC-CA)=(A+B+C)(a^2+ab+b^2)$ where $a=A-B,b=B-C$ (assuming $A\\geq B\\geq C$) may be the key tool.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Proved by explicit constructions: $n\\equiv1\\pmod3$ use $(C+1,C,C)$; $n\\equiv2\\pmod3$ use $(C+1,C+1,C)$; $n=9m$ use $(m+1,m,m-1)$."
+    },
+    {
+      "id": "SP-37AD6B",
+      "description": "Characterize which pairs $(S,Q)$ with $S=A+B+C$ and $Q=a^2+ab+b^2$ are realizable: the constraint is $S\\equiv a+2b\\pmod{3}$ and $S\\geq a+2b$, $C=(S-a-2b)/3\\geq0$.",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "The realizable constraint is $S\\equiv a+2b\\pmod3$ (equivalently $S\\equiv a-b\\pmod3$), and this exactly matches $3|S\\Leftrightarrow3|Q$."
+    },
+    {
+      "id": "SP-FB2FAC",
+      "description": "Check: is the set of achievable values exactly $\\{n\\in\\mathbb{Z}_{\\geq0}:n\\not\\equiv 3,6\\pmod9\\}$?",
+      "source_agent": "Experimenter",
+      "status": "resolved",
+      "resolution": "Yes: proved completely \u2014 achievable values are exactly $\\{n\\geq0: n\\not\\equiv3,6\\pmod9\\}$."
+    }
+  ],
+  "examples": [
+    {
+      "id": "EX-F07951",
+      "description": "Baseline: $A=B=C$ gives zero",
+      "supports_conjecture": null,
+      "detail": "Setting $A=B=C=k$ for any $k\\geq 0$: $k^3+k^3+k^3-3k^3=0$. The expression vanishes on the diagonal.",
+      "added_round": 0
+    },
+    {
+      "id": "EX-3E7C83",
+      "description": "One nonzero variable: $A=k,B=C=0$ gives $k^3$",
+      "supports_conjecture": null,
+      "detail": "$A^3+0+0-0=k^3$. So all perfect cubes $\\{0,1,8,27,64,\\ldots\\}$ are achievable.",
+      "added_round": 0
+    },
+    {
+      "id": "EX-73074B",
+      "description": "Small systematic scan (WLOG $A\\geq B\\geq C\\geq 0$)",
+      "supports_conjecture": null,
+      "detail": "$(A,B,C)$\u2192value: $(1,0,0)\\to1$, $(1,1,0)\\to2$, $(2,1,1)\\to4$, $(2,2,1)\\to5$, $(3,2,2)\\to7$, $(2,0,0)\\to8$, $(2,1,0)\\to9$, $(4,3,3)\\to10$, $(4,4,3)\\to11$, $(3,1,0)\\to28$, $(3,2,0)\\to35$. Notably missing from small values: $3,6,12,15,21,24,\\ldots$",
+      "added_round": 0
+    },
+    {
+      "id": "EX-901376",
+      "description": "Residues mod 9: the expression is restricted to $\\{0,1,2,4,5,7,8\\}\\pmod{9}$",
+      "supports_conjecture": null,
+      "detail": "Since $n^3\\bmod 9\\in\\{0,1,8\\}$ for any integer $n$ (as $0^3=0,1^3=1,2^3=8,3^3\\equiv0,\\ldots$ mod 9), and writing $A=3a+r_A$ etc. shows $A^3\\equiv r_A^3\\pmod{9}$ and $3ABC\\equiv 3r_Ar_Br_C\\pmod9$, we reduce to computing $r^3+s^3+t^3-3rst\\pmod9$ for $r,s,t\\in\\{0,1,2\\}$. Exhausting all 27 triples gives only residues in $\\{0,1,2,4,5,7,8\\}$; residues $3$ and $6\\pmod9$ never appear. For example $(r,s,t)=(1,1,0)$ gives $2$; $(2,1,1)$ gives $4$; $(2,2,1)$ gives $5$; no triple gives $3$ or $6$.",
+      "added_round": 0
+    }
+  ],
+  "proof_attempts": [
+    {
+      "id": "PA-BD69E4",
+      "round": 1,
+      "sketch": "We prove that the set of values is exactly $\\mathcal{S} = \\{n \\in \\mathbb{Z}_{\\geq 0} : n \\not\\equiv 3, 6 \\pmod{9}\\}$.\n\n**Key identity.** Assuming WLOG $A \\geq B \\geq C \\geq 0$, set $a = A-B \\geq 0$ and $b = B-C \\geq 0$. Then $A = C+a+b$, $B = C+b$, and one verifies:\n$$f(A,B,C) := A^3+B^3+C^3-3ABC = (A+B+C)(a^2+ab+b^2) = S \\cdot Q$$\nwhere $S = A+B+C = 3C+a+2b \\geq 0$ and $Q = a^2+ab+b^2 \\geq 0$.\n\n**Part 1 \u2013 Obstruction: $f \\not\\equiv 3, 6 \\pmod{9}$.**\n\nWe use the representation $f = SQ$ with $S = 3C + a + 2b$.\n\n*Claim:* $3 \\mid Q \\Leftrightarrow 3 \\mid S$, and when either holds, $9 \\mid f$.\n\n*Proof of claim.* Note $a^2+ab+b^2 \\equiv (a-b)^2 \\pmod{3}$ (since $a^2+ab+b^2 - (a-b)^2 = 3ab \\equiv 0 \\pmod{3}$). Hence $3 \\mid Q \\Leftrightarrow 3 \\mid (a-b) \\Leftrightarrow a \\equiv b \\pmod{3}$.\n\nNow $S = 3C + a + 2b$, so $S \\equiv a + 2b \\equiv a - b \\pmod{3}$. Therefore $3 \\mid S \\Leftrightarrow 3 \\mid (a-b) \\Leftrightarrow 3 \\mid Q$.\n\nConsequently: $3 \\mid f = SQ$ $\\Leftrightarrow$ ($3 \\mid S$ or $3 \\mid Q$) $\\Leftrightarrow$ $3 \\mid S$ (since the two conditions are equivalent). But when $3 \\mid S$ and $3 \\mid Q$, we get $9 \\mid SQ = f$. Hence $3 \\mid f \\Longrightarrow 9 \\mid f$, which rules out $f \\equiv 3$ and $f \\equiv 6 \\pmod{9}$.\n\n*Alternate proof via residues.* One checks that $n^3 \\bmod 9$ depends only on $n \\bmod 3$: $n \\equiv 0 \\Rightarrow n^3 \\equiv 0$; $n \\equiv 1 \\Rightarrow n^3 \\equiv 1$; $n \\equiv 2 \\Rightarrow n^3 \\equiv 8$ (all mod 9). Also $3ABC \\equiv 3(A \\bmod 3)(B \\bmod 3)(C \\bmod 3) \\pmod{9}$. Exhausting all $3^3 = 27$ residue triples $(r_A, r_B, r_C) \\in \\{0,1,2\\}^3$ and computing $r_A^3 + r_B^3 + r_C^3 - 3r_Ar_Br_C \\bmod 9$ yields only values in $\\{0,1,2,4,5,7,8\\}$, confirming 3 and 6 never appear.\n\n**Part 2 \u2013 Achievability: every $n \\in \\mathcal{S}$ is achieved.**\n\n*Case $n = 0$:* Take $A = B = C = 0$.\n\n*Case $n \\equiv 1 \\pmod{3}$, $n \\geq 1$* (covers $n \\equiv 1, 4, 7 \\pmod{9}$): Set $a = 1, b = 0, C = \\frac{n-1}{3}$. Then $Q = 1$, $S = 3C + 1 = n$, $f = n$. Explicitly: $A = C+1, B = C, C = C$.\n\n*Case $n \\equiv 2 \\pmod{3}$, $n \\geq 2$* (covers $n \\equiv 2, 5, 8 \\pmod{9}$): Set $a = 0, b = 1, C = \\frac{n-2}{3}$. Then $Q = 1$, $S = 3C+2 = n$, $f = n$. Explicitly: $A = C+1, B = C+1, C = C$.\n\n*Case $n \\equiv 0 \\pmod{9}$, $n \\geq 9$*: Write $n = 9m$ with $m \\geq 1$. Set $a = 1, b = 1, C = m-1$. Then $Q = 3$, $S = 3m$, $f = 9m = n$. Explicitly: $A = m+1, B = m, C = m-1$.\n\nThe four cases cover all $n \\in \\mathcal{S}$.\n\n**Conclusion.** The set of values of $A^3+B^3+C^3-3ABC$ over nonneg integers is $\\mathcal{S} = \\{n \\in \\mathbb{Z}_{\\geq 0} : n \\not\\equiv 3, 6 \\pmod{9}\\}$.",
+      "status": "valid",
+      "checker_feedback": "I checked every step carefully.\n\n**Identity verification.** With $A=C+a+b$, $B=C+b$, $C=C$: $A+B+C = 3C+a+2b$ \u2713. For $A^2+B^2+C^2-AB-BC-CA$: expanding gives $3C^2+2Ca+4Cb+a^2+2ab+2b^2$ minus $3C^2+2Ca+4Cb+ab+b^2 = a^2+ab+b^2$ \u2713. The standard identity $f=(A+B+C)(A^2+B^2+C^2-AB-BC-CA)$ holds for all integers, so the 'WLOG' is only needed for the achievability constructions (to ensure $C\\geq0$).\n\n**Part 1 \u2013 Obstruction.** $a^2+ab+b^2-(a-b)^2 = 3ab\\equiv0\\pmod3$ \u2713, so $3\\mid Q\\Leftrightarrow 3\\mid(a-b)$. $S\\equiv a+2b\\equiv a-b\\pmod3$ (since $2\\equiv-1$) \u2713, so $3\\mid S\\Leftrightarrow3\\mid(a-b)$. Therefore $3\\mid S\\Leftrightarrow3\\mid Q$; when $3\\mid f=SQ$ we must have $3\\mid S$ and $3\\mid Q$, giving $9\\mid f$ \u2713. Alternate residue proof: $A^3\\equiv(A\\bmod3)^3\\pmod9$ since $(3k+r)^3\\equiv r^3\\pmod9$. And $3ABC\\equiv3r_Ar_Br_C\\pmod9$. All 27 residue triples give values in $\\{0,1,2,4,5,7,8\\}$ \u2713.\n\n**Part 2 \u2013 Achievability.** $n=0$: $(0,0,0)\\mapsto0$ \u2713. $n\\equiv1\\pmod3$: $C=(n-1)/3\\in\\mathbb{Z}_{\\geq0}$ \u2713, $f=(3C+1)\\cdot1=n$ \u2713. $n\\equiv2\\pmod3$: $C=(n-2)/3\\in\\mathbb{Z}_{\\geq0}$ \u2713, $f=(3C+2)\\cdot1=n$ \u2713. $n=9m$, $m\\geq1$: $C=m-1\\geq0$ \u2713, $S=3m$, $Q=3$, $f=9m$ \u2713.\n\n**Case exhaustiveness.** Residues $\\{1,4,7\\}\\pmod9$ are $\\equiv1\\pmod3$; $\\{2,5,8\\}\\pmod9$ are $\\equiv2\\pmod3$; $0\\pmod9$ ($n\\geq9$) and $n=0$ cover the rest. Together exactly $\\mathcal{S}$ \u2713. This closes the conjecture."
+    }
+  ],
+  "disproof_attempts": [
+    {
+      "id": "DA-7C06C8",
+      "round": 1,
+      "candidate_counterexample": "No counterexample found. I attempted to find $n \\equiv 3$ or $6 \\pmod{9}$ achievable as $A^3+B^3+C^3-3ABC$. For $n=3$: tried all $(A,B,C)$ with $A+B+C \\leq 10$ systematically \u2014 no solution exists. For $n=6$: same exhaustive search, no solution. This is consistent with the proved obstruction.",
+      "status": "valid",
+      "checker_feedback": "The Disprover correctly reports no counterexample exists and correctly attributes this to the proved obstruction. No issues."
+    }
+  ],
+  "formalization_attempts": [
+    {
+      "id": "FA-833E66",
+      "source_id": "PA-BD69E4",
+      "lean_file": "SophieFormalization/DetermineAllPossibleValues/Theorems.lean",
+      "lean_code": "import Mathlib\n\n/-!\n# Values of `A\u00b3 + B\u00b3 + C\u00b3 \u2212 3ABC` over the nonnegative integers\n\nThis file characterises exactly which nonnegative integers arise as\n`A^3 + B^3 + C^3 - 3*A*B*C` with `A, B, C` nonnegative integers.\n\nThe answer is: every natural number `n` with `n % 9 \u2209 {3, 6}`, and no others.\n\nKey tool: the symmetric factorisation\n`A^3 + B^3 + C^3 - 3ABC = (A+B+C)\u00b7((A-B)\u00b2 + (A-B)(B-C) + (B-C)\u00b2)`,\nfrom which the modular obstruction `3 \u2223 f \u2192 9 \u2223 f` follows.\n-/\n\nnamespace DetermineAllPossibleValues\n\n/-- For all residues `a, b, c` modulo `9`, the expression\n`a\u00b3 + b\u00b3 + c\u00b3 \u2212 3abc` is never `3` or `6` in `ZMod 9`.\nThis is the finite computation underlying the obstruction. -/\nlemma mod9_obstruction : \u2200 a b c : ZMod 9,\n    a ^ 3 + b ^ 3 + c ^ 3 - 3 * a * b * c \u2260 3 \u2227\n    a ^ 3 + b ^ 3 + c ^ 3 - 3 * a * b * c \u2260 6 := by\n  decide\n\n/-- The cast `(n : ZMod 9)` only depends on `n % 9`. -/\nlemma natCast_zmod9 (n : \u2115) : (n : ZMod 9) = ((n % 9 : \u2115) : ZMod 9) := by\n  conv_lhs => rw [\u2190 Nat.div_add_mod n 9]\n  push_cast\n  rw [show (9 : ZMod 9) = 0 from by decide]\n  ring\n\n/-- **Characterisation of the attainable values.**\nA natural number `n` is of the form `A\u00b3 + B\u00b3 + C\u00b3 \u2212 3ABC` for nonnegative\nintegers `A, B, C` if and only if `n` is not congruent to `3` or `6` modulo `9`. -/\ntheorem cube_expr_values (n : \u2115) :\n    (\u2203 A B C : \u2115, (A : \u2124) ^ 3 + (B : \u2124) ^ 3 + (C : \u2124) ^ 3 - 3 * A * B * C = n) \u2194\n      n % 9 \u2260 3 \u2227 n % 9 \u2260 6 := by\n  constructor\n  \u00b7 -- Forward: representability forces the modular obstruction.\n    rintro \u27e8A, B, C, h\u27e9\n    have hkey : (A : ZMod 9) ^ 3 + (B : ZMod 9) ^ 3 + (C : ZMod 9) ^ 3\n        - 3 * (A : ZMod 9) * (B : ZMod 9) * (C : ZMod 9) = (n : ZMod 9) := by\n      have h2 := congrArg (fun z : \u2124 => (z : ZMod 9)) h\n      push_cast at h2\n      linear_combination h2\n    refine \u27e8fun hc => ?_, fun hc => ?_\u27e9\n    \u00b7 refine (mod9_obstruction A B C).1 ?_\n      rw [hkey, natCast_zmod9, hc]; decide\n    \u00b7 refine (mod9_obstruction A B C).2 ?_\n      rw [hkey, natCast_zmod9, hc]; decide\n  \u00b7 -- Reverse: explicit constructions for each allowed residue class.\n    rintro \u27e8h3, h6\u27e9\n    have hcase : n % 3 = 0 \u2228 n % 3 = 1 \u2228 n % 3 = 2 := by omega\n    rcases hcase with h | h | h\n    \u00b7 -- n \u2261 0 (mod 3); together with the obstruction, n \u2261 0 (mod 9).\n      have h9 : n % 9 = 0 := by omega\n      rcases Nat.eq_zero_or_pos n with hz | hpos\n      \u00b7 exact \u27e80, 0, 0, by subst hz; norm_num\u27e9\n      \u00b7 obtain \u27e8m, hm\u27e9 : \u2203 m, n = 9 * (m + 1) := \u27e8n / 9 - 1, by omega\u27e9\n        exact \u27e8m + 2, m + 1, m, by subst hm; push_cast; ring\u27e9\n    \u00b7 -- n \u2261 1 (mod 3): use (k+1, k, k).\n      obtain \u27e8k, hk\u27e9 : \u2203 k, n = 3 * k + 1 := \u27e8n / 3, by omega\u27e9\n      exact \u27e8k + 1, k, k, by subst hk; push_cast; ring\u27e9\n    \u00b7 -- n \u2261 2 (mod 3): use (k+1, k+1, k).\n      obtain \u27e8k, hk\u27e9 : \u2203 k, n = 3 * k + 2 := \u27e8n / 3, by omega\u27e9\n      exact \u27e8k + 1, k + 1, k, by subst hk; push_cast; ring\u27e9\n\nend DetermineAllPossibleValues\n",
+      "mathlib_imports": [
+        "import Mathlib"
+      ],
+      "sorries": [],
+      "confidence": "complete",
+      "status": "draft",
+      "notes": "Fully verified against Mathlib (Lean v4.30.0-rc2), zero sorries, build exit code 0. The theorem states the complete characterisation as an iff: a natural number n is representable as A\u00b3+B\u00b3+C\u00b3-3ABC over nonnegative integers iff n % 9 \u2209 {3,6}. Forward direction: cast the integer equation into ZMod 9 and invoke a 729-case `decide` (mod9_obstruction) showing the expression never equals 3 or 6 there; natCast_zmod9 links (n : ZMod 9) to n % 9. Reverse direction: explicit witnesses per residue class \u2014 (k+1,k,k) for n\u22611 (mod 3), (k+1,k+1,k) for n\u22612 (mod 3), (m+2,m+1,m) for n=9(m+1), and (0,0,0) for n=0; each verified by `push_cast; ring`. The n\u22610 (mod 3) case uses `omega` to derive n%9=0 from the excluded residues.",
+      "summary": "Complete Lean 4 / Mathlib proof that A\u00b3+B\u00b3+C\u00b3\u22123ABC over nonnegative integers attains exactly the naturals n with n % 9 \u2209 {3,6}."
+    }
+  ],
+  "log": [
+    {
+      "round": 1,
+      "agent": "Experimenter",
+      "summary": "Exhaustive small-case computation and mod-9 analysis strongly suggest the achievable values are exactly the nonneg integers not congruent to 3 or 6 mod 9."
+    },
+    {
+      "round": 1,
+      "agent": "Prover",
+      "summary": "Complete proof that the achievable values are exactly the nonneg integers not congruent to 3 or 6 mod 9, via the factorization $f=(A+B+C)(a^2+ab+b^2)$ and explicit constructions for each valid residue class."
+    },
+    {
+      "round": 1,
+      "agent": "Disprover",
+      "summary": "No counterexample exists; the proof is correct \u2014 only minor presentational gaps (WLOG symmetry justification, integrality of $C$, handling of $n=0$) worth noting for a fully rigorous writeup."
+    },
+    {
+      "round": 1,
+      "agent": "Checker",
+      "summary": "Checked PA-BD69E4 line by line \u2014 all steps valid, all cases exhaustive, conjecture fully closed."
+    },
+    {
+      "round": 2,
+      "agent": "Formalizer",
+      "summary": "Complete Lean 4 / Mathlib proof that A\u00b3+B\u00b3+C\u00b3\u22123ABC over nonnegative integers attains exactly the naturals n with n % 9 \u2209 {3,6}."
+    }
+  ],
+  "round_summaries": [
+    {
+      "round": 1,
+      "summaries": [
+        "Experimenter: Exhaustive small-case computation and mod-9 analysis strongly suggest the achievable values are exactly the nonneg integers not congruent to 3 or 6 mod 9.",
+        "Prover: Complete proof that the achievable values are exactly the nonneg integers not congruent to 3 or 6 mod 9, via the factorization $f=(A+B+C)(a^2+ab+b^2)$ and explicit constructions for each valid residue class.",
+        "Disprover: No counterexample exists; the proof is correct \u2014 only minor presentational gaps (WLOG symmetry justification, integrality of $C$, handling of $n=0$) worth noting for a fully rigorous writeup.",
+        "Checker: Checked PA-BD69E4 line by line \u2014 all steps valid, all cases exhaustive, conjecture fully closed."
+      ],
+      "narrative": "Round 1 reached a complete resolution. The Experimenter identified the mod-9 obstruction and the factorization $f=SQ$. The Prover used these to give a complete two-part proof. The Disprover found no counterexample. The Checker verified every step and confirmed the proof closes the conjecture."
+    },
+    {
+      "round": 2,
+      "summaries": [
+        "Formalizer: Complete Lean 4 / Mathlib proof that A\u00b3+B\u00b3+C\u00b3\u22123ABC over nonnegative integers attains exactly the naturals n with n % 9 \u2209 {3,6}."
+      ]
+    }
+  ],
+  "current_round_state": null
+}

@@ -1,0 +1,2 @@
+-- DetermineAllPossibleValues conjecture formalization
+import SophieFormalization.DetermineAllPossibleValues.Theorems

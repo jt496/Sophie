@@ -1,5 +1,5 @@
 name = "SophieFormalization"
-defaultTargets = ["HolroydTalbot", "ErdosStraus", "CarmichaelTotientFunction", "TowerNonPrime"]
+defaultTargets = ["HolroydTalbot", "ErdosStraus", "CarmichaelTotientFunction", "TowerNonPrime", "DetermineAllPossibleValues"]
 
 [[lean_lib]]
 name = "HolroydTalbot"
@@ -16,6 +16,10 @@ roots = ["SophieFormalization.CarmichaelTotientFunction"]
 [[lean_lib]]
 name = "TowerNonPrime"
 roots = ["SophieFormalization.TowerNonPrime"]
+
+[[lean_lib]]
+name = "DetermineAllPossibleValues"
+roots = ["SophieFormalization.DetermineAllPossibleValues"]
 
 [[require]]
 name = "mathlib"
